@@ -1,7 +1,7 @@
 # NENU-OnlineJudge
 
 ## 技术框架选择
-Spring MVC + React.js
+Yii + Python + React.js
 缓存使用redis
 
 ## 功能预期
@@ -16,6 +16,7 @@ Spring MVC + React.js
 ### 文章及新闻
 ### 社交系统
 
+## 细节
 
 1. 管理员在线更改题目描述，后台手动上传数据
 2. 编译与运行可灵活配置
