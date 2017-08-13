@@ -1,7 +1,7 @@
 # NENU-OnlineJudge
 
 ## 技术框架选择
-Yii + Python + React.js
+Yii + Python + Bootstrap
 缓存使用redis
 
 ## 功能预期
