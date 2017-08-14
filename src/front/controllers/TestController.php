@@ -8,6 +8,7 @@
 
 namespace app\controllers;
 
+use app\models\Problem;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -20,5 +21,10 @@ use app\models\ContactForm;
 class TestController extends Controller {
     public function actionAqours() {
         return print_r(Yii::$app->request->getUserHostAddress(), true);
+    }
+
+    public function actionDbTest() {
+        $problem = Problem::findOne('pid');
+        return print_r($problem, true);
     }
 }
