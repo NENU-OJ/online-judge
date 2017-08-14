@@ -20,7 +20,7 @@ use app\models\ContactForm;
 
 class TestController extends Controller {
     public function actionAqours() {
-        return print_r(Yii::$app->request->getUserHostAddress(), true);
+        return print_r(Yii::$app->getRequest()->get());
     }
 
     public function actionDbTest() {
