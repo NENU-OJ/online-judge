@@ -48,6 +48,10 @@ $config = [
         'smarty' => [
             'class' => 'app\vendor\CSmarty'
         ],
+        'assetManager' => [
+            'basePath' => '@webroot/assets',
+            'baseUrl' => '@web/assets'
+        ],
     ],
     'params' => $params,
 ];
