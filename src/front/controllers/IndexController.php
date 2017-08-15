@@ -1,22 +1,19 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: shihao
+ * Date: 17-8-15
+ * Time: 下午7:48
+ */
 
 namespace app\controllers;
 
-use Yii;
-use yii\filters\AccessControl;
-use yii\web\Controller;
-use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
 
-class SiteController extends Controller
+use yii\web\Controller;
+
+class IndexController extends Controller
 {
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
+    // 主页
     public function actionIndex()
     {
         //return $this->render('index');

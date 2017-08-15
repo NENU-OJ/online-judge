@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.31, created on 2017-08-15 10:37:43
+/* Smarty version 3.1.31, created on 2017-08-15 11:52:43
   from "/var/www/html/OnlineJudge/src/front/views/smarty/templates/common/header.html" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.31',
-  'unifunc' => 'content_5992cef7202466_47516073',
+  'unifunc' => 'content_5992e08b61da55_84170161',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '2cae6d01930234792a518336b3aa9779dbc750d3' => 
     array (
       0 => '/var/www/html/OnlineJudge/src/front/views/smarty/templates/common/header.html',
-      1 => 1502793459,
+      1 => 1502797954,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5992cef7202466_47516073 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5992e08b61da55_84170161 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <!-- header部分start -->
     <!-- 静态导航条 -->
@@ -33,7 +33,7 @@ function content_5992cef7202466_47516073 (Smarty_Internal_Template $_smarty_tpl)
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">NENUOJ</a>
+          <a class="navbar-brand" href="index">NENUOJ</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
