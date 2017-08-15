@@ -45,6 +45,9 @@ $config = [
             'rules' => [
             ],
         ],
+        'smarty' => [
+            'class' => 'app\vendor\CSmarty'
+        ],
     ],
     'params' => $params,
 ];

@@ -11,6 +11,7 @@ class ComposerStaticInitc22a6a76a7e576c519fe0104bbd8dbd7
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        'f084d01b0a599f67676cffef638aa95b' => __DIR__ . '/..' . '/smarty/smarty/libs/bootstrap.php',
         '180092cfc969a12e06f2132a203a3184' => __DIR__ . '/..' . '/codeception/verify/src/Codeception/function.php',
     );
 
@@ -18,6 +19,7 @@ class ComposerStaticInitc22a6a76a7e576c519fe0104bbd8dbd7
         'y' => 
         array (
             'yii\\swiftmailer\\' => 16,
+            'yii\\smarty\\' => 11,
             'yii\\gii\\' => 8,
             'yii\\faker\\' => 10,
             'yii\\debug\\' => 10,
@@ -79,6 +81,10 @@ class ComposerStaticInitc22a6a76a7e576c519fe0104bbd8dbd7
         'yii\\swiftmailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-swiftmailer',
+        ),
+        'yii\\smarty\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-smarty',
         ),
         'yii\\gii\\' => 
         array (
