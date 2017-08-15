@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.31, created on 2017-08-15 10:44:57
+/* Smarty version 3.1.31, created on 2017-08-15 15:18:05
   from "/var/www/html/OnlineJudge/src/front/views/smarty/templates/index.html" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.31',
-  'unifunc' => 'content_5992d0a9922585_84877685',
+  'unifunc' => 'content_599310ad26abc0_22986984',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5f9b6ed8f0d4464458205b51a3320840c766647e' => 
     array (
       0 => '/var/www/html/OnlineJudge/src/front/views/smarty/templates/index.html',
-      1 => 1502793885,
+      1 => 1502810279,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:common/footer.html' => 1,
   ),
 ),false)) {
-function content_5992d0a9922585_84877685 (Smarty_Internal_Template $_smarty_tpl) {
+function content_599310ad26abc0_22986984 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -36,7 +36,8 @@ function content_5992d0a9922585_84877685 (Smarty_Internal_Template $_smarty_tpl)
   <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
 
   <!-- Bootstrap -->
-  <link href="/assets/resources/css/bootstrap.min.css" rel="stylesheet">
+  <link href="<?php echo $_smarty_tpl->tpl_vars['staticWebsite']->value;?>
+css/bootstrap.min.css" rel="stylesheet">
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -58,6 +59,10 @@ function content_5992d0a9922585_84877685 (Smarty_Internal_Template $_smarty_tpl)
 </h1>
   <h2><?php echo $_smarty_tpl->tpl_vars['str']->value;?>
 </h2>
+  <h2><?php echo $_smarty_tpl->tpl_vars['website']->value;?>
+</h2>
+  <h2><?php echo $_smarty_tpl->tpl_vars['staticWebsite']->value;?>
+</h2>
   <?php $_smarty_tpl->_subTemplateRender("file:common/footer.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 
@@ -67,7 +72,8 @@ function content_5992d0a9922585_84877685 (Smarty_Internal_Template $_smarty_tpl)
 >
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <?php echo '<script'; ?>
- src="/assets/resources/js/bootstrap.min.js"><?php echo '</script'; ?>
+ src="<?php echo $_smarty_tpl->tpl_vars['staticWebsite']->value;?>
+js/bootstrap.min.js"><?php echo '</script'; ?>
 >
 </body>
 

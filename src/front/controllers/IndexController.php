@@ -11,16 +11,15 @@ namespace app\controllers;
 
 use yii\web\Controller;
 
-class IndexController extends Controller
+class IndexController extends CController
 {
-    // 主页
+    // 加载函数
     public function actionIndex()
     {
         //return $this->render('index');
-        $smarty = \Yii::$app->smarty;
-        $smarty->assign('name',"holy shit!");
-        $str="fuck smarty!";
-        $smarty->assign('str',$str);
-        $smarty->display('index.html');
+        $this->smarty->assign('name',"holy shit!");
+        $str=dirname(__FILE__).DIRECTORY_SEPARATOR.'..';
+        $this->smarty->assign('str',$str);
+        $this->smarty->display('index.html');
     }
 }
