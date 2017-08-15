@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.31, created on 2017-08-15 10:32:46
+/* Smarty version 3.1.31, created on 2017-08-15 10:44:57
   from "/var/www/html/OnlineJudge/src/front/views/smarty/templates/index.html" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.31',
-  'unifunc' => 'content_5992cdceeded23_92329968',
+  'unifunc' => 'content_5992d0a9922585_84877685',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5f9b6ed8f0d4464458205b51a3320840c766647e' => 
     array (
       0 => '/var/www/html/OnlineJudge/src/front/views/smarty/templates/index.html',
-      1 => 1502793164,
+      1 => 1502793885,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:common/footer.html' => 1,
   ),
 ),false)) {
-function content_5992cdceeded23_92329968 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5992d0a9922585_84877685 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -54,7 +54,10 @@ function content_5992cdceeded23_92329968 (Smarty_Internal_Template $_smarty_tpl)
   <?php $_smarty_tpl->_subTemplateRender("file:common/header.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 
-
+  <h1><?php echo $_smarty_tpl->tpl_vars['name']->value;?>
+</h1>
+  <h2><?php echo $_smarty_tpl->tpl_vars['str']->value;?>
+</h2>
   <?php $_smarty_tpl->_subTemplateRender("file:common/footer.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 
