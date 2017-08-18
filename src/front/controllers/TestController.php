@@ -27,4 +27,8 @@ class TestController extends Controller {
         $problem = Problem::findOne('pid');
         return print_r($problem, true);
     }
+
+    public function actionIndex() {
+        return $this->render('index', []);
+    }
 }
