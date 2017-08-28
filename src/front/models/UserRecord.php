@@ -4,8 +4,8 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 
-class Problem extends ActiveRecord {
+class UserRecord extends ActiveRecord {
     public static function tableName() {
-        return "t_problem";
+        return "t_user";
     }
 }
