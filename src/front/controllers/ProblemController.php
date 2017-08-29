@@ -15,7 +15,10 @@ class ProblemController extends CController
 {
     public function actionIndex(){
         $problem = Problem::find()->all();
-        var_dump($problem);
+        foreach ($problem as $value){
+            print_r($value->id);
+            print_r($value->title);
+        }
         //$this->smarty->display('problems/problem.html');
     }
 }
