@@ -6,4 +6,5 @@ return [
     'username' => 'nenuoj',
     'password' => 'nenuoj',
     'charset' => 'utf8',
+    'tablePrefix' =>'t_',
 ];

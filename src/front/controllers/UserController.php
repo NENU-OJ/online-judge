@@ -16,8 +16,11 @@ class UserController extends CController
     // 加载函数
     public function actionIndex() {
 //        return User::attributes();
-        return print_r(User::findBySql("select * t_user")->all());
-//        $this->smarty->assign('isGuest', Yii::$app->user->isGuest);
-//        $this->smarty->display('user/user.html');
+        $user = User::find()
+            ->asArray()
+            ->all();
+        print_r($user);
+        //$this->smarty->assign('isGuest', Yii::$app->user->isGuest);
+        //$this->smarty->display('user/user.html');
     }
 }

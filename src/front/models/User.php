@@ -13,7 +13,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     public $accessToken;
 
     public static function tableName() {
-        return 't_user';
+        return "t_user";
     }
 
     private static $users = [
