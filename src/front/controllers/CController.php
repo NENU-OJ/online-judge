@@ -35,4 +35,5 @@ class CController extends Controller
             $this->smarty->assign('username',\Yii::$app->session['username']);
         }
     }
+    
 }

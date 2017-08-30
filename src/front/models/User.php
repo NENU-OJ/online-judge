@@ -1,9 +1,7 @@
+
 <?php
-
 namespace app\models;
-
 use yii\db\ActiveRecord;
-
 class User extends ActiveRecord implements \yii\web\IdentityInterface
 {
     public $id;
@@ -11,11 +9,9 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     public $password;
     public $authKey;
     public $accessToken;
-
     public static function tableName() {
         return "t_user";
     }
-
     private static $users = [
         '100' => [
             'id' => '100',
@@ -32,15 +28,12 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
             'accessToken' => '101-token',
         ],
     ];
-
-
     /**
      * @inheritdoc
      */
     public static function findIdentity($id) { // TODO
         return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
     }
-
     /**
      * @inheritdoc
      */
@@ -50,10 +43,8 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
                 return new static($user);
             }
         }
-
         return null;
     }
-
     /**
      * Finds user by username
      *
@@ -67,10 +58,8 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
                 return new static($user);
             }
         }
-
         return null;
     }
-
     /**
      * @inheritdoc
      */
@@ -78,7 +67,6 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     {
         return $this->id;
     }
-
     /**
      * @inheritdoc
      */
@@ -86,7 +74,6 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     {
         return $this->authKey;
     }
-
     /**
      * @inheritdoc
      */
@@ -94,7 +81,6 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     {
         return $this->authKey === $authKey;
     }
-
     /**
      * Validates password
      *
@@ -105,5 +91,4 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     {
         return $this->password === $password;
     }
-
 }
