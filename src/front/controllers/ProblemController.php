@@ -10,9 +10,20 @@ namespace app\controllers;
 
 
 use app\models\Problem;
+use app\controllers\Filter;
 
 class ProblemController extends CController
 {
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => Filter::className(),
+                'only' => ['submit','discuss'],
+            ]
+        ];
+    }
+
     public function actionIndex(){
         $problem = Problem::find()->all();
         foreach ($problem as $value){
