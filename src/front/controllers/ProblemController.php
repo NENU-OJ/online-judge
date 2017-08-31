@@ -10,7 +10,6 @@ namespace app\controllers;
 
 
 use app\models\Problem;
-use app\controllers\Filter;
 
 class ProblemController extends CController
 {
@@ -19,6 +18,7 @@ class ProblemController extends CController
         return [
             [
                 'class' => Filter::className(),
+                //控制那些动作需要过滤器
                 'only' => ['submit','discuss'],
             ]
         ];
@@ -27,9 +27,10 @@ class ProblemController extends CController
     public function actionIndex(){
         $problem = Problem::find()->all();
         foreach ($problem as $value){
-            print_r($value->id);
-            print_r($value->title);
+//            print_r($value->id);
+//            print_r($value->title);
+            $this->smarty->assign('test',$value->title);
         }
-        //$this->smarty->display('problems/problem.html');
+        $this->smarty->display('problems/problem.html');
     }
 }
