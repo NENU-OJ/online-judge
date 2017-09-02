@@ -6,6 +6,6 @@ use yii\db\ActiveRecord;
 
 class Problem extends ActiveRecord{
     public static function tableName() {
-        return "t_problem";
+        return "{{%problem}}";
     }
 }

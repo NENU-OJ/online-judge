@@ -10,6 +10,9 @@ namespace app\controllers;
 
 
 use app\models\Problem;
+use app\models\Status;
+use yii\db\ActiveQuery;
+use yii\db\Query;
 
 class ProblemController extends CController
 {
@@ -25,12 +28,89 @@ class ProblemController extends CController
     }
 
     public function actionIndex(){
-        $problem = Problem::find()->all();
-        foreach ($problem as $value){
-//            print_r($value->id);
-//            print_r($value->title);
-            $this->smarty->assign('test',$value->title);
-        }
         $this->smarty->display('problems/problem.html');
+    }
+
+    public function actionList(){
+        //获取数据
+        if(isset($_GET['currentPage'])){
+            $page=$_GET['currentPage'];
+        }else{
+            $page=0;
+        }
+        if(isset($_GET['problemId'])){
+            $problemId=$_GET['problemId'];
+        }else{
+            $problemId=0;
+        }
+        if(isset($_GET['keyword'])&&trim($_GET['keyword'])!=""){
+            $keyword=trim($_GET['keyword']);
+        }else{
+            $keyword="";
+        }
+        if(isset($_GET['status'])){
+            $status=$_GET['status'];
+        }else{
+            $status=0;
+        }
+        if(isset($_GET['order'])){
+            $order=$_GET['order'];
+        }else{
+            $order=0;
+        }
+
+        //测试数据
+//        $keyword=2;
+//        $order=3;
+        $status=1;
+
+        //转换为查找条件
+        $command=Problem::find();
+        $command->limit(10);//页容量
+        $command->offset(($page-1)*10);//偏移量
+        $command->select('{{%problem}}.id,title,source,total_submit,total_ac');
+        $command->leftJoin(Status::tableName(),'{{%problem}}.id = problem_id');
+        $conditions="is_hide=0";
+        $params=array();
+        if($problemId!=0){
+            $conditions .= " and id=:problemId ";
+            $params[':problemId'] = $problemId;
+        }
+        if($keyword!=""){
+            $conditions .= " and title LIKE :keyword ";
+            $params[':keyword'] = '%'.$keyword.'%';
+        }
+        if($status!=0){
+            $conditions .= " and t_status.result NOT LIKE :result";
+            $params[':result'] = '%'.'Accepted'.'%';
+        }
+        $command->where($conditions,$params);
+        switch ($order){
+            case 1:
+                $command->orderBy('total_submit ASC');
+                break;
+            case 2:
+                $command->orderBy('total_ac ASC');
+                break;
+            case 3:
+                $command->orderBy('total_submit DESC');
+                break;
+            case 4:
+                $command->orderBy('total_ac DESC');
+                break;
+            default:
+                $command->orderBy('id ASC');
+                break;
+        }
+        $command->distinct(true);
+
+        //查询数据
+        $recordCount=$command->count();
+        $record=$command->all();
+
+        print_r($recordCount);
+        foreach ($record as $item){
+            print_r($item->id);
+        }
     }
 }

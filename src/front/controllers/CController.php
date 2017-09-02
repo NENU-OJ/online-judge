@@ -30,10 +30,14 @@ class CController extends Controller
         $this->smarty->assign('website', "http://".$_SERVER['HTTP_HOST'].":".$_SERVER['SERVER_PORT']."/");
         //向前端渲染资源目录
         $this->smarty->assign('staticWebsite', "http://".\Yii::$app->request->serverName.":".\Yii::$app->request->serverPort."/assets/resources/");
-        //若用户已登录，向前端渲染用户名
+        //若用户已登录，向前端渲染用户名并给出登录标识方便判断哪些按钮显示哪些不显示
         if(isset(\Yii::$app->session['user_id'])){
             $this->smarty->assign('username',\Yii::$app->session['username']);
+            $flag=true;
+        }else{
+            $flag=false;
         }
+        $this->smarty->assign('flag',$flag);
     }
     
 }
