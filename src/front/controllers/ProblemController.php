@@ -81,7 +81,8 @@ class ProblemController extends CController
             $params[':keyword'] = '%'.$keyword.'%';
         }
         if($status!=0){
-            $conditions .= " and t_status.result NOT LIKE :result";
+            $conditions .= " and t_status.user_id=:userId and t_status.result NOT LIKE :result  ";
+            $params[':userId'] = \Yii::$app->session['user_id'];
             $params[':result'] = '%'.'Accepted'.'%';
         }
         $command->where($conditions,$params);
