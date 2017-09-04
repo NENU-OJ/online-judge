@@ -33,12 +33,12 @@ class ProblemController extends CController
 
     public function actionList(){
         //获取数据
-        if(isset($_GET['currentPage'])){
+        if(isset($_GET['currentPage'])&&$_GET['currentPage']!=0){
             $page=$_GET['currentPage'];
         }else{
             $page=0;
         }
-        if(isset($_GET['problemId'])){
+        if(isset($_GET['problemId'])&&$_GET['problemId']!=0){
             $problemId=$_GET['problemId'];
         }else{
             $problemId=0;
@@ -48,12 +48,12 @@ class ProblemController extends CController
         }else{
             $keyword="";
         }
-        if(isset($_GET['status'])){
+        if(isset($_GET['status'])&&$_GET['status']!=0){
             $status=$_GET['status'];
         }else{
             $status=0;
         }
-        if(isset($_GET['order'])){
+        if(isset($_GET['order'])&&$_GET['order']!=0){
             $order=$_GET['order'];
         }else{
             $order=0;
@@ -62,7 +62,7 @@ class ProblemController extends CController
         //测试数据
 //        $keyword=2;
 //        $order=3;
-        $status=1;
+//        $status=1;
 
         //转换为查找条件
         $command=Problem::find();
