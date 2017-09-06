@@ -11,7 +11,6 @@ namespace app\controllers;
 
 use app\models\Status;
 use app\models\User;
-use app\models\UserRecord;
 
 class StatusController extends CController
 {
@@ -63,7 +62,7 @@ class StatusController extends CController
         $command->limit(20);
         $command->offset(($page - 1) * 10);
         $command->select('*');
-        $command->leftJoin(UserRecord::tableName(), 't_user.id=user_id');
+        $command->leftJoin(User::tableName(), 't_user.id=user_id');
         $conditions = "";
         $params = array();
         if ($problemId != 0) {
