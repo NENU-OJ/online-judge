@@ -29,6 +29,7 @@ CREATE TABLE `t_problem`(
 CREATE TABLE `t_status`(
     `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
     `problem_id` int(10) NOT NULL DEFAULT '0' COMMENT '题目id（对应problem表中的id）',
+	`source` mediumtext NOT NULL COMMENT '源代码',
     `result` varchar(50) DEFAULT NULL COMMENT '判定结果',
     `time_used` int(10) DEFAULT NULL COMMENT '所用时间',
     `memory_used` int(10) DEFAULT NULL COMMENT '所用内存',
