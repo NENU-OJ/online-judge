@@ -69,7 +69,7 @@ class ProblemController extends CController
         $command = Problem::find();
         $command->limit(10);//页容量
         $command->offset(($page - 1) * 10);//偏移量
-        $command->select('{{%problem}}.id,title,source,total_submit,total_ac');
+        $command->select('{{%problem}}.id,title,total_submit,total_ac');
         $command->leftJoin(Status::tableName(), '{{%problem}}.id = problem_id');
         $conditions = "is_hide=0";
         $params = array();

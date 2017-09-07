@@ -13,20 +13,27 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="<{$website}>problem/problem/list">题目</a></li>
-            <li><a href="<{$website}>status/list">状态</a></li>
+            <li><a href="<{$website}>problem/problem">题目</a></li>
+            <li><a href="<{$website}>status">状态</a></li>
             <li><a href="<{$website}>contest">比赛</a></li>
             <li><a href="<{$website}>rank">排名</a></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
+          <{if $nickname}>
+            <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ToRapture <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="<{$website}>user">查看信息</a></li>
                 <li><a href="#">更改信息</a></li>
               </ul>
             </li>
+          <{else}>
+              <div class="nav navbar-form navbar-right">
+              <a href="<{$website}>user/toLogin" class="btn btn-link">Login</a>
+              <a href="<{$website}>user/toRegister" class="btn btn-link">Register</a>
+              </div>
+          <{/if}>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

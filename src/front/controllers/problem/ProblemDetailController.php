@@ -11,6 +11,7 @@ namespace app\controllers\problem;
 
 use app\controllers\CController;
 use app\models\Problem;
+use app\models\Status;
 
 class ProblemDetailController extends CController
 {
@@ -27,7 +28,7 @@ class ProblemDetailController extends CController
 
     public function actionDetail($problemId)
     {
-        $record = Problem::find()->where('id=:problemId and is_hide=0', [':problemId' => $problemId]);
+        $record = Problem::find()->where('id=:problemId and is_hide=0', [':problemId' => $problemId])->one();
 
 
         $this->smarty->assign('title', $record->title);
@@ -47,16 +48,20 @@ class ProblemDetailController extends CController
 
     public function actionSubmit()
     {
-
-    }
-
-    public function actionDiscuss()
-    {
-
-    }
-
-    public function actionStatistic()
-    {
-
+        $record = new Status();
+        $record->problem_id=$_GET['problemId'];
+        $record->source=$_GET['source'];
+        $record->submit_time=date("Y-m-d h:i:sa");
+        if (isset($_GET['contestId'])){
+            $record->contest_id=$_GET['contestId'];
+        }else{
+            $record->contest_id=0;
+        }
+        $record->user_id=\Yii::$app->session['user_id'];
+        $record->language_id=$_GET['languageId'];
+        $record->is_shared=$_GET['isShared'];
+        $record->save();
+        $list='[{"code":0,"data":""}]';
+        print $list;
     }
 }
