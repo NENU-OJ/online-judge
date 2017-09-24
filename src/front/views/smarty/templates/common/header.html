@@ -1,41 +1,47 @@
 <!-- header部分start -->
-    <!-- 静态导航条 -->
-    <nav class="navbar navbar-default navbar-static-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="<{$website}>">NENUOJ</a>
+<!-- 静态导航条 -->
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header navbar-left">
+            <a class="navbar-brand" href="<{$website}>">NENUOJ</a>
+            <ul class="nav navbar-nav">
+                <li><a href="<{$website}>problem/problem">题目</a></li>
+                <li><a href="<{$website}>status">状态</a></li>
+                <li><a href="<{$website}>contest">比赛</a></li>
+                <li><a href="<{$website}>rank">排名</a></li>
+            </ul>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="<{$website}>problem/problem">题目</a></li>
-            <li><a href="<{$website}>status">状态</a></li>
-            <li><a href="<{$website}>contest">比赛</a></li>
-            <li><a href="<{$website}>rank">排名</a></li>
-          </ul>
-
-          <ul class="nav navbar-nav navbar-right">
-          <{if $nickname}>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ToRapture <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="<{$website}>user">查看信息</a></li>
-                <li><a href="#">更改信息</a></li>
-              </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <{if $nickname}>
+            <li class="dropdown profile">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="false">Emily Hart <span class="caret"></span></a>
+                <ul class="dropdown-menu animated">
+                    <li class="profile-img">
+                        <img src="<{$staticWebsite}>img/profile/picjumbo.com_HNCK4153_resize.jpg" class="profile-img">
+                    </li>
+                    <li>
+                        <div class="profile-info">
+                            <h4 class="username">Emily Hart</h4>
+                            <p>emily_hart@email.com</p>
+                            <div class="btn-group margin-bottom-2x" role="group">
+                                <button type="button" class="btn btn-default"><a href="/html/user/user.html"><i
+                                        class="fa fa-user"></i> Profile</a></button>
+                                <button type="button" class="btn btn-default"><a href="/html/user/login.html"><i
+                                        class="fa fa-sign-out"></i> Logout</a></button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </li>
-          <{else}>
-              <div class="nav navbar-form navbar-right">
-              <a href="<{$website}>user/toLogin" class="btn btn-link">Login</a>
-              <a href="<{$website}>user/toRegister" class="btn btn-link">Register</a>
-              </div>
-          <{/if}>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+            <{else}>
+            <li><a href="<{$website}>user/to-login" class="btn-link"><span class="fa fa-user btn-link"></span> Login</a>
+            </li>
+            <li><a href="<{$website}>user/to-register" class="btn-link"><span class="fa fa-user-plus btn-link"></span>
+                Register</a></li>
+            <{/if}>
+        </ul>
+    </div>
+    </div>
+</nav>
 <!-- header部分end -->

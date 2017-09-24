@@ -2,37 +2,125 @@
 <html lang="zh-CN">
 
 <head>
-
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NENU Online Judge</title>
-
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-
-    <!-- Bootstrap -->
-    <link href="<{$staticWebsite}>css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
+    <!-- CSS Libs -->
+    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>lib/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>lib/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>lib/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>lib/css/bootstrap-switch.min.css">
+    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>lib/css/checkbox3.min.css">
+    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>lib/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>lib/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>lib/css/select2.min.css">
+    <!-- CSS App -->
+    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>css/style.css">
+    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>css/themes/flat-blue.css">
 </head>
 
-<body>
-
+<body class="flat-blue">
 <{include file="../common/header.html" }>
-
-<{$isGuest}>
-
+<div class="container" id="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="title">Emily Hart</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row no-margin">
+                        <div class="col-sm-6">
+                            <div class="card primary">
+                                <div class="card-jumbotron no-padding">
+                                    <img src="<{$staticWebsite}>img/profile/picjumbo.com_HNCK4153_resize.jpg"
+                                         height="533" width="800" class="img-responsive">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-jumbotron">
+                                    <h1>Profile</h1>
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">Username</th>
+                                            <td>Emily Hart</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Nickname</th>
+                                            <td>Mark</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Email</th>
+                                            <td>Jacob@123.com</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">School</th>
+                                            <td>NENU</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Total Submit</th>
+                                            <td>99</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Total AC</th>
+                                            <td>50</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Total MLE</th>
+                                            <td>Mark</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Register Time</th>
+                                            <td>2017-09-20</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="card-body">
+                                    <div class="sub-title">Solved Problems List</div>
+                                    <h4>Lorem Ipsum</h4>
+                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
+                                    euismod tincidunt ut laoreet dolore magna
+                                    aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
+                                    ullamcorper
+                                    suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure
+                                    dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+                                    feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit
+                                    praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam
+                                    liber tempor.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <{include file="../common/footer.html" }>
+<!-- Javascript Libs -->
+<script type="text/javascript" src="<{$staticWebsite}>lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="<{$staticWebsite}>lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<{$staticWebsite}>lib/js/Chart.min.js"></script>
+<script type="text/javascript" src="<{$staticWebsite}>lib/js/bootstrap-switch.min.js"></script>
 
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="<{$staticWebsite}>js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<{$staticWebsite}>lib/js/jquery.matchHeight-min.js"></script>
+<script type="text/javascript" src="<{$staticWebsite}>lib/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="<{$staticWebsite}>lib/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="<{$staticWebsite}>lib/js/select2.full.min.js"></script>
+<script type="text/javascript" src="<{$staticWebsite}>lib/js/ace/ace.js"></script>
+<script type="text/javascript" src="<{$staticWebsite}>lib/js/ace/mode-html.js"></script>
+<script type="text/javascript" src="<{$staticWebsite}>lib/js/ace/theme-github.js"></script>
+<!-- Javascript -->
+<script type="text/javascript" src="<{$staticWebsite}>js/app.js"></script>
+<!-- Javascript -->
 </body>
 
 </html>
