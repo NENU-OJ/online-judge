@@ -6,9 +6,9 @@
  * Time: 9:30
  */
 
-namespace app\controllers;
+namespace app\controllers\status;
 
-
+use app\controllers\CController;
 use app\models\Status;
 use app\models\User;
 

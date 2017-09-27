@@ -26,24 +26,25 @@ class ProblemDetailController extends CController
 //        ];
 //    }
 
-    public function actionDetail($problemId)
+    public function actionDetail($p_id)
     {
-        $record = Problem::find()->where('id=:problemId and is_hide=0', [':problemId' => $problemId])->one();
-
-
-        $this->smarty->assign('title', $record->title);
-        $this->smarty->assign('description', $record->description);
-        $this->smarty->assign('input', $record->input);
-        $this->smarty->assign('output', $record->output);
-        $this->smarty->assign('sampleIn', $record->sample_in);
-        $this->smarty->assign('sampleOut', $record->sample_out);
-        $this->smarty->assign('hint', $record->hint);
-        $this->smarty->assign('source', $record->source);
-        $this->smarty->assign('author', $record->author);
-        $this->smarty->assign('timeLimit', $record->time_limit);
-        $this->smarty->assign('memoryLimit', $record->memory_limit);
-        $this->smarty->assign('isSpecialJudge', $record->is_special_judge);
-        $this->smarty->display('problem/problemDetail.html');
+//        $record = Problem::find()->where('id=:problemId and is_hide=0', [':problemId' => $problemId])->one();
+//
+//
+//        $this->smarty->assign('title', $record->title);
+//        $this->smarty->assign('description', $record->description);
+//        $this->smarty->assign('input', $record->input);
+//        $this->smarty->assign('output', $record->output);
+//        $this->smarty->assign('sampleIn', $record->sample_in);
+//        $this->smarty->assign('sampleOut', $record->sample_out);
+//        $this->smarty->assign('hint', $record->hint);
+//        $this->smarty->assign('source', $record->source);
+//        $this->smarty->assign('author', $record->author);
+//        $this->smarty->assign('timeLimit', $record->time_limit);
+//        $this->smarty->assign('memoryLimit', $record->memory_limit);
+//        $this->smarty->assign('isSpecialJudge', $record->is_special_judge);
+        $this->smarty->display('problems/problemDetail.html');
+//        print_r($p_id);
     }
 
     public function actionSubmit()

@@ -6,8 +6,9 @@
  * Time: 下午7:48
  */
 
-namespace app\controllers;
+namespace app\controllers\user;
 
+use app\controllers\CController;
 use app\models\Status;
 use app\models\User;
 

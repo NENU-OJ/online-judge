@@ -3,13 +3,15 @@
  * Created by PhpStorm.
  * User: 石昊
  * Date: 2017/8/31
- * Time: 9:28
+ * Time: 9:31
  */
 
-namespace app\controllers;
+namespace app\controllers\rank;
+
+use app\controllers\CController;
 
 
-class ContestController extends CController
+class RankController extends CController
 {
 //    public function behaviors()
 //    {
@@ -22,6 +24,7 @@ class ContestController extends CController
 //    }
 
     public function actionIndex(){
-        $this->smarty->display('contest/contest.html');
+        $this->smarty->display('rank/rank.html');
     }
+
 }
