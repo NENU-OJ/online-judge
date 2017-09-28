@@ -47,6 +47,10 @@ class ProblemDetailController extends CController
 //        print_r($p_id);
     }
 
+    public function actionToSubmit(){
+        $this->smarty->display('problems/problemSubmit.html');
+    }
+
     public function actionSubmit()
     {
         $record = new Status();
@@ -64,5 +68,9 @@ class ProblemDetailController extends CController
         $record->save();
         $list='[{"code":0,"data":""}]';
         print $list;
+    }
+
+    public function actionToDiscuss(){
+        $this->smarty->display('problems/problemDiscuss.html');
     }
 }

@@ -112,4 +112,8 @@ class UserController extends CController
         print $list;
     }
 
+    public function actionDetail(){
+        $this->smarty->display('user/user.html');
+    }
+
 }
