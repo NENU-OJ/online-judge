@@ -24,7 +24,8 @@ class Filter extends ActionFilter
             return parent::beforeAction($action);
         }
         else{
-            \Yii::$app->runAction('user/toLogin');
+
+            \Yii::$app->runAction('user/user/to-login');
             return false;
         }
     }

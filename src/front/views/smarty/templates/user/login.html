@@ -39,7 +39,7 @@
 
 
             <!-- Start Sign In Form -->
-            <form action="#" class="fh5co-form animate-box" data-animate-effect="fadeIn">
+            <form class="fh5co-form animate-box" data-animate-effect="fadeIn" id="login">
                 <h2>Login</h2>
                 <div class="form-group">
                     <label for="username" class="sr-only">Username</label>
@@ -50,13 +50,10 @@
                     <input type="password" class="form-control" id="password" placeholder="Password" autocomplete="off">
                 </div>
                 <div class="form-group">
-                    <label for="remember"><input type="checkbox" id="remember"> Remember Me</label>
-                </div>
-                <div class="form-group">
                     <p>Not registered? <a href="<{$website}>user/user/to-register">Register</a>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Sign In" class="btn btn-info">
+                    <input type="button" id="submit" value="Login" class="btn btn-info">
                 </div>
             </form>
             <!-- END Sign In Form -->
@@ -75,6 +72,8 @@
 <script src="<{$staticWebsite}>lib/js/jquery.waypoints.min.js"></script>
 <!-- Main JS -->
 <script src="<{$staticWebsite}>lib/js/main.js"></script>
+
+<script src="<{$staticWebsite}>js/user/login.js"></script>
 
 
 </body>

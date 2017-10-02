@@ -10,21 +10,21 @@ namespace app\controllers\problem;
 
 
 use app\controllers\CController;
-use app\models\Problem;
 use app\models\Status;
+use app\controllers\Filter;
 
 class ProblemDetailController extends CController
 {
-//    public function behaviors()
-//    {
-//        return [
-//            [
-//                'class' => Filter::className(),
-//                //控制哪些动作需要过滤器
-//                'only' => ['submit','discuss'],
-//            ]
-//        ];
-//    }
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => Filter::className(),
+                //控制哪些动作需要过滤器
+                'only' => ['to-submit'],
+            ]
+        ];
+    }
 
     public function actionDetail($p_id)
     {

@@ -50,8 +50,11 @@ class UserController extends CController
         $_user=User::findByUsername($username);
         if($_user->password==$password){
             \Yii::$app->session['user_id']=$_user->id;
+            \Yii::$app->session['username']=$_user->username;
             \Yii::$app->session['nickname']=$_user->nickname;
             \Yii::$app->session['ip_addr']=$_user->ip_addr;
+            \Yii::$app->session['email']=$_user->email;
+            \Yii::$app->session['school']=$_user->school;
             $_user->ip_addr=$_SERVER['REMOTE_ADDR'];
             $_user->update();
             $list='[{"code":0,"data":""}]';
@@ -64,9 +67,12 @@ class UserController extends CController
 
     public function actionLogout(){
         unset(\Yii::$app->session['user_id']);
+        unset(\Yii::$app->session['username']);
         unset(\Yii::$app->session['nickname']);
-        $list='[{"code":0,"data":""}]';
-        print $list;
+        unset(\Yii::$app->session['ip_addr']);
+        unset(\Yii::$app->session['email']);
+        unset(\Yii::$app->session['school']);
+        $this->redirect("http://".$_SERVER['HTTP_HOST'].":".$_SERVER['SERVER_PORT']);
     }
 
     public function actionToRegister(){
@@ -84,12 +90,8 @@ class UserController extends CController
             $user->password=md5(trim($_GET['password']));
             $user->register_time=date("Y-m-d h:i:sa");
             $user->ip_addr=$_SERVER['REMOTE_ADDR'];
-            if (isset($_GET['email'])){
-                $user->email=$_GET['email'];
-            }
-            if (isset($_GET['school'])){
-                $user->school=$_GET['school'];
-            }
+            $user->email=$_GET['email'];
+            $user->school=$_GET['school'];
             $user->save();
             $list='[{"code":0,"data":""}]';
             print $list;
