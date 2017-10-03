@@ -72,7 +72,8 @@ class UserController extends CController
         unset(\Yii::$app->session['ip_addr']);
         unset(\Yii::$app->session['email']);
         unset(\Yii::$app->session['school']);
-        $this->redirect("http://".$_SERVER['HTTP_HOST'].":".$_SERVER['SERVER_PORT']);
+        $list='[{"code":0,"data":""}]';
+        print $list;
     }
 
     public function actionToRegister(){

@@ -28,6 +28,13 @@ class ProblemController extends CController
 
     public function actionIndex()
     {
+        $command = Problem::find();
+        $command->select('id,title,total_submit,total_ac,source');
+        $command->where("is_hide=0");
+        $data = $command->asArray()->all();
+        $dataCount = $command->count();
+        $this->smarty->assign('data',$data);
+        $this->smarty->assign('dataCount',$dataCount);
         $this->smarty->display('problems/problem.html');
     }
 

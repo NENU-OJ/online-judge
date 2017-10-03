@@ -32,7 +32,7 @@
                             <div class="btn-group margin-bottom-2x" role="group">
                                 <button type="button" class="btn btn-default"><a href="<{$website}>user/user/detail"><i
                                         class="fa fa-user"></i> Profile</a></button>
-                                <button type="button" class="btn btn-default"><a href="<{$website}>user/user/logout"><i
+                                <button type="button" class="btn btn-default" id="logout"><a href="<{$website}>user/user/logout"><i
                                         class="fa fa-sign-out"></i> Logout</a></button>
                             </div>
                         </div>
@@ -40,13 +40,72 @@
                 </ul>
             </li>
             <{else}>
-            <li><a href="<{$website}>user/user/to-login" class="btn-link"><span class="fa fa-user btn-link"></span> Login</a>
-            </li>
-            <li><a href="<{$website}>user/user/to-register" class="btn-link"><span class="fa fa-user-plus btn-link"></span>
-                Register</a></li>
+            <li><a class="btn-link" data-toggle="modal" data-target="#modalLogin" role="button"><span
+                    class="fa fa-user btn-link"></span> Login</a></li>
+            <li><a class="btn-link" data-toggle="modal" data-target="#modalRegister" role="button"><span
+                    class="fa fa-user-plus btn-link"></span> Register</a></li>
+            <!--<li><a href="<{$website}>user/user/to-login" class="btn-link"><span class="fa fa-user btn-link"></span> Login</a>-->
+            <!--</li>-->
+            <!--<li><a href="<{$website}>user/user/to-register" class="btn-link"><span class="fa fa-user-plus btn-link"></span>Register</a></li>-->
             <{/if}>
         </ul>
     </div>
-    </div>
 </nav>
+<div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="fh5co-form animate-box" data-animate-effect="fadeIn" id="login">
+            <h2>Login</h2>
+            <div class="form-group">
+                <label for="loginUsername" class="sr-only">Username</label>
+                <input type="text" class="form-control" id="loginUsername" placeholder="Username" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="loginPassword" class="sr-only">Password</label>
+                <input type="password" class="form-control" id="loginPassword" placeholder="Password" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <input type="button" id="loginSubmit" value="Login" class="btn btn-info">
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="fh5co-form animate-box" data-animate-effect="fadeIn" id="register">
+            <h2>Register</h2>
+            <div class="form-group">
+                <label for="registerUsername" class="sr-only">Username</label>
+                <input type="text" class="form-control" id="registerUsername" placeholder="Username(required)"
+                       autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="registerNickname" class="sr-only">Nickname</label>
+                <input type="text" class="form-control" id="registerNickname" placeholder="nickname(required)" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="registerSchool" class="sr-only">School</label>
+                <input type="text" class="form-control" id="registerSchool" placeholder="school" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="registerEmail" class="sr-only">Email</label>
+                <input type="email" class="form-control" id="registerEmail" placeholder="Email" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="registerPassword" class="sr-only">Password</label>
+                <input type="password" class="form-control" id="registerPassword" placeholder="Password(required)"
+                       autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="re-password" class="sr-only">Re-type Password</label>
+                <input type="password" class="form-control" id="re-password"
+                       placeholder="Re-type Password(required)" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <input type="button" id="registerSubmit" value="Register" class="btn btn-info">
+            </div>
+        </form>
+    </div>
+</div>
 <!-- header部分end -->
