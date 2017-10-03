@@ -50,8 +50,9 @@
                         <tr>
                             <th>#</th>
                             <th>Title</th>
+                            <th>Total AC</th>
+                            <th>Total Submit</th>
                             <th>AC Ratio</th>
-                            <th>Source</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -59,8 +60,9 @@
                         <tr>
                             <td> <{$item.id}> </td>
                             <td><a href="<{$website}>problem/problem-detail/detail?p_id=<{$item.id}>"> <{$item.title}> </a></td>
-                            <td> <{$item.total_ac}>  /  <{$item.total_submit}> </td>
-                            <td> <{$item.source}> </td>
+                            <td> <{$item.total_ac}> </td>
+                            <td> <{$item.total_submit}> </td>
+                            <td> <{$item.total_ac / $item.total_submit}> </td>
                         </tr>
                         <{/foreach}>
                         </tbody>

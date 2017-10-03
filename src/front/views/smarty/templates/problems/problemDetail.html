@@ -29,108 +29,64 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
-                        <div class="title">Problem Title</div>
+                        <div class="title"><{$title}></div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="text-indent">
-                        <p class="text-center"><strong>Time Limit:</strong>1000ms&nbsp;&nbsp;&nbsp;<strong>Memory
-                            Limit:</strong>32768KB</p>
-                        <p class="text-center"><strong>64-bit integer IO format:</strong>%lld&nbsp;&nbsp;&nbsp;<strong>Java
-                            Class Name:</strong>Main</p>
+                        <p class="text-center">
+                            <strong>Time Limit:</strong> <{$timeLimit}>ms&nbsp;&nbsp;&nbsp;
+                            <strong>Memory Limit:</strong> <{$memoryLimit}>KB&nbsp;&nbsp;&nbsp;
+                            <strong>Special Judge:</strong>
+                            <{if $isSpecialJudge==0}>
+                            no
+                            <{else}>
+                            yes
+                            <{/if}>
+                        </p>
                     </div>
                     <div class="sub-title">Description</div>
                     <div class="text-indent">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                        tincidunt ut laoreet dolore magna
-                        aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-                        suscipit
-                        lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit
-                        in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero
-                        eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis
-                        dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option
+                        <{$description}>
                     </div>
                     <div class="sub-title">Input</div>
                     <div class="text-indent">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                        tincidunt ut laoreet dolore magna
-                        aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-                        suscipit
-                        lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit
-                        in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero
-                        eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis
-                        dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option
+                        <{$input}>
                     </div>
                     <div class="sub-title">Output</div>
                     <div class="text-indent">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                        tincidunt ut laoreet dolore magna
-                        aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-                        suscipit
-                        lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit
-                        in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero
-                        eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis
-                        dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option
+                        <{$output}>
                     </div>
                     <div class="sub-title">Sample Input</div>
                     <div class="text-indent">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                        tincidunt ut laoreet dolore magna
-                        aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-                        suscipit
-                        lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit
-                        in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero
-                        eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis
-                        dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option
+                        <{$sampleIn}>
                     </div>
                     <div class="sub-title">Sample Output</div>
                     <div class="text-indent">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                        tincidunt ut laoreet dolore magna
-                        aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-                        suscipit
-                        lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit
-                        in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero
-                        eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis
-                        dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option
+                        <{$sampleOut}>
                     </div>
+                    <{if $hint!=""}>
                     <div class="sub-title">Hint</div>
                     <div class="text-indent">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                        tincidunt ut laoreet dolore magna
-                        aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-                        suscipit
-                        lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit
-                        in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero
-                        eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis
-                        dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option
+                        <{$hint}>
                     </div>
+                    <{/if}>
+                    <{if $source!=""}>
                     <div class="sub-title">Source</div>
                     <div class="text-indent">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                        tincidunt ut laoreet dolore magna
-                        aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-                        suscipit
-                        lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit
-                        in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero
-                        eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis
-                        dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option
+                        <{$source}>
                     </div>
+                    <{/if}>
+                    <{if $author!=""}>
                     <div class="sub-title">Author</div>
                     <div class="text-indent">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                        tincidunt ut laoreet dolore magna
-                        aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-                        suscipit
-                        lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit
-                        in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero
-                        eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis
-                        dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option
+                        <{$author}>
                     </div>
+                    <{/if}>
                     <div class="sub-title"></div>
                     <div class="text-indent">
                         <p class="text-center">
-                            <a href="<{$website}>problem/problem-detail/to-submit"
+                            <a href="<{$website}>problem/problem-detail/to-submit?p_id=<{$problemId}>"
                                class="btn btn-link">[Submit]</a><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <a href="<{$website}>problem/problem-detail/to-discuss"
                                class="btn btn-link">[Discuss]</a><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -153,43 +109,43 @@
                                         <tbody>
                                         <tr>
                                             <th scope="row">Total Submit</th>
-                                            <td>Mark</td>
+                                            <td><{$totalSubmit}></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Total AC</th>
-                                            <td>Mark</td>
+                                            <td><{$totalAC}></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Total WA</th>
-                                            <td>Jacob</td>
+                                            <td><{$totalWA}></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Total RE</th>
-                                            <td>Larry</td>
+                                            <td><{$totalRE}></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Total CE</th>
-                                            <td>Mark</td>
+                                            <td><{$totalCE}></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Total TLE</th>
-                                            <td>Mark</td>
+                                            <td><{$totalTLE}></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Total MLE</th>
-                                            <td>Mark</td>
+                                            <td><{$totalMLE}></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Total PE</th>
-                                            <td>Mark</td>
+                                            <td><{$totalPE}></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Total OLE</th>
-                                            <td>Mark</td>
+                                            <td><{$totalOLE}></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Total RF</th>
-                                            <td>Mark</td>
+                                            <td><{$totalRF}></td>
                                         </tr>
                                         </tbody>
                                     </table>

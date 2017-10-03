@@ -11,6 +11,7 @@ namespace app\controllers\problem;
 
 use app\controllers\CController;
 use app\models\Status;
+use app\models\Problem;
 use app\controllers\Filter;
 
 class ProblemDetailController extends CController
@@ -28,26 +29,37 @@ class ProblemDetailController extends CController
 
     public function actionDetail($p_id)
     {
-//        $record = Problem::find()->where('id=:problemId and is_hide=0', [':problemId' => $problemId])->one();
-//
-//
-//        $this->smarty->assign('title', $record->title);
-//        $this->smarty->assign('description', $record->description);
-//        $this->smarty->assign('input', $record->input);
-//        $this->smarty->assign('output', $record->output);
-//        $this->smarty->assign('sampleIn', $record->sample_in);
-//        $this->smarty->assign('sampleOut', $record->sample_out);
-//        $this->smarty->assign('hint', $record->hint);
-//        $this->smarty->assign('source', $record->source);
-//        $this->smarty->assign('author', $record->author);
-//        $this->smarty->assign('timeLimit', $record->time_limit);
-//        $this->smarty->assign('memoryLimit', $record->memory_limit);
-//        $this->smarty->assign('isSpecialJudge', $record->is_special_judge);
+        $record = Problem::find()->where('id=:problemId and is_hide=0', [':problemId' => $p_id])->one();
+
+        $this->smarty->assign('problemId',$record->id);
+        $this->smarty->assign('title', $record->title);
+        $this->smarty->assign('description', $record->description);
+        $this->smarty->assign('input', $record->input);
+        $this->smarty->assign('output', $record->output);
+        $this->smarty->assign('sampleIn', $record->sample_in);
+        $this->smarty->assign('sampleOut', $record->sample_out);
+        $this->smarty->assign('hint', $record->hint);
+        $this->smarty->assign('source', $record->source);
+        $this->smarty->assign('author', $record->author);
+        $this->smarty->assign('timeLimit', $record->time_limit);
+        $this->smarty->assign('memoryLimit', $record->memory_limit);
+        $this->smarty->assign('isSpecialJudge', $record->is_special_judge);
+        $this->smarty->assign('totalSubmit', $record->total_submit);
+        $this->smarty->assign('totalAC', $record->total_ac);
+        $this->smarty->assign('totalWA', $record->total_wa);
+        $this->smarty->assign('totalRE', $record->total_re);
+        $this->smarty->assign('totalCE', $record->total_ce);
+        $this->smarty->assign('totalTLE', $record->total_tle);
+        $this->smarty->assign('totalMLE', $record->total_mle);
+        $this->smarty->assign('totalPE', $record->total_pe);
+        $this->smarty->assign('totalOLE', $record->total_ole);
+        $this->smarty->assign('totalRF', $record->total_rf);
+
         $this->smarty->display('problems/problemDetail.html');
-//        print_r($p_id);
     }
 
-    public function actionToSubmit(){
+    public function actionToSubmit($p_id){
+        $this->smarty->assign('problemId',$p_id);
         $this->smarty->display('problems/problemSubmit.html');
     }
 

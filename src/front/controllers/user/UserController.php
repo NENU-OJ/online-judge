@@ -40,10 +40,6 @@ class UserController extends CController
         $this->smarty->display('user/user.html');
     }
 
-    public function actionToLogin(){
-        $this->smarty->display('user/login.html');
-    }
-
     public function actionLogin(){
         $username=trim($_GET['username']);
         $password=md5(trim($_GET['password']));
@@ -74,10 +70,6 @@ class UserController extends CController
         unset(\Yii::$app->session['school']);
         $list='[{"code":0,"data":""}]';
         print $list;
-    }
-
-    public function actionToRegister(){
-        $this->smarty->display('user/register.html');
     }
 
     public function actionRegister(){
