@@ -29,7 +29,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
-                        <div class="title">Emily Hart</div>
+                        <div class="title"><{$basicInfo.username}></div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -45,56 +45,48 @@
                         <div class="col-sm-6">
                             <div class="card">
                                 <div class="card-jumbotron">
+                                    <button type="button" class="close" data-toggle="modal"
+                                            data-target="#modalUpdate"><span
+                                            class="fa fa-pencil-square-o btn-link"></span></button>
                                     <h1>Profile</h1>
                                     <table class="table table-bordered">
                                         <tbody>
                                         <tr>
                                             <th scope="row">Username</th>
-                                            <td>Emily Hart</td>
+                                            <td><{$basicInfo.username}></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Nickname</th>
-                                            <td>Mark</td>
+                                            <td><{$basicInfo.nickname}></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Email</th>
-                                            <td>Jacob@123.com</td>
+                                            <td><{$basicInfo.email}></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">School</th>
-                                            <td>NENU</td>
+                                            <td><{$basicInfo.school}></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Total Submit</th>
-                                            <td>99</td>
+                                            <td><{$basicInfo.total_submit}></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Total AC</th>
-                                            <td>50</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Total MLE</th>
-                                            <td>Mark</td>
+                                            <td><{$basicInfo.total_ac}></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Register Time</th>
-                                            <td>2017-09-20</td>
+                                            <td><{$basicInfo.register_time}></td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="card-body">
                                     <div class="sub-title">Solved Problems List</div>
-                                    <h4>Lorem Ipsum</h4>
-                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
-                                    euismod tincidunt ut laoreet dolore magna
-                                    aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                                    ullamcorper
-                                    suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure
-                                    dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
-                                    feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit
-                                    praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam
-                                    liber tempor.
+                                    <{foreach $acList as $item}>
+                                    <a href="<{$website}>problem/problem-detail/detail?p_id=<{$item.problem_id}>"><{$item.problem_id}>&nbsp;&nbsp;</a>
+                                    <{/foreach}>
                                 </div>
                             </div>
                         </div>
@@ -102,6 +94,55 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="fh5co-form animate-box" data-animate-effect="fadeIn" id="update">
+            <h2>Update</h2>
+            <div class="form-group">
+                <p style="color: red;"><strong>请注意：所有输入项中首末空格均视为无效</strong></p>
+            </div>
+            <div class="form-group">
+                <label for="updateUsername">Username</label>
+                <input type="text" class="form-control" id="updateUsername" value="<{$basicInfo.username}>"
+                       autocomplete="off" disabled>
+            </div>
+            <div class="form-group">
+                <label for="updateNickname">Nickname</label>
+                <input type="text" class="form-control" id="updateNickname" value="<{$basicInfo.nickname}>"
+                       autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="updateSchool">School</label>
+                <input type="text" class="form-control" id="updateSchool" value="<{$basicInfo.school}>"
+                       autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="updateEmail">Email</label>
+                <input type="email" class="form-control" id="updateEmail" value="<{$basicInfo.email}>"
+                       autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="oldPassword">Password</label>
+                <input type="password" class="form-control" id="oldPassword" placeholder="Old Password"
+                       autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input type="password" class="form-control" id="newPassword"
+                       placeholder="New Password" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="re-newPassword">Retype New Password</label>
+                <input type="password" class="form-control" id="re-newPassword"
+                       placeholder="Retype New Password" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <input type="button" id="updateSubmit" value="Submit" class="btn btn-info">
+            </div>
+        </form>
     </div>
 </div>
 <{include file="../common/footer.html" }>
@@ -121,6 +162,7 @@
 <!-- Javascript -->
 <script type="text/javascript" src="<{$staticWebsite}>js/app.js"></script>
 <!-- Javascript -->
+<script type="text/javascript" src="<{$staticWebsite}>js/user/user.js"></script>
 </body>
 
 </html>

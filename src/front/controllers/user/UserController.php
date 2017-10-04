@@ -26,89 +26,104 @@ class UserController extends CController
 //        ];
 //    }
 
-    public function actionIndex() {
-        $userId=\Yii::$app->session['user_id'];
-        $basicInfo=User::findOne($userId);
-        $acList=Status::find()
+    public function actionDetail($userId = 0)
+    {
+        $isSelf = false;
+        if ($userId == 0) {
+            $userId = \Yii::$app->session['user_id'];
+            $isSelf = true;
+        }
+        $basicInfo = User::findOne($userId);
+        $acList = Status::find()
             ->select('problem_id')
-            ->where('id=:userId and result LIKE %Accepted% ',['userId'=>$userId])
+            ->where('user_id=:userId and result LIKE :result ', [':userId' => $userId, ':result' => '%' . 'Accepted' . '%'])
             ->distinct()
             ->asArray()
             ->all();
-        $this->smarty->assign('basicInfo',$basicInfo);
-        $this->smarty->assign('acList',$acList);
+        $this->smarty->assign('basicInfo', $basicInfo);
+        $this->smarty->assign('acList', $acList);
+        $this->smarty->assign('isSelf', $isSelf);
         $this->smarty->display('user/user.html');
     }
 
-    public function actionLogin(){
-        $username=trim($_GET['username']);
-        $password=md5(trim($_GET['password']));
-        $_user=User::findByUsername($username);
-        if($_user->password==$password){
-            \Yii::$app->session['user_id']=$_user->id;
-            \Yii::$app->session['username']=$_user->username;
-            \Yii::$app->session['nickname']=$_user->nickname;
-            \Yii::$app->session['ip_addr']=$_user->ip_addr;
-            \Yii::$app->session['email']=$_user->email;
-            \Yii::$app->session['school']=$_user->school;
-            $_user->ip_addr=$_SERVER['REMOTE_ADDR'];
+    public function actionLogin()
+    {
+        $username = trim($_GET['username']);
+        $password = md5(trim($_GET['password']));
+        $_user = User::findByUsername($username);
+        if ($_user->password == $password) {
+            \Yii::$app->session['user_id'] = $_user->id;
+            \Yii::$app->session['username'] = $_user->username;
+            \Yii::$app->session['nickname'] = $_user->nickname;
+            \Yii::$app->session['ip_addr'] = $_user->ip_addr;
+            \Yii::$app->session['email'] = $_user->email;
+            \Yii::$app->session['school'] = $_user->school;
+            $_user->ip_addr = $_SERVER['REMOTE_ADDR'];
             $_user->update();
-            $list='[{"code":0,"data":""}]';
+            $list = '[{"code":0,"data":""}]';
             print $list;
-        }else{
+        } else {
             $list = '[{"code":1,"data":""}]';
             print $list;
         }
     }
 
-    public function actionLogout(){
+    public function actionLogout()
+    {
         unset(\Yii::$app->session['user_id']);
         unset(\Yii::$app->session['username']);
         unset(\Yii::$app->session['nickname']);
         unset(\Yii::$app->session['ip_addr']);
         unset(\Yii::$app->session['email']);
         unset(\Yii::$app->session['school']);
-        $list='[{"code":0,"data":""}]';
+        $list = '[{"code":0,"data":""}]';
         print $list;
     }
 
-    public function actionRegister(){
-        if (User::findByUsername(trim($_GET['username']))){
+    public function actionRegister()
+    {
+        if (User::findByUsername(trim($_GET['username']))) {
             $list = '[{"code":1,"data":""}]';
             print $list;
-        }else {
+        } else {
             $user = new User();
-            $user->username=trim($_GET['username']);
-            $user->nickname=trim($_GET['nickname']);
-            $user->password=md5(trim($_GET['password']));
-            $user->register_time=date("Y-m-d h:i:sa");
-            $user->ip_addr=$_SERVER['REMOTE_ADDR'];
-            $user->email=$_GET['email'];
-            $user->school=$_GET['school'];
+            $user->username = trim($_GET['username']);
+            $user->nickname = trim($_GET['nickname']);
+            $user->password = md5(trim($_GET['password']));
+            $user->register_time = date("Y-m-d h:i:sa");
+            $user->ip_addr = $_SERVER['REMOTE_ADDR'];
+            $user->email = $_GET['email'];
+            $user->school = $_GET['school'];
             $user->save();
-            $list='[{"code":0,"data":""}]';
+            $list = '[{"code":0,"data":""}]';
             print $list;
         }
     }
 
-    public function actionUpdate(){
-        $user=User::findByUsername(\Yii::$app->session['username']);
-        if ($_GET['nickname']!=$user->nickname){
-            $user->nickname=$_GET['nickname'];
+    public function actionUpdate()
+    {
+        $user = User::findByUsername(trim($_GET['username']));
+        if (isset($_GET['oldPassword'])) {
+            $oldPassword = md5(trim($_GET['oldPassword']));
+            if ($user->password == $oldPassword) {
+                $user->nickname = trim($_GET['nickname']);
+                $user->email = trim($_GET['email']);
+                $user->school = trim($_GET['school']);
+                $user->password = md5(trim($_GET['newPassword']));
+                $user->update();
+                $list = '[{"code":0,"data":""}]';
+                print $list;
+            } else {
+                $list = '[{"code":1,"data":""}]';
+                print $list;
+            }
+        } else {
+            $user->nickname = trim($_GET['nickname']);
+            $user->email = trim($_GET['email']);
+            $user->school = trim($_GET['school']);
+            $user->update();
+            $list = '[{"code":0,"data":""}]';
+            print $list;
         }
-        if ($_GET['email']!=$user->email){
-            $user->email=$_GET['email'];
-        }
-        if ($_GET['school']!=$user->school){
-            $user->school=$_GET['school'];
-        }
-        $user->update();
-        $list='[{"code":0,"data":""}]';
-        print $list;
     }
-
-    public function actionDetail(){
-        $this->smarty->display('user/user.html');
-    }
-
 }

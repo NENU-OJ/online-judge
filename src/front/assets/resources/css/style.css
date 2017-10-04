@@ -1362,15 +1362,15 @@ a:hover {
 }
 .fh5co-form .form-control::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.3);
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
 }
 .fh5co-form .form-control::-moz-placeholder {
   color: rgba(0, 0, 0, 0.3);
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
 }
 .fh5co-form .form-control:-ms-input-placeholder {
   color: rgba(0, 0, 0, 0.3);
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
 }
 .copyrights{
 	text-indent:-9999px;

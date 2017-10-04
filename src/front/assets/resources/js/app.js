@@ -83,17 +83,17 @@ $("#register").keypress(function () {
 });
 
 $("#register").on('click', "#registerSubmit", function () {
-    var username = $("#registerUsername").val();
-    var nickname = $("#registerNickname").val();
-    var school = $("#registerSchool").val();
-    var email = $("#registerEmail").val();
-    var password = $("#registerPassword").val();
-    var re_password = $("#re-password").val();
-    if (password != re_password) {
-        alert("两次所输入密码不一致");
-    }
+    var username = $.trim($("#registerUsername").val());
+    var nickname = $.trim($("#registerNickname").val());
+    var school = $.trim($("#registerSchool").val());
+    var email = $.trim($("#registerEmail").val());
+    var password = $.trim($("#registerPassword").val());
+    var re_password = $.trim($("#re-password").val());
     if (username == null || username == "" || username == undefined || nickname == null || nickname == "" || nickname == undefined || password == null || password == "" || password == undefined || re_password == null || re_password == "" || re_password == undefined) {
         alert("请完善您的信息");
+    }
+    else if (password != re_password) {
+        alert("两次输入密码不一致");
     }
     else {
         $.ajax({
@@ -134,7 +134,7 @@ $("#logout").click(function () {
             $.each(data, function (index, val) {
                 var code = val.code;
                 if (code == 0) {
-                    location.reload(true);
+                    window.location.href = 'http://' + host;
                 }
             })
         },
