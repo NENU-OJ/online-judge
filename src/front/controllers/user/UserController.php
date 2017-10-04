@@ -28,9 +28,12 @@ class UserController extends CController
 
     public function actionDetail($userId = 0)
     {
+//        print_r($userId);
         $isSelf = false;
         if ($userId == 0) {
             $userId = \Yii::$app->session['user_id'];
+            $isSelf = true;
+        } else if ($userId == \Yii::$app->session['user_id']) {
             $isSelf = true;
         }
         $basicInfo = User::findOne($userId);
