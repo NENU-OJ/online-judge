@@ -16,4 +16,9 @@ class IndexController extends CController
     {
         $this->smarty->display('index.html');
     }
+
+    public function actionError($msg){
+        $this->smarty->assign('msg',$msg);
+        $this->smarty->display('common/error.html');
+    }
 }
