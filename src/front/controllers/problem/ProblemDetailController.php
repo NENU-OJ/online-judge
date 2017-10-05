@@ -10,6 +10,7 @@ namespace app\controllers\problem;
 
 
 use app\controllers\CController;
+use app\models\LanguageType;
 use app\models\Status;
 use app\models\Problem;
 use app\controllers\Filter;
@@ -59,6 +60,8 @@ class ProblemDetailController extends CController
     }
 
     public function actionToSubmit($p_id){
+        $languageList=LanguageType::find()->asArray()->all();
+        $this->smarty->assign('languageList',$languageList);
         $this->smarty->assign('problemId',$p_id);
         $this->smarty->display('problems/problemSubmit.html');
     }
@@ -67,7 +70,7 @@ class ProblemDetailController extends CController
     {
         $record = new Status();
         $record->problem_id=$_GET['problemId'];
-        $record->source=$_GET['source'];
+        $record->source=$_GET['sourceCode'];
         $record->submit_time=date("Y-m-d h:i:sa");
         if (isset($_GET['contestId'])){
             $record->contest_id=$_GET['contestId'];
@@ -77,6 +80,7 @@ class ProblemDetailController extends CController
         $record->user_id=\Yii::$app->session['user_id'];
         $record->language_id=$_GET['languageId'];
         $record->is_shared=$_GET['isShared'];
+//        print_r($record);
         $record->save();
         $list='[{"code":0,"data":""}]';
         print $list;

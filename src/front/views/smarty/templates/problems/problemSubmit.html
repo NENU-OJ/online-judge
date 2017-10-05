@@ -29,38 +29,19 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
+                        <input id="problemId" class="hide" value="<{$problemId}>">
                         <div class="title">Solution for Problem:<{$problemId}></div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form id="problemSubmit">
                         <div class="form-group">
                             <label>Language</label>
                             <div>
-                                <select>
-                                    <optgroup label="C/C++">
-                                        <option value="1">Visual C++</option>
-                                        <option value="2">G++</option>
-                                        <option value="3">GCC</option>
-                                        <option value="4">C++ 11</option>
-                                    </optgroup>
-                                    <optgroup label="Java">
-                                        <option value="5">Java 1.9</option>
-                                        <option value="6">Java 1.8</option>
-                                        <option value="7">Java 1.7</option>
-                                        <option value="8">Java 1.6</option>
-                                    </optgroup>
-                                    <optgroup label="C#">
-                                        <option value="9">C#</option>
-                                    </optgroup>
-                                    <optgroup label="Python">
-                                        <option value="10">Python 3</option>
-                                        <option value="11">Python 2</option>
-                                    </optgroup>
-                                    <optgroup label="Pascal">
-                                        <option value="12">Pascal</option>
-                                    </optgroup>
-
+                                <select id="language">
+                                    <{foreach $languageList as $item}>
+                                    <option value="<{$item.id}>"><{$item.language}></option>
+                                    <{/foreach}>
                                 </select>
                             </div>
                         </div>
@@ -68,8 +49,12 @@
                             <label for="sourceCode">Source Code</label>
                             <textarea class="form-control" id="sourceCode" rows="15"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-success">Submit</button>
-                        <button type="button" class="btn btn-danger">Reset</button>
+                        <div class="form-group">
+                            <label for="isShared">Share my solution</label>
+                            <input type="checkbox" class="toggle-checkbox" id="isShared">
+                        </div>
+                        <button type="button" class="btn btn-success" id="submit">Submit</button>
+                        <button type="button" class="btn btn-danger" id="reset">Reset</button>
                     </form>
                 </div>
             </div>
@@ -93,6 +78,7 @@
 <!-- Javascript -->
 <script type="text/javascript" src="<{$staticWebsite}>js/app.js"></script>
 <!-- Javascript -->
+<script type="text/javascript" src="<{$staticWebsite}>js/problems/problemSubmit.js"></script>
 </body>
 
 </html>
