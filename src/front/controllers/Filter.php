@@ -24,11 +24,11 @@ class Filter extends ActionFilter
             return parent::beforeAction($action);
         } else {
             if (\Yii::$app->request->isAjax) {
-                $list = '[{"code":1,"errMsg":"您需要先登录"}]';
+                $list = '[{"code":233,"errMsg":"您需要先登录"}]';
                 print $list;
             } else {
                 $msg="您需要先登录";
-                \Yii::$app->runAction('index/error',['msg'=>$msg]);
+                \Yii::$app->runAction('index/warn',['msg'=>$msg]);
                 return false;
             }
         }

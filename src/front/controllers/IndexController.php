@@ -8,7 +8,6 @@
 
 namespace app\controllers;
 
-
 class IndexController extends CController
 {
     // 加载函数
@@ -17,8 +16,17 @@ class IndexController extends CController
         $this->smarty->display('index.html');
     }
 
-    public function actionError($msg){
+    public function actionWarn($msg){
         $this->smarty->assign('msg',$msg);
         $this->smarty->display('common/error.html');
+    }
+
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ]
+        ];
     }
 }
