@@ -28,6 +28,7 @@ class ContestController extends CController
 
     public function actionDetail($c_id){
 //        print_r($c_id);
+        $this->smarty->assign('contestId',$c_id);
         $this->smarty->display('contest/contestDetail.html');
     }
 }

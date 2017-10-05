@@ -5,32 +5,57 @@ $("#problemSubmit").on('click', "#submit", function () {
     var languageId = $("#language").select().val();
     var sourceCode = $("#sourceCode").val();
     var isShared = document.getElementById("isShared").checked;
+    var contestId = $("#contestId").val();
 
-    $.ajax({
-        type: "get",
-        url: 'http://' + host + '/problem/problem-detail/submit',
-        dataType: "json",
-        data: {
-            problemId: problemId,
-            languageId: languageId,
-            sourceCode: sourceCode,
-            isShared: isShared
-        },
-        success: function (data) {
-            $.each(data, function (index, val) {
-                var code = val.code;
-                if (code == 0) {
-                    alert("提交成功");
-                    window.location.href = 'http://' + host+'/problem/problem-detail/detail?p_id='+problemId;
-                }
-            })
-        },
-        error: function () {
-            console.log("获取JSON数据异常");
-        }
-    })
-});
-
-$("#reset").click(function () {
-    location.reload(true);
+    if (contestId == null || contestId == "" || contestId == undefined) {
+        $.ajax({
+            type: "get",
+            url: 'http://' + host + '/problem/problem-detail/submit',
+            dataType: "json",
+            data: {
+                problemId: problemId,
+                languageId: languageId,
+                sourceCode: sourceCode,
+                isShared: isShared
+            },
+            success: function (data) {
+                $.each(data, function (index, val) {
+                    var code = val.code;
+                    if (code == 0) {
+                        alert("提交成功");
+                        window.location.href = 'http://' + host + '/problem/problem-detail/detail?p_id=' + problemId;
+                    }
+                })
+            },
+            error: function () {
+                console.log("获取JSON数据异常");
+            }
+        })
+    }
+    else {
+        $.ajax({
+            type: "get",
+            url: 'http://' + host + '/problem/problem-detail/submit',
+            dataType: "json",
+            data: {
+                problemId: problemId,
+                contestId: contestId,
+                languageId: languageId,
+                sourceCode: sourceCode,
+                isShared: isShared
+            },
+            success: function (data) {
+                $.each(data, function (index, val) {
+                    var code = val.code;
+                    if (code == 0) {
+                        alert("提交成功");
+                        window.location.href = 'http://' + host + '/problem/problem-detail/detail?p_id=' + problemId + '&c_id=' + contestId;
+                    }
+                })
+            },
+            error: function () {
+                console.log("获取JSON数据异常");
+            }
+        })
+    }
 });

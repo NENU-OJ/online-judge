@@ -30,6 +30,9 @@
                 <div class="card-header">
                     <div class="card-title">
                         <input id="problemId" class="hide" value="<{$problemId}>">
+                        <{if $contestId}>
+                        <input id="contestId" class="hide" value="<{$contestId}>">
+                        <{/if}>
                         <div class="title">Solution for Problem:<{$problemId}></div>
                     </div>
                 </div>
@@ -54,7 +57,7 @@
                             <input type="checkbox" class="toggle-checkbox" id="isShared">
                         </div>
                         <button type="button" class="btn btn-success" id="submit">Submit</button>
-                        <button type="button" class="btn btn-danger" id="reset">Reset</button>
+                        <button type="reset" class="btn btn-danger" id="reset">Reset</button>
                     </form>
                 </div>
             </div>

@@ -28,10 +28,12 @@ class ProblemDetailController extends CController
         ];
     }
 
-    public function actionDetail($p_id)
+    public function actionDetail($p_id,$c_id=0)
     {
         $record = Problem::find()->where('id=:problemId and is_hide=0', [':problemId' => $p_id])->one();
-
+        if($c_id!=0){
+            $this->smarty->assign('contestId',$c_id);
+        }
         $this->smarty->assign('problemId',$record->id);
         $this->smarty->assign('title', $record->title);
         $this->smarty->assign('description', $record->description);
@@ -59,9 +61,10 @@ class ProblemDetailController extends CController
         $this->smarty->display('problems/problemDetail.html');
     }
 
-    public function actionToSubmit($p_id){
+    public function actionToSubmit($p_id,$c_id=0){
         $languageList=LanguageType::find()->asArray()->all();
         $this->smarty->assign('languageList',$languageList);
+        $this->smarty->assign('contestId',$c_id);
         $this->smarty->assign('problemId',$p_id);
         $this->smarty->display('problems/problemSubmit.html');
     }
@@ -79,7 +82,7 @@ class ProblemDetailController extends CController
         }
         $record->user_id=\Yii::$app->session['user_id'];
         $record->language_id=$_GET['languageId'];
-        $record->is_shared=$_GET['isShared'];
+        $record->is_shared=$_GET['isShared']?1:0;
 //        print_r($record);
         $record->save();
         $list='[{"code":0,"data":""}]';
