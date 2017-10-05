@@ -25,16 +25,6 @@
 <body class="flat-blue">
 <{include file="../common/header.html" }>
 <div class="container" id="page-content">
-    <{if $username}>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="btn-group">
-                <button class="btn btn-info" id="showAll">Show all</button>
-                <button class="btn btn-info" id="onlyUnsolved">Only unsolved</button>
-            </div>
-        </div>
-    </div>
-    <{/if}>
     <div class="row">
         <div class="col-xs-12">
             <div class="card">
@@ -57,8 +47,16 @@
                         </thead>
                         <tbody>
                         <{foreach $data as $item}>
+                        <{if $username}>
+                            <{if $item.isAC==true}>
+                                <tr class="success">
+                            <{else}>
+                                <tr>
+                            <{/if}>
+                        <{else}>
                         <tr>
-                            <td> <{$item.id}> </td>
+                        <{/if}>
+                            <td><{$item.id}></td>
                             <td><a href="<{$website}>problem/problem-detail/detail?p_id=<{$item.id}>"> <{$item.title}> </a></td>
                             <td> <{$item.total_ac}> </td>
                             <td> <{$item.total_submit}> </td>

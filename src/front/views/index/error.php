@@ -33,7 +33,7 @@ $this->context->layout = false;
     <link rel="stylesheet" type="text/css" href="/assets/resources/css/style.css">
     <link rel="stylesheet" type="text/css" href="/assets/resources/css/themes/flat-blue.css">
 </head>
-<body>
+<body class="flat-blue">
 <div class="container" id="page-content">
     <div class="row">
         <div class="col-xs-8 col-center-block">
