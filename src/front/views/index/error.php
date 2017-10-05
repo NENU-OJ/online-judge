@@ -34,26 +34,39 @@ $this->context->layout = false;
     <link rel="stylesheet" type="text/css" href="/assets/resources/css/themes/flat-blue.css">
 </head>
 <body>
-<div class="container" style="margin-top: 20%" id="page-content">
+<div class="container" id="page-content">
     <div class="row">
         <div class="col-xs-8 col-center-block">
-            <div class="panel panel-danger">
-                <div class="panel-heading">
-                    <h2><?= Html::encode($this->title) ?></h2>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="title">Ooooooops!</div>
+                    </div>
                 </div>
-                <div class="panel-body">
-                    <?= nl2br(Html::encode($message)) ?>
+                <div class="card-body">
+                    <div class="row no-margin">
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">
+                                <h3><?= Html::encode($this->title) ?></h3>
+                            </div>
+                            <div class="panel-body">
+                                <?= nl2br(Html::encode($message)) ?>
+                            </div>
+                        </div>
+                        <p>
+                            The above error occurred while the Web server was processing your request.
+                        </p>
+                        <p>
+                            Please <a href="https://github.com/NENU-OJ/OnlineJudge/issues">contact us</a> if you think
+                            this is a server error. Thank you.
+                        </p>
+                    </div>
                 </div>
             </div>
-            <p>
-                The above error occurred while the Web server was processing your request.
-            </p>
-            <p>
-                Please <a href="https://github.com/NENU-OJ/OnlineJudge/issues">contact us</a> if you think this is a server error. Thank you.
-            </p>
         </div>
     </div>
 </div>
+<?php include 'views/smarty/templates/common/footer.html' ?>
 <script type="text/javascript" src="/assets/resources/lib/js/jquery.min.js"></script>
 <script type="text/javascript" src="/assets/resources/lib/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/assets/resources/lib/js/Chart.min.js"></script>
