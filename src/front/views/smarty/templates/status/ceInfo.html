@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 
 <head>
     <title>NENU Online Judge</title>
@@ -22,74 +22,28 @@
 </head>
 
 <body class="flat-blue">
-
-<{include file="../common/header.html" }>
+<{include file="common/header.html" }>
 <div class="container" id="page-content">
     <div class="row">
         <div class="col-xs-12">
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
-                        <div class="title">Status</div>
+                        <div class="title">Source Code</div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="datatable table table-striped" cellspacing="0" width="100%" id="list">
-                        <thead>
-                        <tr>
-                            <th>User</th>
-                            <th>PID</th>
-                            <th>Result</th>
-                            <th>Language</th>
-                            <th>Time</th>
-                            <th>Memory</th>
-                            <th>SubmitDate</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <{foreach $data as $item}>
-                        <tr>
-                            <td><{$item.username}></td>
-                            <{if $item.is_shared == 1 || $username==$item.username}>
-                            <td>
-                                <a href="<{$website}>status/status/view-source?s_id=<{$item.id}>"><{$item.problem_id}></a>
-                            </td>
-                            <{else}>
-                            <td><{$item.problem_id}></td>
-                            <{/if}>
-                            <{if $item.result == "Compile Error"}>
-                            <td>
-                            <a href="<{$website}>status/status/compile-error?s_id=<{$item.id}>"><{$item.result}></a>
-                            </td>
-                            <{else}>
-                            <td><{$item.result}></td>
-                            <{/if}>
-                            <td><{$item.language}></td>
-                            <td><{$item.time_used}></td>
-                            <td><{$item.memory_used}></td>
-                            <td><{$item.submit_time}></td>
-                        </tr>
-                        <{/foreach}>
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <th>User</th>
-                            <th>PID</th>
-                            <th>Result</th>
-                            <th>Language</th>
-                            <th>Time</th>
-                            <th>Memory</th>
-                            <th>SubmitDate</th>
-                        </tr>
-                        </tfoot>
-                    </table>
+                    <p>Username:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<{$_username}></p>
+                    <p>Problem ID:&nbsp;&nbsp;&nbsp;&nbsp;<{$problemId}></p>
+                    <p>Language:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<{$language}></p>
+                    <p>Result:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<{$result}></p>
+                    <pre><{$ceInfo}></pre>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<{include file="../common/footer.html" }>
+<{include file="common/footer.html" }>
 <!-- Javascript Libs -->
 <script type="text/javascript" src="<{$staticWebsite}>lib/js/jquery.min.js"></script>
 <script type="text/javascript" src="<{$staticWebsite}>lib/js/bootstrap.min.js"></script>
@@ -106,7 +60,6 @@
 <!-- Javascript -->
 <script type="text/javascript" src="<{$staticWebsite}>js/app.js"></script>
 <!-- Javascript -->
-<script type="text/javascript" src="<{$staticWebsite}>js/status.js"></script>
 </body>
 
 </html>
