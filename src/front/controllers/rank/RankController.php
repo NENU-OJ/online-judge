@@ -9,6 +9,7 @@
 namespace app\controllers\rank;
 
 use app\controllers\CController;
+use app\models\User;
 
 
 class RankController extends CController
@@ -24,6 +25,14 @@ class RankController extends CController
 //    }
 
     public function actionIndex(){
+        $command=User::find();
+        $command->select('id,username,nickname,school,total_ac,total_submit');
+        $command->orderBy('total_ac DESC');
+        $data=$command->asArray()->all();
+        foreach ($data as $key=>$val){
+            $data[$key]['rank']=$key+1;
+        }
+        $this->smarty->assign('data',$data);
         $this->smarty->display('rank/rank.html');
     }
 
