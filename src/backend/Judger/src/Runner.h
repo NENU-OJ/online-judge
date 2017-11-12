@@ -40,7 +40,8 @@ public:
 	Runner();
 	Runner(int cpp_time_limit_ms, int other_time_limit_ms,
 	       int cpp_memory_limit_kb, int other_memory_limit_kb,
-	       int stack_limit_kb, int output_limit_kb);
+	       int stack_limit_kb, int output_limit_kb,
+		   int language, const std::string &src);
 private:
 	void child_compile();
 	void child_run();

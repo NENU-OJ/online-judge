@@ -7,15 +7,19 @@
 #include <map>
 
 #include "Config.h"
-
+#include <glog/logging.h>
 
 Config * Config::instance = new Config("config.ini");
 
 Config::Config(std::string config_file) {
+
+	FLAGS_logtostderr = true;
+	FLAGS_logtostderr = true;
+
 	std::ifstream file(config_file.c_str());
+
 	if (!file) {
-		std::cerr << config_file + " dose not exists" << std::endl;
-		exit(1);
+		LOG(FATAL) << "[Config::Config] [shutdown] config file " + config_file + " does not exists";
 	} else {
 		std::string key, eq, value;
 		while (file >> key >> eq >> value) {
@@ -32,6 +36,7 @@ Config::Config(std::string config_file) {
 		if (config_map.find("binary_file") == config_map.end()) exit(1);
 		if (config_map.find("input_file") == config_map.end()) exit(1);
 		if (config_map.find("output_file") == config_map.end()) exit(1);
+		if (config_map.find("ce_info_file") == config_map.end()) exit(1);
 
 		ip = config_map["ip"];
 		port = atoi(config_map["port"].c_str());
@@ -44,5 +49,8 @@ Config::Config(std::string config_file) {
 		binary_file = config_map["binary_file"];
 		input_file = config_map["input_file"];
 		output_file = config_map["output_file"];
+		ce_info_file = config_map["ce_info_file"];
+
+		LOG(INFO) << "config over";
 	}
 }

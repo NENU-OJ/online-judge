@@ -36,6 +36,9 @@ public:
 	bool operator == (const RunResult &rhs) const {
 		return this->status == rhs.status;
 	}
+	bool operator != (const RunResult &rhs) const {
+		return !(*this == rhs);
+	}
 	RunResult set_time_used(int time_used_ms) const {
 		RunResult result = *this;
 		result.time_used_ms = time_used_ms;
@@ -58,11 +61,13 @@ public:
 	std::string get_print_string() const {
 		std::string res;
 		res += '[';
+		if (*this == COMPILE_ERROR) res += "\n\t";
 		res += "status: " + status + ", ";
 		res += "time_used: " + std::to_string(time_used_ms) + "ms, ";
 		res += "memory_used: " + std::to_string(memory_used_kb) + "kb";
 		if (*this == COMPILE_ERROR)
-			res += ",\nce_info:\n" + ce_info;
+			res += ",\n\tce_info:\n\t" + ce_info;
+		if (*this == COMPILE_ERROR) res += "\n";
 		res += ']';
 		return res;
 	}

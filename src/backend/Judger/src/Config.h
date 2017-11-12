@@ -30,6 +30,7 @@ private:
 	std::string binary_file;
 	std::string input_file;
 	std::string output_file;
+	std::string ce_info_file;
 
 public:
 	static Config * get_instance() {
@@ -79,6 +80,10 @@ public:
 		return input_file;
 	}
 
+	const std::string &get_ce_info_file() const {
+		return ce_info_file;
+	}
+
 	std::string get_print_string() const {
 		bool first = true;
 		std::string res;
@@ -86,7 +91,7 @@ public:
 		for (const auto &item : config_map) {
 			if (!first) res += ",\n";
 			first = false;
-			res += item.first + ": " + item.second;
+			res += "\t" + item.first + ": " + item.second;
 		}
 		res += "\n}";
 		return res;
