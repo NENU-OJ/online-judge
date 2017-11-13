@@ -7,6 +7,7 @@
 #include <wait.h>
 
 #include "Runner.h"
+#include "Config.h"
 
 
 Runner::Runner() {
@@ -33,7 +34,20 @@ Runner::Runner(int cpp_time_limit_ms, int other_time_limit_ms,
 }
 
 void Runner::child_compile() {  // TODO set limit and compile
+	/// set time limit
+	itimerval itv;
+	itv.it_value.tv_sec = Config::get_instance()->get_compile_time_ms() / 1000;
+	itv.it_value.tv_usec = Config::get_instance()->get_compile_time_ms() % 1000 * 1000;
+	itv.it_interval.tv_sec = 0;
+	itv.it_interval.tv_usec = 0;
+	setitimer(ITIMER_REAL, &itv, NULL);
 
+	/// set memory limit
+	rlimit rlim;
+	rlim.rlim_max = rlim.rlim_cur = Config::get_instance()->get_compile_memory_kb() * 1024;
+	setrlimit(RLIMIT_AS, &rlim);
+	execl("/usr/bin/g++", "g++", "/home/torapture/codes/ACM/A.cpp", "-o",
+	      Config::get_instance()->get_binary_file().c_str(), "-O2", "-fno-asm", "-Wall", "-lm", NULL);
 }
 
 void Runner::child_run() { // TODO set limit and run
@@ -41,15 +55,16 @@ void Runner::child_run() { // TODO set limit and run
 }
 
 RunResult Runner::compile() {
-
-	pid_t pid = fork();
-
-	if (pid == -1) {
+	pid_t pid;
+	if ((pid = fork()) == -1) {
 		return RunResult::JUDGE_ERROR;
 	} else if (pid == 0) { // child process
 		child_compile();
+
 		exit(0); /// do not return
 	} else { // father process
+
+
 		return RunResult::COMPILE_SUCCESS;
 	}
 }
