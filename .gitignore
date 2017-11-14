@@ -29,3 +29,6 @@ templates_c/
 
 #Clion
 cmake-build-debug/
+
+#Judger
+temp_path/

@@ -7,9 +7,16 @@
 #include <map>
 
 #include "Config.h"
+#include "Runner.h"
 #include <glog/logging.h>
 
 Config * Config::instance = new Config("config.ini");
+
+const int Config::CPP_LANG = 0;
+const int Config::CPP11_LANG = 1;
+const int Config::JAVA_LANG = 2;
+const int Config::PY2_LANG = 3;
+const int Config::PY3_LANG = 4;
 
 Config::Config(std::string config_file) {
 
@@ -21,6 +28,20 @@ Config::Config(std::string config_file) {
 	if (!file) {
 		LOG(FATAL) << "[Config::Config] [shutdown] config file " + config_file + " does not exists";
 	} else {
+
+		src_extension[CPP_LANG] = ".cpp";
+		src_extension[CPP11_LANG] = ".cpp";
+		src_extension[JAVA_LANG] = ".java";
+		src_extension[PY2_LANG] = ".py";
+		src_extension[PY3_LANG] = ".py";
+
+		exc_extension[CPP_LANG] = ".out";
+		exc_extension[CPP11_LANG] = ".out";
+		exc_extension[JAVA_LANG] = "";
+		exc_extension[PY2_LANG] = ".pyc";
+		exc_extension[PY3_LANG] = ".pyc";
+
+
 		std::string key, eq, value;
 		while (file >> key >> eq >> value) {
 			config_map.insert({key, value});
@@ -34,9 +55,9 @@ Config::Config(std::string config_file) {
 		if (config_map.find("spj_memory_kb") == config_map.end()) exit(1);
 		if (config_map.find("source_file") == config_map.end()) exit(1);
 		if (config_map.find("binary_file") == config_map.end()) exit(1);
-		if (config_map.find("input_file") == config_map.end()) exit(1);
 		if (config_map.find("output_file") == config_map.end()) exit(1);
 		if (config_map.find("ce_info_file") == config_map.end()) exit(1);
+		if (config_map.find("temp_path") == config_map.end()) exit(1);
 
 		ip = config_map["ip"];
 		port = atoi(config_map["port"].c_str());
@@ -47,9 +68,9 @@ Config::Config(std::string config_file) {
 		spj_memory_kb = atoi(config_map["spj_memory_kb"].c_str());
 		source_file = config_map["source_file"];
 		binary_file = config_map["binary_file"];
-		input_file = config_map["input_file"];
 		output_file = config_map["output_file"];
 		ce_info_file = config_map["ce_info_file"];
+		temp_path = config_map["temp_path"];
 
 		LOG(INFO) << "config over";
 	}

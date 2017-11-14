@@ -1,39 +1,51 @@
 #include <iostream>
-#include <cassert>
-#include <glog/logging.h>
-#include <sys/time.h>
 #include <sys/resource.h>
-#include <wait.h>
+#include <glog/logging.h>
 
 #include "Runner.h"
 #include "Config.h"
+#include "Utils.h"
 
 using namespace std;
 
 
 int main(int argc, const char *argv[]) {
-//	itimerval itv;
-//	itv.it_value.tv_sec = 4;
-//	itv.it_value.tv_usec = 0;
-//	itv.it_interval.tv_sec = 0;
-//	itv.it_interval.tv_usec = 0;
-//	setitimer(ITIMER_REAL, &itv, NULL);
-//	rlimit rlim;
-//	rlim.rlim_cur = rlim.rlim_max = 6;
-//	setrlimit(RLIMIT_CPU, &rlim);
-//	pid_t pid;
-//	if ((pid = fork()) == 0) {
-//		cout << pid << endl;
-//		puts("child");
-//		execl("/home/torapture/a.out", "a.out", NULL);
-//	} else {
-//		cout << pid << endl;
-//		puts("father");
-//		int s;
-//		wait(&s);
+	rusage run_info;
+
+	vector<int> vec;
+
+//	for(int i = 0; i <= 1000000; ++i) {
+//		vec.push_back(i);
+//
+//		if (i % 1000 == 0) {
+//			getrusage(RUSAGE_SELF, &run_info);
+//			printf("mem_used = %dkb\n", Runner::get_memory_kb(run_info));
+//		}
+//
 //	}
-	Runner run;
-	RunResult result = run.compile();
-	cout << result.get_print_string() << endl;
+
+//	sleep(3);
+//	getrusage(RUSAGE_SELF, &run_info);
+//
+//	printf("used %dms\n", run_info.ru_utime.tv_usec / 1000 + run_info.ru_utime.tv_sec);
+//	printf("used %dms\n", run_info.ru_stime.tv_usec / 1000 + run_info.ru_stime.tv_sec);
+//	printf("mem used %d\n", run_info.ru_maxrss);
+
+	vector<string> src_list = {"tests/test_cpp.cpp", "tests/test_cpp11.cpp",
+	                           "tests/test_java.java", "tests/test_py2.py", "tests/test_py3.py"};
+	vector<int> lang_list = {Config::CPP_LANG, Config::CPP11_LANG, Config::JAVA_LANG, Config::PY2_LANG, Config::PY3_LANG};
+	vector<string> input_list = { "tests/input", "", "", "", "tests/input"};
+	for (int i = 0; i < src_list.size(); ++i) {
+		std::string src = Utils::get_content_from_file(src_list[i]);
+		Runner run(2000, 65536, 10000, 10000, lang_list[i], src, input_list[i]);
+		RunResult result = run.compile();
+		cout << result.get_print_string() << endl;
+		if (result != RunResult::COMPILE_ERROR) {
+			result = run.run();
+			cout << result.get_print_string() << endl;
+			cout << Utils::get_content_from_file("temp_path/output") << endl;
+		}
+	}
+
 	return 0;
 }

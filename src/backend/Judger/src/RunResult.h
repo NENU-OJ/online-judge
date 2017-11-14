@@ -19,6 +19,8 @@ public:
 	static const RunResult RUNTIME_ERROR;
 	static const RunResult OUTPUT_LIMIT_EXCEEDED;
 
+	static const RunResult RUN_SUCCESS;
+
 	static const RunResult ACCEPTED;
 	static const RunResult PRESENTATION_ERROR;
 	static const RunResult WRONG_ANSWER;

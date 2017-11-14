@@ -6,42 +6,41 @@
 #define JUDGER_JUDGER_H
 
 #include <string>
-#include <unistd.h>
 #include <iostream>
+#include <unistd.h>
+#include <sys/resource.h>
+
 #include "RunResult.h"
 
 class Runner {
 public:
-	static const int DEFAULT_CPP_TIME_LIMIT_MS = 1000;
-	static const int DEFAULT_CPP_MEMORY_LIMIT_KB = 32768;
-	static const int DEFAULT_OTHER_TIME_LIMIT_MS = 2000;
-	static const int DEFAULT_OTHER_MEMORY_LIMIT_KB = 65536;
+	static const int DEFAULT_TIME_LIMIT_MS = 1000;
+	static const int DEFAULT_MEMORY_LIMIT_KB = 32768;
 	static const int DEFAULT_STACK_LIMIT_KB = 32768;
 	static const int DEFAULT_OUTPUT_LIMIT_KB = 128 * 1024;
 
-	static const int CPP_LANG = 0;
-	static const int CPP11_LANG = 1;
-	static const int JAVA_LANG = 2;
-	static const int PY2_LANG = 3;
-	static const int PY3_LANG = 4;
-
 private:
-	int cpp_time_limit_ms;
-	int cpp_memory_limit_kb;
-	int other_time_limit_ms;
-	int other_memory_limit_kb;
+	int time_limit_ms;
+	int memory_limit_kb;
 	int stack_limit_kb;
 	int output_limit_kb;
 
 	int language;
 	std::string src;
 
+	std::string input_file;
+	std::string src_file_name;
+	std::string exc_file_name;
+
+
 public:
 	Runner();
-	Runner(int cpp_time_limit_ms, int other_time_limit_ms,
-	       int cpp_memory_limit_kb, int other_memory_limit_kb,
+	Runner(int time_limit_ms, int memory_limit_kb,
 	       int stack_limit_kb, int output_limit_kb,
-		   int language, const std::string &src);
+		   int language, const std::string &src, const std::string &input_file);
+public:
+	static int get_time_ms(const rusage &run_info);
+	static int get_memory_kb(const rusage &run_info);
 private:
 	void child_compile();
 	void child_run();

@@ -1,14 +1,8 @@
-1. sleep不会被计入CPU时间，要用真实时间处理
-2. 定时器设置为真实时间，时间限制为CPU时间+2s，出结果后在比较CPU时间，虽然没有超过真实时间限制，但有可能超过CPU时间限制
-3. setitimer之后exec是否会继承设置，父进程能否获得rusage，exec可继承，fork不继承
-4. setrlimit之后exec是否会继承配置，父进程能否获得rusage，exec可继承
-
-编译时：
-	被信号杀死：
-		超时： 编译错误 编译超时
-		Other： 编译错误 Fucking Error
-	返回值不为0：编译错误 ERROR OUT
-	返回值为0：编译成功
+1. 设置资源
+2. 设置权限
+3. 限制调用
+4. 限制I/O
+5. 获取状态
 
 程序运行：
 	非法调用一律当作Runtime Error处理

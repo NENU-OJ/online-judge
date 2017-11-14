@@ -14,3 +14,4 @@ const RunResult RunResult::OUTPUT_LIMIT_EXCEEDED = RunResult(0, 0, "Output Limit
 const RunResult RunResult::ACCEPTED = RunResult(0, 0, "Accepted", "");
 const RunResult RunResult::PRESENTATION_ERROR = RunResult(0, 0, "Presentation Error", "");
 const RunResult RunResult::WRONG_ANSWER = RunResult(0, 0, "Wrong Answer", "");
+const RunResult RunResult::RUN_SUCCESS = RunResult(0, 0, "Run Success", "");

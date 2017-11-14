@@ -10,12 +10,16 @@
 #include <cassert>
 #include <map>
 
+
 class Config {
 private:
 
 	static Config *instance;
 
 	Config(std::string config_file);
+
+	std::map<int, std::string> src_extension;
+	std::map<int, std::string> exc_extension;
 
 	std::map<std::string, std::string> config_map;
 
@@ -26,11 +30,18 @@ private:
 	int compile_memory_kb;
 	int spj_run_time_ms;
 	int spj_memory_kb;
+	std::string temp_path;
 	std::string source_file;
 	std::string binary_file;
-	std::string input_file;
 	std::string output_file;
 	std::string ce_info_file;
+
+public:
+	static const int CPP_LANG;
+	static const int CPP11_LANG;
+	static const int JAVA_LANG;
+	static const int PY2_LANG;
+	static const int PY3_LANG;
 
 public:
 	static Config * get_instance() {
@@ -68,6 +79,10 @@ public:
 		return source_file;
 	}
 
+	const std::string &get_temp_path() const {
+		return temp_path;
+	}
+
 	const std::string &get_binary_file() const {
 		return binary_file;
 	}
@@ -76,12 +91,16 @@ public:
 		return output_file;
 	}
 
-	const std::string &get_input_file() const {
-		return input_file;
-	}
-
 	const std::string &get_ce_info_file() const {
 		return ce_info_file;
+	}
+
+	std::string get_src_extention(int lang) {
+		return src_extension[lang];
+	}
+
+	std::string get_exc_extentino(int lang) {
+		return exc_extension[lang];
 	}
 
 	std::string get_print_string() const {
@@ -96,6 +115,7 @@ public:
 		res += "\n}";
 		return res;
 	}
+
 };
 
 
