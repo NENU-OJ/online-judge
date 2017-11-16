@@ -16,14 +16,10 @@ class Runner {
 public:
 	static const int DEFAULT_TIME_LIMIT_MS = 1000;
 	static const int DEFAULT_MEMORY_LIMIT_KB = 32768;
-	static const int DEFAULT_STACK_LIMIT_KB = 32768;
-	static const int DEFAULT_OUTPUT_LIMIT_KB = 128 * 1024;
 
 private:
 	int time_limit_ms;
 	int memory_limit_kb;
-	int stack_limit_kb;
-	int output_limit_kb;
 
 	int language;
 	std::string src;
@@ -36,7 +32,6 @@ private:
 public:
 	Runner();
 	Runner(int time_limit_ms, int memory_limit_kb,
-	       int stack_limit_kb, int output_limit_kb,
 		   int language, const std::string &src);
 public:
 	static int get_time_ms(const rusage &run_info);

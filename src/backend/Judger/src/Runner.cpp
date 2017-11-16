@@ -15,8 +15,6 @@
 Runner::Runner() {
 	this->time_limit_ms = DEFAULT_TIME_LIMIT_MS;
 	this->memory_limit_kb = DEFAULT_MEMORY_LIMIT_KB;
-	this->stack_limit_kb = DEFAULT_STACK_LIMIT_KB;
-	this->output_limit_kb = DEFAULT_OUTPUT_LIMIT_KB;
 
 	this->language = Config::CPP_LANG;
 	this->src = "main(){}";
@@ -27,13 +25,10 @@ Runner::Runner() {
 }
 
 Runner::Runner(int time_limit_ms, int memory_limit_kb,
-       int stack_limit_kb, int output_limit_kb,
        int language, const std::string &src) {
 
 	this->time_limit_ms = time_limit_ms;
 	this->memory_limit_kb = memory_limit_kb;
-	this->stack_limit_kb = stack_limit_kb;
-	this->output_limit_kb = output_limit_kb;
 
 	this->language = language;
 	this->src = src;
