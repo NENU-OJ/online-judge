@@ -37,7 +37,7 @@ public:
 	Runner();
 	Runner(int time_limit_ms, int memory_limit_kb,
 	       int stack_limit_kb, int output_limit_kb,
-		   int language, const std::string &src, const std::string &input_file);
+		   int language, const std::string &src);
 public:
 	static int get_time_ms(const rusage &run_info);
 	static int get_memory_kb(const rusage &run_info);
@@ -46,6 +46,7 @@ private:
 	void child_run();
 public:
 	RunResult compile();
+	RunResult run(const std::string &input_file);
 	RunResult run();
 };
 

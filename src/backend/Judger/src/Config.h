@@ -30,6 +30,7 @@ private:
 	int compile_memory_kb;
 	int spj_run_time_ms;
 	int spj_memory_kb;
+	int max_output_limit;
 	std::string temp_path;
 	std::string source_file;
 	std::string binary_file;
@@ -93,6 +94,10 @@ public:
 
 	const std::string &get_ce_info_file() const {
 		return ce_info_file;
+	}
+
+	int get_max_output_limit() const {
+		return max_output_limit;
 	}
 
 	std::string get_src_extention(int lang) {

@@ -58,6 +58,7 @@ Config::Config(std::string config_file) {
 		if (config_map.find("output_file") == config_map.end()) exit(1);
 		if (config_map.find("ce_info_file") == config_map.end()) exit(1);
 		if (config_map.find("temp_path") == config_map.end()) exit(1);
+		if (config_map.find("max_output_limit") == config_map.end()) exit(1);
 
 		ip = config_map["ip"];
 		port = atoi(config_map["port"].c_str());
@@ -71,7 +72,7 @@ Config::Config(std::string config_file) {
 		output_file = config_map["output_file"];
 		ce_info_file = config_map["ce_info_file"];
 		temp_path = config_map["temp_path"];
-
+		max_output_limit = atoi(config_map["max_output_limit"].c_str());
 		LOG(INFO) << "config over";
 	}
 }

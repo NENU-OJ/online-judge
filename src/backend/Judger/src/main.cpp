@@ -37,15 +37,14 @@ int main(int argc, const char *argv[]) {
 	vector<string> input_list = { "tests/input", "", "", "", "tests/input"};
 	for (int i = 0; i < src_list.size(); ++i) {
 		std::string src = Utils::get_content_from_file(src_list[i]);
-		Runner run(2000, 65536, 10000, 10000, lang_list[i], src, input_list[i]);
+		Runner run(20000, 512 * 1024, 10000, 10000, lang_list[i], src);
 		RunResult result = run.compile();
 		cout << result.get_print_string() << endl;
 		if (result != RunResult::COMPILE_ERROR) {
-			result = run.run();
+			result = run.run(input_list[i]);
 			cout << result.get_print_string() << endl;
-			cout << Utils::get_content_from_file("temp_path/output") << endl;
+			//cout << Utils::get_content_from_file("temp_path/output") << endl;
 		}
 	}
-
 	return 0;
 }

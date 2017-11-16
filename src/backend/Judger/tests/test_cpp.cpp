@@ -17,5 +17,9 @@ int main(int argc, const char *argv[]) {
 	while (cin >> a >> b) {
 		cout << a + b << endl;
 	}
+	vector<int> vec(10);
+	int dd = a ^ a;
+	int x = 12;
+	printf("%d\n", x / dd);
 	return 0;
 }
