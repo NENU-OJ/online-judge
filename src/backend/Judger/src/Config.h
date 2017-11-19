@@ -32,11 +32,13 @@ private:
 	int spj_memory_kb;
 	int max_output_limit;
 	std::string temp_path;
+	std::string test_files_path;
+	std::string spj_files_path;
 	std::string source_file;
 	std::string binary_file;
 	std::string output_file;
+	std::string stderr_file;
 	std::string ce_info_file;
-
 public:
 	static const int CPP_LANG;
 	static const int CPP11_LANG;
@@ -92,8 +94,20 @@ public:
 		return output_file;
 	}
 
+	const std::string &get_stderr_file() const {
+		return stderr_file;
+	}
+
 	const std::string &get_ce_info_file() const {
 		return ce_info_file;
+	}
+
+	const std::string &get_test_files_path() const {
+		return test_files_path;
+	}
+
+	const std::string &get_spj_files_path() const {
+		return spj_files_path;
 	}
 
 	int get_max_output_limit() const {

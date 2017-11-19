@@ -32,3 +32,5 @@ cmake-build-debug/
 
 #Judger
 temp_path/
+test_files/
+spj_files/

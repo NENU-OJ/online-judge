@@ -12,11 +12,11 @@
 
 Config * Config::instance = new Config("config.ini");
 
-const int Config::CPP_LANG = 0;
-const int Config::CPP11_LANG = 1;
-const int Config::JAVA_LANG = 2;
-const int Config::PY2_LANG = 3;
-const int Config::PY3_LANG = 4;
+const int Config::CPP_LANG = 1;
+const int Config::CPP11_LANG = 2;
+const int Config::JAVA_LANG = 3;
+const int Config::PY2_LANG = 4;
+const int Config::PY3_LANG = 5;
 
 Config::Config(std::string config_file) {
 
@@ -59,6 +59,9 @@ Config::Config(std::string config_file) {
 		if (config_map.find("ce_info_file") == config_map.end()) exit(1);
 		if (config_map.find("temp_path") == config_map.end()) exit(1);
 		if (config_map.find("max_output_limit") == config_map.end()) exit(1);
+		if (config_map.find("test_files_path") == config_map.end()) exit(1);
+		if (config_map.find("spj_files_path") == config_map.end()) exit(1);
+		if (config_map.find("stderr_file") == config_map.end()) exit(1);
 
 		ip = config_map["ip"];
 		port = atoi(config_map["port"].c_str());
@@ -73,6 +76,9 @@ Config::Config(std::string config_file) {
 		ce_info_file = config_map["ce_info_file"];
 		temp_path = config_map["temp_path"];
 		max_output_limit = atoi(config_map["max_output_limit"].c_str());
+		test_files_path = config_map["test_files_path"];
+		spj_files_path = config_map["spj_files_path"];
+		stderr_file = config_map["stderr_file"];
 		LOG(INFO) << "config over";
 	}
 }

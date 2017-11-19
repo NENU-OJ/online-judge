@@ -24,8 +24,6 @@ public:
 	static const RunResult ACCEPTED;
 	static const RunResult PRESENTATION_ERROR;
 	static const RunResult WRONG_ANSWER;
-
-private:
 	int time_used_ms;
 	int memory_used_kb;
 	std::string status;

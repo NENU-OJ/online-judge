@@ -108,7 +108,9 @@ RunResult Runner::compile() {
 		std::string ce_info_file = Config::get_instance()->get_temp_path() + Config::get_instance()->get_ce_info_file();
 		std::string ce_info = Utils::get_content_from_file(ce_info_file);
 
-		if (ce_info.empty() && WIFEXITED(status) && WEXITSTATUS(status) == 0) {
+
+		if (((language != Config::PY2_LANG && language != Config::PY3_LANG) || ce_info.empty())
+		    && WIFEXITED(status) && WEXITSTATUS(status) == 0) {
 			return RunResult::COMPILE_SUCCESS.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
 		} else {
 			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGALRM) { // compile time limit exceeded
@@ -129,6 +131,10 @@ void Runner::child_run() { // TODO set limit and run
 	/// redirect stdout stream
 	std::string output_file = Config::get_instance()->get_temp_path() + Config::get_instance()->get_output_file();
 	freopen(output_file.c_str(), "w", stdout);
+
+	/// redirect stderr stream
+	std::string stderr_file = Config::get_instance()->get_temp_path() + Config::get_instance()->get_stderr_file();
+	freopen(stderr_file.c_str(), "w", stderr);
 
 	/// set time limit
 	itimerval itv;

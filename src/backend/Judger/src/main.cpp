@@ -25,7 +25,7 @@ void test_runner() {
 		if (result != RunResult::COMPILE_ERROR) {
 			result = run.run(input_list[i]);
 			cout << result.get_print_string() << endl;
-			//cout << Utils::get_content_from_file("temp_path/output") << endl;
+			cout << Utils::get_content_from_file("temp_path/output") << endl;
 		}
 	}
 }
@@ -86,7 +86,7 @@ void * judge_thread(void *arg) {
 
 		if (have_run) {
 			LOG(INFO) << runid << " is Running.";
-			Summit summit(runid);
+			Summit summit;
 			summit.work();
 		}
 	}
@@ -109,16 +109,35 @@ void init_threads() {
 		LOG(FATAL) << "Can't detach judge thread!";
 }
 
+void test_summit() {
+	Summit summit;
+	summit.set_language(Config::CPP11_LANG);
+	summit.set_is_spj(1);
+	summit.set_memory_limit_kb(100000);
+	summit.set_pid(1000);
+	summit.set_time_limit_ms(1000);
+	summit.set_runid(1);
+	summit.set_src(Utils::get_content_from_file("tests/test_cpp.cpp"));
+	summit.set_std_input_file(Utils::get_input_file(1000));
+	summit.set_std_output_file(Utils::get_output_file(1000));
+	summit.set_user_output_file(Utils::get_user_output_file());
+	summit.work();
+}
 
 int main(int argc, const char *argv[]) {
+//	cout << Utils::get_input_file(1) << endl;
+//	cout << Utils::get_output_file(2) << endl;
+//	cout << Utils::get_user_output_file() << endl;
 
-	test_runner();
+	test_summit();
 
-	init_queue();
-	init_socket();
-	init_threads();
+//	test_runner();
 
-	while(true)
-		sleep(3600);
+//	init_queue();
+//	init_socket();
+//	init_threads();
+//
+//	while(true)
+//		sleep(3600);
 	return 0;
 }
