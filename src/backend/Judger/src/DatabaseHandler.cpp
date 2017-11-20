@@ -46,6 +46,7 @@ std::vector<std::map<std::string, std::string>> DatabaseHandler::get_all_result(
 	}
 
 	mysql_free_result(res);
+
 	return result;
 }
 
@@ -53,7 +54,12 @@ std::map<std::string, std::string> DatabaseHandler::get_run_stat(int runid) {
 	std::string query = "SELECT id, problem_id, source, user_id, language_id "
 			            "FROM t_status "
 			            "WHERE id = " + std::to_string(runid);
-	return get_all_result(query)[0];
+	auto result = get_all_result(query);
+
+	if (result.empty())
+		throw Exception("fucking runid: " + std::to_string(runid) + " does not exist");
+
+	return result[0];
 }
 
 std::map<std::string, std::string> DatabaseHandler::get_problem_description(int pid) {
@@ -61,7 +67,10 @@ std::map<std::string, std::string> DatabaseHandler::get_problem_description(int 
 						"FROM t_problem "
 						"WHERE id = " + std::to_string(pid);
 
-	return get_all_result(query)[0];
+	auto result = get_all_result(query);
+	if (result.empty())
+		throw Exception("fucking pid: " + std::to_string(pid) + " does not exist");
+	return result[0];
 }
 
 std::vector<std::map<std::string, std::string>> DatabaseHandler::get_unfinished_results() {

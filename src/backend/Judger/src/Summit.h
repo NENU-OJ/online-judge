@@ -39,6 +39,10 @@ public:
 	void set_src(const std::string &src);
 	void work();
 	static Summit get_from_runid(int runid);
+
+	int get_runid() const {
+		return runid;
+	}
 };
 
 

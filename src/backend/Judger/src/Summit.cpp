@@ -62,21 +62,25 @@ void Summit::set_src(const std::string &src) {
 
 void Summit::work() {
 	RunResult result;
+	DatabaseHandler db;
 
 	/// must have input and output file even if they are empty
 	if (!Utils::check_file(std_input_file) || !Utils::check_file(std_output_file)) {
 		result = RunResult::JUDGE_ERROR;
+		db.change_run_result(runid, result);
+		LOG(ERROR) << "problem: " << pid << " does not have input_file or output_file supposed in " << std_input_file << " and " << std_output_file;
+		LOG(INFO) << "result runid: " << runid << " " << result.status;
 		return;
 	}
 
-	DatabaseHandler db;
-
 	Runner run(time_limit_ms, memory_limit_kb, language, src);
 
+	LOG(INFO) << "compiling runid: " << runid;
 	db.change_run_result(runid, RunResult::COMPILING);
 	result = run.compile();
 
 	if (result != RunResult::COMPILE_ERROR) {
+		LOG(INFO) << "running runid: " << runid;
 		db.change_run_result(runid, RunResult::RUNNING);
 		result = run.run(std_input_file);
 		if (result == RunResult::RUN_SUCCESS) {
@@ -88,6 +92,7 @@ void Summit::work() {
 		}
 	}
 
+	LOG(INFO) << "result runid: " << runid << " " << result.status;
 	db.change_run_result(runid, result);
 	db.add_problem_result(pid, result);
 	if (result == RunResult::ACCEPTED)
@@ -96,11 +101,16 @@ void Summit::work() {
 }
 
 RunResult Summit::spj_check() {
+
+	LOG(INFO) << "spj check runid: " << runid;
+
 	std::string spj_src_file = Config::get_instance()->get_spj_files_path() + std::to_string(pid) +
 			"/spj" + Config::get_instance()->get_src_extention(is_spj);
 
-	if (!Utils::check_file(spj_src_file))
+	if (!Utils::check_file(spj_src_file)) {
+		LOG(ERROR) << "spj for problem: " << pid << " need " << spj_src_file;
 		return RunResult::JUDGE_ERROR;
+	}
 
 	std::string spj_src = Utils::get_content_from_file(spj_src_file);
 
@@ -122,11 +132,19 @@ RunResult Summit::spj_check() {
 
 	Utils::save_to_file(spj_info_file, spj_info);
 
-	RunResult result = spj.compile();
-	if (result == RunResult::COMPILE_ERROR)
-		return RunResult::JUDGE_ERROR;
+	LOG(INFO) << "spj compiling runid: " << runid;
 
+	RunResult result = spj.compile();
+
+	if (result == RunResult::COMPILE_ERROR) {
+		LOG(ERROR) << "spj program for problem: " << pid << " in " << spj_src_file << " have Compile Error";
+		return RunResult::JUDGE_ERROR;
+	}
+
+	LOG(INFO) << "spj running runid: " << runid;
 	result = spj.run(spj_info_file);
+
+	LOG(INFO) << "spj result runid: " << runid << " " << result.status;
 
 	if (result == RunResult::RUN_SUCCESS)
 		return RunResult::ACCEPTED;
@@ -135,6 +153,9 @@ RunResult Summit::spj_check() {
 }
 
 RunResult Summit::normal_check() {
+
+	LOG(INFO) << "normal check runid: " << runid;
+
 	bool aced = true, peed = true;
 	FILE *program_out, *standard_out;
 	int eofp = EOF, eofs = EOF;

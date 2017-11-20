@@ -20,13 +20,16 @@ const int Config::PY3_LANG = 5;
 
 Config::Config(std::string config_file) {
 
-	FLAGS_logtostderr = true;
-	FLAGS_logtostderr = true;
+	//FLAGS_logtostderr = true;
+	google::InitGoogleLogging("Judger");
+	google::SetLogDestination(google::INFO, "log/INFO_");
+	google::SetLogDestination(google::ERROR, "log/ERROR_");
+	google::SetLogDestination(google::FATAL, "log/FATAL_");
 
 	std::ifstream file(config_file.c_str());
 
 	if (!file) {
-		LOG(FATAL) << "[Config::Config] [shutdown] config file " + config_file + " does not exists";
+		LOG(FATAL) << "config file " + config_file + " does not exists";
 	} else {
 
 		src_extension[CPP_LANG] = ".cpp";
@@ -46,26 +49,35 @@ Config::Config(std::string config_file) {
 		while (file >> key >> eq >> value) {
 			config_map.insert({key, value});
 		}
-		if (config_map.find("listen_port") == config_map.end()) exit(1);
-		if (config_map.find("db_ip") == config_map.end()) exit(1);
-		if (config_map.find("db_port") == config_map.end()) exit(1);
-		if (config_map.find("db_name") == config_map.end()) exit(1);
-		if (config_map.find("db_user") == config_map.end()) exit(1);
-		if (config_map.find("db_password") == config_map.end()) exit(1);
-		if (config_map.find("low_privilege_uid") == config_map.end()) exit(1);
-		if (config_map.find("compile_time_ms") == config_map.end()) exit(1);
-		if (config_map.find("compile_memory_kb") == config_map.end()) exit(1);
-		if (config_map.find("spj_run_time_ms") == config_map.end()) exit(1);
-		if (config_map.find("spj_memory_kb") == config_map.end()) exit(1);
-		if (config_map.find("source_file") == config_map.end()) exit(1);
-		if (config_map.find("binary_file") == config_map.end()) exit(1);
-		if (config_map.find("output_file") == config_map.end()) exit(1);
-		if (config_map.find("ce_info_file") == config_map.end()) exit(1);
-		if (config_map.find("temp_path") == config_map.end()) exit(1);
-		if (config_map.find("max_output_limit") == config_map.end()) exit(1);
-		if (config_map.find("test_files_path") == config_map.end()) exit(1);
-		if (config_map.find("spj_files_path") == config_map.end()) exit(1);
-		if (config_map.find("stderr_file") == config_map.end()) exit(1);
+
+		std::vector<std::string> check_list = {
+			"listen_port",
+			"db_ip",
+			"db_port",
+			"db_name",
+			"db_user",
+			"db_password",
+			"low_privilege_uid",
+			"compile_time_ms",
+			"compile_memory_kb",
+			"spj_run_time_ms",
+			"spj_memory_kb",
+			"source_file",
+			"binary_file",
+			"output_file",
+			"ce_info_file",
+			"temp_path",
+			"max_output_limit",
+			"test_files_path",
+			"spj_files_path",
+			"stderr_file"
+		};
+
+		for (const auto &key : check_list) {
+			if (config_map.find(key) == config_map.end()) {
+				LOG(FATAL) << "need key [" << key << "] in config.ini";
+			}
+		}
 
 		listen_port = atoi(config_map["listen_port"].c_str());
 		db_ip = config_map["db_ip"];
@@ -87,6 +99,6 @@ Config::Config(std::string config_file) {
 		test_files_path = config_map["test_files_path"];
 		spj_files_path = config_map["spj_files_path"];
 		stderr_file = config_map["stderr_file"];
-		LOG(INFO) << "config over";
+		LOG(INFO) << "config is finished";
 	}
 }

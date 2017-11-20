@@ -10,3 +10,4 @@
 9. Judge ERROR情况
 
 10. Tests
+11. Deal with socket
