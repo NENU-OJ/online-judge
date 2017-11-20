@@ -9,6 +9,7 @@
 #include "Runner.h"
 #include "Config.h"
 #include "Utils.h"
+#include "DatabaseHandler.h"
 
 Summit::Summit() {
 
@@ -17,6 +18,10 @@ Summit::Summit() {
 
 void Summit::set_runid(int runid) {
 	this->runid = runid;
+}
+
+void Summit::set_uid(int uid) {
+	this->uid = uid;
 }
 
 void Summit::set_pid(int pid) {
@@ -61,13 +66,18 @@ void Summit::work() {
 	/// must have input and output file even if they are empty
 	if (!Utils::check_file(std_input_file) || !Utils::check_file(std_output_file)) {
 		result = RunResult::JUDGE_ERROR;
-		LOG(INFO) << result.get_print_string();
 		return;
 	}
 
+	DatabaseHandler db;
+
 	Runner run(time_limit_ms, memory_limit_kb, language, src);
+
+	db.change_run_result(runid, RunResult::COMPILING);
 	result = run.compile();
+
 	if (result != RunResult::COMPILE_ERROR) {
+		db.change_run_result(runid, RunResult::RUNNING);
 		result = run.run(std_input_file);
 		if (result == RunResult::RUN_SUCCESS) {
 			if (is_spj) {
@@ -75,13 +85,14 @@ void Summit::work() {
 			} else {
 				result = normal_check().set_time_used(result.time_used_ms).set_memory_used(result.memory_used_kb);
 			}
-		} else {
-			// unsuccessful run
 		}
-	} else {
-		// compile error
 	}
-	LOG(INFO) << result.get_print_string();
+
+	db.change_run_result(runid, result);
+	db.add_problem_result(pid, result);
+	if (result == RunResult::ACCEPTED)
+		db.add_user_accepted(uid);
+
 }
 
 RunResult Summit::spj_check() {
@@ -175,4 +186,25 @@ RunResult Summit::normal_check() {
 	if (aced) return RunResult::ACCEPTED;
 	else if (peed) return RunResult::PRESENTATION_ERROR;
 	else return RunResult::WRONG_ANSWER;
+}
+
+Summit Summit::get_from_runid(int runid) {
+	DatabaseHandler db;
+	auto run = db.get_run_stat(runid);
+	int pid = atoi(run["problem_id"].c_str());
+	int uid = atoi(run["user_id"].c_str());
+	auto problem_info = db.get_problem_description(pid);
+	Summit summit;
+	summit.set_runid(runid);
+	summit.set_pid(pid);
+	summit.set_uid(uid);
+	summit.set_time_limit_ms(atoi(problem_info["time_limit"].c_str()));
+	summit.set_memory_limit_kb(atoi(problem_info["memory_limit"].c_str()));
+	summit.set_language(atoi(run["language_id"].c_str()));
+	summit.set_is_spj(atoi(problem_info["is_special_judge"].c_str()));
+	summit.set_std_input_file(Utils::get_input_file(pid));
+	summit.set_std_output_file(Utils::get_output_file(pid));
+	summit.set_user_output_file(Utils::get_user_output_file());
+	summit.set_src(run["source"]);
+	return summit;
 }

@@ -1,7 +1,9 @@
 # OnlineJudge
 
 # 依赖
+
 1. glog https://github.com/google/glog
+2. Mysql Connector/C https://dev.mysql.com/downloads/connector/c/6.1.html
 
 # 使用方法
 

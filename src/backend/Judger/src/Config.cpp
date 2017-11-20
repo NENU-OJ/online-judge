@@ -46,8 +46,12 @@ Config::Config(std::string config_file) {
 		while (file >> key >> eq >> value) {
 			config_map.insert({key, value});
 		}
-		if (config_map.find("ip") == config_map.end()) exit(1);
-		if (config_map.find("port") == config_map.end()) exit(1);
+		if (config_map.find("listen_port") == config_map.end()) exit(1);
+		if (config_map.find("db_ip") == config_map.end()) exit(1);
+		if (config_map.find("db_port") == config_map.end()) exit(1);
+		if (config_map.find("db_name") == config_map.end()) exit(1);
+		if (config_map.find("db_user") == config_map.end()) exit(1);
+		if (config_map.find("db_password") == config_map.end()) exit(1);
 		if (config_map.find("low_privilege_uid") == config_map.end()) exit(1);
 		if (config_map.find("compile_time_ms") == config_map.end()) exit(1);
 		if (config_map.find("compile_memory_kb") == config_map.end()) exit(1);
@@ -63,8 +67,12 @@ Config::Config(std::string config_file) {
 		if (config_map.find("spj_files_path") == config_map.end()) exit(1);
 		if (config_map.find("stderr_file") == config_map.end()) exit(1);
 
-		ip = config_map["ip"];
-		port = atoi(config_map["port"].c_str());
+		listen_port = atoi(config_map["listen_port"].c_str());
+		db_ip = config_map["db_ip"];
+		db_port = atoi(config_map["db_port"].c_str());
+		db_name = config_map["db_name"];
+		db_user = config_map["db_user"];
+		db_password = config_map["db_password"];
 		low_privilege_uid = atoi(config_map["low_privilege_uid"].c_str());
 		compile_time_ms = atoi(config_map["compile_time_ms"].c_str());
 		compile_memory_kb = atoi(config_map["compile_memory_kb"].c_str());

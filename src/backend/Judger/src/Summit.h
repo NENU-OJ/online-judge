@@ -11,6 +11,7 @@
 class Summit {
 private:
 	int runid;
+	int uid;
 	int pid;
 	int time_limit_ms;
 	int memory_limit_kb;
@@ -27,6 +28,7 @@ public:
 	Summit();
 	void set_runid(int runid);
 	void set_pid(int pid);
+	void set_uid(int uid);
 	void set_time_limit_ms(int time_limit_ms);
 	void set_memory_limit_kb(int memory_limit_kb);
 	void set_language(int language);
@@ -36,6 +38,7 @@ public:
 	void set_user_output_file(const std::string &user_output_file);
 	void set_src(const std::string &src);
 	void work();
+	static Summit get_from_runid(int runid);
 };
 
 

@@ -23,8 +23,12 @@ private:
 
 	std::map<std::string, std::string> config_map;
 
-	std::string ip;
-	int port;
+	int listen_port;
+	std::string db_ip;
+	int db_port;
+	std::string db_name;
+	std::string db_user;
+	std::string db_password;
 	int low_privilege_uid;
 	int compile_time_ms;
 	int compile_memory_kb;
@@ -50,12 +54,29 @@ public:
 	static Config * get_instance() {
 		return instance;
 	}
-	const std::string &get_ip() const {
-		return ip;
+
+	int get_listen_port() const {
+		return listen_port;
 	}
 
-	int get_port() const {
-		return port;
+	const std::string &get_db_ip() const {
+		return db_ip;
+	}
+
+	int get_db_port() const {
+		return db_port;
+	}
+
+	const std::string &get_db_db_name() const {
+		return db_name;
+	}
+
+	const std::string &get_db_user() const {
+		return db_user;
+	}
+
+	const std::string &get_db_password() const {
+		return db_password;
 	}
 
 	int get_low_privilege_uid() const {

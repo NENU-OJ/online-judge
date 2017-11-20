@@ -24,6 +24,13 @@ public:
 	static const RunResult ACCEPTED;
 	static const RunResult PRESENTATION_ERROR;
 	static const RunResult WRONG_ANSWER;
+
+	static const RunResult SEND_TO_JUDGE;
+	static const RunResult SEND_TO_REJUDGE;
+	static const RunResult QUEUEING;
+	static const RunResult COMPILING;
+	static const RunResult RUNNING;
+
 	int time_used_ms;
 	int memory_used_kb;
 	std::string status;

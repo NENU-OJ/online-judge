@@ -1,54 +1,74 @@
 #include <iostream>
-#include <sys/resource.h>
 #include <glog/logging.h>
-#include <sys/time.h>
-#include <csignal>
 #include <queue>
+#include <sys/socket.h>
+#include <netinet/in.h>
 
 #include "Runner.h"
 #include "Config.h"
 #include "Utils.h"
 #include "Summit.h"
 
+#include "DatabaseHandler.h"
+
 using namespace std;
 
-void test_runner() {
-	vector<string> src_list = {"tests/test_cpp.cpp", "tests/test_cpp11.cpp",
-	                           "tests/test_java.java", "tests/test_py2.py", "tests/test_py3.py"};
-	vector<int> lang_list = {Config::CPP_LANG, Config::CPP11_LANG, Config::JAVA_LANG, Config::PY2_LANG, Config::PY3_LANG};
-	vector<string> input_list = { "tests/input", "", "", "", "tests/input"};
-	for (int i = 0; i < src_list.size(); ++i) {
-		std::string src = Utils::get_content_from_file(src_list[i]);
-		Runner run(20000, 512 * 1024, lang_list[i], src);
-		RunResult result = run.compile();
-		cout << result.get_print_string() << endl;
-		if (result != RunResult::COMPILE_ERROR) {
-			result = run.run(input_list[i]);
-			cout << result.get_print_string() << endl;
-			cout << Utils::get_content_from_file("temp_path/output") << endl;
-		}
-	}
-}
-
-queue<int> judge_queue;
-
+static queue<Summit> judge_queue;
+static int main_sockfd;
 static pthread_mutex_t queue_mtx = PTHREAD_MUTEX_INITIALIZER;
 
 /**
  * get unfinished runs from database
  */
+
 void init_queue() {
 	// Mock
-	judge_queue.push(1000);
-	judge_queue.push(1001);
-	judge_queue.push(1002);
+	DatabaseHandler db;
+	auto unfinished_runs = db.get_unfinished_results();
+	for (auto &run : unfinished_runs) {
+		int runid = atoi(run["id"].c_str());
+		int pid = atoi(run["problem_id"].c_str());
+		int uid = atoi(run["user_id"].c_str());
+		auto problem_info = db.get_problem_description(pid);
+		Summit summit;
+		summit.set_runid(runid);
+		summit.set_pid(pid);
+		summit.set_uid(uid);
+		summit.set_time_limit_ms(atoi(problem_info["time_limit"].c_str()));
+		summit.set_memory_limit_kb(atoi(problem_info["memory_limit"].c_str()));
+		summit.set_language(atoi(run["language_id"].c_str()));
+		summit.set_is_spj(atoi(problem_info["is_special_judge"].c_str()));
+		summit.set_std_input_file(Utils::get_input_file(pid));
+		summit.set_std_output_file(Utils::get_output_file(pid));
+		summit.set_user_output_file(Utils::get_user_output_file());
+		summit.set_src(run["source"]);
+
+		judge_queue.push(summit);
+		db.change_run_result(runid, RunResult::QUEUEING);
+	}
 }
 
 /**
  * init socket listener
  */
 void init_socket() {
-	// Mock
+	if ((main_sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+		LOG(FATAL) << "socket() error";
+	}
+
+	sockaddr_in my_addr;
+	my_addr.sin_family = AF_INET;
+	my_addr.sin_port = htons(Config::get_instance()->get_listen_port());
+	my_addr.sin_addr.s_addr = INADDR_ANY;
+	bzero(&(my_addr.sin_zero), 8);
+
+	if (bind(main_sockfd, (struct sockaddr *) & my_addr,
+	         sizeof (struct sockaddr)) == -1) {
+		LOG(FATAL) << "bind() error";
+	}
+	if (listen(main_sockfd, 5) == -1) {
+		LOG(FATAL) << "listen() error";
+	}
 }
 
 /**
@@ -56,37 +76,45 @@ void init_socket() {
  * @return
  */
 int next_runid() {
-	// Mock
-	sleep(2);
-	return rand() % 2000;
+	int cfd = accept(main_sockfd, NULL, NULL);
+	static char buf[128];
+	int num_read = 0;
+	while (num_read == 0) {
+		num_read += read(cfd, buf, sizeof(buf));
+	}
+	buf[num_read] = '\0';
+	close(cfd);
+	int runid = atoi(buf);
+	return runid;
 }
 
 void * listen_thread(void *arg) {
 
 	while (true) {
 		int runid = next_runid();
+		Summit summit = Summit::get_from_runid(runid);
 		pthread_mutex_lock(&queue_mtx);
-		judge_queue.push(runid);
+		judge_queue.push(summit);
 		LOG(INFO) << "Pushed " << runid << ".";
 		pthread_mutex_unlock(&queue_mtx);
+		DatabaseHandler db;
+		db.change_run_result(runid, RunResult::QUEUEING);
 	}
 }
 void * judge_thread(void *arg) {
 
 	while (true) {
-		int runid;
+		Summit summit;
 		bool have_run = false;
 		pthread_mutex_lock(&queue_mtx);
 		if (!judge_queue.empty()) {
 			have_run = true;
-			runid = judge_queue.front();
+			summit = judge_queue.front();
 			judge_queue.pop();
 		}
 		pthread_mutex_unlock(&queue_mtx);
 
 		if (have_run) {
-			LOG(INFO) << runid << " is Running.";
-			Summit summit;
 			summit.work();
 		}
 	}
@@ -109,35 +137,14 @@ void init_threads() {
 		LOG(FATAL) << "Can't detach judge thread!";
 }
 
-void test_summit() {
-	Summit summit;
-	summit.set_language(Config::CPP11_LANG);
-	summit.set_is_spj(1);
-	summit.set_memory_limit_kb(100000);
-	summit.set_pid(1000);
-	summit.set_time_limit_ms(1000);
-	summit.set_runid(1);
-	summit.set_src(Utils::get_content_from_file("tests/test_cpp.cpp"));
-	summit.set_std_input_file(Utils::get_input_file(1000));
-	summit.set_std_output_file(Utils::get_output_file(1000));
-	summit.set_user_output_file(Utils::get_user_output_file());
-	summit.work();
-}
 
 int main(int argc, const char *argv[]) {
-//	cout << Utils::get_input_file(1) << endl;
-//	cout << Utils::get_output_file(2) << endl;
-//	cout << Utils::get_user_output_file() << endl;
 
-	test_summit();
+	init_queue();
+	init_socket();
+	init_threads();
 
-//	test_runner();
-
-//	init_queue();
-//	init_socket();
-//	init_threads();
-//
-//	while(true)
-//		sleep(3600);
+	while(true)
+		sleep(3600);
 	return 0;
 }
