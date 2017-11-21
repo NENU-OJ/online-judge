@@ -40,19 +40,21 @@ Runner::Runner(int time_limit_ms, int memory_limit_kb,
 
 void Runner::child_compile() {
 
-	/// redirect stderr stream
-	std::string ce_info_file = Config::get_instance()->get_temp_path() + Config::get_instance()->get_ce_info_file();
-	freopen(ce_info_file.c_str(), "w", stderr);
-
-	// TODO set uid
-
-	/// set time limit TODO CPU time or user time
+	/// set time limit
 	itimerval itv;
 	itv.it_value.tv_sec = Config::get_instance()->get_compile_time_ms() / 1000;
 	itv.it_value.tv_usec = Config::get_instance()->get_compile_time_ms() % 1000 * 1000;
 	itv.it_interval.tv_sec = 0;
 	itv.it_interval.tv_usec = 0;
 	setitimer(ITIMER_REAL, &itv, NULL);
+
+	/// set uid
+	if (setuid(Config::get_instance()->get_low_privilege_uid()) < 0)
+		LOG(FATAL) << "can't setuid, maybe you should sudo or choose a right uid";
+
+	/// redirect stderr stream
+	std::string ce_info_file = Config::get_instance()->get_temp_path() + Config::get_instance()->get_ce_info_file();
+	freopen(ce_info_file.c_str(), "w", stderr);
 
 	/// compile
 	if (Config::CPP_LANG == language) {
@@ -89,12 +91,10 @@ RunResult Runner::compile() {
 	}
 
 	/// try to compile
-
 	if ((cid = fork()) == -1) {
 		return RunResult::JUDGE_ERROR;
 	} else if (cid == 0) { // child process
 		child_compile();
-		exit(0); /// Not suppose to get here
 	} else { // father process
 		int status;
 		rusage run_info;
@@ -108,6 +108,8 @@ RunResult Runner::compile() {
 		std::string ce_info_file = Config::get_instance()->get_temp_path() + Config::get_instance()->get_ce_info_file();
 		std::string ce_info = Utils::get_content_from_file(ce_info_file);
 
+		if (Utils::check_file(src_file_name)) Utils::delete_file(src_file_name);
+		if (Utils::check_file(ce_info_file)) Utils::delete_file(ce_info_file);
 
 		if (((language != Config::PY2_LANG && language != Config::PY3_LANG) || ce_info.empty())
 		    && WIFEXITED(status) && WEXITSTATUS(status) == 0) {
@@ -124,6 +126,31 @@ RunResult Runner::compile() {
 
 void Runner::child_run() { // TODO set limit and run
 
+	/// set time limit
+	itimerval itv;
+	itv.it_value.tv_sec = time_limit_ms / 1000;
+	itv.it_value.tv_usec = time_limit_ms % 1000 * 1000;
+	itv.it_interval.tv_sec = 0;
+	itv.it_interval.tv_usec = 0;
+	setitimer(ITIMER_REAL, &itv, NULL);
+
+	/// set memory limit
+//	rlimit memory_limit;
+//	memory_limit.rlim_max = memory_limit.rlim_cur = (rlim_t) memory_limit_kb * 1024 * 2;
+//	setrlimit(RLIMIT_AS, &memory_limit);
+
+	/// set stack limit
+	//rlimit stack_limit;
+
+	/// set output limit
+	rlimit output_limit;
+	output_limit.rlim_max = output_limit.rlim_cur = Config::get_instance()->get_max_output_limit() * 1024 * 1024;
+	setrlimit(RLIMIT_FSIZE, &output_limit);
+
+	/// set uid
+	if (setuid(Config::get_instance()->get_low_privilege_uid()) < 0)
+		LOG(FATAL) << "can't setuid, maybe you should sudo or choose a right uid";
+
 	/// redirect stdin stream
 	if (!input_file.empty())
 		freopen(input_file.c_str(), "r", stdin);
@@ -135,31 +162,6 @@ void Runner::child_run() { // TODO set limit and run
 	/// redirect stderr stream
 	std::string stderr_file = Config::get_instance()->get_temp_path() + Config::get_instance()->get_stderr_file();
 	freopen(stderr_file.c_str(), "w", stderr);
-
-	/// set time limit
-	itimerval itv;
-	itv.it_value.tv_sec = time_limit_ms / 1000;
-	itv.it_value.tv_usec = time_limit_ms % 1000 * 1000;
-	itv.it_interval.tv_sec = 0;
-	itv.it_interval.tv_usec = 0;
-	setitimer(ITIMER_REAL, &itv, NULL);
-
-	/// set memory limit
-//	rlimit memory_limit;
-//	memory_limit.rlim_max = memory_limit.rlim_cur = memory_limit_kb * 1024;
-//	setrlimit(RLIMIT_AS, &memory_limit);
-
-	/// set stack limit
-	//rlimit stack_limit;
-
-
-	/// set output limit
-	rlimit output_limit;
-	output_limit.rlim_max = output_limit.rlim_cur = Config::get_instance()->get_max_output_limit() * 1024 * 1024;
-	setrlimit(RLIMIT_FSIZE, &output_limit);
-
-	// TODO set uid
-	/// set security limit
 
 	/// run
 	if (Config::CPP_LANG == language || Config::CPP11_LANG == language) {
@@ -189,8 +191,15 @@ RunResult Runner::run(const std::string &input_file) { // suppose compile succes
 		int status;
 		rusage run_info;
 
-		if (wait4(cid, &status, WUNTRACED, &run_info) == -1)
+		if (wait4(cid, &status, WUNTRACED, &run_info) == -1) {
+			kill(cid, SIGKILL);
 			return RunResult::JUDGE_ERROR;
+		}
+
+
+		std::string stderr_file = Config::get_instance()->get_temp_path() + Config::get_instance()->get_stderr_file();
+		if (Utils::check_file(exc_file_name)) Utils::delete_file(exc_file_name);
+		if (Utils::check_file(stderr_file)) Utils::delete_file(stderr_file);
 
 		int time_used_ms = get_time_ms(run_info);
 		int memory_used_kb = get_memory_kb(run_info);
@@ -199,19 +208,31 @@ RunResult Runner::run(const std::string &input_file) { // suppose compile succes
 			return RunResult::TIME_LIMIT_EXCEEDED.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
 
 		if (WIFSIGNALED(status) && WTERMSIG(status) != SIGTRAP) {
-			if (WTERMSIG(status) == SIGALRM)
+			if (WTERMSIG(status) == SIGALRM) {
 				return RunResult::TIME_LIMIT_EXCEEDED.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
-			else if (WTERMSIG(status) == SIGXFSZ)
+			} else if (WTERMSIG(status) == SIGXFSZ) {
 				return RunResult::OUTPUT_LIMIT_EXCEEDED.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
-			else
+			} else if (WTERMSIG(status) == SIGSEGV) {
+				if (memory_used_kb > memory_limit_kb)
+					return RunResult::MEMORY_LIMIT_EXCEEDED.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
+				else
+					return RunResult::RUNTIME_ERROR.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
+			} else {
 				return RunResult::RUNTIME_ERROR.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
+			}
 		} else if (WIFSTOPPED(status) && WSTOPSIG(status) != SIGTRAP) {
-			if (WSTOPSIG(status) == SIGALRM)
+			if (WSTOPSIG(status) == SIGALRM) {
 				return RunResult::TIME_LIMIT_EXCEEDED.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
-			else if (WSTOPSIG(status) == SIGXFSZ)
+			} else if (WSTOPSIG(status) == SIGXFSZ) {
 				return RunResult::OUTPUT_LIMIT_EXCEEDED.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
-			else
+			} else if (WSTOPSIG(status) == SIGSEGV) {
+				if (memory_used_kb > memory_limit_kb)
+					return RunResult::MEMORY_LIMIT_EXCEEDED.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
+				else
+					return RunResult::RUNTIME_ERROR.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
+			} else {
 				return RunResult::RUNTIME_ERROR.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
+			}
 		} else if (WIFEXITED(status)) {
 			if (WEXITSTATUS(status) != 0) {
 				return RunResult::RUNTIME_ERROR.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
@@ -232,4 +253,5 @@ int Runner::get_time_ms(const rusage &run_info) {
 
 int Runner::get_memory_kb(const rusage &run_info) {
 	return run_info.ru_minflt * (getpagesize() / 1024);
+//	return run_info.ru_maxrss;
 }

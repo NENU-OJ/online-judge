@@ -20,7 +20,7 @@ const int Config::PY3_LANG = 5;
 
 Config::Config(std::string config_file) {
 
-	//FLAGS_logtostderr = true;
+//	FLAGS_logtostderr = true;
 	google::InitGoogleLogging("Judger");
 	google::SetLogDestination(google::INFO, "log/INFO_");
 	google::SetLogDestination(google::ERROR, "log/ERROR_");

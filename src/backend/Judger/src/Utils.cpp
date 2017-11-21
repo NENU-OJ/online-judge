@@ -46,7 +46,7 @@ std::string Utils::get_content_from_file(const std::string &file_name) {
 
 void Utils::delete_file(const std::string &file_name) {
 	if (file_name == "*") return;
-	system(("rm " + file_name).c_str());
+	system(("rm -f " + file_name).c_str());
 }
 
 bool Utils::check_file(const std::string &file_name) {

@@ -3,6 +3,7 @@
 #include <queue>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <wait.h>
 
 #include "Runner.h"
 #include "Config.h"
@@ -170,14 +171,51 @@ void init_threads() {
 	LOG(INFO) << "judge thread init finished";
 }
 
+void test_runs() {
+	vector<string> src_list = {"tests/test_cpp.cpp", "tests/test_cpp11.cpp", "tests/test_java.java", "tests/test_py2.py", "tests/test_py3.py"};
+	vector<int> lang_list = {Config::CPP_LANG, Config::CPP11_LANG, Config::JAVA_LANG, Config::PY2_LANG, Config::PY3_LANG};
+	for (int i = 0; i < src_list.size(); ++i) {
+		Runner runner(1000, 32768, lang_list[i], Utils::get_content_from_file(src_list[i]));
+		RunResult result = runner.compile();
+		if (result != RunResult::COMPILE_ERROR)
+			cout << runner.run("tests/input").get_print_string() << endl;
+		else
+			cout << result.get_print_string() << endl;
+	}
+}
+
+
+void test_fuck() {
+	if (fork() == 0) {
+		LOG(INFO) << "child";
+		LOG(INFO) << setuid(1001);
+		LOG(INFO) << setuid(1000);
+	}
+	else {
+		int status;
+		wait(&status);
+		LOG(INFO) << "father";
+		LOG(INFO) << setuid(1000);
+	}
+}
+
+void test_summit() {
+	int runid = 2;
+	Summit summit = Summit::get_from_runid(runid);
+	summit.work();
+}
 
 int main(int argc, const char *argv[]) {
 
-	init_socket();
-	init_queue();
-	init_threads();
-
-	while(true)
-		sleep(3600);
+//	test_fuck();
+	test_runs();
+//	test_summit();
+//
+//	init_socket();
+//	init_queue();
+//	init_threads();
+//
+//	while(true)
+//		sleep(3600);
 	return 0;
 }

@@ -92,6 +92,8 @@ void Summit::work() {
 		}
 	}
 
+	std::string output_file = Config::get_instance()->get_temp_path() + Config::get_instance()->get_output_file();
+	if (Utils::check_file(output_file)) Utils::delete_file(output_file);
 	LOG(INFO) << "result runid: " << runid << " " << result.status;
 	db.change_run_result(runid, result);
 	db.add_problem_result(pid, result);
@@ -118,15 +120,15 @@ RunResult Summit::spj_check() {
 	Runner spj(Config::get_instance()->get_spj_run_time_ms(), Config::get_instance()->get_spj_memory_kb(),
 			   is_spj, spj_src);
 
-	std::string user_output = Config::get_instance()->get_temp_path() + "user_output";
+	std::string spj_user_output = Config::get_instance()->get_temp_path() + "spj_user_output";
 
-	std::string cp_cmd = "cp " + user_output_file + " " + user_output;
+	std::string cp_cmd = "cp " + user_output_file + " " + spj_user_output;
 
 	system(cp_cmd.c_str());
 
 	std::string spj_info = std_input_file + "\n"
 						 + std_output_file + "\n"
-						 + user_output + "\n";
+						 + spj_user_output + "\n";
 
 	std::string spj_info_file = Config::get_instance()->get_temp_path() + "spj_info";
 
@@ -145,6 +147,9 @@ RunResult Summit::spj_check() {
 	result = spj.run(spj_info_file);
 
 	LOG(INFO) << "spj result runid: " << runid << " " << result.status;
+
+	if (Utils::check_file(spj_info_file)) Utils::delete_file(spj_info_file);
+	if (Utils::check_file(spj_user_output)) Utils::delete_file(spj_user_output);
 
 	if (result == RunResult::RUN_SUCCESS)
 		return RunResult::ACCEPTED;

@@ -3,6 +3,8 @@
 3. 限制调用
 4. 限制I/O
 
+!!! Result
+
 5. 优化
 6. 网络请求
 7. 查询优化
@@ -11,3 +13,9 @@
 
 10. Tests
 11. Deal with socket
+
+docu:
+    need: log/ spj_files/ temp_path/ test_files/
+    sudo chown -R judger:torapture temp_path/
+    sudo ./Judger
+
