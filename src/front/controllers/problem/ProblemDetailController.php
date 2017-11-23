@@ -74,7 +74,7 @@ class ProblemDetailController extends CController
         $record = new Status();
         $record->problem_id=$_GET['problemId'];
         $record->source=$_GET['sourceCode'];
-        $record->submit_time=date("Y-m-d h:i:sa");
+        //$record->submit_time=date("Y-m-d h:i:sa");
         $record->result="Queueing";
         if (isset($_GET['contestId'])){
             $record->contest_id=$_GET['contestId'];

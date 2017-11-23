@@ -1,10 +1,5 @@
-1. Deal with socket
-2. DB
-3. comment
-5. 编译输出大小限制
-
-4. docu:
-    need: log/ spj_files/ temp_path/ test_files/
-    sudo chown -R judger:torapture temp_path/
-    sudo ./Judger
+1. 优化Socket细节，防止丢数据
+2. C++编译输出大小限制
+3. 修改Python编译参数
+4. 并行判题
 
