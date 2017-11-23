@@ -6,6 +6,9 @@
 #include <sys/resource.h>
 #include <wait.h>
 #include <glog/logging.h>
+#include <sys/ptrace.h>
+#include <sys/user.h>
+#include <syscall.h>
 
 #include "Runner.h"
 #include "Config.h"
@@ -48,13 +51,15 @@ void Runner::child_compile() {
 	itv.it_interval.tv_usec = 0;
 	setitimer(ITIMER_REAL, &itv, NULL);
 
-	/// set uid
-	if (setuid(Config::get_instance()->get_low_privilege_uid()) < 0)
-		LOG(FATAL) << "can't setuid, maybe you should sudo or choose a right uid";
-
 	/// redirect stderr stream
 	std::string ce_info_file = Config::get_instance()->get_temp_path() + Config::get_instance()->get_ce_info_file();
 	freopen(ce_info_file.c_str(), "w", stderr);
+
+	/// set uid
+	if (setuid(Config::get_instance()->get_low_privilege_uid()) < 0) {
+		fputs("setuid before compile fail.", stderr);
+		LOG(FATAL) << "can't setuid, maybe you should sudo or choose a right uid";
+	}
 
 	/// compile
 	if (Config::CPP_LANG == language) {
@@ -128,24 +133,30 @@ void Runner::child_run() { // TODO set limit and run
 
 	/// set time limit
 	itimerval itv;
-	itv.it_value.tv_sec = time_limit_ms / 1000;
+	itv.it_value.tv_sec = time_limit_ms / 1000 + 1; // extra 1 seconds for I/O and Context switching
 	itv.it_value.tv_usec = time_limit_ms % 1000 * 1000;
 	itv.it_interval.tv_sec = 0;
 	itv.it_interval.tv_usec = 0;
 	setitimer(ITIMER_REAL, &itv, NULL);
 
-	/// set memory limit
-//	rlimit memory_limit;
-//	memory_limit.rlim_max = memory_limit.rlim_cur = (rlim_t) memory_limit_kb * 1024 * 2;
-//	setrlimit(RLIMIT_AS, &memory_limit);
-
 	/// set stack limit
-	//rlimit stack_limit;
+	rlimit stack_limit;
+	stack_limit.rlim_max = stack_limit.rlim_cur = rlim_t(Config::get_instance()->get_stack_limit_kb()) * 1024;
+	setrlimit(RLIMIT_STACK, &stack_limit);
 
 	/// set output limit
 	rlimit output_limit;
-	output_limit.rlim_max = output_limit.rlim_cur = Config::get_instance()->get_max_output_limit() * 1024 * 1024;
+	output_limit.rlim_max = output_limit.rlim_cur = rlim_t(Config::get_instance()->get_max_output_limit()) * 1024 * 1024;
 	setrlimit(RLIMIT_FSIZE, &output_limit);
+
+	if (language == Config::JAVA_LANG) {
+		chdir(Config::get_instance()->get_temp_path().c_str());
+	} else {
+		/// set process num limit
+		rlimit nproc_limit;
+		nproc_limit.rlim_max = nproc_limit.rlim_cur = 1;
+		setrlimit(RLIMIT_NPROC, &nproc_limit);
+	}
 
 	/// set uid
 	if (setuid(Config::get_instance()->get_low_privilege_uid()) < 0)
@@ -163,11 +174,13 @@ void Runner::child_run() { // TODO set limit and run
 	std::string stderr_file = Config::get_instance()->get_temp_path() + Config::get_instance()->get_stderr_file();
 	freopen(stderr_file.c_str(), "w", stderr);
 
+	/// start ptrace
+	ptrace(PTRACE_TRACEME, 0, NULL, NULL);
+
 	/// run
 	if (Config::CPP_LANG == language || Config::CPP11_LANG == language) {
 		execl(exc_file_name.c_str(), exc_file_name.c_str(), NULL);
 	} else if (Config::JAVA_LANG == language) {
-		chdir(Config::get_instance()->get_temp_path().c_str());
 		execl("/usr/bin/java", "java", "-Djava.security.manager",
 		      "-Djava.security.policy=java.policy", "-client",
 		      Config::get_instance()->get_binary_file().c_str(), NULL);
@@ -180,6 +193,7 @@ void Runner::child_run() { // TODO set limit and run
 
 RunResult Runner::run(const std::string &input_file) { // suppose compile success
 	this->input_file = input_file;
+
 	pid_t cid = fork();
 
 	if (cid == -1) {
@@ -188,58 +202,95 @@ RunResult Runner::run(const std::string &input_file) { // suppose compile succes
 		child_run();
 		exit(0); /// do not return
 	} else { // father process
+		RunResult result;
 		int status;
 		rusage run_info;
+		user_regs_struct reg;
+		bool called_exec = false;
+		while (true) {
+			if (wait4(cid, &status, 0, &run_info) == -1) {
+				kill(cid, SIGKILL);
+				result = RunResult::JUDGE_ERROR;
+				break;
+			}
+			int time_used_ms = get_time_ms(run_info);
+			int memory_used_kb = get_memory_kb(run_info);
 
-		if (wait4(cid, &status, WUNTRACED, &run_info) == -1) {
-			kill(cid, SIGKILL);
-			return RunResult::JUDGE_ERROR;
+			result = result.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
+
+			if (time_used_ms > time_limit_ms) {
+				result.status = RunResult::TIME_LIMIT_EXCEEDED.status;
+				ptrace(PTRACE_KILL, cid, NULL, NULL);
+				break;
+			} else if (WIFEXITED(status)) {
+				if (WEXITSTATUS(status) != 0)
+					result.status = RunResult::RUNTIME_ERROR.status;
+				else if (memory_used_kb > memory_limit_kb)
+					result.status = RunResult::MEMORY_LIMIT_EXCEEDED.status;
+				else
+					result.status = RunResult::RUN_SUCCESS.status;
+				break;
+			}
+			else if (WIFSIGNALED(status) && WTERMSIG(status) != SIGTRAP) {
+				if (WTERMSIG(status) == SIGXFSZ)
+					result.status = RunResult::OUTPUT_LIMIT_EXCEEDED.status;
+				if (WTERMSIG(status) == SIGXCPU || WTERMSIG(status) == SIGALRM)
+					result.status = RunResult::TIME_LIMIT_EXCEEDED.status;
+				else
+					result.status = RunResult::RUNTIME_ERROR.status;
+				ptrace(PTRACE_KILL, cid, NULL, NULL);
+				break;
+			} else if (WIFSTOPPED(status) && WSTOPSIG(status) != SIGTRAP) {
+				if (WSTOPSIG(status) == SIGXFSZ)
+					result.status = RunResult::OUTPUT_LIMIT_EXCEEDED.status;
+				else if (WSTOPSIG(status) == SIGXCPU || WSTOPSIG(status) == SIGALRM)
+					result.status = RunResult::TIME_LIMIT_EXCEEDED.status;
+				else
+					result.status = RunResult::RUNTIME_ERROR.status;
+				ptrace(PTRACE_KILL, cid, NULL, NULL);
+				break;
+			} else if ((status >> 8) != 5 && (status >> 8) > 0) {
+				result.status = RunResult::RUNTIME_ERROR.status;
+				ptrace(PTRACE_KILL, cid, NULL, NULL);
+				break;
+			}
+
+			/// deal with restricted calls
+			ptrace(PTRACE_GETREGS, cid, NULL, &reg);
+#ifdef __i386__
+			if (reg.orig_eax == SYS_execve && !called_exec) {
+				called_exec = true;
+			} else {
+				if (Config::get_instance()->is_restricted_call(language, reg.orig_eax)) {
+					result.status = RunResult::RESTRICTED_FUNCTION.status;
+					ptrace(PTRACE_KILL, cid, NULL, NULL);
+					break;
+				}
+			}
+#else
+			if (reg.orig_rax == SYS_execve && !called_exec) {
+				called_exec = true;
+			} else {
+				if (Config::get_instance()->is_restricted_call(language, reg.orig_rax)) {
+					result.status = RunResult::RESTRICTED_FUNCTION.status;
+					ptrace(PTRACE_KILL, cid, NULL, NULL);
+					break;
+				}
+			}
+#endif
+			/// deal with memory limit exceeded
+			if (memory_used_kb > memory_limit_kb) {
+				result.status = RunResult::MEMORY_LIMIT_EXCEEDED.status;
+				ptrace(PTRACE_KILL, cid, NULL, NULL);
+				break;
+			}
+			ptrace(PTRACE_SYSCALL, cid, NULL, NULL);
 		}
-
 
 		std::string stderr_file = Config::get_instance()->get_temp_path() + Config::get_instance()->get_stderr_file();
 		if (Utils::check_file(exc_file_name)) Utils::delete_file(exc_file_name);
 		if (Utils::check_file(stderr_file)) Utils::delete_file(stderr_file);
-
-		int time_used_ms = get_time_ms(run_info);
-		int memory_used_kb = get_memory_kb(run_info);
-
-		if (time_used_ms > time_limit_ms)
-			return RunResult::TIME_LIMIT_EXCEEDED.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
-
-		if (WIFSIGNALED(status) && WTERMSIG(status) != SIGTRAP) {
-			if (WTERMSIG(status) == SIGALRM) {
-				return RunResult::TIME_LIMIT_EXCEEDED.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
-			} else if (WTERMSIG(status) == SIGXFSZ) {
-				return RunResult::OUTPUT_LIMIT_EXCEEDED.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
-			} else if (WTERMSIG(status) == SIGSEGV) {
-				if (memory_used_kb > memory_limit_kb)
-					return RunResult::MEMORY_LIMIT_EXCEEDED.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
-				else
-					return RunResult::RUNTIME_ERROR.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
-			} else {
-				return RunResult::RUNTIME_ERROR.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
-			}
-		} else if (WIFSTOPPED(status) && WSTOPSIG(status) != SIGTRAP) {
-			if (WSTOPSIG(status) == SIGALRM) {
-				return RunResult::TIME_LIMIT_EXCEEDED.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
-			} else if (WSTOPSIG(status) == SIGXFSZ) {
-				return RunResult::OUTPUT_LIMIT_EXCEEDED.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
-			} else if (WSTOPSIG(status) == SIGSEGV) {
-				if (memory_used_kb > memory_limit_kb)
-					return RunResult::MEMORY_LIMIT_EXCEEDED.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
-				else
-					return RunResult::RUNTIME_ERROR.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
-			} else {
-				return RunResult::RUNTIME_ERROR.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
-			}
-		} else if (WIFEXITED(status)) {
-			if (WEXITSTATUS(status) != 0) {
-				return RunResult::RUNTIME_ERROR.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
-			}
-		}
-
-		return RunResult::RUN_SUCCESS.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
+		return result;
 	}
 }
 
@@ -253,5 +304,4 @@ int Runner::get_time_ms(const rusage &run_info) {
 
 int Runner::get_memory_kb(const rusage &run_info) {
 	return run_info.ru_minflt * (getpagesize() / 1024);
-//	return run_info.ru_maxrss;
 }

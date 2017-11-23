@@ -73,6 +73,11 @@ void Summit::work() {
 		return;
 	}
 
+	if (language != Config::CPP_LANG && language != Config::CPP11_LANG) {
+		time_limit_ms *= Config::get_instance()->get_vm_multiplier();
+		memory_limit_kb *= Config::get_instance()->get_vm_multiplier();
+	}
+
 	Runner run(time_limit_ms, memory_limit_kb, language, src);
 
 	LOG(INFO) << "compiling runid: " << runid;

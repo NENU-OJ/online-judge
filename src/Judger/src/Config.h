@@ -9,7 +9,9 @@
 #include <iostream>
 #include <cassert>
 #include <map>
-
+#include <vector>
+#include <unordered_set>
+#include <unordered_map>
 
 class Config {
 private:
@@ -21,6 +23,8 @@ private:
 	std::map<int, std::string> src_extension;
 	std::map<int, std::string> exc_extension;
 
+	std::unordered_map<int, std::unordered_set<int>> restricted_call;
+
 	std::map<std::string, std::string> config_map;
 
 	int listen_port;
@@ -31,10 +35,11 @@ private:
 	std::string db_password;
 	int low_privilege_uid;
 	int compile_time_ms;
-	int compile_memory_kb;
+	int stack_limit_kb;
 	int spj_run_time_ms;
 	int spj_memory_kb;
 	int max_output_limit;
+	int vm_multiplier;
 	std::string temp_path;
 	std::string test_files_path;
 	std::string spj_files_path;
@@ -87,8 +92,8 @@ public:
 		return compile_time_ms;
 	}
 
-	int get_compile_memory_kb() const {
-		return compile_memory_kb;
+	int get_stack_limit_kb() const {
+		return stack_limit_kb;
 	}
 
 	int get_spj_run_time_ms() const {
@@ -135,6 +140,10 @@ public:
 		return max_output_limit;
 	}
 
+	int get_vm_multiplier() const {
+		return vm_multiplier;
+	}
+
 	std::string get_src_extention(int lang) {
 		return src_extension[lang];
 	}
@@ -154,6 +163,10 @@ public:
 		}
 		res += "\n}";
 		return res;
+	}
+
+	bool is_restricted_call(int language, int call) {
+		return restricted_call[language].find(call) != restricted_call[language].end();
 	}
 
 };

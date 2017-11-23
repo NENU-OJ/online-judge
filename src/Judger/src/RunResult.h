@@ -15,9 +15,9 @@ public:
 
 	static const RunResult TIME_LIMIT_EXCEEDED;
 	static const RunResult MEMORY_LIMIT_EXCEEDED;
-
 	static const RunResult RUNTIME_ERROR;
 	static const RunResult OUTPUT_LIMIT_EXCEEDED;
+	static const RunResult RESTRICTED_FUNCTION;
 
 	static const RunResult RUN_SUCCESS;
 

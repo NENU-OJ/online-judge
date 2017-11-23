@@ -144,8 +144,12 @@ void * judge_thread(void *arg) {
 		pthread_mutex_unlock(&queue_mtx);
 
 		if (have_run) {
-			LOG(INFO) << "[judge thread] send runid: " << summit.get_runid() << " to work";
-			summit.work();
+			try {
+				LOG(INFO) << "[judge thread] send runid: " << summit.get_runid() << " to work";
+				summit.work();
+			} catch (Exception &e) {
+				LOG(ERROR) << e.what();
+			}
 		}
 	}
 }
@@ -185,37 +189,40 @@ void test_runs() {
 }
 
 
-void test_fuck() {
-	if (fork() == 0) {
-		LOG(INFO) << "child";
-		LOG(INFO) << setuid(1001);
-		LOG(INFO) << setuid(1000);
-	}
-	else {
+void test_set_uid() {
+	pid_t pid;
+	if ((pid = fork()) == 0) {
+		if (setuid(Config::get_instance()->get_low_privilege_uid()) == -1)
+			exit(1);
+		else
+			exit(0);
+	} else {
 		int status;
-		wait(&status);
-		LOG(INFO) << "father";
-		LOG(INFO) << setuid(1000);
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status)) {
+			if (WEXITSTATUS(status) == 0)
+				LOG(INFO) << "can set low_privilege_uid" << endl;
+			else if (WEXITSTATUS(status) == 1)
+				LOG(FATAL) << "can't set low_privilege_uid";
+			else
+				LOG(FATAL) << "unknown error";
+		} else {
+			LOG(FATAL) << "unknown error";
+		}
 	}
 }
 
-void test_summit() {
-	int runid = 2;
-	Summit summit = Summit::get_from_runid(runid);
-	summit.work();
-}
+
 
 int main(int argc, const char *argv[]) {
+	Config::get_instance();
 
-//	test_fuck();
-	test_runs();
-//	test_summit();
-//
-//	init_socket();
-//	init_queue();
-//	init_threads();
-//
-//	while(true)
-//		sleep(3600);
+	test_set_uid();
+	init_socket();
+	init_queue();
+	init_threads();
+
+	while(true)
+		sleep(3600);
 	return 0;
 }

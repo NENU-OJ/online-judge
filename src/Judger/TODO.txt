@@ -1,0 +1,10 @@
+1. 优化
+2. Deal with socket
+3. DB
+4. comment
+
+5. docu:
+    need: log/ spj_files/ temp_path/ test_files/
+    sudo chown -R judger:torapture temp_path/
+    sudo ./Judger
+

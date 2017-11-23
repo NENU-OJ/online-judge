@@ -20,3 +20,4 @@ const RunResult RunResult::SEND_TO_REJUDGE = RunResult(0, 0, "Send to Rejudge", 
 const RunResult RunResult::QUEUEING = RunResult(0, 0, "Queueing", "");
 const RunResult RunResult::COMPILING = RunResult(0, 0, "Compiling", "");
 const RunResult RunResult::RUNNING = RunResult(0, 0, "Running", "");
+const RunResult RunResult::RESTRICTED_FUNCTION = RunResult(0, 0, "Restricted Function", "");

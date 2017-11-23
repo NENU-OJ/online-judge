@@ -105,6 +105,7 @@ void DatabaseHandler::add_problem_result(int pid, RunResult result) {
 	else if (result == RunResult::MEMORY_LIMIT_EXCEEDED) field = "total_mle";
 	else if (result == RunResult::PRESENTATION_ERROR) field = "total_pe";
 	else if (result == RunResult::OUTPUT_LIMIT_EXCEEDED) field = "total_ole";
+	else if (result == RunResult::RESTRICTED_FUNCTION) field = "total_rf";
 	if (!field.empty()) {
 		std::string query = "UPDATE t_problem "
 							"SET " + field + " = " + field + " + 1 "

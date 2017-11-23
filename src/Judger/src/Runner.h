@@ -36,6 +36,7 @@ public:
 public:
 	static int get_time_ms(const rusage &run_info);
 	static int get_memory_kb(const rusage &run_info);
+
 private:
 	void child_compile();
 	void child_run();
