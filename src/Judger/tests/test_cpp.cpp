@@ -8,14 +8,18 @@
 
 using namespace std;
 
-int vec[100000000];
+int vec[10000000];
 void fun1() {
 	int a, b;
 	int sz = sizeof(vec) / sizeof(int);
 	for(int i = 0; i < sz; i += 2) vec[i] = 0;
 	while (true) {
-		int x = rand() % sz;
-		int y = rand() % sz;
+		int x, y;
+		for (int i = 0; i < 100000000; ++i) x = rand() % sz;
+		for (int i = 0; i < 100000000; ++i) y = rand() % sz;
+
+		x = rand() % sz;
+		y = rand() % sz;
 		if (x == y) y = (y + 1) % sz;
 		if (cin >> vec[x] >> vec[y])
 			cout << vec[x] + vec[y] << endl;
@@ -33,7 +37,9 @@ void fun2() {
 int main(int argc, const char *argv[]) {
 	srand(time(NULL));
 	ios::sync_with_stdio(false);
-	kill(getpid(), SIGKILL);
+	//fun2();
+	fun1();
+	//kill(getpid(), SIGKILL);
 
 //	kill(getpid(), SIGKILL);
 //	fun1();

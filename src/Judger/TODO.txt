@@ -1,9 +1,9 @@
-1. 优化
-2. Deal with socket
-3. DB
-4. comment
+1. Deal with socket
+2. DB
+3. comment
+5. 编译输出大小限制
 
-5. docu:
+4. docu:
     need: log/ spj_files/ temp_path/ test_files/
     sudo chown -R judger:torapture temp_path/
     sudo ./Judger
