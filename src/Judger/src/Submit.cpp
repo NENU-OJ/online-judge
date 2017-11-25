@@ -5,62 +5,62 @@
 #include <algorithm>
 #include <glog/logging.h>
 
-#include "Summit.h"
+#include "Submit.h"
 #include "Runner.h"
 #include "Config.h"
 #include "Utils.h"
 #include "DatabaseHandler.h"
 
-Summit::Summit() {
+Submit::Submit() {
 
 }
 
 
-void Summit::set_runid(int runid) {
+void Submit::set_runid(int runid) {
 	this->runid = runid;
 }
 
-void Summit::set_uid(int uid) {
+void Submit::set_uid(int uid) {
 	this->uid = uid;
 }
 
-void Summit::set_pid(int pid) {
+void Submit::set_pid(int pid) {
 	this->pid = pid;
 }
 
-void Summit::set_time_limit_ms(int time_limit_ms) {
+void Submit::set_time_limit_ms(int time_limit_ms) {
 	this->time_limit_ms = time_limit_ms;
 }
 
-void Summit::set_memory_limit_kb(int memory_limit_kb) {
+void Submit::set_memory_limit_kb(int memory_limit_kb) {
 	this->memory_limit_kb = memory_limit_kb;
 }
 
-void Summit::set_language(int language) {
+void Submit::set_language(int language) {
 	this->language = language;
 }
 
-void Summit::set_is_spj(int is_spj) {
+void Submit::set_is_spj(int is_spj) {
 	this->is_spj = is_spj;
 }
 
-void Summit::set_std_input_file(const std::string &std_input_file) {
+void Submit::set_std_input_file(const std::string &std_input_file) {
 	this->std_input_file = std_input_file;
 }
 
-void Summit::set_std_output_file(const std::string &std_output_file) {
+void Submit::set_std_output_file(const std::string &std_output_file) {
 	this->std_output_file = std_output_file;
 }
 
-void Summit::set_user_output_file(const std::string &user_output_file) {
+void Submit::set_user_output_file(const std::string &user_output_file) {
 	this->user_output_file = user_output_file;
 }
 
-void Summit::set_src(const std::string &src) {
+void Submit::set_src(const std::string &src) {
 	this->src = src;
 }
 
-void Summit::work() {
+void Submit::work() {
 	RunResult result;
 	DatabaseHandler db;
 
@@ -107,7 +107,7 @@ void Summit::work() {
 
 }
 
-RunResult Summit::spj_check() {
+RunResult Submit::spj_check() {
 
 	LOG(INFO) << "spj check runid: " << runid;
 
@@ -162,7 +162,7 @@ RunResult Summit::spj_check() {
 		return RunResult::WRONG_ANSWER;
 }
 
-RunResult Summit::normal_check() {
+RunResult Submit::normal_check() {
 
 	LOG(INFO) << "normal check runid: " << runid;
 
@@ -219,23 +219,23 @@ RunResult Summit::normal_check() {
 	else return RunResult::WRONG_ANSWER;
 }
 
-Summit * Summit::get_from_runid(int runid) {
+Submit * Submit::get_from_runid(int runid) {
 	DatabaseHandler db;
 	auto run = db.get_run_stat(runid);
 	int pid = atoi(run["problem_id"].c_str());
 	int uid = atoi(run["user_id"].c_str());
 	auto problem_info = db.get_problem_description(pid);
-	Summit *summit = new Summit();
-	summit->set_runid(runid);
-	summit->set_pid(pid);
-	summit->set_uid(uid);
-	summit->set_time_limit_ms(atoi(problem_info["time_limit"].c_str()));
-	summit->set_memory_limit_kb(atoi(problem_info["memory_limit"].c_str()));
-	summit->set_language(atoi(run["language_id"].c_str()));
-	summit->set_is_spj(atoi(problem_info["is_special_judge"].c_str()));
-	summit->set_std_input_file(Utils::get_input_file(pid));
-	summit->set_std_output_file(Utils::get_output_file(pid));
-	summit->set_user_output_file(Utils::get_user_output_file());
-	summit->set_src(run["source"]);
-	return summit;
+	Submit *submit = new Submit();
+	submit->set_runid(runid);
+	submit->set_pid(pid);
+	submit->set_uid(uid);
+	submit->set_time_limit_ms(atoi(problem_info["time_limit"].c_str()));
+	submit->set_memory_limit_kb(atoi(problem_info["memory_limit"].c_str()));
+	submit->set_language(atoi(run["language_id"].c_str()));
+	submit->set_is_spj(atoi(problem_info["is_special_judge"].c_str()));
+	submit->set_std_input_file(Utils::get_input_file(pid));
+	submit->set_std_output_file(Utils::get_output_file(pid));
+	submit->set_user_output_file(Utils::get_user_output_file());
+	submit->set_src(run["source"]);
+	return submit;
 }

@@ -74,8 +74,8 @@ class ProblemDetailController extends CController
         $record = new Status();
         $record->problem_id=$_GET['problemId'];
         $record->source=$_GET['sourceCode'];
-        //$record->submit_time=date("Y-m-d h:i:sa");
-        $record->result="Queueing";
+        $record->submit_time=date("Y-m-d H:i:s"); // TODO date check
+        $record->result="Send to Judge";
         if (isset($_GET['contestId'])){
             $record->contest_id=$_GET['contestId'];
         }else{
@@ -88,6 +88,14 @@ class ProblemDetailController extends CController
         $record->save();
         $list='[{"code":0,"data":""}]';
         print $list;
+
+        /// TODO fucking dirty
+        $runid = strval($record->attributes["id"]);
+        $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+        socket_connect($socket, "127.0.0.1", 27015);
+        socket_write($socket, $runid, strlen($runid));
+        socket_close($socket);
+
     }
 
     public function actionToDiscuss(){

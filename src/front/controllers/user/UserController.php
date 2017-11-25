@@ -93,7 +93,7 @@ class UserController extends CController
             $user->username = trim($_GET['username']);
             $user->nickname = trim($_GET['nickname']);
             $user->password = md5(trim($_GET['password']));
-            $user->register_time = date("Y-m-d h:i:sa");
+            $user->register_time = date("Y-m-d H:i:s"); // TODO date check
             $user->ip_addr = $_SERVER['REMOTE_ADDR'];
             $user->email = $_GET['email'];
             $user->school = $_GET['school'];

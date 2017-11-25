@@ -7,7 +7,7 @@
 2. Mysql Connector/C https://dev.mysql.com/downloads/connector/c/6.1.html
 
 # 编译
-在`cmake-build-debug`文件夹下执行`make`命令
+在`OnlineJudge/src/Judger`文件夹下执行`cmake . && make`命令
 
 # 支持语言
 status.language / problem.is_special_judge | language

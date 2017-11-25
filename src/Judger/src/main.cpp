@@ -8,14 +8,14 @@
 #include "Runner.h"
 #include "Config.h"
 #include "Utils.h"
-#include "Summit.h"
+#include "Submit.h"
 
 #include "DatabaseHandler.h"
 #include "Exception.h"
 
 using namespace std;
 
-static queue<Summit *> judge_queue;
+static queue<Submit *> judge_queue;
 static int main_sockfd;
 static pthread_mutex_t queue_mtx = PTHREAD_MUTEX_INITIALIZER;
 
@@ -34,20 +34,20 @@ void init_queue() {
 		int uid = atoi(run["user_id"].c_str());
 		try {
 			auto problem_info = db.get_problem_description(pid);
-			Summit *summit = new Summit();
-			summit->set_runid(runid);
-			summit->set_pid(pid);
-			summit->set_uid(uid);
-			summit->set_time_limit_ms(atoi(problem_info["time_limit"].c_str()));
-			summit->set_memory_limit_kb(atoi(problem_info["memory_limit"].c_str()));
-			summit->set_language(atoi(run["language_id"].c_str()));
-			summit->set_is_spj(atoi(problem_info["is_special_judge"].c_str()));
-			summit->set_std_input_file(Utils::get_input_file(pid));
-			summit->set_std_output_file(Utils::get_output_file(pid));
-			summit->set_user_output_file(Utils::get_user_output_file());
-			summit->set_src(run["source"]);
+			Submit *submit = new Submit();
+			submit->set_runid(runid);
+			submit->set_pid(pid);
+			submit->set_uid(uid);
+			submit->set_time_limit_ms(atoi(problem_info["time_limit"].c_str()));
+			submit->set_memory_limit_kb(atoi(problem_info["memory_limit"].c_str()));
+			submit->set_language(atoi(run["language_id"].c_str()));
+			submit->set_is_spj(atoi(problem_info["is_special_judge"].c_str()));
+			submit->set_std_input_file(Utils::get_input_file(pid));
+			submit->set_std_output_file(Utils::get_output_file(pid));
+			submit->set_user_output_file(Utils::get_user_output_file());
+			submit->set_src(run["source"]);
 
-			judge_queue.push(summit);
+			judge_queue.push(submit);
 			db.change_run_result(runid, RunResult::QUEUEING);
 			LOG(INFO) << "init enqueue runid: " << runid;
 		} catch (Exception &e) {
@@ -118,9 +118,9 @@ void * listen_thread(void *arg) {
 	while (true) {
 		try {
 			int runid = next_runid();
-			Summit *summit = Summit::get_from_runid(runid);
+			Submit *submit = Submit::get_from_runid(runid);
 			pthread_mutex_lock(&queue_mtx);
-			judge_queue.push(summit);
+			judge_queue.push(submit);
 			LOG(INFO) << "[listen thread] socket enqueue runid: " << runid;
 			pthread_mutex_unlock(&queue_mtx);
 			DatabaseHandler db;
@@ -133,26 +133,26 @@ void * listen_thread(void *arg) {
 void * judge_thread(void *arg) {
 
 	while (true) {
-		Summit *summit;
+		Submit *submit;
 		bool have_run = false;
 		pthread_mutex_lock(&queue_mtx);
 		if (!judge_queue.empty()) {
 			have_run = true;
-			summit = judge_queue.front();
+			submit = judge_queue.front();
 			judge_queue.pop();
 		}
 		pthread_mutex_unlock(&queue_mtx);
 
 		if (have_run) {
 			try {
-				LOG(INFO) << "[judge thread] send runid: " << summit->get_runid() << " to work";
-				summit->work();
-				delete summit;
-				summit = nullptr;
+				LOG(INFO) << "[judge thread] send runid: " << submit->get_runid() << " to work";
+				submit->work();
+				delete submit;
+				submit = nullptr;
 			} catch (Exception &e) {
 				LOG(ERROR) << e.what();
-				if (summit != nullptr)
-					delete summit;
+				if (submit != nullptr)
+					delete submit;
 			}
 		}
 	}

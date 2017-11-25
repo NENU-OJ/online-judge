@@ -2,13 +2,13 @@
 // Created by torapture on 17-11-16.
 //
 
-#ifndef JUDGER_SUMMIT_H
-#define JUDGER_SUMMIT_H
+#ifndef JUDGER_SUBMIT_H
+#define JUDGER_SUBMIT_H
 
 #include <string>
 #include "RunResult.h"
 
-class Summit {
+class Submit {
 private:
 	int runid;
 	int uid;
@@ -25,7 +25,7 @@ private:
 	RunResult spj_check();
 	RunResult normal_check();
 public:
-	Summit();
+	Submit();
 	void set_runid(int runid);
 	void set_pid(int pid);
 	void set_uid(int uid);
@@ -38,7 +38,7 @@ public:
 	void set_user_output_file(const std::string &user_output_file);
 	void set_src(const std::string &src);
 	void work();
-	static Summit * get_from_runid(int runid);
+	static Submit * get_from_runid(int runid);
 
 	int get_runid() const {
 		return runid;
@@ -46,4 +46,4 @@ public:
 };
 
 
-#endif //JUDGER_SUMMIT_H
+#endif //JUDGER_SUBMIT_H

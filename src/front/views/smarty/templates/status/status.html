@@ -37,6 +37,7 @@
                     <table class="datatable table table-striped" cellspacing="0" width="100%" id="list">
                         <thead>
                         <tr>
+                            <th>Runid</th>
                             <th>User</th>
                             <th>PID</th>
                             <th>Result</th>
@@ -49,6 +50,7 @@
                         <tbody>
                         <{foreach $data as $item}>
                         <tr>
+                            <td><{$item.id}></td>
                             <td><{$item.username}></td>
                             <{if $item.is_shared == 1 || $username==$item.username}>
                             <td>

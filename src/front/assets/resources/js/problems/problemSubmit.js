@@ -22,8 +22,9 @@ $("#problemSubmit").on('click', "#submit", function () {
                 $.each(data, function (index, val) {
                     var code = val.code;
                     if (code == 0) {
-                        alert("提交成功");
-                        window.location.href = 'http://' + host + '/problem/problem-detail/detail?p_id=' + problemId;
+                        //alert("提交成功");
+                        // window.location.href = 'http://' + host + '/problem/problem-detail/detail?p_id=' + problemId;
+                        window.location.href = 'http://' + host + '/status/status';
                     }
                 })
             },
