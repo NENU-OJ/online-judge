@@ -6,8 +6,12 @@ $("#problemSubmit").on('click', "#submit", function () {
     var sourceCode = $("#sourceCode").val();
     var isShared = document.getElementById("isShared").checked;
     var contestId = $("#contestId").val();
-
-    if (contestId == null || contestId == "" || contestId == undefined) {
+    console.log("src.len = %d", sourceCode.length);
+    if (sourceCode.length > 65536) {
+        alert("fucking too big!");
+    } else if (sourceCode.length < 16) {
+        alert("fucking too small!");
+    } else if (contestId == null || contestId == "" || contestId == undefined) {
         $.ajax({
             type: "get",
             url: 'http://' + host + '/problem/problem-detail/submit',
@@ -32,8 +36,7 @@ $("#problemSubmit").on('click', "#submit", function () {
                 console.log("获取JSON数据异常");
             }
         })
-    }
-    else {
+    } else {
         $.ajax({
             type: "get",
             url: 'http://' + host + '/problem/problem-detail/submit',

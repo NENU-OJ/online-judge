@@ -8,11 +8,11 @@
 
 namespace app\controllers\user;
 
-use app\controllers\CController;
+use app\controllers\BaseController;
 use app\models\Status;
 use app\models\User;
 
-class UserController extends CController
+class UserController extends BaseController
 {
 
 //    public function behaviors()

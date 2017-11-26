@@ -8,12 +8,12 @@
 
 namespace app\controllers\status;
 
-use app\controllers\CController;
+use app\controllers\BaseController;
 use app\models\LanguageType;
 use app\models\Status;
 use app\models\User;
 
-class StatusController extends CController
+class StatusController extends BaseController
 {
 //    public function behaviors()
 //    {

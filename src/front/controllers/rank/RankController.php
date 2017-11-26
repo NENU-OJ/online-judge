@@ -8,11 +8,11 @@
 
 namespace app\controllers\rank;
 
-use app\controllers\CController;
+use app\controllers\BaseController;
 use app\models\User;
 
 
-class RankController extends CController
+class RankController extends BaseController
 {
 //    public function behaviors()
 //    {

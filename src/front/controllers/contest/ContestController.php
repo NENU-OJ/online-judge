@@ -8,9 +8,9 @@
 
 namespace app\controllers\contest;
 
-use app\controllers\CController;
+use app\controllers\BaseController;
 
-class ContestController extends CController
+class ContestController extends BaseController
 {
 //    public function behaviors()
 //    {
