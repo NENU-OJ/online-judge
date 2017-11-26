@@ -10,7 +10,7 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 
-class LanguageType extends ActiveRecord{
+class LanguageType extends ActiveRecord {
     public static function tableName() {
         return "{{%language_type}}";
     }

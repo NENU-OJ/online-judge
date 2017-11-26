@@ -31,13 +31,13 @@ class BaseController extends Controller
         //向前端渲染资源目录
         $this->smarty->assign('staticWebsite',
             "http://" . \Yii::$app->request->serverName . ":" . \Yii::$app->request->serverPort . "/assets/resources/");
-        //若用户已登录，向前端渲染用户名方便判断哪些按钮显示哪些不显示
 
-        if(isset(\Yii::$app->session['user_id'])){
-            $this->smarty->assign('username',\Yii::$app->session['username']);
-            $this->smarty->assign('nickname',\Yii::$app->session['nickname']);
-            $this->smarty->assign('email',\Yii::$app->session['email']);
-            $this->smarty->assign('school',\Yii::$app->session['school']);
+        //若用户已登录，向前端渲染用户名方便判断哪些按钮显示和哪些不显示
+        if (isset(\Yii::$app->session['user_id'])) {
+            $this->smarty->assign('username', \Yii::$app->session['username']);
+            $this->smarty->assign('nickname', \Yii::$app->session['nickname']);
+            $this->smarty->assign('email', \Yii::$app->session['email']);
+            $this->smarty->assign('school', \Yii::$app->session['school']);
         }
     }
     

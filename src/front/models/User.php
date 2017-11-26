@@ -9,10 +9,10 @@ class User extends ActiveRecord {
         return "{{%user}}";
     }
 
-    public static function findByUsername($username){
+    public static function findByUsername($username) {
         return self::find()
             ->select('*')
-            ->where('username=:username',[':username'=>$username])
+            ->where('username=:username', [':username' => $username])
             ->one();
     }
 }
