@@ -1,71 +1,33 @@
-$(function () {
-    $(".navbar-expand-toggle").click(function () {
-        $(".app-container").toggleClass("expanded");
-        return $(".navbar-expand-toggle").toggleClass("fa-rotate-90");
-    });
-    return $(".navbar-right-expand-toggle").click(function () {
-        $(".navbar-right").toggleClass("expanded");
-        return $(".navbar-right-expand-toggle").toggleClass("fa-rotate-90");
-    });
-});
-
-$(function () {
-    return $('select').select2();
-});
-
-$(function () {
-    return $('.toggle-checkbox').bootstrapSwitch({
-        size: "small"
-    });
-});
-
-$(function () {
-    return $('.match-height').matchHeight();
-});
-
-$(function () {
-    return $('.datatable').DataTable({
-        "dom": '<"top"fl<"clear">>rt<"bottom"ip<"clear">>'
-    });
-});
-
-$(function () {
-    return $(".side-menu .nav .dropdown").on('show.bs.collapse', function () {
-        return $(".side-menu .nav .dropdown .collapse").collapse('hide');
-    });
-});
-
 var host = window.location.host;
 
-$("#login").keypress(function () {
-    if (event.keyCode == 13) {
-        event.cancelBubble = true;
-        event.returnValue = false;
-        $(this).find("#loginSubmit").click();
-    }
+// 模态登录窗口
+$(".checklogin").click(function () {
+    $("#dialog_lg").css("display", "block");
+    $("#overlay").css("display", "");
+});
+$(".loginclose").click(function () {
+    $("#dialog_lg").css("display", "none");
+    $("#overlay").css("display", "none");
 });
 
-$("#login").on('click', "#loginSubmit", function () {
-    var username = $("#loginUsername").val();
-    var password = $("#loginPassword").val();
-
+$("#login_submit").click(function () {
+    var username = $("#login_username").val();
+    var password = $("#login_password").val();
+    var remember = $("#remember").val();
     $.ajax({
-        type: "get",
-        url: 'http://' + host + '/user/user/login',
+        type: "ajax",
+        url: 'http://' + host + '/user/login',
         dataType: "json",
         data: {
             username: username,
-            password: password
+            password: password,
         },
-        success: function (data) {
-            $.each(data, function (index, val) {
-                var code = val.code;
-                if (code == 0) {
+        success: function (resp) {
+                if (resp.code == 0) {
                     location.reload(true);
-                } else if (code == 1) {
-                    alert("用户名或密码不正确");
+                } else if (resp.code == 1) {
+                    $("#login_error").text(resp.data);
                 }
-            })
         },
         error: function () {
             console.log("获取JSON数据异常");
@@ -74,12 +36,20 @@ $("#login").on('click', "#loginSubmit", function () {
 
 });
 
-$("#register").keypress(function () {
-    if (event.keyCode == 13) {
-        event.cancelBubble = true;
-        event.returnValue = false;
-        $(this).find("#registerSubmit").click();
-    }
+$("#logout").click(function () {
+    $.ajax({
+        type: "ajax",
+        url: 'http://' + host + '/user/logout',
+        dataType: "json",
+        success: function (resp) {
+            if (resp.code == 0) {
+                window.location.href = 'http://' + host;
+            }
+        },
+        error: function () {
+            console.log("获取JSON数据异常");
+        }
+    })
 });
 
 $("#register").on('click', "#registerSubmit", function () {
@@ -123,23 +93,4 @@ $("#register").on('click', "#registerSubmit", function () {
             }
         })
     }
-});
-
-$("#logout").click(function () {
-    $.ajax({
-        type: "get",
-        url: 'http://' + host + '/user/user/logout',
-        dataType: "json",
-        success: function (data) {
-            $.each(data, function (index, val) {
-                var code = val.code;
-                if (code == 0) {
-                    window.location.href = 'http://' + host;
-                }
-            })
-        },
-        error: function () {
-            console.log("获取JSON数据异常");
-        }
-    })
 });

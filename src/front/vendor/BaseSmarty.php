@@ -7,14 +7,11 @@
  */
 
 namespace app\vendor;
-use Yii;
-require_once 'smarty/smarty/libs/Smarty.class.php';
-define('SMARTY_VIEW_DIR',Yii::$app->basePath.DIRECTORY_SEPARATOR.'views/smarty/');
 
-class CSmarty extends \Smarty
-{
-    function __construct()
-    {
+define('SMARTY_VIEW_DIR', \Yii::$app->basePath.DIRECTORY_SEPARATOR.'views/smarty/');
+
+class BaseSmarty extends \Smarty {
+    function __construct() {
 
         // Class Constructor.
         // These automatically get set with each new instance.

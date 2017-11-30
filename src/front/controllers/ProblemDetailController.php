@@ -6,14 +6,11 @@
  * Time: 10:23
  */
 
-namespace app\controllers\problem;
+namespace app\controllers;
 
-
-use app\controllers\BaseController;
 use app\models\LanguageType;
 use app\models\Status;
 use app\models\Problem;
-use app\controllers\Filter;
 
 class ProblemDetailController extends BaseController {
     public function behaviors() {

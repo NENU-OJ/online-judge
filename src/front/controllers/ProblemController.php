@@ -6,10 +6,9 @@
  * Time: 11:10
  */
 
-namespace app\controllers\problem;
+namespace app\controllers;
 
 
-use app\controllers\BaseController;
 use app\models\Problem;
 use app\models\Status;
 

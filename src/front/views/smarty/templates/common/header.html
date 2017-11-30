@@ -1,12 +1,13 @@
 <head>
     <title>
-        <{if $title}>
-            <{$title}>
+        <{if $webTitle}>
+            <{$webTitle}>
         <{else}>
             NENU Online Judge
         <{/if}>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" content="<{$_csrf}>">
     <!-- Favicon -->
     <{include file="common/favicon.html"}>
     <!-- Fonts -->

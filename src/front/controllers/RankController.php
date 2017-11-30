@@ -6,9 +6,8 @@
  * Time: 9:31
  */
 
-namespace app\controllers\rank;
+namespace app\controllers;
 
-use app\controllers\BaseController;
 use app\models\User;
 
 

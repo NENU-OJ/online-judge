@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Header -->
+<{include file="common/header.html"}>
+
+<body class="flat-blue">
+
+<!-- 导航条 -->
+<{include file="common/navbar.html"}>
+<div style="width:500px;float:left">
+    <div style="width:200px;height:100px;background-color:rosybrown;float:none"> </div>
+    <div style="width:200px;height: 100px;background-color:red;float:none"> </div>
+</div>
+<div class="card-body">
+    <form id="problemSubmit">
+        <div class="form-group">
+            <label for="sourceCode"><img src="<{$staticWebsite}>/img/honoka.png" width="45" height="45">Source Code</label>
+            <textarea class="form-control" id="sourceCode" rows="15"></textarea>
+
+        </div>
+        <div class="form-group">
+            <label for="isShared">Share my solution</label>
+            <input type="checkbox" class="toggle-checkbox" id="isShared">
+        </div>
+        <input name="_csrf" type="hidden" id="_csrf" value="<{$_cstf}>">
+        <button type="button" class="btn btn-success" id="submit">Submit</button>
+        <button type="reset" class="btn btn-danger" id="reset">Reset</button>
+    </form>
+</div>
+
+<!-- Footer -->
+<{include file="common/footer.html" }>
+<!-- Javascript Libs -->
+<{include file="common/jsLibs.html"}>
+<!-- Javascript App -->
+<{include file="common/jsApp.html"}>
+
+<script type="text/javascript" src="<{$staticWebsite}>/js/test.js"></script>
+
+</body>
+
+</html>

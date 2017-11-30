@@ -6,85 +6,82 @@
  * Time: 下午7:48
  */
 
-namespace app\controllers\user;
+namespace app\controllers;
 
-use app\controllers\BaseController;
 use app\models\Status;
 use app\models\User;
 
-class UserController extends BaseController
-{
+class UserController extends BaseController {
 
-//    public function behaviors()
-//    {
-//        return [
-//            [
-//                'class' => Filter::className(),
-//                //控制哪些动作需要过滤器
-//                'only' => ['submit','discuss'],
-//            ]
-//        ];
-//    }
+    //    public function behaviors()
+    //    {
+    //        return [
+    //            [
+    //                'class' => Filter::className(),
+    //                //控制哪些动作需要过滤器
+    //                'only' => ['submit','discuss'],
+    //            ]
+    //        ];
+    //    }
 
-    public function actionDetail($userId = 0)
-    {
-//        print_r($userId);
+    public function actionDetail($id = 0) {
+        //        print_r($userId);
         $isSelf = false;
-        if ($userId == 0) {
-            $userId = \Yii::$app->session['user_id'];
+        if ($id == 0) {
+            $id = \Yii::$app->session['user_id'];
             $isSelf = true;
-        } else if ($userId == \Yii::$app->session['user_id']) {
+        } else if ($id == \Yii::$app->session['user_id']) {
             $isSelf = true;
         }
-        $basicInfo = User::findOne($userId);
-        $acList = Status::find()
-            ->select('problem_id')
-            ->where('user_id=:userId and result LIKE :result ', [':userId' => $userId, ':result' => '%' . 'Accepted' . '%'])
-            ->distinct()
-            ->asArray()
-            ->all();
+        $basicInfo = User::findOne($id);
+        $acList = Status::find()->select('problem_id')->where('user_id=:userId and result LIKE :result ', [':userId' => $id, ':result' => '%' . 'Accepted' . '%'])->distinct()->asArray()->all();
         $this->smarty->assign('basicInfo', $basicInfo);
         $this->smarty->assign('acList', $acList);
         $this->smarty->assign('isSelf', $isSelf);
         $this->smarty->display('user/user.html');
     }
 
-    public function actionLogin()
-    {
-        $username = trim($_GET['username']);
-        $password = md5(trim($_GET['password']));
-        $_user = User::findByUsername($username);
-        if ($_user->password == $password) {
-            \Yii::$app->session['user_id'] = $_user->id;
-            \Yii::$app->session['username'] = $_user->username;
-            \Yii::$app->session['nickname'] = $_user->nickname;
-            \Yii::$app->session['ip_addr'] = $_user->ip_addr;
-            \Yii::$app->session['email'] = $_user->email;
-            \Yii::$app->session['school'] = $_user->school;
-            $_user->ip_addr = $_SERVER['REMOTE_ADDR'];
-            $_user->update();
-            $list = '[{"code":0,"data":""}]';
-            print $list;
+    public function actionLogin() {
+        $code = 0;
+        $data = "";
+
+        if (\Yii::$app->request->isAjax) {
+            $username = trim(\Yii::$app->request->post('username'));
+            $password = md5(trim(\Yii::$app->request->post('password')));
+            $user = User::findByUsername($username);
+            if (!$user) {
+                $code = 1;
+                $data = "没有这个用户";
+            } else if($user->password != $password) {
+                $code = 1;
+                $data = "密码错误";
+            } else {
+                $user->ip_addr = $_SERVER['REMOTE_ADDR'];
+                \Yii::$app->session['user_id'] = $user->id;
+                \Yii::$app->session['username'] = $user->username;
+                \Yii::$app->session['nickname'] = $user->nickname;
+                \Yii::$app->session['email'] = $user->email;
+                \Yii::$app->session['school'] = $user->school;
+                $user->update();
+            }
         } else {
-            $list = '[{"code":1,"data":""}]';
-            print $list;
+            $code = 1;
+            $data = "请求方式错误";
         }
+        return json_encode(["code" => $code, "data" => $data]);
     }
 
-    public function actionLogout()
-    {
+    public function actionLogout() {
         unset(\Yii::$app->session['user_id']);
         unset(\Yii::$app->session['username']);
         unset(\Yii::$app->session['nickname']);
         unset(\Yii::$app->session['ip_addr']);
         unset(\Yii::$app->session['email']);
         unset(\Yii::$app->session['school']);
-        $list = '[{"code":0,"data":""}]';
-        print $list;
+        return json_encode(["code" => 0, "data" => ""]);
     }
 
-    public function actionRegister()
-    {
+    public function actionRegister() {
         if (User::findByUsername(trim($_GET['username']))) {
             $list = '[{"code":1,"data":""}]';
             print $list;
@@ -103,8 +100,7 @@ class UserController extends BaseController
         }
     }
 
-    public function actionUpdate()
-    {
+    public function actionUpdate() {
         $user = User::findByUsername(trim($_GET['username']));
         if (isset($_GET['oldPassword'])) {
             $oldPassword = md5(trim($_GET['oldPassword']));

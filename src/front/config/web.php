@@ -11,7 +11,8 @@ $config = [
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => '5eff4fdc648f8a5ca14bcd52c5f55bcf',
+            'enableCsrfValidation' => false,
+//            'cookieValidationKey' => '5eff4fdc648f8a5ca14bcd52c5f55bcf',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -50,7 +51,7 @@ $config = [
             ],
         ],
         'smarty' => [
-            'class' => 'app\vendor\CSmarty'
+            'class' => 'app\vendor\BaseSmarty'
         ],
         'assetManager' => [
             'basePath' => '@webroot/assets',

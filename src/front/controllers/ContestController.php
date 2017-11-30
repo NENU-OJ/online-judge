@@ -6,9 +6,7 @@
  * Time: 9:28
  */
 
-namespace app\controllers\contest;
-
-use app\controllers\BaseController;
+namespace app\controllers;
 
 class ContestController extends BaseController
 {
