@@ -1,3 +1,7 @@
+DROP DATABASE IF EXISTS `db_nenu_oj`;
+CREATE DATABASE `db_nenu_oj` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE db_nenu_oj;
+
 CREATE TABLE `t_problem`(
     `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
     `title` varchar(255) NOT NULL DEFAULT '' COMMENT '题目标题',
@@ -44,9 +48,10 @@ CREATE TABLE `t_status`(
 
 CREATE TABLE `t_user`(
     `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
-    `username` varchar(255) DEFAULT NULL COMMENT '用户名',
+    `username` varchar(255) NOT NULL unique COMMENT '用户名',
     `nickname` varchar(255) NOT NULL DEFAULT '' COMMENT '昵称',
     `password` varchar(255) NOT NULL DEFAULT '' COMMENT '密码',
+	`signature` varchar(255) NOT NULL DEFAULT '' COMMENT '说明',
     `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
     `school` varchar(255) NOT NULL DEFAULT '' COMMENT '学校',
     `total_submit` int(10) NOT NULL DEFAULT '0' COMMENT '总提交数',
@@ -130,3 +135,12 @@ CREATE TABLE `t_mail`(
     `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态(0:未读;1:已读)',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '站内信表';
+
+CREATE TABLE `t_language_type`(
+	`id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
+	`language` varchar(255) NOT NULL DEFAULT '' COMMENT '语言名称',
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '编程语言表';
+
+INSERT INTO t_language_type(id, language)
+VALUES (1, 'GNU C++'), (2, 'GNU C++11'), (3, 'Java'), (4, 'Python2'), (5, 'Python3');

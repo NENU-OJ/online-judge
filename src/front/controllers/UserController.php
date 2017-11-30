@@ -10,35 +10,31 @@ namespace app\controllers;
 
 use app\models\Status;
 use app\models\User;
+use yii\db\Exception;
+use yii\web\NotFoundHttpException;
 
 class UserController extends BaseController {
 
-    //    public function behaviors()
-    //    {
-    //        return [
-    //            [
-    //                'class' => Filter::className(),
-    //                //控制哪些动作需要过滤器
-    //                'only' => ['submit','discuss'],
-    //            ]
-    //        ];
-    //    }
-
-    public function actionDetail($id = 0) {
-        //        print_r($userId);
-        $isSelf = false;
-        if ($id == 0) {
-            $id = \Yii::$app->session['user_id'];
-            $isSelf = true;
-        } else if ($id == \Yii::$app->session['user_id']) {
-            $isSelf = true;
+    public function actionDetail() {
+        $id = \Yii::$app->request->get('id', -1);
+        if ($id == -1) {
+            if (isset(\Yii::$app->session['user_id']))
+                $id = \Yii::$app->session['user_id'];
         }
-        $basicInfo = User::findOne($id);
-        $acList = Status::find()->select('problem_id')->where('user_id=:userId and result LIKE :result ', [':userId' => $id, ':result' => '%' . 'Accepted' . '%'])->distinct()->asArray()->all();
-        $this->smarty->assign('basicInfo', $basicInfo);
-        $this->smarty->assign('acList', $acList);
-        $this->smarty->assign('isSelf', $isSelf);
-        $this->smarty->display('user/user.html');
+        $user = User::findById($id);
+        if (!$user)
+            throw new NotFoundHttpException("无效的user_id");
+
+        $solved = [1, 2, 3, 4, 5];
+        $unsolved = [6, 7, 8, 9, 10];
+        $submissions = 64;
+
+        $this->smarty->assign('user', $user);
+        $this->smarty->assign('solved', $solved);
+        $this->smarty->assign('unsolved', $unsolved);
+        $this->smarty->assign('submissions', $submissions);
+
+        return $this->smarty->display('user/user.html');
     }
 
     public function actionLogin() {
@@ -82,47 +78,43 @@ class UserController extends BaseController {
     }
 
     public function actionRegister() {
-        if (User::findByUsername(trim($_GET['username']))) {
-            $list = '[{"code":1,"data":""}]';
-            print $list;
-        } else {
+        if (\Yii::$app->request->isGet) {
+            if (isset($_SESSION["user_id"])) {
+                $this->smarty->assign('msg', "已经登录了就别注册了!");
+                return $this->smarty->display('common/error.html');
+            } else {
+                return $this->smarty->display('user/register.html');
+            }
+        } else if (\Yii::$app->request->isAjax) {
             $user = new User();
-            $user->username = trim($_GET['username']);
-            $user->nickname = trim($_GET['nickname']);
-            $user->password = md5(trim($_GET['password']));
-            $user->register_time = date("Y-m-d H:i:s"); // TODO date check
+            $user->username = trim(\Yii::$app->request->post('username'));
+            $user->nickname = trim(\Yii::$app->request->post('nickname'));
+            $user->password = md5(trim(\Yii::$app->request->post('password')));
+            $user->email = trim(\Yii::$app->request->post('email'));
+            $user->school = trim(\Yii::$app->request->post('school'));
+            $user->signature = trim(\Yii::$app->request->post('signature'));
+            $user->register_time = date("Y-m-d H:i:s");
             $user->ip_addr = $_SERVER['REMOTE_ADDR'];
-            $user->email = $_GET['email'];
-            $user->school = $_GET['school'];
-            $user->save();
-            $list = '[{"code":0,"data":""}]';
-            print $list;
+            $code = 0;
+            $data = "";
+            try {
+                $user->save();
+                \Yii::$app->session['user_id'] = $user->id;
+                \Yii::$app->session['username'] = $user->username;
+                \Yii::$app->session['nickname'] = $user->nickname;
+                \Yii::$app->session['email'] = $user->email;
+                \Yii::$app->session['school'] = $user->school;
+            } catch (\yii\db\Exception $e) {
+                $code = 1;
+                $data = "该用户名已被占用";
+            }
+            return json_encode(["code" => $code, "data" => $data]);
+        } else {
+            return json_encode(["code" => 1, "data" => "请求方式错误"]);
         }
     }
 
     public function actionUpdate() {
-        $user = User::findByUsername(trim($_GET['username']));
-        if (isset($_GET['oldPassword'])) {
-            $oldPassword = md5(trim($_GET['oldPassword']));
-            if ($user->password == $oldPassword) {
-                $user->nickname = trim($_GET['nickname']);
-                $user->email = trim($_GET['email']);
-                $user->school = trim($_GET['school']);
-                $user->password = md5(trim($_GET['newPassword']));
-                $user->update();
-                $list = '[{"code":0,"data":""}]';
-                print $list;
-            } else {
-                $list = '[{"code":1,"data":""}]';
-                print $list;
-            }
-        } else {
-            $user->nickname = trim($_GET['nickname']);
-            $user->email = trim($_GET['email']);
-            $user->school = trim($_GET['school']);
-            $user->update();
-            $list = '[{"code":0,"data":""}]';
-            print $list;
-        }
+
     }
 }

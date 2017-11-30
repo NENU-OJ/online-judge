@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Header -->
+<{include file="common/header.html"}>
+
+<body>
+
+<!-- 导航条 -->
+<{include file="common/navbar.html"}>
+
+<div class="container">
+    <fieldset>
+        <div class="block block-info">
+            <div class="block-content" id="register">
+                <div class="heading">注册</div>
+                <div class="inner">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group"><label for="reg_username">User Name *</label>
+                                <input class="form-control input-sm" id="reg_username" type="text">
+                            </div>
+                            <div class="form-group"><label for="reg_nick">Nick Name *</label>
+                                <input class="form-control input-sm" id="reg_nick" type="text">
+                            </div>
+                            <div class="form-group"><label for="reg_password">Password *</label>
+                                <input class="form-control input-sm" id="reg_password" type="password">
+                            </div>
+                            <div class="form-group"><label for="password_repeat">Repeat *</label>
+                                <input class="form-control input-sm" id="password_repeat" type="password">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group"><label for="reg_school">School</label>
+                                <input class="form-control input-sm" id="reg_school" type="text">
+                            </div>
+                            <div class="form-group"><label for="reg_email">Email</label>
+                                <input class="form-control input-sm" id="reg_email" type="text">
+                            </div>
+                            <div class="form-group"><label for="signature">Signature (最多255个字符)</label>
+                                <textarea class="form-control input-sm" id="signature" style="height:200px"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="heading"><a class="btn btn-default" id="reg_submit" href="javascript:;">Submit</a>
+                    <span class="error-text" id="reg_error"></span>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+<!-- Footer -->
+<{include file="common/footer.html" }>
+<!-- Javascript Libs -->
+<{include file="common/jsLibs.html"}>
+<!-- Javascript App -->
+<{include file="common/jsApp.html"}>
+<script type="text/javascript" src="<{$staticWebsite}>/js/user/register.js"></script>
+</body>
+
+</html>

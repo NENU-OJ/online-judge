@@ -16,13 +16,13 @@
             </ul>
             <{if $user_id}>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><img alt="avatar" src="<{$staticWebsite}>/img/honoka.png"><{$username}></a></li>
+                <li><a href="<{$website}>/user/detail/"><img alt="avatar" src="<{$staticWebsite}>/img/honoka.png"><{$username}></a></li>
                 <li><a id="logout" href="javascript:;">注销</a></li>
             </ul>
             <{else}>
             <ul class="nav navbar-nav navbar-right">
                 <li><a class="checklogin" href="javascript:;" data-url="">登录</a></li>
-                <li><a href="#">注册</a></li>
+                <li><a href="<{$website}>/user/register">注册</a></li>
             </ul>
             <{/if}>
             <form class="navbar-form navbar-left" role="search" action="/problem">
@@ -52,8 +52,8 @@
             <label title="remember me for a month"><input id="remember" type="checkbox">记住我</label>
         </div>
     </div>
-    <div class="jqfoot"><span class="pull-right"><a class="btn btn-default" id="login_submit" href="javascript:;">登录</a>
-        <a class="btn btn-default loginclose" href="javascript:;">取消</a></span>
+    <div class="jqfoot"><span class="pull-right"><a class="btn btn-default" id="login_submit">登录</a>
+        <a class="btn btn-default loginclose">取消</a></span>
         <small class="error-text" id="login_error"></small>
     </div>
     <div class="jqResize img_link"></div>

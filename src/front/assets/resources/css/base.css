@@ -712,7 +712,7 @@ a.put_down {
 }
 
 #footer {
-  background: #ddd;
+  background: #ececec;
   padding: 10px 20px;
   margin-top: 10px;
 }
@@ -1069,7 +1069,7 @@ td.WA-fill {
 .jqtop {
   padding: 8px 10px;
   color: #fff;
-  background: #96C5F4;
+  background: rgba(240, 39, 194, 0.82);
 }
 
 .jqcontent {

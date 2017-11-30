@@ -1,170 +1,118 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 
-<head>
-    <title>NENU Online Judge</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Fonts -->
-    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
-    <!-- CSS Libs -->
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>lib/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>lib/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>lib/css/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>lib/css/bootstrap-switch.min.css">
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>lib/css/checkbox3.min.css">
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>lib/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>lib/css/dataTables.bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>lib/css/select2.min.css">
-    <!-- CSS App -->
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>css/style.css">
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>css/themes/flat-blue.css">
-</head>
+<!-- Header -->
+<{include file="common/header.html"}>
 
-<body class="flat-blue">
-<{include file="../common/navbar.html" }>
-<div class="container" id="page-content">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <div class="title"><{$basicInfo.username}></div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="row no-margin">
-                        <div class="col-sm-6">
-                            <div class="card primary">
-                                <div class="card-jumbotron no-padding">
-                                    <img src="<{$staticWebsite}>img/profile/picjumbo.com_HNCK4153_resize.jpg"
-                                         height="533" width="800" class="img-responsive">
-                                </div>
+<body>
+
+<!-- 导航条 -->
+<{include file="common/navbar.html"}>
+
+<div class="container">
+    <fieldset>
+        <div class="block block-info">
+            <div class="block-content">
+                <div class="inner" style="padding:0 15px">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div style="font-size:24px;margin-top:5px">
+                                <span class="user" title="<{$user->username}>"><{$user->username}></span>
                             </div>
+                            <div><span class="user-gray" title="nick name"><{$user->nickname}></span></div>
+                            <div><span class="user-gray" title="nick name"><{$user->signature}></span></div>
+                            <ul class="user-info">
+                                <li>Solved: <a href="#"><{count($solved)}></a></li>
+                                <li>Submissions: <a href="#"><{$submissions}></a></li>
+                                <li>Registered: <{$user->register_time}></li>
+                                <{if $user_id && $user_id == $user->id}>
+                                <li><a id="set" href="javascript:;">Change settings</a></li>
+                                <{/if}>
+                            </ul>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="card">
-                                <div class="card-jumbotron">
-                                    <{if $isSelf == true}>
-                                    <button type="button" class="close" data-toggle="modal"
-                                            data-target="#modalUpdate"><span
-                                            class="fa fa-pencil-square-o btn-link"></span></button>
-                                    <{/if}>
-                                    <h1>Profile</h1>
-                                    <table class="table table-bordered">
-                                        <tbody>
-                                        <tr>
-                                            <th scope="row">Username</th>
-                                            <td><{$basicInfo.username}></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Nickname</th>
-                                            <td><{$basicInfo.nickname}></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Email</th>
-                                            <td><{$basicInfo.email}></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">School</th>
-                                            <td><{$basicInfo.school}></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Total Submit</th>
-                                            <td><{$basicInfo.total_submit}></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Total AC</th>
-                                            <td><{$basicInfo.total_ac}></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Register Time</th>
-                                            <td><{$basicInfo.register_time}></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="card-body">
-                                    <div class="sub-title">Solved Problems List</div>
-                                    <{foreach $acList as $item}>
-                                    <a href="<{$website}>problem/problem-detail/detail?p_id=<{$item.problem_id}>"><{$item.problem_id}>&nbsp;&nbsp;</a>
-                                    <{/foreach}>
-                                </div>
-                            </div>
+                        <div class="col-md-4">
+                            <span class="pull-right" style="margin:20px 15px 0 0">
+                            <img class="img-250 img-round" alt="avatar" src="<{$staticWebsite}>/img/honoka.png">
+                                <div><a href="#">Change Avatar</a></div>
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="block block-success">
+            <div class="block-content">
+                <div class="heading">List of <span class="success-text">solved</span> problems</div>
+                <div class="inner prob_list">
+                    <{foreach $solved as $pid}>
+                        <a class="pid" href="#"><{$pid}></a>
+                    <{/foreach}>
+                </div>
+            </div>
+        </div>
+        <div class="block block-warning">
+            <div class="block-content">
+                <div class="heading">List of <span class="info-text">unsolved</span> problems</div>
+                <div class="inner prob_list">
+                    <{if count($unsolved) == 0}>
+                        <span class="info-text">No unsolved problems :)</span>
+                    <{else}>
+                        <{foreach $unsolved as $pid}>
+                        <a class="pid" href="#"><{$pid}></a>
+                        <{/foreach}>
+                    <{/if}>
+                </div>
+            </div>
+        </div>
+    </fieldset>
 </div>
-<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <form class="fh5co-form animate-box" data-animate-effect="fadeIn" id="update">
-            <h2>Update</h2>
-            <div class="form-group">
-                <p style="color: red;"><strong>请注意：所有输入项中首末空格均视为无效</strong></p>
-            </div>
-            <div class="form-group">
-                <label for="updateUsername">Username</label>
-                <input type="text" class="form-control" id="updateUsername" value="<{$basicInfo.username}>"
-                       autocomplete="off" disabled>
-            </div>
-            <div class="form-group">
-                <label for="updateNickname">Nickname</label>
-                <input type="text" class="form-control" id="updateNickname" value="<{$basicInfo.nickname}>"
-                       autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label for="updateSchool">School</label>
-                <input type="text" class="form-control" id="updateSchool" value="<{$basicInfo.school}>"
-                       autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label for="updateEmail">Email</label>
-                <input type="email" class="form-control" id="updateEmail" value="<{$basicInfo.email}>"
-                       autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label for="oldPassword">Password</label>
-                <input type="password" class="form-control" id="oldPassword" placeholder="Old Password"
-                       autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label for="newPassword">New Password</label>
-                <input type="password" class="form-control" id="newPassword"
-                       placeholder="New Password" autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label for="re-newPassword">Retype New Password</label>
-                <input type="password" class="form-control" id="re-newPassword"
-                       placeholder="Retype New Password" autocomplete="off">
-            </div>
-            <div class="form-group">
-                <input type="button" id="updateSubmit" value="Submit" class="btn btn-info">
-            </div>
-        </form>
-    </div>
-</div>
-<{include file="../common/footer.html" }>
-<!-- Javascript Libs -->
-<script type="text/javascript" src="<{$staticWebsite}>lib/js/jquery.min.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>lib/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>lib/js/Chart.min.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>lib/js/bootstrap-switch.min.js"></script>
 
-<script type="text/javascript" src="<{$staticWebsite}>lib/js/jquery.matchHeight-min.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>lib/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>lib/js/dataTables.bootstrap.min.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>lib/js/select2.full.min.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>lib/js/ace/ace.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>lib/js/ace/mode-html.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>lib/js/ace/theme-github.js"></script>
-<!-- Javascript -->
-<script type="text/javascript" src="<{$staticWebsite}>js/app.js"></script>
-<!-- Javascript -->
-<script type="text/javascript" src="<{$staticWebsite}>js/user/user.js"></script>
+<div class="jqmSubmit jqmID1" id="dialog_st" name="ToRapture"
+     style="width: 550px; height: 540px; top: 12%; margin-left: -275px; z-index: 3000; display: block;">
+    <div class="jqDrag jqtop">Settings</div>
+    <div class="jqcontent container" style="width:550px;height:445px">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group"><label for="oldpassword">Old Password *</label>
+                    <input class="form-control input-sm" id="oldpassword" type="password">
+                </div>
+                <div class="form-group"><label for="newpassword">New Password</label><input
+                        class="form-control input-sm" id="newpassword" type="password">
+                    <small class="help-block">Leave it blank if not to change password</small>
+                    <label for="password_repeat">Confirm New Password</label>
+                    <input class="form-control input-sm" id="password_repeat" type="password">
+                </div>
+                <div class="form-group"><label for="set_nick">Nick Name *</label>
+                    <input class="form-control input-sm" id="set_nick" type="text" value="ToRapture">
+                </div>
+                <div class="form-group"><label for="set_school">School</label>
+                    <input class="form-control input-sm" id="set_school" type="text" value="">
+                </div>
+                <div class="form-group"><label for="set_email">Email</label>
+                    <input class="form-control input-sm" id="set_email" type="text" value="">
+                </div>
+            </div>
+            <div class="col-sm-6"><label for="signature">Signature</label>
+                <textarea class="form-control input-sm" id="signature" style="height:360px"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="jqfoot">
+        <span class="pull-right">
+            <a class="btn btn-default" id="set_submit" href="javascript:;">Submit</a>
+            <a class="setclose btn btn-default" href="javascript:;">Cancel</a>
+        </span>
+        <small class="error-text" id="set_error"></small>
+    </div>
+    <div class="jqResize"></div>
+    <i class="setclose jqclose img_link"></i></div>
+<!-- Footer -->
+<{include file="common/footer.html" }>
+<!-- Javascript Libs -->
+<{include file="common/jsLibs.html"}>
+<!-- Javascript App -->
+<{include file="common/jsApp.html"}>
+
 </body>
 
 </html>

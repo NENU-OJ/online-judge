@@ -14,12 +14,7 @@ class IndexController extends BaseController {
         $this->smarty->display('index.html');
     }
 
-    public function actionWarn($msg) {
-        $this->smarty->assign('msg', $msg);
-        $this->smarty->display('common/error.html');
-    }
-
-    public function actions() {
-        return ['error' => ['class' => 'yii\web\ErrorAction',]];
+    public function actionError() {
+        return $this->smarty->display('common/error.html');
     }
 }

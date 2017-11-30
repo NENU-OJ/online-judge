@@ -15,4 +15,11 @@ class User extends ActiveRecord {
             ->where('username=:username', [':username' => $username])
             ->one();
     }
+
+    public static function findById($id) {
+        return self::find()
+            ->select("*")
+            ->where("id=:id", [":id" => $id])
+            ->one();
+    }
 }

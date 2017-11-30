@@ -1,51 +1,30 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 
-<head>
-    <title>NENU Online Judge</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Fonts -->
-    <!-- CSS Libs -->
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>/lib/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>/lib/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>/lib/css/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>/lib/css/bootstrap-switch.min.css">
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>/lib/css/checkbox3.min.css">
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>/lib/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>/lib/css/dataTables.bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>/lib/css/select2.min.css">
-    <!-- CSS App -->
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>/css/style.css">
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>/css/themes/flat-blue.css">
-</head>
+<!-- Header -->
+<{include file="common/header.html"}>
 
-<body class="flat-blue">
-<{include file="../common/navbar.html" }>
+<body>
+
+<!-- 导航条 -->
+<{include file="common/navbar.html"}>
+
 <div class="container" id="page-content">
-        <div class="col-xs-6 col-center-block">
-            <div class="panel panel-danger">
-                <div class="panel-heading"><h3>Ooooooops!</h3></div>
-                <div class="panel-body"><h4><{$msg}></h4></div>
-            </div>
+    <div class="col-xs-12 col-center-block">
+        <div class="panel panel-danger">
+            <div class="panel-heading"><h3>Ooooooops!</h3></div>
+            <div class="panel-body"><h4><{$msg}></h4></div>
         </div>
+    </div>
 </div>
-<{include file="../common/footer.html" }>
-<!-- Javascript Libs -->
-<script type="text/javascript" src="<{$staticWebsite}>/lib/js/jquery.min.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>/lib/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>/lib/js/Chart.min.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>/lib/js/bootstrap-switch.min.js"></script>
 
-<script type="text/javascript" src="<{$staticWebsite}>/lib/js/jquery.matchHeight-min.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>/lib/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>/lib/js/dataTables.bootstrap.min.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>/lib/js/select2.full.min.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>/lib/js/ace/ace.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>/lib/js/ace/mode-html.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>/lib/js/ace/theme-github.js"></script>
-<!-- Javascript -->
-<script type="text/javascript" src="<{$staticWebsite}>/js/app.js"></script>
-<!-- Javascript -->
+<!-- Footer -->
+<{include file="common/footer.html" }>
+<!-- Javascript Libs -->
+<{include file="common/jsLibs.html"}>
+<!-- Javascript App -->
+<{include file="common/jsApp.html"}>
+
 </body>
 
 </html>
