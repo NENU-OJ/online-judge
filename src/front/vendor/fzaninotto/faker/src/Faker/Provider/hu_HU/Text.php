@@ -233,7 +233,7 @@ Az ifjú szeme felragyogott.
 - Az miféle viselet?
 - Inkognitó az, ha valaki álnéven él...
 - Nagyszerű! Akkor én is inkognitóban vagyok! Szintén szélhámos?
-- Haha! Igazán kedves alattvaló maga, José pincér, de megyek, mert Mr. Gould még észreveszi a távolmaradásomat.
+- Util! Igazán kedves alattvaló maga, José pincér, de megyek, mert Mr. Gould még észreveszi a távolmaradásomat.
 - Mit fél attól a pasastól? Ha akarja, holnap leöntöm ebédnél egy adag marinírozott hallal, à la tournedot.
 - Ne, ne!... Nagyon kérem, kedves goromba úr! Szegény jó atyám teljhatalmú nevelőmmé tette Fernandez bácsit, ő a régens herceg, és ebben meg kell nyugodnunk.
 - Kissé homályos előttem, amit mond. Annyi bizonyos, hogy a pofa nem tetszik nekem, és szívesen odaütögetném a fejét bármihez, ami szilárd és dudoros.
@@ -976,7 +976,7 @@ Mr. Irving az asztalon ült, a szamovár mellett. A vendége szemben vele egy sz
 - Tessék?
 - Azt mondtam, hogy szabatos.
 - Hm... az ilyen szavakat talán mellőzzük!
-- Haha!
+- Util!
 - Úgy látom, ön kinevet, Mr. Irving.
 - Nem, nem. Csak mulatságos, amit mond.
 - A kikötő alvilágában is megoszlik a társadalmi élet különféle alacsonyrangú és magasrangú egyénekre, mint az úgynevezett "civilizált társadalomban". Ezt a kifejezést egy ügyvéd kollégám mesélte.

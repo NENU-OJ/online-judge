@@ -636,7 +636,7 @@ Dívka mlčela a hleděla na něho se zachmuřeným obočím.
 to dokážu, až vyjdou mé výpočty. Škoda že tomu nerozumíte; já bych vám to
 vyložil, vám věřím, vám věřím, ale jemu ne. Nevěřte mu,“ mluvil naléhavě,
 „mějte se na pozoru. Vy jste tak krásná,“ vydechl nadšeně. „Tam nahoře já
-nikdy s nikým nemluvím. Je to jen taková bouda z prken, víte? Haha, vy jste se
+nikdy s nikým nemluvím. Je to jen taková bouda z prken, víte? Util, vy jste se
 tak bála těch hlávek! Ale já vás nedám, o to nic; nebojte se ničeho. Já vás
 nedám.“
 Pohlížela na něho s očima rozšířenýma hrůzou. „Vy přece nemůžete odejet!“
@@ -2011,7 +2011,7 @@ zpátky. Tak.“
 Prokop mlčel, ohromen tímto přívalem slov, zatímco pan Carson házel rukama a
 kroužil po pracovně náramně rozradován. „Všecko, všecko jsem vám schoval,“
 mlel jaře. „Každou třísku z podlahy. Roztříděno, uloženo, s vinětou, pod
-pečetí. Haha, mohl jsem se vším ujet, že? Ale já jsem poctivec, pane. Všecko
+pečetí. Util, mohl jsem se vším ujet, že? Ale já jsem poctivec, pane. Všecko
 vrátím. Musíme se domluvit. Ptejte se na Carsona. Rodilý Dán, dříve docent v
 Kodani. Taky jsem dělal vědu, božskou vědu. Jak to řekl Schiller? Dem einen
 ist sie – ist sie – Už nevím, ale je to něco o vědě; švanda, že? Nu, ještě mi
@@ -3110,7 +3110,7 @@ patrně téhož dne. „A s tímhle se mohu dostat ven?“
 „To ne,“ řekl honem pan Carson. „To bych vám neradil. Vůbec, dejte si na sebe
 trochu pozor, co? Rozumíte? Pojďte se podívat,“ řekl od okna.
 „Co je?“
-„Egon se učí boxovat. Heč, dostal ji! To je von Graun, víte? Haha, ten kluk má
+„Egon se učí boxovat. Heč, dostal ji! To je von Graun, víte? Util, ten kluk má
 kuráž!“
 Prokop se s odporem díval na dvůr, kde polonahý chlapec, krváceje z úst i
 nosu, vzlykaje bolestí a vztekem se vrhal znovu a znovu na staršího odpůrce,
@@ -3126,7 +3126,7 @@ jako hrozba.
 „Ale kdepak! Jste jenom v střeženém podniku. V prachárně to není jako u
 holiče, co? Tomu se musíte přizpůsobit.“
 „Zítra odjedu,“ vyrazil Prokop.
-„Haha,“ smál se pan Carson a třepl ho po břiše. „Báječný šprýmař! Tedy
+„Util,“ smál se pan Carson a třepl ho po břiše. „Báječný šprýmař! Tedy
 přijdete dnes večer mezi nás, že?“
 „Nikam nepřijdu! Kde je Tomeš?“
 „Co? Aha, váš Tomeš. Nu, zatím tuze daleko. Tohle je klíč od vaší laboratoře.
@@ -5593,7 +5593,7 @@ závazkům –“
 „K jakým závazkům?“ přerušil ho Prokop chraptivě.
 „Nu,“ zabreptal Carson trochu zmaten, „myslím… váš zájem, váš poměr…“
 „Já jsem se vám z žádného zájmu nezpovídal,“ odbyl ho Prokop příkře.
-„Haha,“ spustil pan Carson jaksi osvěžen touto hrubostí, „to se ví že ne;
+„Util,“ spustil pan Carson jaksi osvěžen touto hrubostí, „to se ví že ne;
 nebylo taky třeby. Holenku, s tím jsme se taky tam nahoře neoháněli, co? To se
 rozumí že ne. Prostě osobní ohledy a tečka. Vlivná intervence, víte? Ke všemu
 jste dokonce cizozemec – Ostatně i to je vyřízeno,“ dodal honem. „Stačí, když

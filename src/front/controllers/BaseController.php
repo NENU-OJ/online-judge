@@ -30,12 +30,15 @@ class BaseController extends Controller {
         //向前端渲染资源目录
         $this->smarty->assign('staticWebsite',
             "http://".\Yii::$app->request->serverName.":".\Yii::$app->request->serverPort."/assets/resources");
+        $this->smarty->assign('uploadsDir',
+            "http://".\Yii::$app->request->serverName.":".\Yii::$app->request->serverPort."/uploads");
         $this->smarty->assign('time', date("Y-m-d H:i:s"));
         //若用户已登录，向前端渲染用户名方便判断哪些按钮显示和哪些不显示
         if (isset(\Yii::$app->session['user_id'])) {
             $this->smarty->assign('user_id', \Yii::$app->session['user_id']);
             $this->smarty->assign('username', \Yii::$app->session['username']);
             $this->smarty->assign('nickname', \Yii::$app->session['nickname']);
+            $this->smarty->assign('avatar', \Yii::$app->session['avatar']);
             $this->smarty->assign('email', \Yii::$app->session['email']);
             $this->smarty->assign('school', \Yii::$app->session['school']);
         }

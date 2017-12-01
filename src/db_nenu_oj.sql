@@ -4,15 +4,15 @@ USE db_nenu_oj;
 
 CREATE TABLE `t_problem`(
     `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
-    `title` varchar(255) NOT NULL DEFAULT '' COMMENT '题目标题',
+    `title` varchar(64) NOT NULL DEFAULT '' COMMENT '题目标题',
     `description` longtext NOT NULL COMMENT '题目描述',
     `input` text NOT NULL COMMENT '输入描述',
     `output` text NOT NULL COMMENT '输出描述',
     `sample_in` text NOT NULL COMMENT '输入样例',
     `sample_out` text NOT NULL COMMENT '输出样例',
     `hint` text NOT NULL COMMENT '提示',
-    `source` varchar(255) NOT NULL DEFAULT '' COMMENT '题目来源',
-    `author` varchar(255) NOT NULL DEFAULT '' COMMENT '作者',
+    `source` varchar(64) NOT NULL DEFAULT '' COMMENT '题目来源',
+    `author` varchar(64) NOT NULL DEFAULT '' COMMENT '作者',
     `time_limit` int(10) NOT NULL DEFAULT '0' COMMENT '时间限制',
     `memory_limit` int(10) NOT NULL DEFAULT '0' COMMENT '内存限制',
     `total_submit` int(10) NOT NULL DEFAULT '0' COMMENT '总提交数',
@@ -48,23 +48,24 @@ CREATE TABLE `t_status`(
 
 CREATE TABLE `t_user`(
     `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
-    `username` varchar(255) NOT NULL unique COMMENT '用户名',
-    `nickname` varchar(255) NOT NULL DEFAULT '' COMMENT '昵称',
-    `password` varchar(255) NOT NULL DEFAULT '' COMMENT '密码',
+    `username` varchar(64) NOT NULL unique COMMENT '用户名',
+    `nickname` varchar(64) NOT NULL DEFAULT '' COMMENT '昵称',
+    `avatar` varchar(76) NOT NULL DEFAULT '' COMMENT '头像',
+    `password` varchar(64) NOT NULL DEFAULT '' COMMENT '密码',
 	`signature` varchar(255) NOT NULL DEFAULT '' COMMENT '说明',
-    `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
-    `school` varchar(255) NOT NULL DEFAULT '' COMMENT '学校',
+    `email` varchar(64) DEFAULT NULL COMMENT '邮箱',
+    `school` varchar(64) NOT NULL DEFAULT '' COMMENT '学校',
     `total_submit` int(10) NOT NULL DEFAULT '0' COMMENT '总提交数',
     `total_ac` int(10) NOT NULL DEFAULT '0' COMMENT '总通过数',
     `register_time` datetime DEFAULT NULL COMMENT '注册时间',
     `is_root` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是管理员(0:否;1:是)',
-    `ip_addr` varchar(255) DEFAULT NULL COMMENT '上次登录ip地址',
+    `ip_addr` varchar(64) DEFAULT NULL COMMENT '上次登录ip地址',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '用户表';
 
 CREATE TABLE `t_contest`(
     `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
-    `title` varchar(255) NOT NULL DEFAULT '' COMMENT '比赛标题',
+    `title` varchar(64) NOT NULL DEFAULT '' COMMENT '比赛标题',
     `description` text COMMENT '比赛描述',
     `is_private` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是私有比赛(0:否;1:是)',
     `start_time` datetime DEFAULT NULL COMMENT '开始时间',
@@ -74,7 +75,7 @@ CREATE TABLE `t_contest`(
     `is_virtual` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是自建比赛(0:否;1:是)',
     `owner_id` int(10) NOT NULL DEFAULT '0' COMMENT '比赛创建者id（对应user表中的id）',
     `type_id` int(10) NOT NULL DEFAULT '0' COMMENT '比赛方式（对应contest_type中的id）',
-    `password` varchar(255) NOT NULL DEFAULT '' COMMENT '比赛密码',
+    `password` varchar(64) NOT NULL DEFAULT '' COMMENT '比赛密码',
     `owner_viewable` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否允许比赛创建者查看参加者的代码',
     PRIMARY KEY (`id`)
 )  ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '比赛表';
@@ -108,7 +109,7 @@ CREATE TABLE `t_discuss`(
     `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
     `parent_id` int(10) NOT NULL DEFAULT '0' COMMENT '父节点id（对应discuss表中的id）',
     `time` datetime DEFAULT NULL COMMENT '发表时间',
-    `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
+    `title` varchar(64) NOT NULL DEFAULT '' COMMENT '标题',
     `content` text NOT NULL COMMENT '内容',
     `user_id` int(10) NOT NULL DEFAULT '0' COMMENT '用户id（对应user表中的id）',
     `problem_id` int(10) NOT NULL DEFAULT '0' COMMENT '题目id（对应problem表中的id）',
@@ -129,7 +130,7 @@ CREATE TABLE `t_mail`(
     `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
     `sender_id` int(10) NOT NULL DEFAULT '0' COMMENT '发送人id（对应user表中id）',
     `reciever_id` int(10) NOT NULL DEFAULT '0' COMMENT '接收人id（对应user表中id）',
-    `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
+    `title` varchar(64) NOT NULL DEFAULT '' COMMENT '标题',
     `content` text NOT NULL COMMENT '内容',
     `time` datetime DEFAULT NULL COMMENT '发送时间',
     `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态(0:未读;1:已读)',
@@ -138,9 +139,10 @@ CREATE TABLE `t_mail`(
 
 CREATE TABLE `t_language_type`(
 	`id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
-	`language` varchar(255) NOT NULL DEFAULT '' COMMENT '语言名称',
+	`language` varchar(64) NOT NULL DEFAULT '' COMMENT '语言名称',
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '编程语言表';
 
 INSERT INTO t_language_type(id, language)
 VALUES (1, 'GNU C++'), (2, 'GNU C++11'), (3, 'Java'), (4, 'Python2'), (5, 'Python3');
+

@@ -17,10 +17,14 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div style="font-size:24px;margin-top:5px">
-                                <span class="user" title="<{$user->username}>"><{$user->username}></span>
+                                <span class="user" title="<{$user->nickname}>"><{$user->nickname}></span>
                             </div>
-                            <div><span class="user-gray" title="nick name"><{$user->nickname}></span></div>
-                            <div><span class="user-gray" title="nick name"><{$user->signature}></span></div>
+                            <div>
+                                <span class="user-gray"><{$user->username}></span>
+                                <span class="user-gray"><{$user->school}></span>
+                                <span class="user-gray"><{$user->email}></span>
+                            </div>
+                            <div><span class="user-gray"><{$user->signature}></span></div>
                             <ul class="user-info">
                                 <li>Solved: <a href="#"><{count($solved)}></a></li>
                                 <li>Submissions: <a href="#"><{$submissions}></a></li>
@@ -32,8 +36,8 @@
                         </div>
                         <div class="col-md-4">
                             <span class="pull-right" style="margin:20px 15px 0 0">
-                            <img class="img-250 img-round" alt="avatar" src="<{$staticWebsite}>/img/honoka.png">
-                                <div><a href="#">Change Avatar</a></div>
+                            <img class="img-250 img-round" alt="avatar" src="<{$uploadsDir}>/avatar/<{$user->avatar}>/1.png">
+                                <div><a href="<{$website}>/user/avatar">Change Avatar</a></div>
                             </span>
                         </div>
                     </div>
@@ -67,8 +71,8 @@
     </fieldset>
 </div>
 
-<div class="jqmSubmit jqmID1" id="dialog_st" name="ToRapture"
-     style="width: 550px; height: 540px; top: 12%; margin-left: -275px; z-index: 3000; display: block;">
+<div class="jqmSubmit jqmID1" id="dialog_st" name="<{$username}>"
+     style="width: 550px; height: 540px; top: 12%; margin-left: -275px; z-index: 3000; display: none;">
     <div class="jqDrag jqtop">Settings</div>
     <div class="jqcontent container" style="width:550px;height:445px">
         <div class="row">
@@ -79,28 +83,28 @@
                 <div class="form-group"><label for="newpassword">New Password</label><input
                         class="form-control input-sm" id="newpassword" type="password">
                     <small class="help-block">Leave it blank if not to change password</small>
-                    <label for="password_repeat">Confirm New Password</label>
-                    <input class="form-control input-sm" id="password_repeat" type="password">
+                    <label for="up_password_repeat">Confirm New Password</label>
+                    <input class="form-control input-sm" id="up_password_repeat" type="password">
                 </div>
                 <div class="form-group"><label for="set_nick">Nick Name *</label>
-                    <input class="form-control input-sm" id="set_nick" type="text" value="ToRapture">
+                    <input class="form-control input-sm" id="set_nick" type="text" value="<{$username}>">
                 </div>
                 <div class="form-group"><label for="set_school">School</label>
-                    <input class="form-control input-sm" id="set_school" type="text" value="">
+                    <input class="form-control input-sm" id="set_school" type="text" value="<{$user->school}>">
                 </div>
                 <div class="form-group"><label for="set_email">Email</label>
-                    <input class="form-control input-sm" id="set_email" type="text" value="">
+                    <input class="form-control input-sm" id="set_email" type="text" value="<{$user->email}>">
                 </div>
             </div>
-            <div class="col-sm-6"><label for="signature">Signature</label>
-                <textarea class="form-control input-sm" id="signature" style="height:360px"></textarea>
+            <div class="col-sm-6"><label for="up_signature">Signature</label>
+                <textarea class="form-control input-sm" id="up_signature" style="height:360px"><{$user->signature}></textarea>
             </div>
         </div>
     </div>
     <div class="jqfoot">
         <span class="pull-right">
-            <a class="btn btn-default" id="set_submit" href="javascript:;">Submit</a>
-            <a class="setclose btn btn-default" href="javascript:;">Cancel</a>
+            <a class="btn btn-default" id="set_submit">Submit</a>
+            <a class="setclose btn btn-default" id="set_cancel">Cancel</a>
         </span>
         <small class="error-text" id="set_error"></small>
     </div>
@@ -112,6 +116,7 @@
 <{include file="common/jsLibs.html"}>
 <!-- Javascript App -->
 <{include file="common/jsApp.html"}>
+<script type="text/javascript" src="<{$staticWebsite}>/js/user/user.js"></script>
 
 </body>
 

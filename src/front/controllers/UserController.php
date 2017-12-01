@@ -8,14 +8,14 @@
 
 namespace app\controllers;
 
-use app\models\Status;
 use app\models\User;
-use yii\db\Exception;
 use yii\web\NotFoundHttpException;
+use app\common\Util;
 
 class UserController extends BaseController {
 
     public function actionDetail() {
+
         $id = \Yii::$app->request->get('id', -1);
         if ($id == -1) {
             if (isset(\Yii::$app->session['user_id']))
@@ -56,6 +56,7 @@ class UserController extends BaseController {
                 \Yii::$app->session['user_id'] = $user->id;
                 \Yii::$app->session['username'] = $user->username;
                 \Yii::$app->session['nickname'] = $user->nickname;
+                \Yii::$app->session['avatar'] = $user->avatar;
                 \Yii::$app->session['email'] = $user->email;
                 \Yii::$app->session['school'] = $user->school;
                 $user->update();
@@ -86,9 +87,19 @@ class UserController extends BaseController {
                 return $this->smarty->display('user/register.html');
             }
         } else if (\Yii::$app->request->isAjax) {
+            $username = trim(\Yii::$app->request->post('username'));
+
+            // 用户名是否重复
+            if (User::findByUsername($username))
+                return json_encode(["code" => 1, "data" => "该用户名已被使用"]);
+
             $user = new User();
-            $user->username = trim(\Yii::$app->request->post('username'));
+            $user->username = $username;
             $user->nickname = trim(\Yii::$app->request->post('nickname'));
+
+            $defaultAvatars = Util::getDirs(\Yii::$app->params['uploadsDir'].'/avatar/default');
+            $user->avatar = 'default/'.$defaultAvatars[array_rand($defaultAvatars, 1)];
+
             $user->password = md5(trim(\Yii::$app->request->post('password')));
             $user->email = trim(\Yii::$app->request->post('email'));
             $user->school = trim(\Yii::$app->request->post('school'));
@@ -98,15 +109,17 @@ class UserController extends BaseController {
             $code = 0;
             $data = "";
             try {
+                // 注册并且保留登录状态
                 $user->save();
                 \Yii::$app->session['user_id'] = $user->id;
                 \Yii::$app->session['username'] = $user->username;
                 \Yii::$app->session['nickname'] = $user->nickname;
+                \Yii::$app->session['avatar'] = $user->avatar;
                 \Yii::$app->session['email'] = $user->email;
                 \Yii::$app->session['school'] = $user->school;
             } catch (\yii\db\Exception $e) {
                 $code = 1;
-                $data = "该用户名已被占用";
+                $data = "超长";
             }
             return json_encode(["code" => $code, "data" => $data]);
         } else {
@@ -115,6 +128,42 @@ class UserController extends BaseController {
     }
 
     public function actionUpdate() {
+        if (!isset(\Yii::$app->session["user_id"]))
+            return json_encode(["code" => 1, "data" => "未知用户"]);
+        $id = \Yii::$app->session["user_id"];
+        $user = User::findById($id);
 
+        if ($user->password != md5(\Yii::$app->request->post('old_password')))
+            return json_encode(["code" => 1, "data" => "旧密码错误"]);
+
+        if (\Yii::$app->request->post('new_password') != "")
+            $user->password = md5(\Yii::$app->request->post('new_password'));
+
+        $user->nickname = \Yii::$app->request->post('nickname');
+        $user->school = \Yii::$app->request->post('school');
+        $user->email = \Yii::$app->request->post('email');
+        $user->signature = \Yii::$app->request->post('signature');
+
+        try {
+            $user->update();
+            return json_encode(["code" => 0, "data" => ""]);
+        } catch (\yii\db\Exception $e) { // 上传的数据过大
+            return json_encode(["code" => 1, "data" => "超长"]);
+        }
     }
+
+    public function actionAvatar() {
+        if (\Yii::$app->request->isGet) {
+            if (!isset(\Yii::$app->session['user_id'])) {
+                $this->smarty->assign('msg', "请先登录");
+                return $this->smarty->display('common/error.html');
+            }
+            else {
+                return $this->smarty->display('user/avatar.html');
+            }
+        } else if (\Yii::$app->request->isPost) {
+            return "avatar post";
+        }
+    }
+
 }

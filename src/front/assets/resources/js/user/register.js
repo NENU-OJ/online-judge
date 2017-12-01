@@ -1,6 +1,4 @@
 var host = window.location.host;
-var MAX_INPUT_LENGTH = 255;
-
 
 $("#reg_submit").click(function () {
     $("#reg_error").text("");
@@ -21,18 +19,6 @@ $("#reg_submit").click(function () {
         $("#reg_error").text("需要Password");
     } else if (password !== re_password) {
         $("#reg_error").text("两次输入密码不一致");
-    } else if (username.length > MAX_INPUT_LENGTH) {
-        $("#reg_error").text("username 超长");
-    } else if (nickname.length > MAX_INPUT_LENGTH) {
-        $("#reg_error").text("nickname 超长");
-    } else if (password.length > MAX_INPUT_LENGTH) {
-        $("#reg_error").text("password 超长");
-    } else if (school.length > MAX_INPUT_LENGTH) {
-        $("#reg_error").text("school 超长");
-    } else if (email.length > MAX_INPUT_LENGTH) {
-        $("#reg_error").text("email 超长");
-    } else if (signature.length > MAX_INPUT_LENGTH) {
-        $("#reg_error").text("signature 超长");
     } else {
         $.ajax({
             type: "ajax",

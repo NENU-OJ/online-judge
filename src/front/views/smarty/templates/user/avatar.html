@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Header -->
+<{include file="common/header.html"}>
+
+<body>
+
+<!-- 导航条 -->
+<{include file="common/navbar.html"}>
+
+<div class="container">
+    <fieldset>
+        <div class="block block-info">
+            <div class="block-content">
+                <div class="heading">修改我的头像</div>
+                <div class="inner">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-3">
+                                <img class="img-250 img-round" src="<{$uploadsDir}>/avatar/<{$avatar}>/1.png"><p>250X250</p>
+                            </div>
+                            <div class="col-md-2">
+                                <img class="img-150 img-round" src="<{$uploadsDir}>/avatar/<{$avatar}>/2.png"><p>150X150</p>
+                            </div>
+                            <div class="col-md-4">
+                                <img class="img-75 img-round" src="<{$uploadsDir}>/avatar/<{$avatar}>/3.png"><p>75X75</p>
+                                <img class="img-50 img-round" src="<{$uploadsDir}>/avatar/<{$avatar}>/4.png"><p>50X50</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-offset-3 col-md-5">
+                            <div class="form-group">
+                                <div class="upload-control input-group input-group-sm">
+                                    <div class="input-group-btn">
+                                        <span class="btn btn-default btn-sm">选择文件
+                                            <input class="form-control" id="file" type="file" name="img" data-url="/avatar/upload">
+                                        </span>
+                                    </div>
+                                    <span class="upload_info form-control">未选择文件</span>
+                                </div>
+                                <span class="user-gray">注意：仅支持jpeg, jpg, png格式</span>
+                            </div>
+                            <button class="btn btn-default" id="upload">确认上传</button>
+                            <span class="error-text" id="imgerr"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+<!-- Footer -->
+<{include file="common/footer.html" }>
+<!-- Javascript Libs -->
+<{include file="common/jsLibs.html"}>
+<!-- Javascript App -->
+<{include file="common/jsApp.html"}>
+<script type="text/javascript" src="<{$staticWebsite}>/js/user/avatar.js"></script>
+
+</body>
+
+</html>
