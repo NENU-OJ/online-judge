@@ -35,12 +35,12 @@
                                 <div class="upload-control input-group input-group-sm">
                                     <div class="input-group-btn">
                                         <span class="btn btn-default btn-sm">选择文件
-                                            <input class="form-control" id="file" type="file" name="img" data-url="/avatar/upload">
+                                            <input class="form-control" id="file" type="file" name="avatar_img" data-url="">
                                         </span>
                                     </div>
                                     <span class="upload_info form-control">未选择文件</span>
                                 </div>
-                                <span class="user-gray">注意：仅支持jpeg, jpg, png格式</span>
+                                <span class="user-gray">注意：仅支持jpeg, jpg, png格式, 头像修改成功后请Ctrl + F5刷新</span>
                             </div>
                             <button class="btn btn-default" id="upload">确认上传</button>
                             <span class="error-text" id="imgerr"></span>
@@ -56,6 +56,8 @@
 <{include file="common/footer.html" }>
 <!-- Javascript Libs -->
 <{include file="common/jsLibs.html"}>
+<script type="text/javascript" src="<{$staticWebsite}>/lib/js/jquery/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="<{$staticWebsite}>/lib/js/jquery/jquery.fileupload.js"></script>
 <!-- Javascript App -->
 <{include file="common/jsApp.html"}>
 <script type="text/javascript" src="<{$staticWebsite}>/js/user/avatar.js"></script>

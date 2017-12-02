@@ -162,7 +162,74 @@ class UserController extends BaseController {
                 return $this->smarty->display('user/avatar.html');
             }
         } else if (\Yii::$app->request->isPost) {
-            return "avatar post";
+            if (!isset(\Yii::$app->session['user_id'])) {
+                return json_encode(["code" => 1, "data" => "需要登录"]);
+            }
+            $avatar = $_FILES['avatar_img'];
+            if ($avatar['error'] > 0) {
+                return json_encode(["code" => 1, "data" => "上传失败: ".$avatar['error']]);
+            }
+
+            $save_path = \Yii::$app->params['uploadsDir'] . '/avatar/user/' . \Yii::$app->session['username'];
+            try {
+                if (!file_exists($save_path))
+                    mkdir($save_path);
+
+                $rawFile = $save_path.'/raw';
+                move_uploaded_file($avatar['tmp_name'], $rawFile);
+                list($width, $height, $type) = getimagesize($rawFile);
+                $image = null;
+                switch ($type) {
+                    case IMAGETYPE_JPEG:
+                        $image = imagecreatefromjpeg($rawFile);
+                        break;
+                    case IMAGETYPE_PNG:
+                        $image = imagecreatefrompng($rawFile);
+                        break;
+                    default:
+                        return json_encode(["code" => 1, "data" => "未知图片格式"]);
+                        break;
+                }
+
+                $sizeList = ['1' => 250,'2' => 125, '3' => 75, '4' => 50];
+
+                foreach ($sizeList as $name => $size) {
+                    $newImage = imagecreatetruecolor($size, $size);
+                    imagecopyresampled($newImage, $image, 0, 0, 0, 0, $size, $size, $width, $height);
+
+                    $saveFile = $save_path.'/'.$name.'.png';
+
+                    imagepng($newImage, $saveFile);
+                    imagedestroy($newImage);
+                }
+
+                imagedestroy($image);
+                unlink($rawFile);
+
+                $user = User::findById(\Yii::$app->session['user_id']);
+                $user->avatar = 'user/'.$user->username;
+                $user->update();
+                // 用户头像上传成功后修改session，以便smarty使用
+                \Yii::$app->session['avatar'] = $user->avatar;
+
+
+                return json_encode(["code" => 0, "data" => ""]);
+
+            } catch (\Exception $e) {
+                return json_encode(["code" => 1, "data" => "服务器没有写权限，请检查配置"]);
+            }
+
+
+//            foreach ($sizeList as $name => $size) {
+//                $file = $save_path.'/'.$name.'.png';
+//                if ($name == "1")
+//                    move_uploaded_file($avatar['tmp_name'], $file);
+//                else {
+//                    copy($save_path.'/1.png', $file);
+//                }
+//            }
+
+
         }
     }
 

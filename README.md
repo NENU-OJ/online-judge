@@ -48,6 +48,10 @@ Special Judge所需的文件夹由`config.ini`中的`spj_files_path`字段指定
 日志信息全部会输出到`stderr`。
 
 ## WEB
-# 使用方法
-
-1. 修改 config/web.php 文件，给 cookieValidationKey 配置项 添加一个密钥：'cookieValidationKey' => '在此处输入你的密钥',
+### 文件权限修改
+如果使用Nginx则需要`sudo chown -R www-data:www-data OnlineJudge/src/front/uploads/avatar/user/`
+### 安装并开启GD库
+`sudo apt-get install php5.6-gd && sudo service nginx restart`
+### 修改文件上传大小限制
+`sudo gedit /etc/nginx/nginx.conf`添加`client_max_body_size 20M;`
+`sudo /etc/php/5.6/fpm/php.ini`修改`post_max_size 64M`和`upload_max_filesize 64M`
