@@ -14,10 +14,13 @@ use app\common\Util;
 
 class UserController extends BaseController {
     public function actionDetail($username = "") {
+
         if ($username == "") {
-            if (isset(\Yii::$app->session['username']))
+            if (isset(\Yii::$app->session['username'])) {
                 $username = \Yii::$app->session['username'];
+            }
         }
+
         $user = User::findByUsername($username);
         if (!$user)
             throw new NotFoundHttpException("没有 $username 这个用户");

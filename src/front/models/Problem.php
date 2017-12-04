@@ -15,4 +15,10 @@ class Problem extends ActiveRecord {
             ->where("id=:id", [":id" => $id])
             ->one();
     }
+
+    public static function addTotalSubmit($id) {
+        $problem = self::findById($id);
+        $problem->total_submit += 1;
+        $problem->update();
+    }
 }

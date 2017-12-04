@@ -39,4 +39,13 @@ class Util {
         }
         return range($from, $from + $need - 1);
     }
+
+    static public function sendToJudgeBySocket($id, $host, $port) {
+        $id = strval($id);
+
+        $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+        socket_connect($socket, $host, $port);
+        socket_write($socket, $id, strlen($id));
+        socket_close($socket);
+    }
 }

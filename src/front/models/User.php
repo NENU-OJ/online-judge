@@ -22,4 +22,10 @@ class User extends ActiveRecord {
             ->where("id=:id", [":id" => $id])
             ->one();
     }
+
+    public static function addTotalSubmit($id) {
+        $user = self::findById($id);
+        $user->total_submit = $user->total_submit + 1;
+        $user->update();
+    }
 }

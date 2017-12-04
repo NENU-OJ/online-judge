@@ -42,6 +42,6 @@ $("#reg_submit").click(function () {
             error: function () {
                 console.log("获取JSON数据异常");
             }
-        })
+        });
     }
 });

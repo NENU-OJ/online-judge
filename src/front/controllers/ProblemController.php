@@ -13,6 +13,7 @@ use app\models\LanguageType;
 use app\models\Problem;
 use app\models\Status;
 use app\common\Util;
+use app\models\User;
 use yii\web\NotFoundHttpException;
 
 class ProblemController extends BaseController {
@@ -37,6 +38,7 @@ class ProblemController extends BaseController {
         $this->smarty->assign('problems', $problems);
         return $this->smarty->display('problem/problem.html');
     }
+
     public function actionView($id) {
         $problem = Problem::findById($id);
         if (!$problem) {
@@ -47,5 +49,38 @@ class ProblemController extends BaseController {
         $this->smarty->assign('languageTypeList', LanguageType::find()->all());
         $this->smarty->assign('webTitle', "Problem $id");
         return $this->smarty->display('problem/problemView.html');
+    }
+
+    public function actionSubmit() {
+        if (!isset(\Yii::$app->session['user_id']))
+            return json_encode(["code" => 2, "data" => "请先登录"]);
+
+        if (\Yii::$app->request->isPost) {
+            try {
+                $status = new Status();
+                $status->user_id = \Yii::$app->session['user_id'];
+                $status->problem_id = \Yii::$app->request->post('problemId');
+                $status->language_id = \Yii::$app->request->post('languageId');
+                $status->source = \Yii::$app->request->post('sourceCode');
+                $status->is_shared = \Yii::$app->request->post('isShared');
+                $status->contest_id = \Yii::$app->request->post('contestId');
+                $status->result = "Send to Judge";
+                $status->save();
+
+                User::addTotalSubmit($status->user_id);
+                Problem::addTotalSubmit($status->problem_id);
+
+                $host = \Yii::$app->params['judger']['host'];
+                $port = \Yii::$app->params['judger']['port'];
+                Util::sendToJudgeBySocket($status->id, $host, $port);
+
+                return json_encode(["code" => 0, "data" => ""]);
+            } catch (\Exception $e) {
+                return json_encode(["code" => 1, "data" => $e->getMessage()]);
+            }
+
+        } else {
+            return json_encode(["code" => 1, "data" => "请求方式错误"]);
+        }
     }
 }

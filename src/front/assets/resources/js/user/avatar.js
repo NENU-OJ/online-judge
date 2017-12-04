@@ -40,5 +40,5 @@ $(document).ready(function () {
             else
                 $imgerr.text(resp.data);
         }
-    })
+    });
 });

@@ -19,24 +19,50 @@ $(document).ready(function () {
 });
 
 $("#submit").click(function () {
+    $("#submitError").text("");
+
     var problemId = $("#problemId").val();
     var languageId = $("#lang").select().val();
     var sourceCode = ace.edit("editor").getValue();
     var isShared = document.getElementById("isShared").checked;
     var contestId = $("#contestId").val();
 
-    $("#statusForm").css('display', 'block');
-    $("#statusInfo").text("fuck");
-    var times = 0;
-    var timer = setInterval(function () {
-        $("#statusInfo").text(Math.random());
-        if (times++ == 5)
-            clearInterval(timer);
-    }, 1000);
+    if (sourceCode == null || sourceCode == "" || sourceCode === undefined) {
+        $("#submitError").text("别交空代码啊");
+    } else if (sourceCode.length > 65536) {
+        $("#submitError").text("代码太长");
+    } else {
+        $.ajax({
+            type: "post",
+            url: 'http://' + host + '/problem/submit',
+            dataType: "json",
+            data: {
+                problemId: problemId,
+                languageId: languageId,
+                sourceCode: sourceCode,
+                isShared: isShared,
+                contestId: contestId
+            },
+            success: function (resp) {
+                if (resp.code == 0) { // 提交成功
+                    $("#statusForm").css('display', 'block');
+                    $("#statusInfo").text("Send to Judge");
+                    var times = 60;
+                    var timer = setInterval(function () {
+                        $("#statusInfo").text(Math.random());
+                        if (--times == 0)
+                            clearInterval(timer);
+                    }, 1000);
 
-    console.log(problemId);
-    console.log(languageId);
-    console.log(sourceCode);
-    console.log(isShared);
-    console.log(contestId);
+                } else if (resp.code == 2) { // 若没有登录就提交则提示登录
+                    document.getElementById("checklogin").click();
+                } else {
+                    $("#submitError").text(resp.data);
+                }
+            },
+            error: function () {
+                console.log("获取JSON数据异常");
+            }
+        });
+    }
 });

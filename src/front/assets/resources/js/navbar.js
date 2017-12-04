@@ -34,7 +34,7 @@ $("#login_submit").click(function () {
         error: function () {
             console.log("获取JSON数据异常");
         }
-    })
+    });
 
 });
 
@@ -45,11 +45,11 @@ $("#logout").click(function () {
         dataType: "json",
         success: function (resp) {
             if (resp.code == 0) {
-                window.location.href = 'http://' + host;
+                location.reload();
             }
         },
         error: function () {
             console.log("获取JSON数据异常");
         }
-    })
+    });
 });
