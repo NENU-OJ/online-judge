@@ -13,17 +13,14 @@ use yii\web\NotFoundHttpException;
 use app\common\Util;
 
 class UserController extends BaseController {
-
-    public function actionDetail() {
-
-        $id = \Yii::$app->request->get('id', -1);
-        if ($id == -1) {
-            if (isset(\Yii::$app->session['user_id']))
-                $id = \Yii::$app->session['user_id'];
+    public function actionDetail($username = "") {
+        if ($username == "") {
+            if (isset(\Yii::$app->session['username']))
+                $username = \Yii::$app->session['username'];
         }
-        $user = User::findById($id);
+        $user = User::findByUsername($username);
         if (!$user)
-            throw new NotFoundHttpException("无效的user_id");
+            throw new NotFoundHttpException("没有 $username 这个用户");
 
         $solved = [1, 2, 3, 4, 5];
         $unsolved = [6, 7, 8, 9, 10];
@@ -72,6 +69,7 @@ class UserController extends BaseController {
         unset(\Yii::$app->session['user_id']);
         unset(\Yii::$app->session['username']);
         unset(\Yii::$app->session['nickname']);
+        unset(\Yii::$app->session['avatar']);
         unset(\Yii::$app->session['ip_addr']);
         unset(\Yii::$app->session['email']);
         unset(\Yii::$app->session['school']);
@@ -146,6 +144,9 @@ class UserController extends BaseController {
 
         try {
             $user->update();
+            \Yii::$app->session['nickname'] = $user->nickname;
+            \Yii::$app->session['email'] = $user->email;
+            \Yii::$app->session['school'] = $user->school;
             return json_encode(["code" => 0, "data" => ""]);
         } catch (\yii\db\Exception $e) { // 上传的数据过大
             return json_encode(["code" => 1, "data" => "超长"]);

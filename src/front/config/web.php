@@ -11,9 +11,8 @@ $config = [
     'timeZone' => 'Asia/Shanghai',
     'components' => [
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'enableCsrfValidation' => false,
-//            'cookieValidationKey' => '5eff4fdc648f8a5ca14bcd52c5f55bcf',
+            'cookieValidationKey' => '5eff4fdc648f8a5ca14bcd52c5f55bcf',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -46,6 +45,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'user/detail/<username:\w+>' => 'user/detail',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>'

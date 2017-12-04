@@ -9,9 +9,11 @@
 namespace app\controllers;
 
 
+use app\models\LanguageType;
 use app\models\Problem;
 use app\models\Status;
 use app\common\Util;
+use yii\web\NotFoundHttpException;
 
 class ProblemController extends BaseController {
     public function actionList($id = 1) {
@@ -34,5 +36,16 @@ class ProblemController extends BaseController {
         $this->smarty->assign('totalPage', $totalPage);
         $this->smarty->assign('problems', $problems);
         return $this->smarty->display('problem/problem.html');
+    }
+    public function actionView($id) {
+        $problem = Problem::findById($id);
+        if (!$problem) {
+            throw new NotFoundHttpException("不存在这个题目");
+        }
+        $this->smarty->assign('vmMultiplier', \Yii::$app->params['vmMultiplier']);
+        $this->smarty->assign('problem', $problem);
+        $this->smarty->assign('languageTypeList', LanguageType::find()->all());
+        $this->smarty->assign('webTitle', "Problem $id");
+        return $this->smarty->display('problem/problemView.html');
     }
 }

@@ -194,5 +194,5 @@ CREATE TABLE `t_language_type`(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '编程语言表';
 
 INSERT INTO t_language_type(id, language)
-VALUES (1, 'GNU C++'), (2, 'GNU C++11'), (3, 'Java'), (4, 'Python2'), (5, 'Python3');
+VALUES (1, 'GNU C++'), (2, 'GNU C++11'), (3, 'Java'), (4, 'Python 2'), (5, 'Python 3');
 

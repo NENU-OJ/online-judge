@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Header -->
+<{include file="common/header.html"}>
+
+<body>
+
+<!-- 导航条 -->
+<{include file="../common/navbar.html"}>
+
+<div class="container">
+    <fieldset>
+        <div class="row">
+            <div class="col-md-14">
+                <div class="block block-success">
+                    <div class="block-content block-container istyle"><h3 class="problem-header">
+                        <{$problem->title}></h3>
+                        <div class="prob-info">
+                            <span class="user-black">Time Limit: <{$problem->time_limit}>/<{$problem->time_limit * $vmMultiplier}>MS (C++/Others)</span>
+                            <span class="user-black">Memory Limit: <{$problem->memory_limit}>/<{$problem->memory_limit * $vmMultiplier}>KB (C++/Others)</span>
+                            <{if $problem->is_special_judge}><span style="color: #ec3200">Special Judge</span><{/if}>
+                        </div>
+                        <div class="form-group form-inline" align="center">
+                            Total Submissions: <a href="#"><{$problem->total_submit}></a>
+                            Accepted Submissions: <a href="#"><{$problem->total_ac}></a>
+                        </div>
+                        <div class="form-group form-inline" align="center">
+                            <a class="btn btn-default btn-sm" href="#">Submit</a>
+                            <a class="btn btn-default btn-sm" href="#">Statistic</a>
+                            <a class="btn btn-default btn-sm" href="#">Next Problem</a>
+                        </div>
+                        <h4>Problem Description</h4>
+                        <div class="prob-content"><{$problem->description}></div>
+                        <h4>Input</h4>
+                        <div class="prob-content"><{$problem->input}></div>
+                        <h4>Output</h4>
+                        <div class="prob-content"><{$problem->output}></div>
+                        <h4>Sample Input</h4>
+                        <div class="prob-content">
+                            <pre class="sample"><{$problem->sample_in}></pre>
+                        </div>
+                        <h4>Sample Output</h4>
+                        <div class="prob-content">
+                            <pre class="sample"><{$problem->sample_out}></pre>
+                        </div>
+                        <{if $problem->hint}>
+                        <h4>Hint</h4>
+                        <div class="prob-content"><{$problem->hint}></div>
+                        <{/if}>
+                        <h4>Source</h4>
+                        <div class="prob-content"><{$problem->source}></div>
+                        <h4>Manager</h4>
+                        <div class="prob-content">
+                            <a class="user user-unrated" id="manager"
+                               href="<{$website}>/user/detail/<{$problem->author}>"><{$problem->author}></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+<div class="container">
+    <fieldset>
+        <div class="row">
+            <div class="col-md-14">
+                <div class="block block-success">
+                    <div class="block-content">
+                        <div class="heading">Submit</div>
+                        <div class="block-container form-horizontal">
+                            <div class="form-group form-group-sm"><label class="col-sm-2 control-label" for="lang">Language</label>
+                                <div class="col-sm-10 form-inline">
+
+                                    <select class="form-control input-sm" id="lang">
+                                    <{foreach $languageTypeList as $languageType}>
+                                    <option value="<{$languageType->id}>"><{$languageType->language}></option>
+                                    <{/foreach}>
+                                    </select>
+
+                                    <label for="isShared">Share my solution</label>
+                                    <input type="checkbox" class="toggle-checkbox" id="isShared">
+
+                                </div>
+                            </div>
+                            <div class="form-group"><label class="col-sm-2 control-label" for="editor">Source Code</label>
+                                <input type="hidden" id="problemId" value="<{$problem->id}>">
+                                <input type="hidden" id="contestId" value="0">
+                                <div class="col-sm-7">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">代码编辑</h3>
+                                        </div>
+                                        <div class="panel-body" style="padding: 0px">
+                                            <div id="editor" style="height: 512px"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" id="statusForm" style="display:none">
+                                <div class="col-sm-offset-2 col-sm-7">
+                                    <div class="alert alert-warning" id="statusInfo"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-7">
+                                    <a class="btn btn-default" id="submit" href="javascript:;">Submit</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+<!-- Footer -->
+<{include file="../common/footer.html" }>
+<!-- Javascript Libs -->
+<{include file="../common/jsLibs.html"}>
+<!-- Javascript App -->
+<{include file="../common/jsApp.html"}>
+<script src="<{$staticWebsite}>/lib/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="<{$staticWebsite}>/js/problem/problemView.js" type="text/javascript" charset="utf-8"></script>
+
+</body>
+
+</html>
