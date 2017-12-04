@@ -680,7 +680,7 @@ abstract class Swift_Transport_AbstractSmtpTest extends \SwiftMailerTestCase
         This command causes the mail data to be appended to the mail data
         buffer.  The mail data may contain any of the 128 ASCII character
         codes, although experience has indicated that use of control
-        characters other than SP, HT, CR, and LF may cause problems and
+        characters other than SP, HT, CR, and LF may cause problem and
         SHOULD be avoided when possible.
 
         -- RFC 2821, 4.3.2.

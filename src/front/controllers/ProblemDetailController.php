@@ -47,7 +47,7 @@ class ProblemDetailController extends BaseController {
         $this->smarty->assign('totalOLE', $record->total_ole);
         $this->smarty->assign('totalRF', $record->total_rf);
 
-        $this->smarty->display('problems/problemDetail.html');
+        $this->smarty->display('problem/problemDetail.html');
     }
 
     public function actionToSubmit($p_id, $c_id = 0) {
@@ -55,7 +55,7 @@ class ProblemDetailController extends BaseController {
         $this->smarty->assign('languageList', $languageList);
         $this->smarty->assign('contestId', $c_id);
         $this->smarty->assign('problemId', $p_id);
-        $this->smarty->display('problems/problemSubmit.html');
+        $this->smarty->display('problem/problemSubmit.html');
     }
 
     public function actionSubmit() {
@@ -87,6 +87,6 @@ class ProblemDetailController extends BaseController {
     }
 
     public function actionToDiscuss() {
-        $this->smarty->display('problems/problemDiscuss.html');
+        $this->smarty->display('problem/problemDiscuss.html');
     }
 }

@@ -38,7 +38,7 @@ class EmailValidator extends Validator
     public $allowName = false;
     /**
      * @var bool whether to check whether the email's domain exists and has either an A or MX record.
-     * Be aware that this check can fail due to temporary DNS problems even if the email address is
+     * Be aware that this check can fail due to temporary DNS problem even if the email address is
      * valid and an email would be deliverable. Defaults to false.
      */
     public $checkDNS = false;

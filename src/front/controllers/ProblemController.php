@@ -11,31 +11,28 @@ namespace app\controllers;
 
 use app\models\Problem;
 use app\models\Status;
+use app\common\Util;
 
 class ProblemController extends BaseController {
-    public function actionIndex() {
-        if (isset(\Yii::$app->session['user_id'])) {
-            $userId = \Yii::$app->session['user_id'];
-            $command = Problem::find();
-            $command->select('id,title,total_submit,total_ac,source');
-            $command->where("is_hide=0");
-            $data = $command->asArray()->all();
-            foreach ($data as $key => $item) {
-                $isAC = Status::find()->where(" problem_id=:p_id and user_id=:userId and t_status.result LIKE :result ", [':p_id' => $item['id'], ':userId' => $userId, ':result' => '%' . 'Accepted' . '%'])->count();
-                if ($isAC > 0) {
-                    $data[$key]['isAC'] = true;
-                } else {
-                    $data[$key]['isAC'] = false;
-                }
-            }
-            $this->smarty->assign('data', $data);
-        } else {
-            $command = Problem::find();
-            $command->select('id,title,total_submit,total_ac,source');
-            $command->where("is_hide=0");
-            $data = $command->asArray()->all();
-            $this->smarty->assign('data', $data);
-        }
-        $this->smarty->display('problems/problem.html');
+    public function actionList($id = 1) {
+        $totalCount = Problem::find()
+            ->where(['is_hide' => 0])
+            ->count();
+        $pageSize = \Yii::$app->params['problemsPerPage'];
+        $totalPage = ceil($totalCount / $pageSize);
+
+        $problems = Problem::find()
+            ->where(['is_hide' => 0])
+            ->orderBy('id')
+            ->offset(($id - 1) * $pageSize)
+            ->limit($pageSize)
+            ->all();
+
+        $pageArray = Util::getPaginationArray($id, 6, $totalPage);
+
+        $this->smarty->assign('pageArray', $pageArray);
+        $this->smarty->assign('totalPage', $totalPage);
+        $this->smarty->assign('problems', $problems);
+        return $this->smarty->display('problem/problem.html');
     }
 }

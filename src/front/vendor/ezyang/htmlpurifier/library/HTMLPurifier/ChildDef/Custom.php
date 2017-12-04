@@ -52,7 +52,7 @@ class HTMLPurifier_ChildDef_Custom extends HTMLPurifier_ChildDef
         $reg = $raw;
 
         // COMPLICATED! AND MIGHT BE BUGGY! I HAVE NO CLUE WHAT I'M
-        // DOING! Seriously: if there's problems, please report them.
+        // DOING! Seriously: if there's problem, please report them.
 
         // collect all elements into the $elements array
         preg_match_all("/$el/", $reg, $matches);

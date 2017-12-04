@@ -1,6 +1,6 @@
 <?php
 
-// VERY RELAXED! Shouldn't cause problems, not even Firefox checks if the
+// VERY RELAXED! Shouldn't cause problem, not even Firefox checks if the
 // email is valid, but be careful!
 
 /**

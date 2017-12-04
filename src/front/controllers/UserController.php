@@ -191,7 +191,7 @@ class UserController extends BaseController {
                         break;
                 }
 
-                $sizeList = ['1' => 250,'2' => 125, '3' => 75, '4' => 50];
+                $sizeList = ['1' => 250, '2' => 125, '3' => 75, '4' => 50];
 
                 foreach ($sizeList as $name => $size) {
                     $newImage = imagecreatetruecolor($size, $size);
@@ -212,23 +212,11 @@ class UserController extends BaseController {
                 // 用户头像上传成功后修改session，以便smarty使用
                 \Yii::$app->session['avatar'] = $user->avatar;
 
-
                 return json_encode(["code" => 0, "data" => ""]);
 
             } catch (\Exception $e) {
                 return json_encode(["code" => 1, "data" => "服务器没有写权限，请检查配置"]);
             }
-
-
-//            foreach ($sizeList as $name => $size) {
-//                $file = $save_path.'/'.$name.'.png';
-//                if ($name == "1")
-//                    move_uploaded_file($avatar['tmp_name'], $file);
-//                else {
-//                    copy($save_path.'/1.png', $file);
-//                }
-//            }
-
 
         }
     }

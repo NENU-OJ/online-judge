@@ -5,7 +5,7 @@
  * Validates a keyword against a list of valid values.
  * @warning The case-insensitive compare of this function uses PHP's
  *          built-in strtolower and ctype_lower functions, which may
- *          cause problems with international comparisons
+ *          cause problem with international comparisons
  */
 class HTMLPurifier_AttrDef_Enum extends HTMLPurifier_AttrDef
 {

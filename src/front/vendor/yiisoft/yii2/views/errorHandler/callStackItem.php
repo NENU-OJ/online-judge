@@ -35,7 +35,7 @@
             <div class="code">
                 <?php for ($i = $begin; $i <= $end; ++$i): ?><span class="lines-item"><?= (int) ($i + 1) ?></span><?php endfor; ?>
                 <pre><?php
-                    // fill empty lines with a whitespace to avoid rendering problems in opera
+                    // fill empty lines with a whitespace to avoid rendering problem in opera
                     for ($i = $begin; $i <= $end; ++$i) {
                         echo (trim($lines[$i]) === '') ? " \n" : $handler->htmlEncode($lines[$i]);
                     }

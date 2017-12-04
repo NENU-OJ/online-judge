@@ -416,7 +416,7 @@ class HTMLPurifier_Strategy_MakeWellFormed extends HTMLPurifier_Strategy
             }
 
             // first, check for the simplest case: everything closes neatly.
-            // Eventually, everything passes through here; if there are problems
+            // Eventually, everything passes through here; if there are problem
             // we modify the input stream accordingly and then punt, so that
             // the tokens get processed again.
             $current_parent = array_pop($this->stack);

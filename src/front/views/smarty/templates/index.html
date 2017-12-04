@@ -9,151 +9,134 @@
 <!-- 导航条 -->
 <{include file="common/navbar.html"}>
 
-<div class="container" id="page-content">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row no-margin">
-                        <div class="col-sm-6">
-                            <div class="card primary">
-                                <div class="card-jumbotron no-padding">
-                                    <img src="<{$staticWebsite}>/img/thumbnails/picjumbo.com_IMG_3241.jpg" height="533" width="800"
-                                         class="img-responsive">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="card">
-                                <div class="card-jumbotron">
-                                    <h1>Recent Contests</h1>
-                                    <table class="table table-bordered table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th>Contest Title</th>
-                                            <th>Date</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
+<div class="container">
+    <fieldset>
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="block block-info">
+                    <div class="block-content">
+                        <div class="heading">一言（ヒトコト）</div>
 
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Test Contest</th>
-                                            <td>2017-09-20</td>
-                                        </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="card-body">
-                                    <div class="sub-title">News</div>
-                                    <h4>Lorem Ipsum</h4>
-                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
-                                    euismod tincidunt ut laoreet dolore magna
-                                    aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                                    ullamcorper suscipit
-                                    lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in
-                                    hendrerit in vulputate
-                                    velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero
-                                    eros et accumsan et
-                                    iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore
-                                    te feugait nulla facilisi.
-                                    Nam liber tempor.
-                                </div>
-                            </div>
+                        <div class="ui bottom attached center aligned segment">
+                            <div class="ui centered inline loader active" id="hitokoto-loader"></div>
+                            <script type="text/javascript" src="<{$staticWebsite}>/lib/js/jquery/jquery.min.js"></script>
+                            <script>
+                                $.get('https://sslapi.hitokoto.cn/?c=a', function (data) {
+                                    data = JSON.parse(data);
+                                    $('#hitokoto-loader').removeClass('active');
+                                    $('#hitokoto-content').css('display', '').text(data.hitokoto);
+                                    if (data.from) {
+                                        $('#hitokoto-from').css('display', '').text('——' + data.from);
+                                    }
+                                });
+                            </script>
+                            <div style="font-size: 1em; line-height: 1.5em;" id="hitokoto-content"></div>
+                            <div style="text-align: right; margin-top: 15px; font-size: 0.9em; color: rgb(102, 102, 102);" id="hitokoto-from"></div>
                         </div>
+
+
+                    </div>
+                </div>
+                <div class="block block-danger">
+                    <div class="block-content">
+                        <table class="table-acdream">
+                            <tbody>
+                            <{for $i = 1 to 3}>
+                            <tr>
+                                <td>
+                                    <div class="title"><a href="/contest?cid=1305">第九届北京化工大学程序设计竞赛网络同步赛</a></div>
+                                    <div class="footer">时长：5小时 / 参加人数：129 / 开始时间：2015-05-09 09:00</div>
+                                </td>
+                                <td class="state"><span class="accept-text">Ended</span></td>
+                            </tr>
+                            <{/for}>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="block block-warning">
+                    <div class="block-content">
+                        <table class="table-acdream highlight">
+                            <tbody>
+                            <{for $i = 1 to 3}>
+                            <tr>
+                                <td class="avatar"><img class="img-50 img-round" src="<{$uploadsDir}>/avatar/<{$avatar}>/4.png">
+                                </td>
+                                <td>
+                                    <div class="title"><a href="#">Interesting</a></div>
+                                    <div class="footer">作者：ToRapture / 最新回复：ToRapture @ 08-26 05:48</div>
+                                </td>
+                                <td class="state"><{$i}></td>
+                            </tr>
+                            <{/for}>
+                            </tbody>
+                        </table>
+                        <div class="heading"><a target="_blank" href="/topic/list">查看更多讨论</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="block block-success">
+                    <div class="block-content">
+                        <div class="heading"><a class="pull-right" target="_blank" href="/standings">More</a>Top 10
+                        </div>
+                        <table class="table-acdream info">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <div><a class="user user-orange" href="/user/kuangbin" title="Master">kuangbin</a>
+                                    </div>
+                                    <div class="footer">场次：6</div>
+                                </td>
+                                <td class="state"><span>2011</span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="block block-info">
+                    <div class="block-content">
+                        <div class="heading"><a class="pull-right" target="_blank" href="/topic?tid=101">More</a>Online
+                            Judge
+                        </div>
+                        <table class="table-acdream bigger">
+                            <tbody>
+                            <tr>
+                                <td><a target="_blank" href="http://acm.hdu.edu.cn/">HDU (杭州电子科技大学)</a></td>
+                            </tr>
+                            <tr>
+                                <td><a target="_blank" href="http://poj.org/">POJ (北京大学)</a></td>
+                            </tr>
+                            <tr>
+                                <td><a target="_blank" href="http://acm.zju.edu.cn/onlinejudge/">ZOJ (浙江大学)</a></td>
+                            </tr>
+                            <tr>
+                                <td><a target="_blank" href="http://codeforces.com/">Codeforces</a></td>
+                            </tr>
+                            <tr>
+                                <td><a target="_blank" href="http://acm.bnu.edu.cn/">BNUOJ (北京师范大学)</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="block block-info">
+                    <div class="block-content">
+                        <div class="heading">Blog</div>
+                        <table class="table-acdream bigger">
+                            <tbody>
+                            <{for $i = 1 to 3}>
+                            <tr>
+                                <td><a target="_blank" href="http://www.cnblogs.com/ToRapture/">ToRapture</a></td>
+                            </tr>
+                            <{/for}>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </fieldset>
 </div>
 
 <!-- Footer -->

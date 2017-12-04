@@ -187,7 +187,7 @@ class HTMLPurifier_Generator
      * Special case processor for the contents of script tags
      * @param HTMLPurifier_Token $token HTMLPurifier_Token object.
      * @return string
-     * @warning This runs into problems if there's already a literal
+     * @warning This runs into problem if there's already a literal
      *          --> somewhere inside the script contents.
      */
     public function generateScriptFromToken($token)
