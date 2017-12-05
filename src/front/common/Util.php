@@ -42,10 +42,15 @@ class Util {
 
     static public function sendToJudgeBySocket($id, $host, $port) {
         $id = strval($id);
-
-        $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-        socket_connect($socket, $host, $port);
-        socket_write($socket, $id, strlen($id));
-        socket_close($socket);
+        try {
+            $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+            socket_connect($socket, $host, $port);
+            socket_write($socket, $id, strlen($id));
+            socket_close($socket);
+            return true;
+        } catch (\Exception $e) {
+            if ($socket) socket_close($socket);
+            return false;
+        }
     }
 }

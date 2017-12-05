@@ -18,7 +18,7 @@
                         <div class="btn-group btn-group-sm">
                             <a class="btn btn-default" href="<{$websize}>/problem/list/1">&lt;&lt;</a>
                             <{foreach $pageArray as $pageId}>
-                            <a class="btn btn-default" href="<{$websize}>/problem/list/<{$pageId}>"><{$pageId}></a>
+                            <a class="btn btn-default <{if $pageId == $pageNow}>active<{/if}>" href="<{$websize}>/problem/list/<{$pageId}>"><{$pageId}></a>
                             <{/foreach}>
                             <a class="btn btn-default" href="<{$websize}>/problem/list/<{$totalPage}>">&gt;&gt;</a>
                         </div>
@@ -47,14 +47,17 @@
                     </thead>
 
                     <tbody>
+                    <{$counter = 0}>
                     <{foreach $problems as $problem}>
-                    <tr class="<{if 1 % 2 == 0}>even<{else}>odd<{/if}>">
+                    <{$counter = $counter + 1}>
+                    <tr class="<{if $counter % 2 == 0}>even<{else}>odd<{/if}>">
                         <td class="center "><{$problem->id}></td>
                         <td><a href="<{$website}>/problem/<{$problem->id}>"><{$problem->title}></a></td>
-                        <td class="ellipsis"><a class="tag" href="javascript:;" style="font-size:12px" title="ACdream">ACdream</a>
+                        <td class="ellipsis"><a class="tag" href="javascript:;" style="font-size:12px" title="<{$problem->source}>"><{$problem->source}></a>
                         </td>
-                        <td class="center">48.55% (<a href="/status?pid=1000&amp;result=2">2044</a>/<a
-                                href="/status?pid=1000">4210</a>)
+                        <td class="center">
+                            <{if $problem->total_submit}><{sprintf("%.2f", $problem->total_ac / $problem->total_submit)}><{else}>0<{/if}>%
+                            (<a href="#"><{$problem->total_ac}></a>/<a href="#"><{$problem->total_submit}></a>)
                         </td>
                     </tr>
                     <{/foreach}>

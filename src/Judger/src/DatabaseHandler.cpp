@@ -3,6 +3,7 @@
 //
 
 #include <cstring>
+#include <glog/logging.h>
 #include "DatabaseHandler.h"
 #include "Exception.h"
 #include "Config.h"
@@ -92,65 +93,13 @@ void DatabaseHandler::change_run_result(int runid, const RunResult &result) {
 	int time_used_ms = result.time_used_ms;
 	int memory_used_kb = result.memory_used_kb;
 
-	mysql_ping(mysql);
-
-	MYSQL_STMT *statement = NULL;
-	statement = mysql_stmt_init(mysql);
-	if (statement == NULL) {
-		throw Exception("mysql_stmt_init fail");
-	}
-
-	std::string sql = "UPDATE t_status SET "
-					  "result = ?, time_used = ?, memory_used = ?, ce_info = ? "
-					  "WHERE id = ?";
-
-	if (mysql_stmt_prepare(statement, sql.c_str(), sql.size())) {
-		throw Exception("mysql_stmt_prepare fail");
-	}
-
-	MYSQL_BIND input_bind[5];
-	memset(input_bind, 0, sizeof(input_bind));
-
-	char *ce_info = new char[result.ce_info.size()];
-	char *status = new char[result.status.size()];
-	memcpy(ce_info, result.ce_info.c_str(), result.ce_info.size());
-	memcpy(status, result.status.c_str(), result.status.size());
-
-	input_bind[0].buffer_type = MYSQL_TYPE_VAR_STRING;
-	input_bind[0].buffer = status;
-	input_bind[0].buffer_length = result.status.size();
-
-	input_bind[1].buffer_type = MYSQL_TYPE_LONG;
-	input_bind[1].buffer = &time_used_ms;
-	input_bind[1].is_unsigned = true;          /* must announced */
-
-	input_bind[2].buffer_type = MYSQL_TYPE_LONG;
-	input_bind[2].buffer = &memory_used_kb;
-	input_bind[2].is_unsigned = true;          /* must announced */
-
-	input_bind[3].buffer_type = MYSQL_TYPE_BLOB;
-	input_bind[3].buffer = ce_info;
-	input_bind[3].buffer_length = result.ce_info.size();
-
-	input_bind[4].buffer_type = MYSQL_TYPE_LONG;
-	input_bind[4].buffer = &runid;
-	input_bind[4].is_unsigned = true;          /* must announced */
-
-	if (mysql_stmt_bind_param(statement, input_bind)) {
-		throw Exception("mysql_stmt_bind_param fail");
-	}
-
-	if (mysql_stmt_execute(statement)) {
-		throw Exception("mysql_stmt_execute fail");
-	}
-
-	if (mysql_stmt_free_result(statement)) {
-		throw Exception("mysql_stmt_free_result fail");
-	}
-
-	delete []status;
-	delete []ce_info;
-
+	std::string query = "UPDATE t_status SET "
+			                    "result = '" + result.status + "', "
+			                    "time_used = " + std::to_string(result.time_used_ms) + ", "
+			                    "memory_used = " + std::to_string(result.memory_used_kb) + ", "
+			                    "ce_info = '" + escape(result.ce_info) + "' "
+			                    "WHERE id = " + std::to_string(runid);
+	update_query(query);
 }
 
 void DatabaseHandler::add_problem_result(int pid, const RunResult &result) {
@@ -172,14 +121,45 @@ void DatabaseHandler::add_problem_result(int pid, const RunResult &result) {
 	}
 }
 
-void DatabaseHandler::add_user_accepted(int uid) {
+void DatabaseHandler::add_user_total_accepted(int uid) {
 	std::string query = "UPDATE t_user "
 						"SET total_ac = total_ac + 1 "
-						"where id = " + std::to_string(uid);
+						"WHERE id = " + std::to_string(uid);
 	update_query(query);
 }
 
 void DatabaseHandler::update_query(const std::string &query) {
 	mysql_ping(mysql);
 	mysql_query(mysql, query.c_str());
+}
+
+/**
+ * Do mysql_real_escape on the string
+ * @param str   Original string
+ * @return Escaped string
+ */
+std::string DatabaseHandler::escape(std::string str) {
+	char * res = new char[str.length() * 2 + 1];
+	mysql_real_escape_string(mysql, res, str.c_str(), str.length());
+	str = res;
+	delete [] res;
+	return str;
+}
+
+bool DatabaseHandler::already_accepted(int uid, int pid) {
+	std::string query = "SELECT id FROM t_status "
+						"WHERE "
+						"user_id = " + std::to_string(uid) + " AND "
+						"problem_id = " + std::to_string(pid) + " AND "
+						"result = 'Accepted' "
+						"LIMIT 1";
+	auto result = get_all_result(query);
+	return !result.empty();
+}
+
+void DatabaseHandler::add_user_total_solved(int uid) {
+	std::string query = "UPDATE t_user "
+						"SET solved_problem = solved_problem + 1 "
+						"WHERE id = " + std::to_string(uid);
+	update_query(query);
 }

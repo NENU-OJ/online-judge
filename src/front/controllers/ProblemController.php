@@ -21,7 +21,7 @@ class ProblemController extends BaseController {
         $totalCount = Problem::find()
             ->where(['is_hide' => 0])
             ->count();
-        $pageSize = \Yii::$app->params['problemsPerPage'];
+        $pageSize = \Yii::$app->params['queryPerPage'];
         $totalPage = ceil($totalCount / $pageSize);
 
         $problems = Problem::find()
@@ -33,8 +33,11 @@ class ProblemController extends BaseController {
 
         $pageArray = Util::getPaginationArray($id, 6, $totalPage);
 
+        $this->smarty->assign('webTitle', 'Problem List');
+
         $this->smarty->assign('pageArray', $pageArray);
         $this->smarty->assign('totalPage', $totalPage);
+        $this->smarty->assign('pageNow', $id);
         $this->smarty->assign('problems', $problems);
         return $this->smarty->display('problem/problem.html');
     }
@@ -62,9 +65,10 @@ class ProblemController extends BaseController {
                 $status->problem_id = \Yii::$app->request->post('problemId');
                 $status->language_id = \Yii::$app->request->post('languageId');
                 $status->source = \Yii::$app->request->post('sourceCode');
-                $status->is_shared = \Yii::$app->request->post('isShared');
+                $status->is_shared = intval(\Yii::$app->request->post('isShared'));
                 $status->contest_id = \Yii::$app->request->post('contestId');
                 $status->result = "Send to Judge";
+                $status->submit_time = date("Y-m-d H:i:s");
                 $status->save();
 
                 User::addTotalSubmit($status->user_id);
@@ -72,9 +76,10 @@ class ProblemController extends BaseController {
 
                 $host = \Yii::$app->params['judger']['host'];
                 $port = \Yii::$app->params['judger']['port'];
+
                 Util::sendToJudgeBySocket($status->id, $host, $port);
 
-                return json_encode(["code" => 0, "data" => ""]);
+                return json_encode(["code" => 0, "data" => ["result" => "Send to Judge", "id" => $status->id]]);
             } catch (\Exception $e) {
                 return json_encode(["code" => 1, "data" => $e->getMessage()]);
             }

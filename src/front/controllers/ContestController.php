@@ -8,17 +8,7 @@
 
 namespace app\controllers;
 
-class ContestController extends BaseController
-{
-//    public function behaviors()
-//    {
-//        return [
-//            [
-//                'class' => Filter::className(),
-//                'only' => ['submit','discuss'],
-//            ]
-//        ];
-//    }
+class ContestController extends BaseController {
 
     public function actionIndex(){
         $this->smarty->display('contest/contest.html');

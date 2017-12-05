@@ -1,38 +1,40 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: 石昊
- * Date: 2017/8/31
- * Time: 9:30
- */
 
 namespace app\controllers;
 
 use app\models\LanguageType;
 use app\models\Status;
 use app\models\User;
+use app\common\Util;
+use yii\db\Query;
 
-class StatusController extends BaseController
-{
-//    public function behaviors()
-//    {
-//        return [
-//            [
-//                'class' => Filter::className(),
-//                'only' => ['submit','discuss'],
-//            ]
-//        ];
-//    }
+class StatusController extends BaseController {
+    public function actionList($id = 1) {
 
-    public function actionIndex()
-    {
-        $command=Status::find();
-        $command->select('t_user.username,t_language_type.language,problem_id,result,time_used,memory_used,submit_time,contest_id,is_shared,t_status.id');
-        $command->leftJoin(User::tableName(), 't_user.id=user_id');
-        $command->leftJoin(LanguageType::tableName(),'t_language_type.id=language_id');
-        $data=$command->asArray()->all();
-        $this->smarty->assign('data', $data);
-        $this->smarty->display('status/status.html');
+        $pageSize = \Yii::$app->params['queryPerPage'];
+        $totalPage = Status::totalPage(0, $pageSize);
+
+
+        $statuses = Status::getStatuses($id, $pageSize, 0);
+
+//
+//        foreach ($statuses[0] as $key => $value) {
+//            var_dump($key);
+//            echo " -> ";
+//            var_dump($value);
+//            echo "<br>.....<br>";
+//        }
+//        return;
+
+        $pageArray = Util::getPaginationArray($id, 8, $totalPage);
+
+
+        $this->smarty->assign('webTitle', 'Status');
+        $this->smarty->assign('pageArray', $pageArray);
+        $this->smarty->assign('totalPage', $totalPage);
+        $this->smarty->assign('pageNow', $id);
+        $this->smarty->assign('statuses', $statuses);
+        return $this->smarty->display('status/status.html');
     }
 
     public function actionViewSource($s_id){
@@ -64,4 +66,24 @@ class StatusController extends BaseController
         $this->smarty->display('status/ceInfo.html');
     }
 
+    public function actionResult($id) {
+        $status = Status::find()->select('result, time_used, memory_used')
+                                ->where("id=:id", [":id" => $id])
+                                ->one();
+        if ($status) {
+            $finished = in_array($status->result, ["Restricted Function", "Wrong Answer", "Presentation Error", "Accepted",
+                "Output Limit Exceeded", "Runtime Error", "Memory Limit Exceeded", "Time Limit Exceeded", "Compile Error", "Judge Error"]);
+            return json_encode([
+                "code" => 0,
+                "data" => [
+                    "result" => $status->result,
+                    "timeUsed" => $status->time_used,
+                    "memoryUsed" => $status->memory_used,
+                    "finished" => $finished,
+                ],
+            ]);
+        } else {
+            return json_encode(["code" => 1, "data" => "fucking not exists $id"]);
+        }
+    }
 }

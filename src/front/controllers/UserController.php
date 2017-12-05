@@ -27,9 +27,10 @@ class UserController extends BaseController {
 
         $solved = [1, 2, 3, 4, 5];
         $unsolved = [6, 7, 8, 9, 10];
-        $submissions = 64;
+        $submissions = $user->total_submit;
 
         $this->smarty->assign('user', $user);
+        $this->smarty->assign('solvedNum', $user->solved_problem);
         $this->smarty->assign('solved', $solved);
         $this->smarty->assign('unsolved', $unsolved);
         $this->smarty->assign('submissions', $submissions);

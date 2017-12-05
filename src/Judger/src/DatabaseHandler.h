@@ -23,8 +23,11 @@ public:
 	std::vector<std::map<std::string, std::string>> get_unfinished_results();
 	void change_run_result(int runid, const RunResult &result);
 	void add_problem_result(int pid, const RunResult &result);
-	void add_user_accepted(int uid);
+	void add_user_total_accepted(int uid);
 	void update_query(const std::string &query);
+	bool already_accepted(int uid, int pid);
+	void add_user_total_solved(int uid);
+	std::string escape(std::string str);
 };
 
 

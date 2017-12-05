@@ -96,14 +96,19 @@ void Submit::work() {
 			}
 		}
 	}
-
 	std::string output_file = Config::get_instance()->get_temp_path() + Config::get_instance()->get_output_file();
 	if (Utils::check_file(output_file)) Utils::delete_file(output_file);
+
 	LOG(INFO) << "result runid: " << runid << " " << result.status;
+
+	if (result == RunResult::ACCEPTED) {
+		if (!db.already_accepted(uid, pid)) {
+			db.add_user_total_solved(uid);
+		}
+		db.add_user_total_accepted(uid);
+	}
 	db.change_run_result(runid, result);
 	db.add_problem_result(pid, result);
-	if (result == RunResult::ACCEPTED)
-		db.add_user_accepted(uid);
 
 }
 
@@ -171,6 +176,7 @@ RunResult Submit::normal_check() {
 	int eofp = EOF, eofs = EOF;
 	program_out = fopen(user_output_file.c_str(), "r");
 	standard_out = fopen(std_output_file.c_str(), "r");
+
 	char po_char, so_char;
 	while (1) {
 		while ((eofs = fscanf(standard_out, "%c", &so_char)) != EOF &&

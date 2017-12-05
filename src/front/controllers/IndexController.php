@@ -9,7 +9,7 @@
 namespace app\controllers;
 
 class IndexController extends BaseController {
-    // 加载函数
+
     public function actionIndex() {
         $this->smarty->display('index.html');
     }

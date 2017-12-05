@@ -119,12 +119,12 @@ void * listen_thread(void *arg) {
 		try {
 			int runid = next_runid();
 			Submit *submit = Submit::get_from_runid(runid);
+			DatabaseHandler db;
+			db.change_run_result(runid, RunResult::QUEUEING);
 			pthread_mutex_lock(&queue_mtx);
 			judge_queue.push(submit);
 			LOG(INFO) << "[listen thread] socket enqueue runid: " << runid;
 			pthread_mutex_unlock(&queue_mtx);
-			DatabaseHandler db;
-			db.change_run_result(runid, RunResult::QUEUEING);
 		} catch (Exception &e) {
 			LOG(ERROR) << e.what();
 		}
