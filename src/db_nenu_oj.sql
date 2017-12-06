@@ -30,6 +30,7 @@ CREATE TABLE `t_problem`(
     `is_hide` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否隐藏(0:否;1:是)',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '题目表';
+alter table t_problem AUTO_INCREMENT=1000;
 insert into t_problem(title, description, input, output, sample_in, sample_out, hint, source, author, time_limit, memory_limit) values ('fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck',1000,65536),
 ('fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck',1000,65536),
 ('fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck',1000,65536),

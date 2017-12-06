@@ -2,12 +2,12 @@
 <html lang="zh-CN">
 
 <!-- Header -->
-<{include file="common/header.html"}>
+<{include file="../common/header.html"}>
 
 <body>
 
 <!-- 导航条 -->
-<{include file="common/navbar.html"}>
+<{include file="../common/navbar.html"}>
 
 
 <div class="container">
@@ -18,35 +18,41 @@
                     <div class="col-sm-2">Status</div>
                     <div class="col-sm-10 form-inline">
                         <div class="pull-right">
-                            <div class="input-group input-group-sm"><span class="input-group-addon">name</span><input
-                                    class="form-control" id="name" type="text" value="" placeholder="UserName"></div>
-                            <div class="input-group input-group-sm"><span class="input-group-addon">pid</span><input
-                                    class="form-control" id="pid" type="text" value="" placeholder="ProblemID"></div>
-                            <div class="input-group input-group-sm"><span class="input-group-addon">lang</span><select
-                                    class="form-control" id="lang">
-                                <option value="0">All</option>
-                                <option value="1">C</option>
-                                <option value="2">C++</option>
-                                <option value="3">Java</option>
-                            </select></div>
-                            <div class="input-group input-group-sm"><span
-                                    class="input-group-addon">verdict</span><select class="form-control" id="result">
-                                <option value="">All</option>
-                                <option class="info-text" value="0">Pending...</option>
-                                <option class="info-text" value="1">Running...</option>
-                                <option class="accept-text" value="2">Accepted</option>
-                                <option class="wrong-text" value="6">Wrong Answer</option>
-                                <option class="wrong-text" value="3">Presentation Error</option>
-                                <option class="wrong-text" value="4">Time Limit Exceeded</option>
-                                <option class="wrong-text" value="5">Memory Limit Exceeded</option>
-                                <option class="wrong-text" value="7">Output Limit Exceeded</option>
-                                <option class="special-text" value="8">Compilation Error</option>
-                                <option class="wrong-text" value="9">Runtime Error</option>
-                                <option class="special-text" value="13">Dangerous Code</option>
-                                <option class="special-text" value="14">System Error</option>
-                            </select></div>
-                            <a class="btn btn-default btn-sm" id="fil" href="javascript:;">Filter</a> <a
-                                class="btn btn-default btn-sm" href="<{$website}>/status/list">Reset</a></div>
+                            <div class="input-group input-group-sm"><span class="input-group-addon">name</span>
+                                <input class="form-control" id="name" type="text" value="" placeholder="UserName">
+                            </div>
+                            <div class="input-group input-group-sm"><span class="input-group-addon">pid</span>
+                                <input class="form-control" id="pid" type="text" value="" placeholder="ProblemID">
+                            </div>
+                            <div class="input-group input-group-sm"><span class="input-group-addon">lang</span>
+                                <select class="form-control" id="lang">
+                                    <option value="0">All</option>
+                                    <option value="1">C</option>
+                                    <option value="2">C++</option>
+                                    <option value="3">Java</option>
+                                </select>
+                            </div>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">verdict</span>
+                                <select class="form-control" id="result">
+                                    <option value="">All</option>
+                                    <option class="info-text" value="0">Pending...</option>
+                                    <option class="info-text" value="1">Running...</option>
+                                    <option class="accept-text" value="2">Accepted</option>
+                                    <option class="wrong-text" value="6">Wrong Answer</option>
+                                    <option class="wrong-text" value="3">Presentation Error</option>
+                                    <option class="wrong-text" value="4">Time Limit Exceeded</option>
+                                    <option class="wrong-text" value="5">Memory Limit Exceeded</option>
+                                    <option class="wrong-text" value="7">Output Limit Exceeded</option>
+                                    <option class="special-text" value="8">Compilation Error</option>
+                                    <option class="wrong-text" value="9">Runtime Error</option>
+                                    <option class="special-text" value="13">Dangerous Code</option>
+                                    <option class="special-text" value="14">System Error</option>
+                                </select>
+                            </div>
+                            <a class="btn btn-default btn-sm" id="fil" href="javascript:;">Filter</a>
+                            <a class="btn btn-default btn-sm" href="<{$website}>/status/list">Reset</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -69,7 +75,7 @@
                     <{$counter = 0}>
                     <{foreach $statuses as $status}>
                     <{$counter = $counter + 1}>
-                    <tr class="<{if $counter % 2 == 0}>even<{else}>odd<{/if}>">
+                    <tr class="<{if $user_id == $status['uid']}>highlight<{/if}> <{if $counter % 2 == 0}>even<{else}>odd<{/if}>">
                         <td><{$status['runid']}></td>
                         <td><a class="user user-cyan" href="<{$website}>/user/detail/<{$status['username']}>"><{$status['username']}></a></td>
                         <td><a href="<{$website}>/problem/<{$status['pid']}>"><{$status['pid']}></a></td>
@@ -89,14 +95,14 @@
                         <td><{$status['time']}> MS</td>
                         <td><{$status['memory']}> KB</td>
                         <td>
-                            <{if $status['share']}>
+                            <{if $status['share'] || $status['uid'] == $user_id}>
                             <a href="<{$website}>/status/source/<{$status['runid']}>"><{$status['lang']}></a>
                             <{else}>
                             <{$status['lang']}>
                             <{/if}>
                         </td>
                         <td>
-                            <{if $status['share']}>
+                            <{if $status['share'] || $status['uid'] == $user_id}>
                             <a href="<{$website}>/status/source/<{$status['runid']}>"><{$status['len']}> B</a>
                             <{else}>
                             <{$status['len']}> B
@@ -132,11 +138,11 @@
 </div>
 
 <!-- Footer -->
-<{include file="common/footer.html" }>
+<{include file="../common/footer.html" }>
 <!-- Javascript Libs -->
-<{include file="common/jsLibs.html"}>
+<{include file="../common/jsLibs.html"}>
 <!-- Javascript App -->
-<{include file="common/jsApp.html"}>
+<{include file="../common/jsApp.html"}>
 
 </body>
 

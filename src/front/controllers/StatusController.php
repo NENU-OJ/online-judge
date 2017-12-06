@@ -7,6 +7,7 @@ use app\models\Status;
 use app\models\User;
 use app\common\Util;
 use yii\db\Query;
+use yii\web\NotFoundHttpException;
 
 class StatusController extends BaseController {
     public function actionList($id = 1) {
@@ -16,15 +17,6 @@ class StatusController extends BaseController {
 
 
         $statuses = Status::getStatuses($id, $pageSize, 0);
-
-//
-//        foreach ($statuses[0] as $key => $value) {
-//            var_dump($key);
-//            echo " -> ";
-//            var_dump($value);
-//            echo "<br>.....<br>";
-//        }
-//        return;
 
         $pageArray = Util::getPaginationArray($id, 8, $totalPage);
 
@@ -37,33 +29,43 @@ class StatusController extends BaseController {
         return $this->smarty->display('status/status.html');
     }
 
-    public function actionViewSource($s_id){
-        $command=Status::find();
-        $command->select('t_user.username,t_language_type.language,problem_id,result,source');
-        $command->leftJoin(User::tableName(), 't_user.id=user_id');
-        $command->leftJoin(LanguageType::tableName(),'t_language_type.id=language_id');
-        $command->where("t_status.id=:s_id",[':s_id'=>$s_id]);
-        $data=$command->asArray()->one();
-        $this->smarty->assign('_username',$data['username']);
-        $this->smarty->assign('problemId',$data['problem_id']);
-        $this->smarty->assign('language',$data['language']);
-        $this->smarty->assign('result',$data['result']);
-        $this->smarty->assign('code',htmlentities($data['source']));
-        $this->smarty->display('status/view.html');
+
+    public function actionSource($id) {
+        $status = Status::findById($id);
+
+        if (!$status)
+            throw new NotFoundHttpException("Fucking $id!");
+
+        if (!$status->is_shared && $status->user_id != \Yii::$app->session['user_id']) {
+            $msg = '你休想查看！';
+            $this->smarty->assign('msg', $msg);
+            return $this->smarty->display('common/error.html');
+        }
+
+        $source = $status->source;
+        $source = str_replace('<', '&lt;', $source);
+        $source = str_replace('>', '&gt;', $source);
+
+        $lang = '';
+        if ($status->language_id == 1 || $status->language_id == 2)
+            $lang = 'cpp';
+        else if ($status->language_id == 3)
+            $lang = 'java';
+        else
+            $lang = 'python';
+        $this->smarty->assign('source', $source);
+        $this->smarty->assign('lang', $lang);
+        return $this->smarty->display('status/source.html');
     }
 
-    public function actionCompileError($s_id){
-        $command=Status::find();
-        $command->select('t_user.username,t_language_type.language,problem_id,ce_info');
-        $command->leftJoin(User::tableName(), 't_user.id=user_id');
-        $command->leftJoin(LanguageType::tableName(),'t_language_type.id=language_id');
-        $command->where("t_status.id=:s_id",[':s_id'=>$s_id]);
-        $data=$command->asArray()->one();
-        $this->smarty->assign('_username',$data['username']);
-        $this->smarty->assign('problemId',$data['problem_id']);
-        $this->smarty->assign('language',$data['language']);
-        $this->smarty->assign('ceInfo',htmlentities($data['ce_info']));
-        $this->smarty->display('status/ceInfo.html');
+    public function actionCeinfo($id) {
+        $status = Status::getCeInfo($id);
+        if (!$status)
+            throw new NotFoundHttpException("Fucking $id!");
+        $ceinfo = $status->ce_info;
+
+        $this->smarty->assign('ceinfo', $ceinfo);
+        return $this->smarty->display('status/ceinfo.html');
     }
 
     public function actionResult($id) {

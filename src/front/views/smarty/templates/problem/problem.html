@@ -51,7 +51,7 @@
                     <{foreach $problems as $problem}>
                     <{$counter = $counter + 1}>
                     <tr class="<{if $counter % 2 == 0}>even<{else}>odd<{/if}>">
-                        <td class="center "><{$problem->id}></td>
+                        <td class="center <{if in_array($problem->id, $acArray)}>AC<{/if}>"><{$problem->id}></td>
                         <td><a href="<{$website}>/problem/<{$problem->id}>"><{$problem->title}></a></td>
                         <td class="ellipsis"><a class="tag" href="javascript:;" style="font-size:12px" title="<{$problem->source}>"><{$problem->source}></a>
                         </td>

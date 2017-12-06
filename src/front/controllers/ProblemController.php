@@ -31,6 +31,19 @@ class ProblemController extends BaseController {
             ->limit($pageSize)
             ->all();
 
+        $acArray = [];
+        if (isset(\Yii::$app->session['user_id'])) {
+            foreach ($problems as $problem) {
+                $acStatus = Status::find()
+                    ->select('id')
+                    ->where(['problem_id' => $problem->id, 'user_id' => \Yii::$app->session['user_id'], 'result' => 'Accepted'])
+                    ->one();
+                if ($acStatus) {
+                    $acArray[] = $problem->id;
+                }
+            }
+        }
+
         $pageArray = Util::getPaginationArray($id, 6, $totalPage);
 
         $this->smarty->assign('webTitle', 'Problem List');
@@ -38,6 +51,7 @@ class ProblemController extends BaseController {
         $this->smarty->assign('pageArray', $pageArray);
         $this->smarty->assign('totalPage', $totalPage);
         $this->smarty->assign('pageNow', $id);
+        $this->smarty->assign('acArray', $acArray);
         $this->smarty->assign('problems', $problems);
         return $this->smarty->display('problem/problem.html');
     }

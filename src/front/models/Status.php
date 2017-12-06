@@ -28,7 +28,8 @@ class Status extends ActiveRecord {
     public static function getStatuses($pageId, $pageSize, $contestId) {
         return (new Query())
             ->select('t_status.id AS runid,
-                      t_user.username AS username, 
+                      t_user.username AS username,
+                      t_user.id AS uid, 
                       t_status.problem_id AS pid,
                       t_status.result AS result,
                       t_status.is_shared AS share,
@@ -46,5 +47,19 @@ class Status extends ActiveRecord {
             ->offset(($pageId - 1) * $pageSize)
             ->limit($pageSize)
             ->all();
+    }
+
+    public static function findById($id) {
+        return self::find()
+            ->select("*")
+            ->where("id=:id", [":id" => $id])
+            ->one();
+    }
+
+    public static function getCeinfo($id) {
+        return self::find()
+            ->select("ce_info")
+            ->where("id=:id", [":id" => $id])
+            ->one();
     }
 }

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Header -->
+<head>
+    <title>
+        <{if $webTitle}>
+        <{$webTitle}>
+        <{else}>
+        NENU Online Judge
+        <{/if}>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <{include file="common/favicon.html"}>
+    <!-- Fonts -->
+
+    <!-- CSS Libs -->
+    <{include file="common/cssLibs.html"}>
+    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>/lib/css/prism/prism.css">
+    <!-- CSS App -->
+    <{include file="common/cssApp.html"}>
+</head>
+
+
+<body>
+
+<!-- 导航条 -->
+<{include file="common/navbar.html"}>
+
+<div class="container">
+    <fieldset>
+        <div class="block block-danger">
+            <div class="block-content">
+                <div class="inner" style="background:#fff">
+                    <pre class="line-numbers"><code class="language-<{$lang}>"><{$source}></code></pre>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+<!-- Footer -->
+<{include file="common/footer.html" }>
+<!-- Javascript Libs -->
+<{include file="common/jsLibs.html"}>
+<script type="text/javascript" src="<{$staticWebsite}>/lib/js/prism/prism.js"></script>
+<!-- Javascript App -->
+<{include file="common/jsApp.html"}>
+
+</body>
+
+</html>
