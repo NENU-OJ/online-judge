@@ -29,8 +29,9 @@ class User extends ActiveRecord {
         $user->update();
     }
 
-    public static function totalPage($pageSize) {
+    public static function totalPage($pageSize, $whereArray = []) {
         $totalCount = self::find()
+            ->where($whereArray)
             ->count();
         $totalPage = ceil($totalCount / $pageSize);
         return $totalPage;

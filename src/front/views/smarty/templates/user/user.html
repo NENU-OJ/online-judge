@@ -26,8 +26,8 @@
                             </div>
                             <div><span class="user-gray"><{$user->signature}></span></div>
                             <ul class="user-info">
-                                <li>Solved: <a href="#"><{$solvedNum}></a></li>
-                                <li>Submissions: <a href="#"><{$submissions}></a></li>
+                                <li>Solved: <a href="/status/list/?name=<{$user->username}>&result=Accepted"><{$solvedNum}></a></li>
+                                <li>Submissions: <a href="/status/list/?name=<{$user->username}>"><{$submissions}></a></li>
                                 <li>Registered: <{$user->register_time}></li>
                                 <{if $user_id && $user_id == $user->id}>
                                 <li><a id="set" href="javascript:;">Change settings</a></li>
@@ -49,7 +49,7 @@
                 <div class="heading">List of <span class="success-text">solved</span> problems</div>
                 <div class="inner prob_list">
                     <{foreach $solved as $pid}>
-                        <a class="pid" href="#"><{$pid}></a>
+                        <a class="pid" href="/problem/<{$pid}>"><{$pid}></a>
                     <{/foreach}>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                         <span class="info-text">No unsolved problems :)</span>
                     <{else}>
                         <{foreach $unsolved as $pid}>
-                        <a class="pid" href="#"><{$pid}></a>
+                        <a class="pid" href="/problem/<{$pid}>"><{$pid}></a>
                         <{/foreach}>
                     <{/if}>
                 </div>

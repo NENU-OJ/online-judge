@@ -9,7 +9,7 @@
 namespace app\controllers;
 
 use yii\web\Controller;
-
+use app\models\User;
 
 /**
  * Class BaseController
@@ -34,7 +34,15 @@ class BaseController extends Controller {
             "http://".\Yii::$app->request->serverName.":".\Yii::$app->request->serverPort."/uploads");
         $this->smarty->assign('time', date("Y-m-d H:i:s"));
         //若用户已登录，向前端渲染用户名方便判断哪些按钮显示和哪些不显示
+
         if (isset(\Yii::$app->session['user_id'])) {
+            $isRoot = User::find()
+                ->select('is_root')
+                ->where(['id' => \Yii::$app->session['user_id']])
+                ->one()
+                ->is_root;
+
+            $this->smarty->assign("isRoot", $isRoot);
             $this->smarty->assign('user_id', \Yii::$app->session['user_id']);
             $this->smarty->assign('username', \Yii::$app->session['username']);
             $this->smarty->assign('nickname', \Yii::$app->session['nickname']);

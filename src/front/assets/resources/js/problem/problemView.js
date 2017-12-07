@@ -24,8 +24,13 @@ $("#lang").val(2);
 $("#submit").click(function () {
     $("#submitError").text("");
     $("#statusForm").css('display', 'none');
+
+    $("#pending").css('display', 'none');
+    $("#running").css('display', 'none');
+
     $("#statusInfo").text("");
-    $("#statusInfo").removeClass("alert-danger").removeClass("alert-success").addClass("alert-warning");
+    $("#statusDetail").text("");
+    $("#statusAndImg").removeClass("alert-danger").removeClass("alert-success").addClass("alert-warning");
 
     var problemId = $("#problemId").val();
     var languageId = $("#lang").select().val();
@@ -57,20 +62,31 @@ $("#submit").click(function () {
                 if (resp.code == 0) { // 提交成功
                     $("#statusForm").css('display', 'block');
                     $("#statusInfo").text(resp.data.result);
+                    $("#pending").css('display', '');
                     var times = 35;
                     var timer = setInterval(function () {
                         $.get("http://" + host + "/status/result/" + resp.data.id, function (result) {
                             result = JSON.parse(result);
+
+                            if (result.data.result != 'Send to Judge' && result.data.result != 'Send to Rejudge') {
+                                $("#running").css('display', '');
+                                $("#pending").css('display', 'none');
+                            }
+
                             $("#statusInfo").text(result.data.result);
                             if (result.data.finished) {
-                                var runInfo = result.data.result +
-                                    ' Time used: ' + result.data.timeUsed + 'ms' +
+                                $("#pending").css('display', 'none');
+                                $("#running").css('display', 'none');
+
+
+                                var runDetail = 'Time used: ' + result.data.timeUsed + 'ms' +
                                     ' Memory used: ' + result.data.memoryUsed + 'kb';
-                                $("#statusInfo").text(runInfo);
+                                $("#statusDetail").text(runDetail);
+                                $("#statusInfo").text(result.data.result);
                                 if (result.data.result == "Accepted")
-                                    $("#statusInfo").removeClass("alert-warning").addClass("alert-success");
+                                    $("#statusAndImg").removeClass("alert-warning").addClass("alert-success");
                                 else
-                                    $("#statusInfo").removeClass("alert-warning").addClass("alert-danger");
+                                    $("#statusAndImg").removeClass("alert-warning").addClass("alert-danger");
                                 clearInterval(timer);
                                 $("#submit").removeClass("disabled");
                             }

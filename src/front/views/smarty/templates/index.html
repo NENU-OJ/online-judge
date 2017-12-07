@@ -78,18 +78,17 @@
             <div class="col-sm-4">
                 <div class="block block-success">
                     <div class="block-content">
-                        <div class="heading"><a class="pull-right" target="_blank" href="/standings">More</a>Top 10
-                        </div>
+                        <div class="heading"><a class="pull-right" target="_blank" href="/rank">More</a>Top 10</div>
                         <table class="table-acdream info">
                             <tbody>
+                            <{foreach $users as $user}>
                             <tr>
                                 <td>
-                                    <div><a class="user user-orange" href="/user/kuangbin" title="Master">kuangbin</a>
-                                    </div>
-                                    <div class="footer">场次：6</div>
+                                    <div><a class="user user-cray" href="/user/detail/<{$user->username}>"><{$user->username}></a></div>
                                 </td>
-                                <td class="state"><span>2011</span></td>
+                                <td class="state"><span><{$user->solved_problem}></span></td>
                             </tr>
+                            <{/foreach}>
                             </tbody>
                         </table>
                     </div>

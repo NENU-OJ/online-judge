@@ -18,18 +18,20 @@ use yii\web\NotFoundHttpException;
 
 class ProblemController extends BaseController {
     public function actionList($id = 1) {
-        $totalCount = Problem::find()
-            ->where(['is_hide' => 0])
-            ->count();
-        $pageSize = \Yii::$app->params['queryPerPage'];
-        $totalPage = ceil($totalCount / $pageSize);
 
-        $problems = Problem::find()
-            ->where(['is_hide' => 0])
-            ->orderBy('id')
-            ->offset(($id - 1) * $pageSize)
-            ->limit($pageSize)
-            ->all();
+        $pageSize = \Yii::$app->params['queryPerPage'];
+
+        $whereArray = ['is_hide' => 0];
+        $andWhereArray = [];
+        $search = \Yii::$app->request->get('search');
+        if ($search) {
+            $andWhereArray = ['or', ['like', 'title', '%'.$search.'%', false], ['like', 'source', '%'.$search.'%', false]];
+        }
+
+        $totalPage = Problem::totalPage($pageSize, $whereArray, $andWhereArray);
+
+
+        $problems = Problem::findByWhere($pageSize, $id, $whereArray, $andWhereArray);
 
         $acArray = [];
         if (isset(\Yii::$app->session['user_id'])) {
@@ -47,7 +49,7 @@ class ProblemController extends BaseController {
         $pageArray = Util::getPaginationArray($id, 6, $totalPage);
 
         $this->smarty->assign('webTitle', 'Problem List');
-
+        $this->smarty->assign('search', $search);
         $this->smarty->assign('pageArray', $pageArray);
         $this->smarty->assign('totalPage', $totalPage);
         $this->smarty->assign('pageNow', $id);

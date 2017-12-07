@@ -40,13 +40,13 @@
                         <td><a class="user user-cray" href="<{$website}>/user/detail/<{$user->username}>"><{$user->username}></a></td>
                         <td><span class="user user-gray"><{$user->nickname}></span></td>
                         <td class="ellipsis"><p class="user-gray ellipsis mc"><{$user->signature}></p></td>
-                        <td><a href="#"><{$user->solved_problem}></a></td>
-                        <td><a href="#"><{$user->total_submit}></a></td>
+                        <td><a href="/status/list/?name=<{$user->username}>&result=Accepted"><{$user->solved_problem}></a></td>
+                        <td><a href="/status/list/?name=<{$user->username}>"><{$user->total_submit}></a></td>
                         <td><span class="user-gray">
                             <{if $user->solved_problem}>
                                 <{sprintf("%.2f", 100 * $user->solved_problem / $user->total_submit)}>
                             <{else}>
-                                0
+                                0.00
                             <{/if}>%
                         </span></td>
                     </tr>

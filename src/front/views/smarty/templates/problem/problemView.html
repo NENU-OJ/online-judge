@@ -22,8 +22,8 @@
                             <span class="user-black">Memory Limit: <{$problem->memory_limit}>/<{$problem->memory_limit * $vmMultiplier}>KB (C++/Others)</span>
                         </div>
                         <div class="form-group form-inline" align="center">
-                            Total Submissions: <a href="#"><{$problem->total_submit}></a>
-                            Accepted Submissions: <a href="#"><{$problem->total_ac}></a>
+                            Total Submissions: <a href="/status/list/?pid=<{$problem->id}>"><{$problem->total_submit}></a>
+                            Accepted Submissions: <a href="/status/list/?result=Accepted&pid=<{$problem->id}>"><{$problem->total_ac}></a>
                         </div>
                         <div class="form-group form-inline" align="center">
                             <a class="btn btn-default btn-sm" href="#">Submit</a>
@@ -50,7 +50,7 @@
                         <{/if}>
                         <{if $problem->source}>
                         <h4>Source</h4>
-                        <div class="prob-content"><a class="user user-cray" href="#"><{$problem->source}></a></div>
+                        <div class="prob-content"><a class="user user-cray" href="/problem/list/?search=<{$problem->source}>"><{$problem->source}></a></div>
                         <{/if}>
                         <h4>Manager</h4>
                         <div class="prob-content">
@@ -101,9 +101,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group" id="statusForm" style="display:none">
+                            <div class="form-group inline" id="statusForm" style="display:none">
                                 <div class="col-sm-offset-2 col-sm-7">
-                                    <div class="alert alert-warning" id="statusInfo"></div>
+                                    <div class="alert alert-warning" id="statusAndImg">
+                                        <img id="pending" src="<{$staticWebsite}>/img/pending.gif" style="display:none;">
+                                        <img id="running" src="<{$staticWebsite}>/img/running.gif" style="display:none;">
+                                        <span id="statusInfo"></span>
+                                        <span id="statusDetail" style="display: block;"></span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">

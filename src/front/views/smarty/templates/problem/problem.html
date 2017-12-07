@@ -16,18 +16,20 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="btn-group btn-group-sm">
-                            <a class="btn btn-default" href="<{$websize}>/problem/list/1">&lt;&lt;</a>
+                            <a class="pagi btn btn-default" href="javascript:;" title="1">&lt;&lt;</a>
                             <{foreach $pageArray as $pageId}>
-                            <a class="btn btn-default <{if $pageId == $pageNow}>active<{/if}>" href="<{$websize}>/problem/list/<{$pageId}>"><{$pageId}></a>
+                            <a class="pagi btn btn-default <{if $pageId == $pageNow}>active<{/if}>" href="javascript:;" title="<{$pageId}>">
+                                <{$pageId}>
+                            </a>
                             <{/foreach}>
-                            <a class="btn btn-default" href="<{$websize}>/problem/list/<{$totalPage}>">&gt;&gt;</a>
+                            <a class="pagi btn btn-default" href="javascript:;" title="<{$totalPage}>">&gt;&gt;</a>
                         </div>
                     </div>
                     <div class="col-sm-6 form-inline">
                         <div class="pull-right">
                             <div class="input-group input-group-sm">
                                 <span class="input-group-addon"><i class="icon_search"></i></span>
-                                <input class="form-control" id="search" type="text" value="" placeholder="title or tag or source">
+                                <input class="form-control" id="search" type="text" value="" placeholder="title or source">
                             </div>
                             <a class="btn btn-default btn-sm" id="fil" href="javascript:;">Filter</a>
                             <a class="btn btn-default btn-sm" href="/problem/list">Reset</a></div>
@@ -53,11 +55,11 @@
                     <tr class="<{if $counter % 2 == 0}>even<{else}>odd<{/if}>">
                         <td class="center <{if in_array($problem->id, $acArray)}>AC<{/if}>"><{$problem->id}></td>
                         <td><a href="<{$website}>/problem/<{$problem->id}>"><{$problem->title}></a></td>
-                        <td class="ellipsis"><a class="tag" href="javascript:;" style="font-size:12px" title="<{$problem->source}>"><{$problem->source}></a>
+                        <td class="ellipsis"><a class="tag" href="/problem/list/?search=<{$problem->source}>" style="font-size:12px" title="<{$problem->source}>"><{$problem->source}></a>
                         </td>
                         <td class="center">
-                            <{if $problem->total_submit}><{sprintf("%.2f", 100 * $problem->total_ac / $problem->total_submit)}><{else}>0<{/if}>%
-                            (<a href="#"><{$problem->total_ac}></a>/<a href="#"><{$problem->total_submit}></a>)
+                            <{if $problem->total_submit}><{sprintf("%.2f", 100 * $problem->total_ac / $problem->total_submit)}><{else}>0.00<{/if}>%
+                            (<a href="/status/list/?pid=<{$problem->id}>&result=Accepted"><{$problem->total_ac}></a>/<a href="/status/list/?pid=<{$problem->id}>"><{$problem->total_submit}></a>)
                         </td>
                     </tr>
                     <{/foreach}>
@@ -74,7 +76,11 @@
 <{include file="../common/jsLibs.html"}>
 <!-- Javascript App -->
 <{include file="../common/jsApp.html"}>
-
+<script type="text/javascript" src="<{$staticWebsite}>/js/problem/problem.js"></script>
+<script>
+    var pageId = <{$pageNow}>;
+    $("#search").val('<{$search}>');
+</script>
 </body>
 
 </html>

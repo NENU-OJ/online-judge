@@ -11,6 +11,7 @@ namespace app\controllers;
 use app\models\User;
 use yii\web\NotFoundHttpException;
 use app\common\Util;
+use app\models\Status;
 
 class UserController extends BaseController {
     public function actionDetail($username = "") {
@@ -25,8 +26,35 @@ class UserController extends BaseController {
         if (!$user)
             throw new NotFoundHttpException("没有 $username 这个用户");
 
-        $solved = [1, 2, 3, 4, 5];
-        $unsolved = [6, 7, 8, 9, 10];
+        $rawSolved = Status::find()
+            ->select('problem_id')
+            ->distinct()
+            ->where(['user_id' => $user->id, 'result' => 'Accepted'])
+            ->orderBy('problem_id')
+            ->asArray()
+            ->all();
+
+        $solved = [];
+
+        foreach ($rawSolved as $problem)
+            $solved[] = $problem['problem_id'];
+
+        $maybeUnsolved = Status::find()
+            ->select('problem_id')
+            ->distinct()
+            ->where('user_id=:uid AND result != "Accepted"', [':uid' => $user->id])
+            ->orderBy('problem_id')
+            ->asArray()
+            ->all();
+
+
+        $unsolved = [];
+        foreach ($maybeUnsolved as $problem) {
+            if (!in_array($problem['problem_id'], $solved)) {
+                $unsolved[] = $problem['problem_id'];
+            }
+        }
+
         $submissions = $user->total_submit;
 
         $this->smarty->assign('user', $user);

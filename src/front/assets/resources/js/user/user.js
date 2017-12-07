@@ -5,6 +5,10 @@ $("#set").click(function () {
     $("#dialog_st").css("display", "block");
     $("#overlay").css("display", "");
 });
+$(".setclose").click(function () {
+    $("#dialog_st").css("display", "none");
+    $("#overlay").css("display", "none");
+});
 $("#set_cancel").click(function () {
     $("#dialog_st").css("display", "none");
     $("#overlay").css("display", "none");

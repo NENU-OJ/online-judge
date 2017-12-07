@@ -7,7 +7,7 @@ $("#fil").click(function () {
     var pid = $("#pid").val();
     var name = $("#name").val();
 
-    var url = "http://" + host + "/status/list/?id=1";
+    var url = "/status/list/?id=1";
 
     if (result)
         url += '&result=' + result.replace(/ /g, '%20');
@@ -27,7 +27,7 @@ $(".pagi").click(function () {
     var pid = $("#pid").val();
     var name = $("#name").val();
 
-    var url = "http://" + host + "/status/list/?id=" + $(this).attr('title');
+    var url = "/status/list/?id=" + $(this).attr('title');
 
     if (result)
         url += '&result=' + result.replace(/ /g, '%20');

@@ -21,4 +21,23 @@ class Problem extends ActiveRecord {
         $problem->total_submit += 1;
         $problem->update();
     }
+
+    public static function totalPage($pageSize, $whereArray, $andWhereArray = []) {
+        $totalCount = self::find()
+            ->where($whereArray)
+            ->andWhere($andWhereArray)
+            ->count();
+        $totalPage = ceil($totalCount / $pageSize);
+        return $totalPage;
+    }
+
+    public static function findByWhere($pageSize, $pageNow, $whereArray, $andWhereArray = []) {
+        return self::find()
+            ->where($whereArray)
+            ->andWhere($andWhereArray)
+            ->orderBy('id')
+            ->offset(($pageNow - 1) * $pageSize)
+            ->limit($pageSize)
+            ->all();
+    }
 }
