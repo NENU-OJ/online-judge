@@ -16,38 +16,38 @@
             <div class="heading">
                 <div class="row">
                     <div class="col-sm-2">Status</div>
-                    <div class="col-sm-10 form-inline">
+                    <div class="col-sm-14 form-inline">
                         <div class="pull-right">
                             <div class="input-group input-group-sm"><span class="input-group-addon">name</span>
-                                <input class="form-control" id="name" type="text" value="" placeholder="UserName">
+                                <input class="form-control" id="name" type="text" value="<{$name}>" placeholder="UserName">
                             </div>
                             <div class="input-group input-group-sm"><span class="input-group-addon">pid</span>
-                                <input class="form-control" id="pid" type="text" value="" placeholder="ProblemID">
+                                <input class="form-control" id="pid" type="text" value="<{$pid}>" placeholder="ProblemID">
                             </div>
                             <div class="input-group input-group-sm"><span class="input-group-addon">lang</span>
                                 <select class="form-control" id="lang">
-                                    <option value="0">All</option>
-                                    <option value="1">C</option>
-                                    <option value="2">C++</option>
-                                    <option value="3">Java</option>
+                                    <option value="">All</option>
+                                    <{foreach $langList as $lang}>
+                                    <option value="<{$lang->id}>"><{$lang->language}></option>
+                                    <{/foreach}>
                                 </select>
                             </div>
                             <div class="input-group input-group-sm">
-                                <span class="input-group-addon">verdict</span>
+                                <span class="input-group-addon">result</span>
                                 <select class="form-control" id="result">
                                     <option value="">All</option>
-                                    <option class="info-text" value="0">Pending...</option>
-                                    <option class="info-text" value="1">Running...</option>
-                                    <option class="accept-text" value="2">Accepted</option>
-                                    <option class="wrong-text" value="6">Wrong Answer</option>
-                                    <option class="wrong-text" value="3">Presentation Error</option>
-                                    <option class="wrong-text" value="4">Time Limit Exceeded</option>
-                                    <option class="wrong-text" value="5">Memory Limit Exceeded</option>
-                                    <option class="wrong-text" value="7">Output Limit Exceeded</option>
-                                    <option class="special-text" value="8">Compilation Error</option>
-                                    <option class="wrong-text" value="9">Runtime Error</option>
-                                    <option class="special-text" value="13">Dangerous Code</option>
-                                    <option class="special-text" value="14">System Error</option>
+                                    <option class="info-text" value="Send to Judge">Send to Judge</option>
+                                    <option class="info-text" value="Send to Rejudge">Send to Rejudge</option>
+                                    <option class="accept-text" value="Accepted">Accepted</option>
+                                    <option class="wrong-text" value="Wrong Answer">Wrong Answer</option>
+                                    <option class="wrong-text" value="Presentation Error">Presentation Error</option>
+                                    <option class="wrong-text" value="Time Limit Exceeded">Time Limit Exceeded</option>
+                                    <option class="wrong-text" value="Memory Limit Exceeded">Memory Limit Exceeded</option>
+                                    <option class="wrong-text" value="Output Limit Exceeded">Output Limit Exceeded</option>
+                                    <option class="wrong-text" value="Runtime Error">Runtime Error</option>
+                                    <option class="special-text" value="Compile Error">Compile Error</option>
+                                    <option class="special-text" value="Judge Error">Judge Error</option>
+                                    <option class="special-text" value="Restricted Function">Restricted Function</option>
                                 </select>
                             </div>
                             <a class="btn btn-default btn-sm" id="fil" href="javascript:;">Filter</a>
@@ -118,13 +118,13 @@
                             <div id="pager">
                                 <div id="list">
                                     <ul class="pagination pagination-sm">
-                                        <li><a href="<{$website}>/status/list/1">&lt;&lt;</a></li>
+                                        <li><a href="javascript:;" class="pagi" title="1">&lt;&lt;</a></li>
                                         <{foreach $pageArray as $pageId}>
                                         <li class="<{if $pageNow == $pageId}>active<{/if}>">
-                                            <a href="<{$website}>/status/list/<{$pageId}>"><{$pageId}></a>
+                                            <a href="javascript:;" class="pagi" title="<{$pageId}>"><{$pageId}></a>
                                         </li>
                                         <{/foreach}>
-                                        <li><a href="<{$website}>/status/list/<{$totalPage}>">&gt;&gt;</a></li>
+                                        <li><a href="javascript:;" class="pagi" title="<{$totalPage}>">&gt;&gt;</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -143,7 +143,12 @@
 <{include file="../common/jsLibs.html"}>
 <!-- Javascript App -->
 <{include file="../common/jsApp.html"}>
-
+<script type="text/javascript" src="<{$staticWebsite}>/js/status/status.js"></script>
+<script>
+    var pageId = <{$pageNow}>;
+    $("#lang").val(<{$lang}>);
+    $("#result").val("<{$result}>");
+</script>
 </body>
 
 </html>

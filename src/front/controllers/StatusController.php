@@ -13,14 +13,34 @@ class StatusController extends BaseController {
     public function actionList($id = 1) {
 
         $pageSize = \Yii::$app->params['queryPerPage'];
-        $totalPage = Status::totalPage(0, $pageSize);
 
 
-        $statuses = Status::getStatuses($id, $pageSize, 0);
+        $langList = LanguageType::getLangList();
+
+        $whereArray = [];
+        $whereArray["contest_id"] = 0;
+        if ($pid = \Yii::$app->request->get('pid'))
+            $whereArray['problem_id'] = $pid;
+        if ($name = \Yii::$app->request->get('name'))
+            $whereArray['user_id'] = User::findByUsername($name)->id;
+        if ($lang = \Yii::$app->request->get('lang'))
+            $whereArray['language_id'] = $lang;
+        if ($result = \Yii::$app->request->get('result'))
+            $whereArray['result'] = $result;
+
+        $totalPage = Status::totalPage($whereArray, $pageSize);
+
+
+        $statuses = Status::getStatuses($id, $pageSize, $whereArray);
 
         $pageArray = Util::getPaginationArray($id, 8, $totalPage);
 
+        $this->smarty->assign('pid', $pid);
+        $this->smarty->assign('name', $name);
+        $this->smarty->assign('lang', $lang);
+        $this->smarty->assign('result', $result);
 
+        $this->smarty->assign('langList', $langList);
         $this->smarty->assign('webTitle', 'Status');
         $this->smarty->assign('pageArray', $pageArray);
         $this->smarty->assign('totalPage', $totalPage);

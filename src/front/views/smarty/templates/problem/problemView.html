@@ -48,12 +48,15 @@
                         <h4>Hint</h4>
                         <div class="prob-content"><{$problem->hint}></div>
                         <{/if}>
+                        <{if $problem->source}>
                         <h4>Source</h4>
-                        <div class="prob-content"><{$problem->source}></div>
+                        <div class="prob-content"><a class="user user-cray" href="#"><{$problem->source}></a></div>
+                        <{/if}>
                         <h4>Manager</h4>
                         <div class="prob-content">
-                            <a class="user user-unrated" id="manager"
-                               href="<{$website}>/user/detail/<{$problem->author}>"><{$problem->author}></a>
+                            <a class="user user-violet" id="manager" href="<{$website}>/user/detail/<{$problem->author}>">
+                                <{$problem->author}>
+                            </a>
                         </div>
                     </div>
                 </div>

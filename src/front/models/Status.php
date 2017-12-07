@@ -17,15 +17,15 @@ class Status extends ActiveRecord {
         return "{{%status}}";
     }
 
-    public static function totalPage($contestId, $pageSize) {
+    public static function totalPage($whereArray, $pageSize) {
         $totalCount = self::find()
-            ->where(['contest_id' => $contestId])
+            ->where($whereArray)
             ->count();
         $totalPage = ceil($totalCount / $pageSize);
         return $totalPage;
     }
 
-    public static function getStatuses($pageId, $pageSize, $contestId) {
+    public static function getStatuses($pageId, $pageSize, $whereArray) {
         return (new Query())
             ->select('t_status.id AS runid,
                       t_user.username AS username,
@@ -42,7 +42,7 @@ class Status extends ActiveRecord {
             ->from('t_status')
             ->join('INNER JOIN', 't_user', 't_status.user_id = t_user.id')
             ->join('INNER JOIN', 't_language_type', 't_status.language_id = t_language_type.id')
-            ->where(['contest_id' => $contestId])
+            ->where($whereArray)
             ->orderBy(['runid' => SORT_DESC])
             ->offset(($pageId - 1) * $pageSize)
             ->limit($pageSize)

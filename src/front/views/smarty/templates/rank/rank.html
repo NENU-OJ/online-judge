@@ -2,58 +2,79 @@
 <html lang="zh-CN">
 
 <!-- Header -->
-<{include file="common/header.html"}>
+<{include file="../common/header.html"}>
 
 <body>
 
 <!-- 导航条 -->
-<{include file="../common/navbar.html" }>
+<{include file="../common/navbar.html"}>
 
-<div class="container" id="page-content">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="card">
-                <div class="card-header">
-                </div>
-                <div class="card-body">
-                    <table class="datatable table table-striped" cellspacing="0" width="100%" id="list">
-                        <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Username</th>
-                            <th>Nickname</th>
-                            <th>School</th>
-                            <th>Solved</th>
-                            <th>AC Ratio</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <{foreach $data as $item}>
-                        <tr>
-                            <td><{$item.rank}></td>
-                            <td><a href="<{$website}>user/user/detail?userId=<{$item.id}>"><{$item.username}></a></td>
-                            <td><{$item.nickname}></td>
-                            <td><{$item.school}></td>
-                            <td><{$item.total_ac}></td>
-                            <td><{$item.total_ac}> / <{$item.total_submit}></td>
-                        </tr>
-                        <{/foreach}>
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Username</th>
-                            <th>Nickname</th>
-                            <th>School</th>
-                            <th>Solved</th>
-                            <th>AC Ratio</th>
-                        </tr>
-                        </tfoot>
-                    </table>
+
+<div class="container">
+    <fieldset id="ranklist">
+        <div class="block block-info">
+            <div class="heading">
+                <div class="row">
+                    <div class="col-sm-2">Ranklist</div>
                 </div>
             </div>
+            <div class="table-responsive">
+                <table class="table table-bordered tdcenter" id="rank">
+                    <thead>
+                    <tr class="even">
+                        <th style="width:60px">Rank</th>
+                        <th style="width:155px">User</th>
+                        <th style="width:155px">Nickname</th>
+                        <th>Signature</th>
+                        <th style="width:70px">Solved</th>
+                        <th style="width:70px">Submit</th>
+                        <th style="width:70px">AC_Ratio</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <{$counter = 0}>
+                    <{foreach $users as $user}>
+                    <{$counter = $counter + 1}>
+                    <tr class="<{if $user_id == $user->id}>highlight<{/if}> <{if $counter % 2 == 0}>even<{else}>odd<{/if}>">
+                        <td><{$counter + $rankStart}></td>
+                        <td><a class="user user-cray" href="<{$website}>/user/detail/<{$user->username}>"><{$user->username}></a></td>
+                        <td><span class="user user-gray"><{$user->nickname}></span></td>
+                        <td class="ellipsis"><p class="user-gray ellipsis mc"><{$user->signature}></p></td>
+                        <td><a href="#"><{$user->solved_problem}></a></td>
+                        <td><a href="#"><{$user->total_submit}></a></td>
+                        <td><span class="user-gray">
+                            <{if $user->solved_problem}>
+                                <{sprintf("%.2f", 100 * $user->solved_problem / $user->total_submit)}>
+                            <{else}>
+                                0
+                            <{/if}>%
+                        </span></td>
+                    </tr>
+                    <{/foreach}>
+                    </tbody>
+                    <tfoot>
+                    <tr class="odd">
+                        <td colspan="7">
+                            <div id="pager">
+                                <div id="list">
+                                    <ul class="pagination pagination-sm">
+                                        <li><a href="<{$website}>/rank/1">&lt;&lt;</a></li>
+                                        <{foreach $pageArray as $pageId}>
+                                        <li class="<{if $pageNow == $pageId}>active<{/if}>">
+                                            <a href="<{$website}>/rank/<{$pageId}>"><{$pageId}></a>
+                                        </li>
+                                        <{/foreach}>
+                                        <li><a href="<{$website}>/rank/<{$totalPage}>">&gt;&gt;</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
-    </div>
+    </fieldset>
 </div>
 
 <!-- Footer -->
@@ -62,7 +83,6 @@
 <{include file="../common/jsLibs.html"}>
 <!-- Javascript App -->
 <{include file="../common/jsApp.html"}>
-<script type="text/javascript" src="<{$staticWebsite}>/js/user/user.js"></script>
 
 </body>
 

@@ -28,4 +28,11 @@ class User extends ActiveRecord {
         $user->total_submit = $user->total_submit + 1;
         $user->update();
     }
+
+    public static function totalPage($pageSize) {
+        $totalCount = self::find()
+            ->count();
+        $totalPage = ceil($totalCount / $pageSize);
+        return $totalPage;
+    }
 }

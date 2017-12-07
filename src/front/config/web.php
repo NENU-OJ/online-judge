@@ -46,6 +46,7 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 'user/detail/<username:\w+>' => 'user/detail',
+                'rank/<id:\d+>' => 'rank/index',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>'
