@@ -12,7 +12,6 @@ namespace app\controllers;
 class AdminController extends BaseController {
     public function actionIndex() {
 
-        $this->smarty->assign('msg', "还没写");
-        return $this->smarty->display('common/error.html');
+        return $this->smarty->display('admin/admin.html');
     }
 }

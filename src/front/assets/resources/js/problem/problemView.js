@@ -63,7 +63,7 @@ $("#submit").click(function () {
                     $("#statusForm").css('display', 'block');
                     $("#statusInfo").text(resp.data.result);
                     $("#pending").css('display', '');
-                    var times = 35;
+                    var times = 64;
                     var timer = setInterval(function () {
                         $.get("http://" + host + "/status/result/" + resp.data.id, function (result) {
                             result = JSON.parse(result);
@@ -93,7 +93,6 @@ $("#submit").click(function () {
                         });
 
                         if (--times == 0) {
-                            clearInterval(timer);
                             $("#submit").removeClass("disabled");
                         }
                     }, 700);
