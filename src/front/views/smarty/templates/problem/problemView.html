@@ -52,12 +52,14 @@
                         <h4>Source</h4>
                         <div class="prob-content"><a class="user user-cray" href="/problem/list/?search=<{$problem->source}>"><{$problem->source}></a></div>
                         <{/if}>
+                        <{if $problem->author}>
                         <h4>Manager</h4>
                         <div class="prob-content">
                             <a class="user user-violet" id="manager" href="<{$website}>/user/detail/<{$problem->author}>">
                                 <{$problem->author}>
                             </a>
                         </div>
+                        <{/if}>
                     </div>
                 </div>
             </div>

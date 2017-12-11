@@ -9,9 +9,15 @@
 namespace app\controllers;
 
 
+use app\models\LanguageType;
+
 class AdminController extends BaseController {
     public function actionIndex() {
+        $languageList = LanguageType::find()
+            ->select('*')
+            ->all();
 
+        $this->smarty->assign('languageList', $languageList);
         return $this->smarty->display('admin/admin.html');
     }
 }

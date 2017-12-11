@@ -14,6 +14,7 @@ use app\models\Problem;
 use app\models\Status;
 use app\common\Util;
 use app\models\User;
+use yii\db\Exception;
 use yii\web\NotFoundHttpException;
 
 class ProblemController extends BaseController {
@@ -103,5 +104,92 @@ class ProblemController extends BaseController {
         } else {
             return json_encode(["code" => 1, "data" => "请求方式错误"]);
         }
+    }
+
+    public function actionDetail($id) {
+        if (!\Yii::$app->request->isGet)
+            return json_encode(["code" => 1, "data" => "请求方式错误"]);
+
+        $problem = Problem::findById($id);
+        if (!$problem)
+            return json_encode(["code" => 1, "data" => "没有 $id 这个题目"]);
+
+
+        return json_encode(["code" => 0, "data" => [
+            "id" => $problem->id,
+            "title" => $problem->title,
+            "timeLimit" => $problem->time_limit,
+            "memoryLimit" => $problem->memory_limit,
+            "special" => $problem->is_special_judge,
+            "hide" => $problem->is_hide,
+            "description" => $problem->description,
+            "input" => $problem->input,
+            "output" => $problem->output,
+            "sampleInput" => $problem->sample_in,
+            "sampleOutput" => $problem->sample_out,
+            "hint" => $problem->hint,
+            "source" => $problem->source,
+            "author" => $problem->author,
+        ]]);
+    }
+
+    public function actionUpdate() {
+        if (!\Yii::$app->request->isPost)
+            return json_encode(["code" => 1, "data" => "请求方式错误"]);
+
+        $pid = \Yii::$app->request->post('pid');
+        $title = \Yii::$app->request->post('title');
+        $timeLimit = \Yii::$app->request->post('timeLimit');
+        $memoryLimit = \Yii::$app->request->post('memoryLimit');
+        $special = \Yii::$app->request->post('special');
+        $hide = \Yii::$app->request->post('hide');
+        $desc = \Yii::$app->request->post('desc');
+        $input = \Yii::$app->request->post('input');
+        $output = \Yii::$app->request->post('output');
+        $sampleIn = \Yii::$app->request->post('sampleIn');
+        $sampleOut = \Yii::$app->request->post('sampleOut');
+        $hint = \Yii::$app->request->post('hint');
+        $source = \Yii::$app->request->post('source');
+        $author = \Yii::$app->request->post('author');
+
+        $problem = Problem::findById($pid);
+
+        $create = true;
+        if ($problem) {
+            $create = false;
+        } else {
+            $problem = new Problem();
+        }
+
+        $problem->title = $title;
+        $problem->time_limit = $timeLimit;
+        $problem->memory_limit = $memoryLimit;
+        $problem->is_special_judge = $special;
+        $problem->is_hide = $hide;
+        $problem->description = $desc;
+        $problem->input = $input;
+        $problem->output = $output;
+        $problem->sample_in = $sampleIn;
+        $problem->sample_out = $sampleOut;
+        $problem->hint = $hint;
+        $problem->source = $source;
+        $problem->author = $author;
+
+        try {
+            $problem->save();
+            $pid = $problem->id;
+
+            $data = '';
+
+            if ($create) {
+                $data = "创建题目: $pid";
+            } else {
+                $data = "修改题目: $pid";
+            }
+            return json_encode(["code" => 0, "data" => $data]);
+        } catch (Exception $e) {
+            return json_encode(["code" => 1, "data" => $e->getMessage()]);
+        }
+
     }
 }
