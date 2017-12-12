@@ -38,7 +38,7 @@ $("#set_submit").click(function () {
         return;
     }
     $.ajax({
-        type: "ajax",
+        type: "post",
         url: 'http://' + host + '/user/update',
         dataType: "json",
         data: {

@@ -60,7 +60,7 @@ CREATE TABLE `t_status`(
 
 CREATE TABLE `t_user`(
     `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
-    `username` varchar(64) NOT NULL unique COMMENT '用户名',
+    `username` varchar(64) BINARY NOT NULL unique COMMENT '用户名',
     `nickname` varchar(64) NOT NULL DEFAULT '' COMMENT '昵称',
     `avatar` varchar(76) NOT NULL DEFAULT '' COMMENT '头像',
     `password` varchar(64) NOT NULL DEFAULT '' COMMENT '密码',

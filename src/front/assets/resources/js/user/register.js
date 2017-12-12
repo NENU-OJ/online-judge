@@ -21,7 +21,7 @@ $("#reg_submit").click(function () {
         $("#reg_error").text("两次输入密码不一致");
     } else {
         $.ajax({
-            type: "ajax",
+            type: "post",
             url: 'http://' + host + '/user/register',
             dataType: "json",
             data: {
@@ -34,7 +34,7 @@ $("#reg_submit").click(function () {
             },
             success: function (resp) {
                 if (resp.code == 0) {
-                    history.back();
+                    location.href = 'http://' + host + '/user/detail';
                 } else {
                     $("#reg_error").text(resp.data);
                 }

@@ -70,7 +70,7 @@ class UserController extends BaseController {
         $code = 0;
         $data = "";
 
-        if (\Yii::$app->request->isAjax) {
+        if (\Yii::$app->request->isPost) {
             $username = trim(\Yii::$app->request->post('username'));
             $password = md5(trim(\Yii::$app->request->post('password')));
             $user = User::findByUsername($username);
@@ -116,7 +116,7 @@ class UserController extends BaseController {
             } else {
                 return $this->smarty->display('user/register.html');
             }
-        } else if (\Yii::$app->request->isAjax) {
+        } else if (\Yii::$app->request->isPost) {
             $username = trim(\Yii::$app->request->post('username'));
 
             // 用户名是否重复

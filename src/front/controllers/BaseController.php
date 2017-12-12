@@ -26,7 +26,7 @@ class BaseController extends Controller {
 
         $this->smarty = \Yii::$app->smarty;
         //向前端渲染域名（方便跳页和行为触发）
-        $this->smarty->assign('website', "http://".$_SERVER['HTTP_HOST'].":".$_SERVER['SERVER_PORT']);
+        $this->smarty->assign('website', "http://".$_SERVER['HTTP_HOST']);
         //向前端渲染资源目录
         $this->smarty->assign('staticWebsite',
             "http://".\Yii::$app->request->serverName.":".\Yii::$app->request->serverPort."/assets/resources");

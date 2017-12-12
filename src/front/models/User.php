@@ -12,7 +12,7 @@ class User extends ActiveRecord {
     public static function findByUsername($username) {
         return self::find()
             ->select('*')
-            ->where('username=:username', [':username' => $username])
+            ->where('BINARY username=:username', [':username' => $username])
             ->one();
     }
 
