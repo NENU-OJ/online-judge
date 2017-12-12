@@ -51,5 +51,4 @@ class BaseController extends Controller {
             $this->smarty->assign('school', \Yii::$app->session['school']);
         }
     }
-    
 }

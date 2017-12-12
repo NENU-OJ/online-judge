@@ -10,9 +10,24 @@ namespace app\controllers;
 
 
 use app\models\LanguageType;
+use app\models\User;
 
 class AdminController extends BaseController {
     public function actionIndex() {
+
+        $canView = false;
+        if (isset(\Yii::$app->session['user_id'])) {
+            $userId = \Yii::$app->session['user_id'];
+            $user = User::findById($userId);
+            if ($user && $user->is_root)
+                $canView = true;
+        }
+
+        if (!$canView) {
+            $this->smarty->assign('msg', "管不了 管不了.jpg");
+            return $this->smarty->display('common/error.html');
+        }
+
         $languageList = LanguageType::find()
             ->select('*')
             ->all();

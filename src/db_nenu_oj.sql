@@ -120,14 +120,24 @@ CREATE TABLE `t_contest_user`(
 
 CREATE TABLE `t_discuss`(
     `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
-    `parent_id` int(10) NOT NULL DEFAULT '0' COMMENT '父节点id（对应discuss表中的id）',
-    `time` datetime DEFAULT NULL COMMENT '发表时间',
+    `contest_id` int(10) NOT NULL DEFAULT '0' COMMENT '比赛id（对应contest表中的id）',
+    `created_at` datetime DEFAULT NULL COMMENT '发表时间',
+    `updated_at` datetime DEFAULT NULL COMMENT '回复时间',
     `title` varchar(64) NOT NULL DEFAULT '' COMMENT '标题',
-    `content` text NOT NULL COMMENT '内容',
-    `user_id` int(10) NOT NULL DEFAULT '0' COMMENT '用户id（对应user表中的id）',
-    `problem_id` int(10) NOT NULL DEFAULT '0' COMMENT '题目id（对应problem表中的id）',
+    `username` varchar(64) NOT NULL DEFAULT '' COMMENT '用户name（对应user表中的username）',
+    `priority` int(10) NOT NULL DEFAULT '0' COMMENT '置顶优先级',
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '题目讨论表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '讨论表';
+
+CREATE TABLE `t_discuss_reply`(
+    `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
+    `parent_id` int(10) NOT NULL DEFAULT '0',
+    `created_at` datetime DEFAULT NULL COMMENT '发表时间',
+    `content` text NOT NULL COMMENT '内容',
+    `username` varchar(64) NOT NULL DEFAULT '' COMMENT '用户name（对应user表中的username）',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '讨论回复表';
+
 
 CREATE TABLE `t_notice`(
     `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',

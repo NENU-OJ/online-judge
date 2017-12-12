@@ -137,6 +137,20 @@ class ProblemController extends BaseController {
         if (!\Yii::$app->request->isPost)
             return json_encode(["code" => 1, "data" => "请求方式错误"]);
 
+        $canView = false;
+        if (isset(\Yii::$app->session['user_id'])) {
+            $userId = \Yii::$app->session['user_id'];
+            $user = User::findById($userId);
+            if ($user && $user->is_root)
+                $canView = true;
+        }
+        if (!$canView) {
+            $this->smarty->assign('msg', "管不了 管不了.jpg");
+            return json_encode(["code" => 1, "data" => "非管理员无法编辑"]);
+        }
+
+
+
         $pid = \Yii::$app->request->post('pid');
         $title = \Yii::$app->request->post('title');
         $timeLimit = \Yii::$app->request->post('timeLimit');
