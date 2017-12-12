@@ -1,0 +1,70 @@
+<nav class="navbar navbar-default navbar-static-top navbar-login navbar-hover" role="navigation" style="">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse"
+                    data-target="#bs-navbar-collapse-2"><span class="sr-only">Toggle navigation</span><span
+                    class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+            <a class="navbar-brand" href="/">NENUOJ</a></div>
+        <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="<{$website}>/problem/list">题目</a></li>
+                <li><a href="<{$website}>/status/list">提交</a></li>
+                <li><a href="<{$website}>/contest">比赛</a></li>
+                <li><a href="<{$website}>/rank">排名</a></li>
+                <li><a href="<{$website}>/discuss/list">讨论</a></li>
+                <li><a href="#">FAQ</a></li>
+            </ul>
+            <{if $user_id}>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown" id="userspace">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="<{$website}>/user/detail/">
+                        <img alt="avatar" src="<{$uploadsDir}>/avatar/<{$avatar}>/4.png"><{$username}><b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/user/detail/">个人信息</a></li>
+                        <{if $isRoot}><li><a href="/admin/" id="admin">管理</a></li><{/if}>
+                        <li><a id="logout" href="javascript:;">注销</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <{else}>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a class="checklogin" id="checklogin" href="javascript:;" data-url="">登录</a></li>
+                <li><a href="<{$website}>/user/register">注册</a></li>
+            </ul>
+            <{/if}>
+            <form class="navbar-form navbar-left" role="search" action="/problem/view">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Problem ID" name="id">
+                    <span class="input-group-btn"><button class="btn btn-default">Go</button></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="jqmOverlay" id="overlay"
+     style="height: 100%; width: 100%; position: fixed; left: 0px; top: 0px; z-index: 2999; opacity: 0.3; display: none">
+</div>
+<div class="jqmSubmit jqmID2" id="dialog_lg"
+     style="width: 385px; height: 275px; top: 15%; margin-left: -192.5px; z-index: 3000;">
+    <div class="jqDrag jqtop">登录</div>
+    <div class="jqcontent container" style="width:385px;height:185px">
+        <div class="form-group"><label for="login_username">用户名</label>
+            <input class="form-control input-sm" id="login_username" type="text">
+        </div>
+        <div class="form-group"><label for="login_password">密码</label>
+            <input class="form-control input-sm" id="login_password" type="password">
+        </div>
+        <!-- 现在还记不住 -->
+        <!--<div class="checkbox">-->
+            <!--<label title="remember me for a month"><input id="remember" type="checkbox">记住我</label>-->
+        <!--</div>-->
+    </div>
+    <div class="jqfoot"><span class="pull-right"><a class="btn btn-default" id="login_submit">登录</a>
+        <a class="btn btn-default loginclose">取消</a></span>
+        <small class="error-text" id="login_error"></small>
+    </div>
+    <div class="jqResize img_link"></div>
+    <i class="loginclose jqclose img_link"></i>
+</div>

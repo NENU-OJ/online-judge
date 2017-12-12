@@ -122,15 +122,18 @@ CREATE TABLE `t_discuss`(
     `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
     `contest_id` int(10) NOT NULL DEFAULT '0' COMMENT '比赛id（对应contest表中的id）',
     `created_at` datetime DEFAULT NULL COMMENT '发表时间',
-    `updated_at` datetime DEFAULT NULL COMMENT '回复时间',
-    `title` varchar(64) NOT NULL DEFAULT '' COMMENT '标题',
     `username` varchar(64) NOT NULL DEFAULT '' COMMENT '用户name（对应user表中的username）',
+    `replied_at` datetime DEFAULT NULL COMMENT '回复时间',
+    `replied_user` varchar(64) NOT NULL DEFAULT '' COMMENT '回复的用户name（对应user表中的username）',
+    `replied_num` int(10) NOT NULL DEFAULT '0',
+    `title` varchar(64) NOT NULL DEFAULT '' COMMENT '标题',
     `priority` int(10) NOT NULL DEFAULT '0' COMMENT '置顶优先级',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '讨论表';
 
 CREATE TABLE `t_discuss_reply`(
     `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
+    `discuss_id` int(10) NOT NULL DEFAULT '0',
     `parent_id` int(10) NOT NULL DEFAULT '0',
     `created_at` datetime DEFAULT NULL COMMENT '发表时间',
     `content` text NOT NULL COMMENT '内容',

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Header -->
+<{include file="common/header.html"}>
+
+<body>
+
+<!-- 导航条 -->
+<{include file="../common/navbar.html"}>
+
+<div class="container">
+    <fieldset>
+        <div class="block block-info">
+            <div class="block-content">
+                <div class="heading">
+                    <div class="row">
+                        <div class="col-sm-2">讨论</div>
+                        <div class="col-sm-10 form-inline">
+                            <div class="pull-right"><a class="btn btn-default btn-sm" href="<{$website}>/discuss/add">发布话题</a>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="icon_search"></i></span>
+                                    <input class="form-control" id="search" type="text" value="" placeholder="title or author">
+                                </div>
+                                <a class="btn btn-default btn-sm" id="fil" href="javascript:;">Filter</a>
+                                <a class="btn btn-default btn-sm" href="<{$website}>/discuss/list">Reset</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table-acdream highlight">
+                        <tbody>
+                        <{foreach $discussList as $discuss}>
+                        <tr>
+                            <td class="avatar">
+                                <a href="<{$website}>/user/detail/<{$discuss['username']}>">
+                                    <img class="img-50 img-round"
+                                     src="<{$uploadsDir}>/avatar/<{$discuss['avatar']}>/4.png">
+                                </a>
+                            </td>
+                            <td>
+                                <div class="title">
+                                    <{if $discuss['priority']}>
+                                    <span class="label label-warning">置顶</span>
+                                    <{/if}>
+                                    <a href="<{$website}>/discuss/<{$discuss['id']}>"><{$discuss['title']}></a>
+                                </div>
+                                <div class="footer">
+                                    作者：<a href="<{$website}>/user/detail/<{$discuss['username']}>"><{$discuss['username']}></a>
+                                    /
+                                    <{if $discuss['replied_user']}>
+                                    最新回复：
+                                    <a href="<{$website}>/discuss/view/<{$discuss['id']}>#4193">
+                                        <{$discuss['replied_user']}> @ <{$discuss['replied_at']}>
+                                    </a>
+                                    <{else}>
+                                    发布于：
+                                    <a href="<{$website}>/discuss/view/<{$discuss['id']}>#4193">
+                                        <{$discuss['replied_at']}>
+                                    </a>
+                                    <{/if}>
+                                </div>
+                            </td>
+                            <td class="state"><{$discuss['replied_num']}></td>
+                        </tr>
+                        <{/foreach}>
+                        </tbody>
+                        <tfoot>
+                        <tr class="odd">
+                            <td colspan="4">
+                                <div id="pager">
+                                    <div id="list">
+                                        <ul class="pagination pagination-sm">
+                                            <li><a class="pagi" title="1" href="javascript:;">&lt;&lt;</a></li>
+                                            <{foreach $pageArray as $pageId}>
+                                            <li class="<{if $pageNow == $pageId}>active<{/if}>">
+                                                <a href="javascript:;" class="pagi" title="<{$pageId}>"><{$pageId}></a>
+                                            </li>
+                                            <{/foreach}>
+                                            <li><a class="pagi" title="<{$totalPage}>" href="javascript:;">&gt;&gt;</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+<!-- Footer -->
+<{include file="../common/footer.html" }>
+<!-- Javascript Libs -->
+<{include file="../common/jsLibs.html"}>
+<!-- Javascript App -->
+<{include file="../common/jsApp.html"}>
+<script type="text/javascript" src="<{$staticWebsite}>/js/discuss/list.js"></script>
+<script>
+    var pageId = <{$pageNow}>;
+    $("#search").val("<{$search}>");
+</script>
+</body>
+
+</html>
