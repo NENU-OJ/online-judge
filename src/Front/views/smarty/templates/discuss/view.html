@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Header -->
+<{include file="common/header.html"}>
+
+<body>
+
+<!-- 导航条 -->
+<{include file="../common/navbar.html"}>
+
+<div class="container">
+    <fieldset>
+        <div class="block block-info">
+            <div class="heading">
+                <a href="<{$website}>/discuss/list">讨论主页</a> &gt;&gt; 话题详情
+                <span class="actions pull-right"></span>
+            </div>
+            <div class="block-content">
+                <div class="table-responsive">
+                    <table class="table table-topic" id="comment">
+                        <tbody>
+                        <{foreach $replyList as $reply}>
+                        <{if $first}>
+                        <tr>
+                            <td class="cl">
+                                <div>
+                                    <a class="user user-cray" href="<{$website}>/user/detail/<{$reply->username}>"><{$reply->username}></a>
+                                </div>
+                                <div>
+                                    <a class="user user-cray" href="<{$website}>/user/detail/<{$reply->username}>">
+                                        <img class="img-80 img-round" alt="avatar" src="<{$uploadsDir}>/avatar/default/chika/2.png">
+                                    </a>
+                                </div>
+                            </td>
+                            <td class="cr">
+                                <div class="head" id="">
+                                    <span class="label label-warning">置顶</span>
+                                    <span class="title"><{$discuss->title}></span>
+                                    <span class="user-gray">发表于<{$discuss->created_at}></span>
+                                </div>
+                                <div class="content"><{$reply->content}></div>
+                                <div class="pull-right">
+                                    <button class="btn btn-primary" id="add_reply">+ Add Reply</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="to_reply" style="display:none">
+                            <td class="cl">
+                                <div>
+                                    <a class="user user-cray" href="/user/ToRapture" title="Unrated">ToRapture</a>
+                                </div>
+                                <div>
+                                    <img class="img-80 img-round" alt="avatar" src="<{$uploadsDir}>/avatar/default/chika/2.png">
+                                </div>
+                            </td>
+                            <td class="cr">
+                                <div class="form-group">
+                                    <textarea class="form-control" id="content" style="visibility: hidden; display: none;"></textarea>
+                                </div>
+                                <button class="btn btn-default" id="reply">提交回复</button>
+                                <span class="error-text" id="err"></span></td>
+                        </tr>
+                        <{else}>
+                        <tr>
+                            <td class="cl">
+                                <div>
+                                    <a class="user user-cray" href="/user/EndOfFile" title="Unrated">EndOfFile</a>
+                                </div>
+                                <div>
+                                    <img class="img-80 img-round" alt="avatar" src="<{$uploadsDir}>/avatar/default/chika/2.png">
+                                </div>
+                            </td>
+                            <td class="cr">
+                                <div class="head" id="1018">
+                                    <span class="user-gray">评论于2014-04-28 16:38</span>
+                                    <span class="actions">
+                                        <a class="img_link reply reply-btn"
+                                           data-id="1018"
+                                           data-fa="1018"
+                                           data-at="EndOfFile"
+                                           href="javascript:;"
+                                           title="回复"></a>
+                                    </span>
+                                </div>
+                                <div class="content">Fuck</div>
+                                <div class="replies">
+                                    <div class="reply_box" style="border-top:0">
+                                        <div class="rl">
+                                            <img class="img-60 img-round" alt="avatar" src="<{$uploadsDir}>/avatar/default/you/2.png">
+                                        </div>
+                                        <div class="rr">
+                                            <div class="head" id="1151">
+                                                <a class="user user-blue"
+                                                   href="/user/tsyao"
+                                                   title="Expert">tsyao</a>
+                                                <span class="user-gray">@EndOfFile 2014-05-03 23:44</span>
+                                                <span class="actions">
+                                                    <a class="img_link reply reply-btn"
+                                                       data-id="1151" data-fa="1018"
+                                                       data-at="tsyao" href="javascript:;"
+                                                       title="回复"></a>
+                                                </span>
+                                            </div>
+                                            <div class="content">Fuck</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <{/if}>
+                        <{$first = false}>
+                        <{/foreach}>
+                        </tbody>
+                    </table>
+                    <div class="heading center">
+                        <span id="processing" style="display:none">
+                            <img src="/img/waitting.gif">
+                            <span class="user-gray">获取中...</span>
+                        </span>
+                        <a id="get_more" href="javascript:;">更多评论</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">var _tid = 1010;
+        var _min_id = 1018;</script>
+    </fieldset>
+</div>
+
+<!-- Footer -->
+<{include file="../common/footer.html" }>
+<!-- Javascript Libs -->
+<{include file="../common/jsLibs.html"}>
+<!-- Javascript App -->
+<{include file="../common/jsApp.html"}>
+
+</body>
+
+</html>

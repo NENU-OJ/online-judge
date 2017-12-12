@@ -13,11 +13,12 @@ use app\models\DiscussReply;
 use app\models\User;
 use app\common\Util;
 use yii\db\Exception;
+use yii\web\NotFoundHttpException;
 
 class DiscussController extends BaseController {
     public function actionList($id = 1) {
         $pageSize = \Yii::$app->params['queryPerPage'];
-        
+
         $whereArray = ["contest_id" => 0];
         $andWhereArray = [];
         $search = \Yii::$app->request->get('search');
@@ -44,7 +45,26 @@ class DiscussController extends BaseController {
 
 
     public function actionView($id) {
-        return "fucking view $id";
+
+        $discuss = Discuss::findById($id);
+
+        if (!$discuss)
+            throw new NotFoundHttpException("没有 $id 这个讨论");
+
+        $replyList = DiscussReply::find()
+            ->select('*')
+//            ->where(['discuss_id' => $discuss->id])
+            ->orderBy('id DESC')
+            ->all();
+
+        $first = true;
+
+
+        $this->smarty->assign('first', $first);
+        $this->smarty->assign('discuss', $discuss);
+        $this->smarty->assign('replyList', $replyList);
+
+        return $this->smarty->display('discuss/view.html');
     }
 
     public function actionAdd() {

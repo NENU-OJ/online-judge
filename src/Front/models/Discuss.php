@@ -10,6 +10,13 @@ class Discuss extends ActiveRecord {
         return "{{%discuss}}";
     }
 
+    public static function findById($id) {
+        return self::find()
+            ->select('*')
+            ->where(['id' => $id])
+            ->one();
+    }
+
     public static function totalPage($whereArray, $andWhereArray, $pageSize) {
         $totalCount = self::find()
             ->where($whereArray)
