@@ -67,6 +67,23 @@ class StatusController extends BaseController {
         $source = str_replace('<', '&lt;', $source);
         $source = str_replace('>', '&gt;', $source);
 
+        $username = User::find()
+            ->select('username')
+            ->where(['id' => $status->user_id])
+            ->one()
+            ->username;
+
+        $pre = '/** ' . "\n" .
+               '* this code is made by ' . $username . "\n" .
+               '* Problem: '. $status->problem_id . "\n".
+               '* Result: '. $status->result . "\n".
+               '* Submission Date: '. $status->submit_time . "\n".
+               '* Time: '. $status->time_used . "ms\n".
+               '* Memory: '. $status->memory_used . "KB\n".
+               '*/' . "\n";
+
+        $source = $pre . $source;
+
         $lang = '';
         if ($status->language_id == 1 || $status->language_id == 2)
             $lang = 'cpp';
@@ -83,6 +100,7 @@ class StatusController extends BaseController {
         $status = Status::getCeInfo($id);
         if (!$status)
             throw new NotFoundHttpException("Fucking $id!");
+
         $ceinfo = $status->ce_info;
 
         $this->smarty->assign('ceinfo', $ceinfo);

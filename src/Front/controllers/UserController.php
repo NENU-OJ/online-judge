@@ -76,6 +76,7 @@ class UserController extends BaseController {
                 $data = "密码错误";
             } else {
                 $user->ip_addr = $_SERVER['REMOTE_ADDR'];
+                $user->last_login = date("Y-m-d H:i:s");
                 \Yii::$app->session['user_id'] = $user->id;
                 \Yii::$app->session['username'] = $user->username;
                 \Yii::$app->session['nickname'] = $user->nickname;
@@ -128,7 +129,7 @@ class UserController extends BaseController {
             $user->email = trim(\Yii::$app->request->post('email'));
             $user->school = trim(\Yii::$app->request->post('school'));
             $user->signature = trim(\Yii::$app->request->post('signature'));
-            $user->register_time = date("Y-m-d H:i:s");
+            $user->last_login = $user->register_time = date("Y-m-d H:i:s");
             $user->ip_addr = $_SERVER['REMOTE_ADDR'];
             $code = 0;
             $data = "";

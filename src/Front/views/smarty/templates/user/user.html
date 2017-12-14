@@ -29,6 +29,10 @@
                                 <li>Solved: <a href="/status/list/?name=<{$user->username}>&result=Accepted"><{$solvedNum}></a></li>
                                 <li>Submissions: <a href="/status/list/?name=<{$user->username}>"><{$submissions}></a></li>
                                 <li>Registered: <{$user->register_time}></li>
+                                <li>Last Login: <{$user->last_login}></li>
+                                <{if $isRoot}>
+                                <li>Last Login IP: <{$user->ip_addr}></li>
+                                <{/if}>
                                 <{if $user_id && $user_id == $user->id}>
                                 <li><a id="set" href="javascript:;">Change settings</a></li>
                                 <{/if}>

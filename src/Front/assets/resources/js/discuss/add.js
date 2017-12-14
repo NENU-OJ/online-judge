@@ -21,6 +21,7 @@ $(document).ready(function () {
             priority = $("#topicPriority").val().trim();
         var content = CKEDITOR.instances.content.getData();
 
+        $("#submit").addClass('disabled');
         $.ajax({
             type: "post",
             url: 'http://' + host + '/discuss/create',

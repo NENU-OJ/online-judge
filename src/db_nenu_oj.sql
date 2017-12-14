@@ -71,6 +71,7 @@ CREATE TABLE `t_user`(
     `total_ac` int(10) NOT NULL DEFAULT '0' COMMENT '总通过数',
     `solved_problem` int(10) NOT NULL DEFAULT '0' COMMENT '通过的题目数',
     `register_time` datetime DEFAULT NULL COMMENT '注册时间',
+    `last_login` datetime DEFAULT NULL,
     `is_root` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是管理员(0:否;1:是)',
     `ip_addr` varchar(64) DEFAULT NULL COMMENT '上次登录ip地址',
     PRIMARY KEY (`id`)
