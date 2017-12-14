@@ -13,10 +13,13 @@ use app\models\User;
 
 class BaseController extends Controller {
     protected $smarty = null;
+    private $startTime = null;
 
     //初始化函数，渲染通用常量到前端
     public function init() {
         parent::init();
+
+        $this->startTime = microtime(true);
 
         $this->smarty = \Yii::$app->smarty;
         //向前端渲染域名（方便跳页和行为触发）
@@ -26,9 +29,11 @@ class BaseController extends Controller {
             "http://".\Yii::$app->request->serverName.":".\Yii::$app->request->serverPort."/assets/resources");
         $this->smarty->assign('uploadsDir',
             "http://".\Yii::$app->request->serverName.":".\Yii::$app->request->serverPort."/uploads");
-        $this->smarty->assign('time', date("Y-m-d H:i:s"));
-        //若用户已登录，向前端渲染用户名方便判断哪些按钮显示和哪些不显示
 
+        $this->smarty->assign('time', date("Y-m-d H:i:s"));
+        $this->smarty->assign('startTime', $this->startTime);
+
+        //若用户已登录，向前端渲染用户名方便判断哪些按钮显示和哪些不显示
         if (isset(\Yii::$app->session['user_id'])) {
             $isRoot = User::isRoot(\Yii::$app->session['user_id']);
 

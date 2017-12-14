@@ -137,6 +137,7 @@ CREATE TABLE `t_discuss_reply`(
     `parent_id` int(10) NOT NULL DEFAULT '0',
     `created_at` datetime DEFAULT NULL COMMENT '发表时间',
     `content` text NOT NULL COMMENT '内容',
+    `reply_at` varchar(64) NOT NULL DEFAULT '',
     `username` varchar(64) NOT NULL DEFAULT '' COMMENT '用户name（对应user表中的username）',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '讨论回复表';

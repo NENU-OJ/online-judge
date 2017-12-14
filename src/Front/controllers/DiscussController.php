@@ -13,6 +13,7 @@ use app\models\DiscussReply;
 use app\models\User;
 use app\common\Util;
 use yii\db\Exception;
+use yii\db\Query;
 use yii\web\NotFoundHttpException;
 
 class DiscussController extends BaseController {
@@ -51,18 +52,43 @@ class DiscussController extends BaseController {
         if (!$discuss)
             throw new NotFoundHttpException("没有 $id 这个讨论");
 
-        $replyList = DiscussReply::find()
-            ->select('*')
-//            ->where(['discuss_id' => $discuss->id])
-            ->orderBy('id DESC')
+        $replyList = (new Query())
+            ->select('t_discuss_reply.id AS id,
+                        t_discuss_reply.discuss_id AS discuss_id,
+                        t_discuss_reply.parent_id AS parent_id,
+                        t_discuss_reply.created_at AS created_at,
+                        t_discuss_reply.content AS content,
+                        t_discuss_reply.username AS username,
+                        t_user.avatar AS avatar')
+            ->from('t_discuss_reply')
+            ->join('INNER JOIN', 't_user', 't_discuss_reply.username = t_user.username')
+            ->where(['discuss_id' => $discuss->id, "parent_id" => 0])
+            ->orderBy('id')
             ->all();
 
-        $first = true;
+        foreach ($replyList as &$reply) {
+            $reply['subReply'] = (new Query())
+                ->select('t_discuss_reply.id AS id,
+                        t_discuss_reply.discuss_id AS discuss_id,
+                        t_discuss_reply.parent_id AS parent_id,
+                        t_discuss_reply.created_at AS created_at,
+                        t_discuss_reply.content AS content,
+                        t_discuss_reply.username AS username,
+                        t_discuss_reply.reply_at AS reply_at,
+                        t_user.avatar AS avatar')
+                ->from('t_discuss_reply')
+                ->join('INNER JOIN', 't_user', 't_discuss_reply.username = t_user.username')
+                ->where(['discuss_id' => $discuss->id, "parent_id" => $reply['id']])
+                ->orderBy('id')
+                ->all();
+        }
 
+        $first = true;
 
         $this->smarty->assign('first', $first);
         $this->smarty->assign('discuss', $discuss);
         $this->smarty->assign('replyList', $replyList);
+        $this->smarty->assign('discussId', $id);
 
         return $this->smarty->display('discuss/view.html');
     }
@@ -114,4 +140,43 @@ class DiscussController extends BaseController {
             return json_encode(["code" => 1, "data" => $e->getMessage()]);
         }
     }
+    
+    public function actionReply() {
+        if (!\Yii::$app->request->isPost)
+            return json_encode(["code" => 1, "data" => "请求方式错误"]);
+
+        if (!isset(\Yii::$app->session['user_id']))
+            return json_encode(["code" => 1, "data" => "请先登录"]);
+
+        $discussId = \Yii::$app->request->post('discuss_id');
+        $discuss = Discuss::findById($discussId);
+        $createdAt = date("Y-m-d H:i:s");
+
+        if (!$discuss)
+            return json_encode(["code" => 1, "data" => "discuss $discussId 不存在"]);
+
+        try {
+            $discussReply = new DiscussReply();
+
+            $discussReply->discuss_id = $discussId;
+            $discussReply->parent_id = \Yii::$app->request->post('parent_id', 0);
+            $discussReply->created_at = $createdAt;
+            $discussReply->content = \Yii::$app->request->post('content');
+            $discussReply->reply_at = \Yii::$app->request->post('reply_at', '');
+            $discussReply->username = \Yii::$app->session['username'];
+
+            $discussReply->save();
+
+            $discuss->replied_at = $createdAt;
+            $discuss->replied_user = \Yii::$app->session['username'];
+            $discuss->replied_num += 1;
+            $discuss->save();
+
+
+            return json_encode(["code" => 0, "data" => ""]);
+        } catch (Exception $e) {
+            return json_encode(["code" => 1, "data" => $e->getMessage()]);
+        }
+    }
+    
 }

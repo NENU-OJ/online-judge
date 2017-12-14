@@ -46,6 +46,7 @@ class StatusController extends BaseController {
         $this->smarty->assign('totalPage', $totalPage);
         $this->smarty->assign('pageNow', $id);
         $this->smarty->assign('statuses', $statuses);
+
         return $this->smarty->display('status/status.html');
     }
 
