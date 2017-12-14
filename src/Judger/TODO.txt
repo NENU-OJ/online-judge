@@ -4,5 +4,4 @@
 4. 并行判题
 5. CMake参数与优化
 6. Rejudge
-7. * Java判题Bug
 8. define ONLINE_JUDGE

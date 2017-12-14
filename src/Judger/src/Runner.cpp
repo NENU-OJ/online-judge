@@ -149,15 +149,6 @@ void Runner::child_run() { // TODO set limit and run
 	output_limit.rlim_max = output_limit.rlim_cur = rlim_t(Config::get_instance()->get_max_output_limit()) * 1024 * 1024;
 	setrlimit(RLIMIT_FSIZE, &output_limit);
 
-	if (language == Config::JAVA_LANG) {
-		chdir(Config::get_instance()->get_temp_path().c_str());
-	} else {
-		/// set process num limit
-		rlimit nproc_limit;
-		nproc_limit.rlim_max = nproc_limit.rlim_cur = 1;
-		setrlimit(RLIMIT_NPROC, &nproc_limit);
-	}
-
 	/// set uid
 	if (setuid(Config::get_instance()->get_low_privilege_uid()) < 0)
 		LOG(FATAL) << "can't setuid, maybe you should sudo or choose a right uid";
@@ -173,6 +164,15 @@ void Runner::child_run() { // TODO set limit and run
 	/// redirect stderr stream
 	std::string stderr_file = Config::get_instance()->get_temp_path() + Config::get_instance()->get_stderr_file();
 	freopen(stderr_file.c_str(), "w", stderr);
+
+	if (language == Config::JAVA_LANG) {
+		chdir(Config::get_instance()->get_temp_path().c_str());
+	} else {
+		/// set process num limit
+		rlimit nproc_limit;
+		nproc_limit.rlim_max = nproc_limit.rlim_cur = 1;
+		setrlimit(RLIMIT_NPROC, &nproc_limit);
+	}
 
 	/// start ptrace
 	ptrace(PTRACE_TRACEME, 0, NULL, NULL);
