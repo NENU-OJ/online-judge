@@ -24,7 +24,7 @@ class AdminController extends BaseController {
         }
 
         if (!$canView) {
-            $this->smarty->assign('msg', "管不了 管不了.jpg");
+            $this->smarty->assign('msg', "管不了，管不了.jpg");
             return $this->smarty->display('common/error.html');
         }
 
@@ -33,6 +33,7 @@ class AdminController extends BaseController {
             ->all();
 
         $this->smarty->assign('languageList', $languageList);
+        $this->smarty->assign('webTitle', 'Admin');
         return $this->smarty->display('admin/admin.html');
     }
 }

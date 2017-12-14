@@ -41,6 +41,7 @@ class DiscussController extends BaseController {
         $this->smarty->assign('totalPage', $totalPage);
         $this->smarty->assign('pageNow', $id);
 
+        $this->smarty->assign('webTitle', 'Discuss List');
         return $this->smarty->display('discuss/discuss.html');
     }
 
@@ -90,6 +91,7 @@ class DiscussController extends BaseController {
         $this->smarty->assign('replyList', $replyList);
         $this->smarty->assign('discussId', $id);
 
+        $this->smarty->assign('webTitle', $discuss->title);
         return $this->smarty->display('discuss/view.html');
     }
 
@@ -99,6 +101,7 @@ class DiscussController extends BaseController {
             return $this->smarty->display('common/error.html');
         }
 
+        $this->smarty->assign('webTitle', 'Add Discuss');
         return $this->smarty->display('discuss/add.html');
     }
 

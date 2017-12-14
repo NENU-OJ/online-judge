@@ -93,6 +93,8 @@ class StatusController extends BaseController {
             $lang = 'python';
         $this->smarty->assign('source', $source);
         $this->smarty->assign('lang', $lang);
+
+        $this->smarty->assign('webTitle', 'Source');
         return $this->smarty->display('status/source.html');
     }
 
@@ -104,6 +106,8 @@ class StatusController extends BaseController {
         $ceinfo = $status->ce_info;
 
         $this->smarty->assign('ceinfo', $ceinfo);
+
+        $this->smarty->assign('webTitle', 'CE Info');
         return $this->smarty->display('status/ceinfo.html');
     }
 

@@ -57,6 +57,7 @@ class UserController extends BaseController {
         $this->smarty->assign('unsolved', $unsolved);
         $this->smarty->assign('submissions', $submissions);
 
+        $this->smarty->assign('webTitle', $user->username);
         return $this->smarty->display('user/user.html');
     }
 
@@ -109,6 +110,7 @@ class UserController extends BaseController {
                 $this->smarty->assign('msg', "已经登录了就别注册了!");
                 return $this->smarty->display('common/error.html');
             } else {
+                $this->smarty->assign('webTitle', 'Register');
                 return $this->smarty->display('user/register.html');
             }
         } else if (\Yii::$app->request->isPost) {
@@ -187,6 +189,7 @@ class UserController extends BaseController {
                 return $this->smarty->display('common/error.html');
             }
             else {
+                $this->smarty->assign('webTitle', 'Avatar');
                 return $this->smarty->display('user/avatar.html');
             }
         } else if (\Yii::$app->request->isPost) {

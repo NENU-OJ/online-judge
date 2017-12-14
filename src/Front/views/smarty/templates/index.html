@@ -58,27 +58,38 @@
                     <div class="block-content">
                         <table class="table-acdream highlight">
                             <tbody>
-                            <{for $i = 1 to 3}>
+                            <{foreach $discussList as $discuss}>
                             <tr>
-                                <td class="avatar"><img class="img-50 img-round" src="<{$uploadsDir}>/avatar/<{$avatar}>/4.png">
+                                <td class="avatar">
+                                    <img class="img-50 img-round" src="<{$uploadsDir}>/avatar/<{$discuss['avatar']}>/4.png">
                                 </td>
                                 <td>
-                                    <div class="title"><a href="#">Interesting</a></div>
-                                    <div class="footer">作者：ToRapture / 最新回复：ToRapture @ 08-26 05:48</div>
+                                    <div class="title"><a href="<{$website}>/discuss/<{$discuss['id']}>"><{$discuss['title']}></a></div>
+                                    <div class="footer">
+                                        作者：<{$discuss['username']}>
+                                        /
+                                        <{if $discuss['replied_user']}>
+                                        最新回复：
+                                            <{$discuss['replied_user']}> @ <{$discuss['replied_at']}>
+                                        <{else}>
+                                        发布于：
+                                            <{$discuss['replied_at']}>
+                                        <{/if}>
+                                    </div>
                                 </td>
-                                <td class="state"><{$i}></td>
+                                <td class="state"><{$discuss['replied_num']}></td>
                             </tr>
-                            <{/for}>
+                            <{/foreach}>
                             </tbody>
                         </table>
-                        <div class="heading"><a target="_blank" href="/topic/list">查看更多讨论</a></div>
+                        <div class="heading"><a target="_blank" href="<{$website}>/discuss/list">查看更多讨论</a></div>
                     </div>
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="block block-success">
                     <div class="block-content">
-                        <div class="heading"><a class="pull-right" target="_blank" href="/rank">More</a>Top 10</div>
+                        <div class="heading"><a class="pull-right" target="_blank" href="<{$website}>/rank">More</a>Top 10</div>
                         <table class="table-acdream info">
                             <tbody>
                             <{foreach $users as $user}>
@@ -95,9 +106,7 @@
                 </div>
                 <div class="block block-info">
                     <div class="block-content">
-                        <div class="heading"><a class="pull-right" target="_blank" href="/topic?tid=101">More</a>Online
-                            Judge
-                        </div>
+                        <div class="heading">OnlineJudge</div>
                         <table class="table-acdream bigger">
                             <tbody>
                             <tr>
@@ -110,7 +119,7 @@
                                 <td><a target="_blank" href="http://acm.zju.edu.cn/onlinejudge/">ZOJ (浙江大学)</a></td>
                             </tr>
                             <tr>
-                                <td><a target="_blank" href="http://codeforces.com/">Codeforces</a></td>
+                                <td><a target="_blank" href="http://codeforces.com/">CodeForces</a></td>
                             </tr>
                             <tr>
                                 <td><a target="_blank" href="http://acm.bnu.edu.cn/">BNUOJ (北京师范大学)</a></td>

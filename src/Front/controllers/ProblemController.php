@@ -62,6 +62,7 @@ class ProblemController extends BaseController {
         $this->smarty->assign('vmMultiplier', \Yii::$app->params['vmMultiplier']);
         $this->smarty->assign('problem', $problem);
         $this->smarty->assign('languageTypeList', LanguageType::find()->all());
+
         $this->smarty->assign('webTitle', "Problem $id");
         return $this->smarty->display('problem/problemView.html');
     }
@@ -199,6 +200,13 @@ class ProblemController extends BaseController {
         } catch (Exception $e) {
             return json_encode(["code" => 1, "data" => $e->getMessage()]);
         }
-
     }
+
+    public function actionStatistic() {
+
+
+        $this->smarty->assign('webTitle', 'Problem Statistic');
+        return $this->smarty->display('problem/statistic.html');
+    }
+
 }
