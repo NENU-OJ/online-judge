@@ -129,6 +129,16 @@
 <{include file="../common/footer.html" }>
 <!-- Javascript Libs -->
 <{include file="../common/jsLibs.html"}>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$', '$'],['\\(','\\)']],
+            displayMath: [['$$','$$'],["\\[","\\]"]]
+        }
+    });
+</script>
+
 <!-- Javascript App -->
 <{include file="../common/jsApp.html"}>
 <script src="<{$staticWebsite}>/lib/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
