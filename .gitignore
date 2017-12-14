@@ -31,7 +31,6 @@ templates_c/
 cmake-build-debug/
 
 #Judger
-log/
 temp_path/
 spj_files/
 test_files/
