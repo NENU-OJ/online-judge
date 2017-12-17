@@ -2,7 +2,41 @@
 <html lang="zh-CN">
 
 <!-- Header -->
-<{include file="common/header.html"}>
+<head>
+    <title>
+        <{if $webTitle}>
+        <{$webTitle}>
+        <{else}>
+        NENU Online Judge
+        <{/if}>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <{include file="common/favicon.html"}>
+
+    <!-- CSS Libs -->
+    <{include file="common/cssLibs.html"}>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css" integrity="sha384-exe4Ak6B0EoJI0ogGxjJ8rn+RN3ftPnEQrGwX59KTCl5ybGzvHGKjhPKk/KC3abb" crossorigin="anonymous">
+
+    <!-- CSS App -->
+    <{include file="common/cssApp.html"}>
+
+    <!-- Javascript Libs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.js" integrity="sha384-OMvkZ24ANLwviZR2lVq8ujbE/bUO8IR1FdBrKLQBI14Gq5Xp/lksIccGkmKL8m+h" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/contrib/auto-render.min.js" integrity="sha384-cXpztMJlr2xFXyDSIfRWYSMVCXZ9HeGXvzyKTYrn03rsMAlOtIQVzjty5ULbaP8L" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false}
+                ]
+            });
+        });
+    </script>
+</head>
 
 <body>
 
@@ -129,15 +163,7 @@
 <{include file="../common/footer.html" }>
 <!-- Javascript Libs -->
 <{include file="../common/jsLibs.html"}>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [['$', '$'],['\\(','\\)']],
-            displayMath: [['$$','$$'],["\\[","\\]"]]
-        }
-    });
-</script>
+
 
 <!-- Javascript App -->
 <{include file="../common/jsApp.html"}>

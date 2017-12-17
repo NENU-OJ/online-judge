@@ -73,14 +73,17 @@ class StatusController extends BaseController {
             ->one()
             ->username;
 
-        $pre = '/** ' . "\n" .
-               '* this code is made by ' . $username . "\n" .
-               '* Problem: '. $status->problem_id . "\n".
-               '* Result: '. $status->result . "\n".
-               '* Submission Date: '. $status->submit_time . "\n".
-               '* Time: '. $status->time_used . "ms\n".
-               '* Memory: '. $status->memory_used . "KB\n".
-               '*/' . "\n";
+        $isPython = $status->language_id == 4 || $status->language_id == 5;
+
+
+        $pre = ($isPython ? "" : "/**\n") .
+                ($isPython ? "#" : '*') . ' this code is made by ' . $username . "\n" .
+                ($isPython ? "#" : '*') . ' Problem: '. $status->problem_id . "\n".
+                ($isPython ? "#" : '*') . ' Result: '. $status->result . "\n".
+                ($isPython ? "#" : '*') . ' Submission Date: '. $status->submit_time . "\n".
+                ($isPython ? "#" : '*') . ' Time: '. $status->time_used . "ms\n".
+                ($isPython ? "#" : '*') . ' Memory: '. $status->memory_used . "KB\n".
+                ($isPython ? "" : '*/') . "\n";
 
         $source = $pre . $source;
 
