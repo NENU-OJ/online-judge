@@ -64,10 +64,10 @@ void Runner::child_compile() {
 	/// compile
 	if (Config::CPP_LANG == language) {
 		execl("/usr/bin/g++", "g++", src_file_name.c_str(), "-o",
-		      exc_file_name.c_str(), "-O2", "-fno-asm", "-Wall", "-lm", NULL);
+		      exc_file_name.c_str(), "-DONLINE_JUDGE", "-fmax-errors=64", "-O2", "-fno-asm", "-Wall", "-lm", NULL);
 	} else if (Config::CPP11_LANG == language) {
 		execl("/usr/bin/g++", "g++", "-std=c++11", src_file_name.c_str(), "-o",
-		      exc_file_name.c_str(), "-O2", "-fno-asm", "-Wall", "-lm", NULL);
+		      exc_file_name.c_str(), "-DONLINE_JUDGE", "-fmax-errors=64", "-O2", "-fno-asm", "-Wall", "-lm", NULL);
 	} else if (Config::JAVA_LANG == language) {
 		execl("/usr/bin/javac", "javac", "-g:none", "-Xlint",
 		      src_file_name.c_str(), NULL);

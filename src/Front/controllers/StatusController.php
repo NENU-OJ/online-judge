@@ -108,6 +108,9 @@ class StatusController extends BaseController {
 
         $ceinfo = $status->ce_info;
 
+        $ceinfo = str_replace('<', '&lt;', $ceinfo);
+        $ceinfo = str_replace('>', '&gt;', $ceinfo);
+
         $this->smarty->assign('ceinfo', $ceinfo);
 
         $this->smarty->assign('webTitle', 'CE Info');
