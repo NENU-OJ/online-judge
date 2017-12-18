@@ -17,19 +17,23 @@
                 <div class="inner form-horizontal">
                     <div class="form-group"><label class="control-label col-sm-2" for="topicTitle">标题：</label>
                         <div class="col-sm-5">
-                            <input class="form-control" id="topicTitle" value="" type="text" placeholder="请在此输入标题">
+                            <input class="form-control" id="topicTitle"
+                                   value="<{if $title}><{$title}><{/if}>"
+                                   type="text" placeholder="请在此输入标题">
                         </div>
                     </div>
                     <{if $isRoot}>
                     <div class="form-group"><label class="control-label col-sm-2" for="topicPriority">置顶优先级：</label>
                         <div class="col-sm-5">
-                            <input class="form-control" id="topicPriority" value="0" type="text" placeholder="请在此输入置顶优先级">
+                            <input class="form-control" id="topicPriority"
+                                   value="<{if $priority}><{$priority}><{else}>0<{/if}>"
+                                   type="text" placeholder="请在此输入置顶优先级">
                         </div>
                     </div>
                     <{/if}>
                     <div class="form-group">
                         <label class="control-label col-sm-2">内容：</label>
-                        <div class="col-sm-8"><textarea id="content" style=""></textarea></div>
+                        <div class="col-sm-8"><textarea id="content" style=""><{$content}></textarea></div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
@@ -52,6 +56,9 @@
 <!-- Javascript App -->
 <{include file="../common/jsApp.html"}>
 <script src="<{$staticWebsite}>/js/discuss/add.js"></script>
+<script>
+    var id = <{$id}>;
+</script>
 </body>
 
 </html>

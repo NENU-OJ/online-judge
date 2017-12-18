@@ -95,17 +95,50 @@ class DiscussController extends BaseController {
         return $this->smarty->display('discuss/view.html');
     }
 
-    public function actionAdd() {
+    public function actionAdd($id = 0) {
         if (!isset(\Yii::$app->session['user_id'])) {
             $this->smarty->assign('msg', "请先登录");
             return $this->smarty->display('common/error.html');
         }
 
-        $this->smarty->assign('webTitle', 'Add Discuss');
-        return $this->smarty->display('discuss/add.html');
+        $this->smarty->assign('id', $id);
+
+        if ($id == 0) {
+            $this->smarty->assign('webTitle', 'Add Discuss');
+            return $this->smarty->display('discuss/add.html');
+        } else {
+            $this->smarty->assign('webTitle', 'Update Discuss');
+            $discuss = Discuss::findById($id);
+            if (!$discuss)
+                throw new NotFoundHttpException("Fucking $id");
+            if ($discuss->username != \Yii::$app->session['username']) {
+                $this->smarty->assign('msg', "这你可改不了");
+                return $this->smarty->display('common/error.html');
+            }
+
+            $firstReplyId = DiscussReply::find()
+                ->select('id')
+                ->where(['discuss_id' => $discuss->id])
+                ->min('id');
+
+            $content = DiscussReply::find()
+                ->select('content')
+                ->where(['id' => $firstReplyId])
+                ->one()
+                ->content;
+
+
+            $this->smarty->assign('title', $discuss->title);
+            $this->smarty->assign('priority', $discuss->priority);
+            $this->smarty->assign('content', $content);
+            return $this->smarty->display('discuss/add.html');
+        }
     }
 
     public function actionCreate() {
+
+        $id = \Yii::$app->request->post('id', '0');
+
         if (!\Yii::$app->request->isPost)
             return json_encode(["code" => 1, "data" => "请求方式错误"]);
 
@@ -121,23 +154,38 @@ class DiscussController extends BaseController {
         $createdAt = date("Y-m-d H:i:s");
 
         try {
-            $discuss = new Discuss();
-            $discuss->contest_id = \Yii::$app->request->post('contestId', 0);
-            $discuss->created_at = $createdAt;
-            $discuss->replied_at = $createdAt;
-            $discuss->username = $username;
-            $discuss->title = \Yii::$app->request->post('title');
-            $discuss->priority = $priority;
-            $discuss->replied_num = 1;
-            $discuss->save();
+            if ($id == '0') {
+                $discuss = new Discuss();
+                $discussReply = new DiscussReply();
+                $discuss->contest_id = \Yii::$app->request->post('contestId', 0);
+                $discuss->created_at = $createdAt;
+                $discuss->replied_at = $createdAt;
+                $discuss->username = $username;
+                $discuss->title = \Yii::$app->request->post('title');
+                $discuss->priority = $priority;
+                $discuss->replied_num = 1;
+                $discuss->save();
 
-            $discussReply = new DiscussReply();
-            $discussReply->discuss_id = $discuss->id;
-            $discussReply->created_at = $createdAt;
-            $discussReply->content = \Yii::$app->request->post('content');
-            $discussReply->username = $username;
-            $discussReply->save();
+                $discussReply->discuss_id = $discuss->id;
+                $discussReply->created_at = $createdAt;
+                $discussReply->content = \Yii::$app->request->post('content');
+                $discussReply->username = $username;
+                $discussReply->save();
+            } else {
+                $discuss = Discuss::findById($id);
+                if (!$discuss)
+                    return json_encode(["code" => 1, "data" => "discuss $id not exist!"]);
 
+                if ($discuss->username != \Yii::$app->session['username'])
+                    return json_encode(["code" => 1, "data" => "没有修改权限"]);
+
+                $discussReply = DiscussReply::findFirstReply($discuss->id);
+                $discuss->title = \Yii::$app->request->post('title');
+                $discuss->priority = $priority;
+                $discuss->save();
+                $discussReply->content = \Yii::$app->request->post('content');
+                $discussReply->save();
+            }
             return json_encode(["code" => 0, "data" => $discuss->id]);
         } catch (Exception $e) {
             return json_encode(["code" => 1, "data" => $e->getMessage()]);
@@ -181,5 +229,4 @@ class DiscussController extends BaseController {
             return json_encode(["code" => 1, "data" => $e->getMessage()]);
         }
     }
-    
 }

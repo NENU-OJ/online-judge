@@ -49,7 +49,11 @@
         <div class="block block-info">
             <div class="heading">
                 <a href="<{$website}>/discuss/list">讨论主页</a> &gt;&gt; 话题详情
-                <span class="actions pull-right"></span>
+                <{if $discuss->username == $username}>
+                <span class="actions pull-right">
+                    <a class="img_link edit" title="编辑" href="<{$website}>/discuss/add/<{$discussId}>"></a>
+                </span>
+                <{/if}>
             </div>
             <div class="block-content">
                 <div class="table-responsive">

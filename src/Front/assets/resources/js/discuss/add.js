@@ -27,6 +27,7 @@ $(document).ready(function () {
             url: 'http://' + host + '/discuss/create',
             dataType: "json",
             data: {
+                id: id,
                 title: title,
                 priority: priority,
                 content: content
