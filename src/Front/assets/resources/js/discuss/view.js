@@ -1,3 +1,5 @@
+var host = window.location.host;
+
 $addReply = $("#add_reply");
 
 $(document).ready(function() {
@@ -70,6 +72,7 @@ $(".reply-btn").click(function () {
         $("#reply_content_" + replyId).css('display', 'table-row');
         $("#reply_submit_" + replyId).css('display', '');
         CKEDITOR.replace("reply_content_" + replyId);
+        CKEDITOR.instances['reply_content_' + replyId].setData('');
     }
 
 });
@@ -199,4 +202,12 @@ $(".trash-btn").click(function () {
            }
        });
    }
+});
+
+// 分页
+$(".pagi").click(function () {
+
+    var url = 'http://' + host + "/discuss/" + discussId + "?page=" + $(this).attr('title');
+
+    window.location = url;
 });

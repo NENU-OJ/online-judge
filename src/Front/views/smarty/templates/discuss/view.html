@@ -213,6 +213,25 @@
                         <{$first = false}>
                         <{/foreach}>
                         </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="9">
+                                <div id="pager">
+                                    <div id="list">
+                                        <ul class="pagination pagination-sm">
+                                            <li><a href="javascript:;" class="pagi" title="1">&lt;&lt;</a></li>
+                                            <{foreach $pageArray as $pageId}>
+                                            <li class="<{if $pageNow == $pageId}>active<{/if}>">
+                                                <a href="javascript:;" class="pagi" title="<{$pageId}>"><{$pageId}></a>
+                                            </li>
+                                            <{/foreach}>
+                                            <li><a href="javascript:;" class="pagi" title="<{$totalPage}>">&gt;&gt;</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -231,6 +250,7 @@
 <script type="text/javascript" src="<{$staticWebsite}>/js/discuss/view.js"></script>
 <script>
     var discussId = <{$discussId}>;
+    var pageId = <{$pageNow}>;
 </script>
 </body>
 

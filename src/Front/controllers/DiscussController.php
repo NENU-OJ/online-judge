@@ -53,6 +53,25 @@ class DiscussController extends BaseController {
         if (!$discuss)
             throw new NotFoundHttpException("没有 $id 这个讨论");
 
+        $page = \Yii::$app->request->get('page', 1);
+
+        $pageSize = \Yii::$app->params['queryPerPage'];
+
+        $totalCount = $replyList = (new Query())
+            ->select('t_discuss_reply.id AS id,
+                        t_discuss_reply.discuss_id AS discuss_id,
+                        t_discuss_reply.parent_id AS parent_id,
+                        t_discuss_reply.created_at AS created_at,
+                        t_discuss_reply.content AS content,
+                        t_discuss_reply.username AS username,
+                        t_user.avatar AS avatar')
+            ->from('t_discuss_reply')
+            ->join('INNER JOIN', 't_user', 't_discuss_reply.username = t_user.username')
+            ->where(['discuss_id' => $discuss->id, "parent_id" => 0])
+            ->count();
+
+        $totalPage = ceil((int)$totalCount / $pageSize);
+
         $replyList = (new Query())
             ->select('t_discuss_reply.id AS id,
                         t_discuss_reply.discuss_id AS discuss_id,
@@ -65,7 +84,12 @@ class DiscussController extends BaseController {
             ->join('INNER JOIN', 't_user', 't_discuss_reply.username = t_user.username')
             ->where(['discuss_id' => $discuss->id, "parent_id" => 0])
             ->orderBy('id')
+            ->limit($pageSize)
+            ->offset(($page - 1) * $pageSize)
             ->all();
+
+
+        $pageArray = Util::getPaginationArray($page, 8, $totalPage);
 
         foreach ($replyList as &$reply) {
             $reply['subReply'] = (new Query())
@@ -85,11 +109,17 @@ class DiscussController extends BaseController {
         }
 
         $first = true;
+        if ((int)$page != 1)
+            $first = false;
 
         $this->smarty->assign('first', $first);
         $this->smarty->assign('discuss', $discuss);
         $this->smarty->assign('replyList', $replyList);
         $this->smarty->assign('discussId', $id);
+
+        $this->smarty->assign('pageNow', $page);
+        $this->smarty->assign('pageArray', $pageArray);
+        $this->smarty->assign('totalPage', $totalPage);
 
         $this->smarty->assign('webTitle', $discuss->title);
         return $this->smarty->display('discuss/view.html');

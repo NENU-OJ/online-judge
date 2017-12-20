@@ -23,6 +23,10 @@ class Util {
         return $ret;
     }
     static public function getPaginationArray($now, $need, $total) {
+        $now = (int)$now;
+        $need = (int)$need;
+        $total = (int)$total;
+
         if ($total == 0) return [];
         if ($now < 1) $now = 1;
         if ($now > $total) $now = $total;
