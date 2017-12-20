@@ -120,14 +120,26 @@
                             <td class="cr">
                                 <div class="head" id="<{$reply['id']}>">
                                     <span class="user-gray">评论于<{$reply['created_at']}></span>
+                                    <{if $username}>
                                     <span class="actions">
                                         <a class="img_link reply reply-btn"
                                            data-id="<{$reply['id']}>"
                                            href="javascript:;"
                                            title="回复"></a>
+                                        <{if $username == $reply['username']}>
+                                        <a class="img_link edit edit-btn"
+                                           data-id="<{$reply['id']}>"
+                                           href="javascript:;"
+                                           title="编辑"></a>
+                                        <a class="img_link trash trash-btn"
+                                           data-id="<{$reply['id']}>"
+                                           href="javascript:;"
+                                           title="删除"></a>
+                                        <{/if}>
                                     </span>
+                                    <{/if}>
                                 </div>
-                                <div class="content"><{$reply['content']}></div>
+                                <div class="content" id="content_<{$reply['id']}>"><{$reply['content']}></div>
                                 <div>
                                     <textarea id="reply_content_<{$reply['id']}>" style="visibility: hidden; display: none;"></textarea>
                                 </div>
@@ -158,14 +170,26 @@
                                                 <a class="user user-cray"
                                                    href="<{$website}>/user/detail/<{$subReply['username']}>"><{$subReply['username']}></a>
                                                 <span class="user-gray">@<{$subReply['reply_at']}> <{$subReply['created_at']}></span>
+                                                <{if $username}>
                                                 <span class="actions">
                                                     <a class="img_link reply reply-btn"
                                                        data-id="<{$subReply['id']}>"
                                                        href="javascript:;"
                                                        title="回复"></a>
+                                                    <{if $username == $subReply['username']}>
+                                                    <a class="img_link edit edit-btn"
+                                                       data-id="<{$subReply['id']}>"
+                                                       href="javascript:;"
+                                                       title="编辑"></a>
+                                                    <a class="img_link trash trash-btn"
+                                                       data-id="<{$subReply['id']}>"
+                                                       href="javascript:;"
+                                                       title="删除"></a>
+                                                    <{/if}>
                                                 </span>
+                                                <{/if}>
                                             </div>
-                                            <div class="content"><{$subReply['content']}></div>
+                                            <div class="content" id="content_<{$subReply['id']}>"><{$subReply['content']}></div>
                                             <div>
                                                 <textarea id="reply_content_<{$subReply['id']}>" style="visibility: hidden; display: table-row;"></textarea>
                                             </div>
