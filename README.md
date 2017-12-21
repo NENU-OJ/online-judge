@@ -58,7 +58,7 @@ Special Judge所需的文件夹由`config.ini`中的`spj_files_path`字段指定
 
 ### Ubuntu Mysql 关闭 ONLY_FULL_GROUP_BY
 
-1. `sudo v /etc/mysql/my.cnf`
+1. `sudo vim /etc/mysql/my.cnf`
 2. Add this to the end of the file
 ```
 [mysqld]
