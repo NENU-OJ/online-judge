@@ -16,6 +16,8 @@ class IndexController extends BaseController {
 
         $discussList = Discuss::getDiscussList(1, 8, ["contest_id" => 0, "priority" => 0],[]);
 
+        $this->smarty->assign('blogList', \Yii::$app->params['blogList']);
+        $this->smarty->assign('ojList', \Yii::$app->params['ojList']);
         $this->smarty->assign('users', $users);
         $this->smarty->assign('discussList', $discussList);
         $this->smarty->display('index.html');

@@ -26,293 +26,48 @@
                             <tbody>
                             <tr class="odd">
                                 <td>Total Submissions</td>
-                                <td><a href="/status?pid=1000">4312</a></td>
+                                <td><a href="<{$website}>/status/list/?pid=<{$problemId}>"><{$problem->total_submit}></a></td>
                             </tr>
                             <tr class="even">
                                 <th colspan="2">
-                                    <div id="chart" style="height:400px" data-highcharts-chart="0">
-                                        <div class="highcharts-container" id="highcharts-0"
-                                             style="position: relative; overflow: hidden; width: 350px; height: 400px; text-align: left; line-height: normal; z-index: 0; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-                                            <svg version="1.1"
-                                                 style="font-family:&quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Arial, Helvetica, sans-serif;font-size:12px;"
-                                                 xmlns="http://www.w3.org/2000/svg" width="350" height="400">
-                                                <desc>Created with Highcharts 4.0.1</desc>
-                                                <defs>
-                                                    <clipPath id="highcharts-1">
-                                                        <rect x="0" y="0" width="330" height="292"></rect>
-                                                    </clipPath>
-                                                </defs>
-                                                <rect x="0" y="0" width="350" height="400" strokeWidth="0"
-                                                      fill="#FFFFFF" class=" highcharts-background"></rect>
-                                                <path fill="rgba(31,148,154,0.25)" d="M 0 0"></path>
-                                                <g class="highcharts-series-group" zIndex="3">
-                                                    <g class="highcharts-series highcharts-tracker" visibility="visible"
-                                                       zIndex="0.1" transform="translate(10,42) scale(1 1)"
-                                                       style="cursor:pointer;">
-                                                        <path fill="#24A329"
-                                                              d="M 167.479938189436 62.00000204302664 A 98.5 98.5 0 1 1 165.3131178895777 258.97572059464767 L 167.5 160.5 A 0 0 0 1 0 167.5 160.5 Z"
-                                                              stroke="#FFFFFF" stroke-width="1" stroke-linejoin="round"
-                                                              transform="translate(0,0)"></path>
-                                                        <path fill="#d20000"
-                                                              d="M 165.21464327883666 258.97348447504555 A 98.5 98.5 0 0 1 73.50454050206953 189.94662279061748 L 167.5 160.5 A 0 0 0 0 0 167.5 160.5 Z"
-                                                              stroke="#FFFFFF" stroke-width="1" stroke-linejoin="round"
-                                                              transform="translate(0,0)"></path>
-                                                        <path fill="#42A07B"
-                                                              d="M 73.47514088191252 189.8526126234753 A 98.5 98.5 0 0 1 69.9040929119341 173.81498853388948 L 167.5 160.5 A 0 0 0 0 0 167.5 160.5 Z"
-                                                              stroke="#FFFFFF" stroke-width="1" stroke-linejoin="round"
-                                                              transform="translate(0,0)"></path>
-                                                        <path fill="#ab3b2f"
-                                                              d="M 69.89082672356886 173.71738598557369 A 98.5 98.5 0 0 1 70.58096218182894 142.92302334302263 L 167.5 160.5 A 0 0 0 0 0 167.5 160.5 Z"
-                                                              stroke="#FFFFFF" stroke-width="1" stroke-linejoin="round"
-                                                              transform="translate(0,0)"></path>
-                                                        <path fill="#1F949A"
-                                                              d="M 70.59858761507128 142.82611310984527 A 98.5 98.5 0 0 1 71.15180268480134 140.02379737081247 L 167.5 160.5 A 0 0 0 0 0 167.5 160.5 Z"
-                                                              stroke="#FFFFFF" stroke-width="1" stroke-linejoin="round"
-                                                              transform="translate(0,0)"></path>
-                                                        <path fill="#82914E"
-                                                              d="M 71.17232705811247 139.92745942765578 A 98.5 98.5 0 0 1 71.44790212636828 138.67697330629247 L 167.5 160.5 A 0 0 0 0 0 167.5 160.5 Z"
-                                                              stroke="#FFFFFF" stroke-width="1" stroke-linejoin="round"
-                                                              transform="translate(0,0)"></path>
-                                                        <path fill="#Aa53a0"
-                                                              d="M 71.46977317546974 138.58093213593997 A 98.5 98.5 0 0 1 162.44041303430598 62.1300321249591 L 167.5 160.5 A 0 0 0 0 0 167.5 160.5 Z"
-                                                              stroke="#FFFFFF" stroke-width="1" stroke-linejoin="round"
-                                                              transform="translate(0,0)"></path>
-                                                        <path fill="#72727F"
-                                                              d="M 162.53878551557932 62.1250217238165 A 98.5 98.5 0 0 1 167.36318547609994 62.00009501636029 L 167.5 160.5 A 0 0 0 0 0 167.5 160.5 Z"
-                                                              stroke="#FFFFFF" stroke-width="1" stroke-linejoin="round"
-                                                              transform="translate(0,0)"></path>
-                                                    </g>
-                                                    <g class="highcharts-markers" visibility="visible" zIndex="0.1"
-                                                       transform="translate(10,42) scale(1 1)"></g>
-                                                </g>
-                                                <text x="175" text-anchor="middle" class="highcharts-title" zIndex="4"
-                                                      style="color:#3E576F;font-size:18px;font:16px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif;fill:#3E576F;width:286px;"
-                                                      y="25">Statistic
-                                                </text>
-                                                <g class="highcharts-data-labels highcharts-tracker"
-                                                   visibility="visible" zIndex="6"
-                                                   transform="translate(10,42) scale(1 1)" opacity="1"
-                                                   style="cursor:pointer;">
-                                                    <path fill="none"
-                                                          d="M 300.99114997660195 162.00810400516366 C 295.99114997660195 162.00810400516366 287.99170095082127 161.91421426165152 276.99245854037287 161.78511586432234 L 265.99321612992446 161.65601746699315"
-                                                          stroke-width="1" stroke="#24A329"></path>
-                                                    <path fill="none"
-                                                          d="M 85.15511402641435 263.1158789551258 C 90.15511402641435 263.1158789551258 94.97035984578156 256.7273417439118 101.59132284741146 247.94310307849244 L 108.21228584904136 239.1588644130731"
-                                                          stroke-width="1" stroke="#d20000"></path>
-                                                    <path fill="none"
-                                                          d="M 37.05386542327949 188.3481116013156 C 42.05386542327949 188.3481116013156 49.863741505876874 186.6143770269146 60.60232111944828 184.23049198711328 L 71.34090073301968 181.84660694731195"
-                                                          stroke-width="1" stroke="#42A07B"></path>
-                                                    <path fill="none"
-                                                          d="M 34.02432136781684 158 C 39.02432136781684 158 47.03213292815407 157.71737477189996 58.029199631808055 157.97139035288833 L 69.02626633546204 158.22540593387671"
-                                                          stroke-width="1" stroke="#ab3b2f"></path>
-                                                    <path fill="none"
-                                                          d="M 35.64575292880416 140 C 40.64575292880416 140 49.30093327179853 137.064330080363 60.090889570638495 139.20368584066182 L 70.88084586947846 141.34304160096065"
-                                                          stroke-width="1" stroke="#1F949A"></path>
-                                                    <path fill="none"
-                                                          d="M 39.9030995497847 122 C 44.9030995497847 122 49.84400161406104 134.47470377098603 60.58438320945796 136.85045695371758 L 71.32476480485488 139.22621013644914"
-                                                          stroke-width="1" stroke="#82914E"></path>
-                                                    <path fill="none"
-                                                          d="M 79.90179215527968 62.06328905921134 C 84.90179215527968 62.06328905921134 90.04409303277198 68.19164460416316 97.11475673932392 76.61813347847192 L 104.18542044587586 85.04462235278068"
-                                                          stroke-width="1" stroke="#Aa53a0"></path>
-                                                    <path fill="none"
-                                                          d="M 159.28945832892023 32.04011356778232 C 164.28945832892023 32.04011356778232 164.48933640961042 40.037616225041006 164.76416877055885 51.0341823787717 L 165.0390011315073 62.0307485325024"
-                                                          stroke-width="1" stroke="#72727F"></path>
-                                                    <g zIndex="1" style="cursor:pointer;"
-                                                       transform="translate(306,152)">
-                                                        <text x="3" zIndex="1"
-                                                              style="font-size:11px;color:#606060;fill:#606060;" y="15">
-                                                            AC
-                                                        </text>
-                                                    </g>
-                                                    <g zIndex="1" style="cursor:pointer;" transform="translate(57,253)">
-                                                        <text x="3" zIndex="1"
-                                                              style="font-size:11px;color:#606060;fill:#606060;" y="15">
-                                                            WA
-                                                        </text>
-                                                    </g>
-                                                    <g zIndex="1" style="cursor:pointer;" transform="translate(13,178)">
-                                                        <text x="3" zIndex="1"
-                                                              style="font-size:11px;color:#606060;fill:#606060;" y="15">
-                                                            PE
-                                                        </text>
-                                                    </g>
-                                                    <g zIndex="1" style="cursor:pointer;" transform="translate(4,148)">
-                                                        <text x="3" zIndex="1"
-                                                              style="font-size:11px;color:#606060;fill:#606060;" y="15">
-                                                            TLE
-                                                        </text>
-                                                    </g>
-                                                    <g zIndex="1" style="cursor:pointer;" transform="translate(3,130)">
-                                                        <text x="3" zIndex="1"
-                                                              style="font-size:11px;color:#606060;fill:#606060;" y="15">
-                                                            MLE
-                                                        </text>
-                                                    </g>
-                                                    <g zIndex="1" style="cursor:pointer;" transform="translate(8,112)">
-                                                        <text x="3" zIndex="1"
-                                                              style="font-size:11px;color:#606060;fill:#606060;" y="15">
-                                                            OLE
-                                                        </text>
-                                                    </g>
-                                                    <g zIndex="1" style="cursor:pointer;" transform="translate(55,52)">
-                                                        <text x="3" zIndex="1"
-                                                              style="font-size:11px;color:#606060;fill:#606060;" y="15">
-                                                            CE
-                                                        </text>
-                                                    </g>
-                                                    <g zIndex="1" style="cursor:pointer;" transform="translate(134,22)">
-                                                        <text x="3" zIndex="1"
-                                                              style="font-size:11px;color:#606060;fill:#606060;" y="15">
-                                                            RE
-                                                        </text>
-                                                    </g>
-                                                </g>
-                                                <g class="highcharts-legend" zIndex="7" transform="translate(24,354)">
-                                                    <g zIndex="1">
-                                                        <g>
-                                                            <g class="highcharts-legend-item" zIndex="1"
-                                                               transform="translate(8,3)">
-                                                                <text x="21" y="15"
-                                                                      style="color:#3E576F;font-size:12px;font-weight:bold;cursor:pointer;font:9pt Trebuchet MS, Verdana, sans-serif;fill:#3E576F;"
-                                                                      text-anchor="start" zIndex="2">AC
-                                                                </text>
-                                                                <rect x="0" y="4" width="16" height="12" zIndex="3"
-                                                                      fill="#24A329"></rect>
-                                                            </g>
-                                                            <g class="highcharts-legend-item" zIndex="1"
-                                                               transform="translate(68,3)">
-                                                                <text x="21" y="15"
-                                                                      style="color:#3E576F;font-size:12px;font-weight:bold;cursor:pointer;font:9pt Trebuchet MS, Verdana, sans-serif;fill:#3E576F;"
-                                                                      text-anchor="start" zIndex="2">WA
-                                                                </text>
-                                                                <rect x="0" y="4" width="16" height="12" zIndex="3"
-                                                                      fill="#d20000"></rect>
-                                                            </g>
-                                                            <g class="highcharts-legend-item" zIndex="1"
-                                                               transform="translate(129.875,3)">
-                                                                <text x="21" y="15"
-                                                                      style="color:#3E576F;font-size:12px;font-weight:bold;cursor:pointer;font:9pt Trebuchet MS, Verdana, sans-serif;fill:#3E576F;"
-                                                                      text-anchor="start" zIndex="2">PE
-                                                                </text>
-                                                                <rect x="0" y="4" width="16" height="12" zIndex="3"
-                                                                      fill="#42A07B"></rect>
-                                                            </g>
-                                                            <g class="highcharts-legend-item" zIndex="1"
-                                                               transform="translate(188.875,3)">
-                                                                <text x="21" y="15"
-                                                                      style="color:#3E576F;font-size:12px;font-weight:bold;cursor:pointer;font:9pt Trebuchet MS, Verdana, sans-serif;fill:#3E576F;"
-                                                                      text-anchor="start" zIndex="2">TLE
-                                                                </text>
-                                                                <rect x="0" y="4" width="16" height="12" zIndex="3"
-                                                                      fill="#ab3b2f"></rect>
-                                                            </g>
-                                                            <g class="highcharts-legend-item" zIndex="1"
-                                                               transform="translate(253.875,3)">
-                                                                <text x="21" y="15"
-                                                                      style="color:#3E576F;font-size:12px;font-weight:bold;cursor:pointer;font:9pt Trebuchet MS, Verdana, sans-serif;fill:#3E576F;"
-                                                                      text-anchor="start" zIndex="2">MLE
-                                                                </text>
-                                                                <rect x="0" y="4" width="16" height="12" zIndex="3"
-                                                                      fill="#1F949A"></rect>
-                                                            </g>
-                                                            <g class="highcharts-legend-item" zIndex="1"
-                                                               transform="translate(8,17)">
-                                                                <text x="21" y="15"
-                                                                      style="color:#3E576F;font-size:12px;font-weight:bold;cursor:pointer;font:9pt Trebuchet MS, Verdana, sans-serif;fill:#3E576F;"
-                                                                      text-anchor="start" zIndex="2">OLE
-                                                                </text>
-                                                                <rect x="0" y="4" width="16" height="12" zIndex="3"
-                                                                      fill="#82914E"></rect>
-                                                            </g>
-                                                            <g class="highcharts-legend-item" zIndex="1"
-                                                               transform="translate(75,17)">
-                                                                <text x="21" y="15"
-                                                                      style="color:#3E576F;font-size:12px;font-weight:bold;cursor:pointer;font:9pt Trebuchet MS, Verdana, sans-serif;fill:#3E576F;"
-                                                                      text-anchor="start" zIndex="2">CE
-                                                                </text>
-                                                                <rect x="0" y="4" width="16" height="12" zIndex="3"
-                                                                      fill="#Aa53a0"></rect>
-                                                            </g>
-                                                            <g class="highcharts-legend-item" zIndex="1"
-                                                               transform="translate(134.65625,17)">
-                                                                <text x="21" y="15"
-                                                                      style="color:#3E576F;font-size:12px;font-weight:bold;cursor:pointer;font:9pt Trebuchet MS, Verdana, sans-serif;fill:#3E576F;"
-                                                                      text-anchor="start" zIndex="2">RE
-                                                                </text>
-                                                                <rect x="0" y="4" width="16" height="12" zIndex="3"
-                                                                      fill="#72727F"></rect>
-                                                            </g>
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                                <g class="highcharts-tooltip" zIndex="8"
-                                                   style="cursor:default;padding:0;white-space:nowrap;"
-                                                   transform="translate(0,-9999)">
-                                                    <path fill="none"
-                                                          d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0"
-                                                          stroke-width="5" isShadow="true" stroke="black"
-                                                          stroke-opacity="0.049999999999999996"
-                                                          transform="translate(1, 1)"></path>
-                                                    <path fill="none"
-                                                          d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0"
-                                                          stroke-width="3" isShadow="true" stroke="black"
-                                                          stroke-opacity="0.09999999999999999"
-                                                          transform="translate(1, 1)"></path>
-                                                    <path fill="none"
-                                                          d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0"
-                                                          stroke-width="1" isShadow="true" stroke="black"
-                                                          stroke-opacity="0.15" transform="translate(1, 1)"></path>
-                                                    <path fill="rgba(249, 249, 249, .85)"
-                                                          d="M 3 0 L 13 0 C 16 0 16 0 16 3 L 16 13 C 16 16 16 16 13 16 L 3 16 C 0 16 0 16 0 13 L 0 3 C 0 0 0 0 3 0"
-                                                          stroke-width="1"></path>
-                                                    <text x="8" zIndex="1"
-                                                          style="font-size:12px;color:#333333;fill:#333333;"
-                                                          y="21"></text>
-                                                </g>
-                                            </svg>
-                                        </div>
-                                    </div>
+                                    <div id="chart" style="height:400px" data-highcharts-chart="0"></div>
                                 </th>
                             </tr>
                             <tr class="odd">
                                 <td>Accepted</td>
-                                <td><a href="/status?pid=1000&amp;result=2">2090</a></td>
+                                <td><a href="<{$website}>/status/list/?pid=<{$problemId}>&result=Accepted"><{$problem->total_ac}></a></td>
                             </tr>
                             <tr class="even">
                                 <td>Wrong Answer</td>
-                                <td><a href="/status?pid=1000&amp;result=6">822</a></td>
+                                <td><a href="<{$website}>/status/list/?pid=<{$problemId}>&result=Wrong Answer"><{$problem->total_wa}></a></td>
                             </tr>
                             <tr class="odd">
                                 <td>Presentation Error</td>
-                                <td><a href="/status?pid=1000&amp;result=3">111</a></td>
+                                <td><a href="<{$website}>/status/list/?pid=<{$problemId}>&result=Presentation Error"><{$problem->total_pe}></a></td>
                             </tr>
                             <tr class="even">
                                 <td>Time Limit Exceeded</td>
-                                <td><a href="/status?pid=1000&amp;result=4">208</a></td>
+                                <td><a href="<{$website}>/status/list/?pid=<{$problemId}>&result=Time Limit Exceeded"><{$problem->total_tle}></a></td>
                             </tr>
                             <tr class="odd">
                                 <td>Memory Limit Exceeded</td>
-                                <td><a href="/status?pid=1000&amp;result=5">20</a></td>
+                                <td><a href="<{$website}>/status/list/?pid=<{$problemId}>&result=Memory Limit Exceeded"><{$problem->total_mle}></a></td>
                             </tr>
                             <tr class="even">
                                 <td>Output Limit Exceeded</td>
-                                <td><a href="/status?pid=1000&amp;result=7">9</a></td>
+                                <td><a href="<{$website}>/status/list/?pid=<{$problemId}>&result=Output Limit Exceeded"><{$problem->total_ole}></a></td>
                             </tr>
                             <tr class="odd">
-                                <td>Compilation Error</td>
-                                <td><a href="/status?pid=1000&amp;result=8">856</a></td>
+                                <td>Compile Error</td>
+                                <td><a href="<{$website}>/status/list/?pid=<{$problemId}>&result=Compile Error"><{$problem->total_ce}></a></td>
                             </tr>
                             <tr class="even">
                                 <td>Runtime Error</td>
-                                <td><a href="/status?pid=1000&amp;result=9">33</a></td>
+                                <td><a href="<{$website}>/status/list/?pid=<{$problemId}>&result=Runtime Error"><{$problem->total_re}></a></td>
                             </tr>
                             <tr class="odd">
-                                <td>Dangerous Code</td>
-                                <td><a href="/status?pid=1000&amp;result=13">143</a></td>
-                            </tr>
-                            <tr class="even">
-                                <td>System Error</td>
-                                <td><a href="/status?pid=1000&amp;result=14">0</a></td>
+                                <td>Restricted Function</td>
+                                <td><a href="<{$website}>/status/list/?pid=<{$problemId}>&result=Restricted Function"><{$problem->total_rf}></a></td>
                             </tr>
                             </tbody>
                         </table>
@@ -379,35 +134,28 @@
             </div>
         </div>
     </fieldset>
-    <script type="text/javascript">var pid = 1000;
-    var sort = NaN;
-    var stat_data = [{"name": "AC", "title": "Accepted", "y": 2090}, {
-        "name": "WA",
-        "title": "Wrong Answer",
-        "y": 822
-    }, {"name": "PE", "title": "Presentation Error", "y": 111}, {
-        "name": "TLE",
-        "title": "Time Limit Exceeded",
-        "y": 208
-    }, {"name": "MLE", "title": "Memory Limit Exceeded", "y": 20}, {
-        "name": "OLE",
-        "title": "Output Limit Exceeded",
-        "y": 9
-    }, {"name": "CE", "title": "Compilation Error", "y": 856}, {
-        "name": "RE",
-        "title": "Runtime Error",
-        "y": 33
-    }];</script>
 </div>
 
 <!-- Footer -->
 <{include file="../common/footer.html" }>
 <!-- Javascript Libs -->
 <{include file="../common/jsLibs.html"}>
+<script src="http://code.highcharts.com/highcharts.js"></script>
 <!-- Javascript App -->
 <{include file="../common/jsApp.html"}>
-<!--<script type="text/javascript" src="<{$staticWebsite}>/js/problem/problem.js"></script>-->
-
+<script type="text/javascript">
+    var statData = [
+        {"name": "AC", "title": "Accepted", "y": <{$problem->total_ac}>},
+        {"name": "WA", "title": "Wrong Answer", "y": <{$problem->total_wa}>},
+        {"name": "PE", "title": "Presentation Error", "y": <{$problem->total_pe}>},
+        {"name": "TLE", "title": "Time Limit Exceeded", "y": <{$problem->total_tle}>},
+        {"name": "MLE", "title": "Memory Limit Exceeded", "y": <{$problem->total_mle}>},
+        {"name": "OLE", "title": "Output Limit Exceeded", "y": <{$problem->total_ole}>},
+        {"name": "CE", "title": "Compile Error", "y": <{$problem->total_ce}>},
+        {"name": "RE", "title": "Runtime Error", "y": <{$problem->total_re}>}
+    ];
+</script>
+<script type="text/javascript" src="<{$staticWebsite}>/js/problem/statistic.js"></script>
 </body>
 
 </html>

@@ -221,6 +221,8 @@ class ProblemController extends BaseController {
         $this->smarty->assign('webTitle', 'Problem Statistic');
 
         $this->smarty->assign('problemId', $id);
+        $this->smarty->assign('problem', $problem);
+
         $this->smarty->assign('rank', ($page - 1) * $pageSize + 1);
         $this->smarty->assign('pageArray', $pageArray);
         $this->smarty->assign('totalPage', $totalPage);

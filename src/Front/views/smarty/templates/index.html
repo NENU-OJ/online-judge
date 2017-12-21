@@ -109,21 +109,11 @@
                         <div class="heading">OnlineJudge</div>
                         <table class="table-acdream bigger">
                             <tbody>
+                            <{foreach $ojList as $oj}>
                             <tr>
-                                <td><a target="_blank" href="http://acm.hdu.edu.cn/">HDU (杭州电子科技大学)</a></td>
+                                <td><a target="_blank" href="<{$oj[1]}>"><{$oj[0]}></a></td>
                             </tr>
-                            <tr>
-                                <td><a target="_blank" href="http://poj.org/">POJ (北京大学)</a></td>
-                            </tr>
-                            <tr>
-                                <td><a target="_blank" href="http://acm.zju.edu.cn/onlinejudge/">ZOJ (浙江大学)</a></td>
-                            </tr>
-                            <tr>
-                                <td><a target="_blank" href="http://codeforces.com/">CodeForces</a></td>
-                            </tr>
-                            <tr>
-                                <td><a target="_blank" href="http://acm.bnu.edu.cn/">BNUOJ (北京师范大学)</a></td>
-                            </tr>
+                            <{/foreach}>
                             </tbody>
                         </table>
                     </div>
@@ -133,11 +123,11 @@
                         <div class="heading">Blog</div>
                         <table class="table-acdream bigger">
                             <tbody>
-                            <{for $i = 1 to 3}>
+                            <{foreach $blogList as $blog}>
                             <tr>
-                                <td><a target="_blank" href="http://www.cnblogs.com/ToRapture/">ToRapture</a></td>
+                                <td><a target="_blank" href="<{$blog[1]}>"><{$blog[0]}></a></td>
                             </tr>
-                            <{/for}>
+                            <{/foreach}>
                             </tbody>
                         </table>
                     </div>
