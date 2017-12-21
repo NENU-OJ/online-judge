@@ -56,4 +56,28 @@ class Status extends ActiveRecord {
             ->where("id=:id", [":id" => $id])
             ->one();
     }
+
+    public static function getLeaderPage($pid, $pageSize) {
+        $totalCount = (new Query())
+            ->from('t_status')
+            ->where(['problem_id' => $pid, 'result' => 'Accepted'])
+            ->count('distinct user_id');
+
+        $totalPage = ceil($totalCount / $pageSize);
+        return $totalPage;
+    }
+
+    public static function getLeaderList($pid, $pageSize, $pageNow) {
+        return (new Query())
+            ->select('t_status.id, username, time_used, memory_used, length(source), language, submit_time')
+            ->from('t_status')
+            ->join('INNER JOIN', 't_user', 't_status.user_id = t_user.id')
+            ->join('INNER JOIN', 't_language_type', 't_status.language_id = t_language_type.id')
+            ->where(['problem_id' => $pid, 'result' => 'Accepted'])
+            ->groupBy('user_id')
+            ->orderBy('time_used, memory_used, length(source), t_status.id')
+            ->limit($pageSize)
+            ->offset(($pageNow - 1) * $pageSize)
+            ->all();
+    }
 }

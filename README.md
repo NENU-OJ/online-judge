@@ -55,3 +55,12 @@ Special Judge所需的文件夹由`config.ini`中的`spj_files_path`字段指定
 ### 修改文件上传大小限制
 `sudo gedit /etc/nginx/nginx.conf`添加`client_max_body_size 20M;`
 `sudo /etc/php/5.6/fpm/php.ini`修改`post_max_size 64M`和`upload_max_filesize 64M`
+
+### Ubuntu Mysql 关闭 ONLY_FULL_GROUP_BY
+
+1. `sudo v /etc/mysql/my.cnf`
+2. Add this to the end of the file
+```
+[mysqld]
+sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+```

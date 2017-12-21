@@ -202,10 +202,31 @@ class ProblemController extends BaseController {
         }
     }
 
-    public function actionStatistic() {
+    public function actionStatistic($id = 0) {
+
+        $problem = Problem::findById($id);
+        if (!$problem)
+            throw new NotFoundHttpException("Fucking problem $id!");
+
+        $pageSize = \Yii::$app->params['queryPerPage'];
+
+        $page = \Yii::$app->request->get('page', 1);
+
+        $totalPage = Status::getLeaderPage($id, $pageSize);
+        $leaderList = Status::getLeaderList($id, $pageSize, $page);
+
+        $pageArray = Util::getPaginationArray($page, 8, $totalPage);
 
 
         $this->smarty->assign('webTitle', 'Problem Statistic');
+
+        $this->smarty->assign('problemId', $id);
+        $this->smarty->assign('rank', ($page - 1) * $pageSize + 1);
+        $this->smarty->assign('pageArray', $pageArray);
+        $this->smarty->assign('totalPage', $totalPage);
+        $this->smarty->assign('pageNow', $page);
+        $this->smarty->assign('leaderList', $leaderList);
+
         return $this->smarty->display('problem/statistic.html');
     }
 

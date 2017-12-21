@@ -2,7 +2,6 @@ DROP DATABASE IF EXISTS `db_nenu_oj`;
 CREATE DATABASE `db_nenu_oj` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE db_nenu_oj;
 
-
 CREATE TABLE `t_problem`(
     `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
     `title` varchar(64) NOT NULL DEFAULT '' COMMENT '题目标题',

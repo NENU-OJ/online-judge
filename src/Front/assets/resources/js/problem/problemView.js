@@ -93,7 +93,8 @@ $("#submit").click(function () {
                         });
 
                         if (--times == 0) {
-                            $("#submit").removeClass("disabled");
+                            // 如果此次提交未评判完成则不开放提交按钮
+                            // $("#submit").removeClass("disabled");
                         }
                     }, 700);
 
