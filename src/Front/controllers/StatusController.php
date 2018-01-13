@@ -57,7 +57,16 @@ class StatusController extends BaseController {
         if (!$status)
             throw new NotFoundHttpException("Fucking $id!");
 
-        if (!$status->is_shared && $status->user_id != \Yii::$app->session['user_id']) {
+        $isRoot = false;
+        if (\Yii::$app->session['user_id']) {
+            $isRoot = User::find()
+                ->select('is_root')
+                ->where(['id' => \Yii::$app->session['user_id']])
+                ->one()
+                ->is_root;
+        }
+
+        if (!$status->is_shared && $status->user_id != \Yii::$app->session['user_id'] && !$isRoot) {
             $msg = '你休想查看！';
             $this->smarty->assign('msg', $msg);
             return $this->smarty->display('common/error.html');

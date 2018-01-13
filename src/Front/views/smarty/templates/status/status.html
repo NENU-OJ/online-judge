@@ -95,14 +95,14 @@
                         <td><{$status['time']}> MS</td>
                         <td><{$status['memory']}> KB</td>
                         <td>
-                            <{if $status['share'] || $status['uid'] == $user_id}>
+                            <{if $status['share'] || $status['uid'] == $user_id || $isRoot}>
                             <a href="<{$website}>/status/source/<{$status['runid']}>"><{$status['lang']}></a>
                             <{else}>
                             <{$status['lang']}>
                             <{/if}>
                         </td>
                         <td>
-                            <{if $status['share'] || $status['uid'] == $user_id}>
+                            <{if $status['share'] || $status['uid'] == $user_id || $isRoot}>
                             <a href="<{$website}>/status/source/<{$status['runid']}>"><{$status['len']}> B</a>
                             <{else}>
                             <{$status['len']}> B
