@@ -57,4 +57,8 @@ class Util {
             return false;
         }
     }
+
+    static public function isLogin() {
+        return isset(\Yii::$app->session['user_id']);
+    }
 }

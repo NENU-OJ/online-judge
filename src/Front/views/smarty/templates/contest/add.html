@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Header -->
+<{include file="common/header.html"}>
+
+<body>
+
+<!-- 导航条 -->
+<{include file="../common/navbar.html" }>
+
+<div class="container"><fieldset><div id="form"><div class="row" style="min-height:460px"><div class="col-md-6"><div class="block block-info"><div class="heading">Add Contest</div><div class="table-responsive"><table class="table table-bordered thright" style="background:#fbfbfb;min-width:450px"><tbody><tr><th>Title</th><td><input class="form-control input-sm" id="Title" type="text" value=""></td></tr><tr><th>Begin Time</th><td class="form-group-sm form-inline"><input class="form-control" id="datepicker" type="text" value="" style="cursor:default!important" readonly="readonly"> <input class="form-control width-mini" id="hour" maxlength="2" type="text" value="0"> <input class="form-control width-mini" id="min" maxlength="2" type="text" value="0"> : 00</td></tr><tr><th>Length</th><td class="form-group-sm form-inline"><input class="form-control width-mini" id="dd" maxlength="2" type="text" value="0"> 天 <input class="form-control width-mini" id="hh" maxlength="2" type="text" value="5"> : <input class="form-control width-mini" id="mm" maxlength="2" type="text" value="0"> : 00</td></tr><tr><th>Password</th><td class="form-group-sm"><input class="form-control" id="psw" type="password" value=""><span class="text-info">Leave blank to make it Public.</span></td></tr><tr><th>Penalty</th><td><select class="form-control input-sm" id="penalty"><option value="20">20 分钟/次</option><option value="30">30 分钟/次</option><option value="40">40 分钟/次</option><option value="50">50 分钟/次</option><option value="60">60 分钟/次</option></select></td></tr><tr><th>Description</th><td><textarea class="form-control" id="desc" type="text" rows="5"></textarea></td></tr><tr><th>Announcement</th><td><textarea class="form-control" id="anc" type="text" rows="5"></textarea></td></tr></tbody></table></div></div></div><div class="col-md-6"><div class="block block-info"><div class="table-responsive"><table class="table table-bordered tdcenter" id="addprob" style="background:#fbfbfb;min-width:500px"><thead><tr class="even"><th style="width:35px"><a class="img_link add" id="add" title="add" href="javascript:;" style="display:block"></a></th><th style="width:80px">ProbNum</th><th style="width:200px">Alias</th><th style="width:35px"></th><th style="text-align:left">Title</th></tr></thead><tbody><tr><td><a class="img_link delete" title="delete" href="javascript:;"></a></td><td><input class="probnum form-control input-sm" type="text" value=""></td><td><input class="alias form-control input-sm" type="text" value=""></td><td class="bold p_index">A</td><td class="title error-text" style="text-align:left"></td></tr></tbody></table></div></div></div></div><div class="row"><div class="col-md-offset-6 col-md-6"><a class="btn btn-default" id="submit" href="javascript:;">Submit</a> <span class="error-text" id="err"></span></div></div></div></fieldset><script type="text/javascript">var cid = '';
+var c_type = 1;</script></div>
+
+<!-- Footer -->
+<{include file="../common/footer.html" }>
+<!-- Javascript Libs -->
+<{include file="../common/jsLibs.html"}>
+<!-- Javascript App -->
+<{include file="../common/jsApp.html"}>
+<script type="text/javascript" src="<{$staticWebsite}>/js/user/user.js"></script>
+
+</body>
+
+</html>
