@@ -242,7 +242,7 @@ class ProblemController extends BaseController {
         if ($problem) { // 只有管理员用户才能添加隐藏题目
             if (!$problem->is_hide || ($problem->is_hide && Util::isRoot())) {
                 $code = 0;
-                $data = ["title" => $problem->title, "author" => $problem->author, "is_hide" => $problem->is_hide];
+                $data = ["id" => $id, "title" => $problem->title, "author" => $problem->author, "is_hide" => $problem->is_hide];
             } else {
                 $code = 1;
                 $data = "非root用户不能访问隐藏题目 $id ！";

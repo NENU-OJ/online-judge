@@ -17,7 +17,6 @@
     <!-- CSS Libs -->
     <{include file="common/cssLibs.html"}>
     <link rel="stylesheet" href="<{$staticWebsite}>/lib/css/zebra_datepicker/zebra_datepicker.min.css">
-    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zebra_datepicker/dist/css/default/zebra_datepicker.min.css">-->
     <!-- CSS App -->
     <{include file="common/cssApp.html"}>
 </head>
@@ -132,13 +131,7 @@
                                     <th style="text-align:left">Title</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <td><a class="img_link delete" title="delete" href="javascript:;"></a></td>
-                                    <td><input class="probnum form-control input-sm" type="text" value=""></td>
-                                    <td class="bold p_index">A</td>
-                                    <td class="title error-text" style="text-align:left"></td>
-                                </tr>
+                                <tbody id="problemList">
                                 </tbody>
                             </table>
                         </div>
@@ -160,9 +153,17 @@
 <!-- Javascript Libs -->
 <{include file="../common/jsLibs.html"}>
 <script src="<{$staticWebsite}>/lib/js/zebra_datepicker/zebra_datepicker.min.js"></script>
-<!--<script src="https://cdn.jsdelivr.net/npm/zebra_datepicker/dist/zebra_datepicker.min.js"></script>-->
 <!-- Javascript App -->
 <{include file="../common/jsApp.html"}>
+<script>
+    var initProblemList = [
+        <{if $problemList}>
+            <{foreach $problemList as $problem}><{$problem}>,<{/foreach}>
+        <{else}>
+            null
+        <{/if}>
+    ];
+</script>>
 <script src="<{$staticWebsite}>/js/contest/add.js"></script>
 </body>
 
