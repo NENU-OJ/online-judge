@@ -232,4 +232,27 @@ class ProblemController extends BaseController {
         return $this->smarty->display('problem/statistic.html');
     }
 
+    public function actionGetInfo($id) {
+
+        $problem = Problem::find()
+            ->select('title, author, is_hide')
+            ->where(['id' => $id])
+            ->one();
+
+        if ($problem) { // 只有管理员用户才能添加隐藏题目
+            if (!$problem->is_hide || ($problem->is_hide && Util::isRoot())) {
+                $code = 0;
+                $data = ["title" => $problem->title, "author" => $problem->author, "is_hide" => $problem->is_hide];
+            } else {
+                $code = 1;
+                $data = "非root用户不能访问隐藏题目 $id ！";
+            }
+        } else {
+            $code = 2;
+            $data = "没有 $id 这个题目！";
+        }
+
+        return json_encode(["code" => $code, "data" => $data]);
+
+    }
 }

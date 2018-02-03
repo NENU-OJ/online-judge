@@ -15,7 +15,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
     return fmt;
 }
 
-// 初始化时间选择器材
+// 初始化时间选择器
 $(document).ready(function() {
     $('#datepicker').Zebra_DatePicker();
 });
@@ -43,7 +43,7 @@ $("#submit").click(function () {
     date.setMonth(rawDate[1] - 1);
     date.setDate(rawDate[2]);
     date.setHours(hour);
-    date.setMinutes(min)
+    date.setMinutes(min);
     date.setSeconds(0);
 
     console.log(date.Format("yyyy-MM-dd hh:mm:ss"));

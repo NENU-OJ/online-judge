@@ -9,6 +9,8 @@
 namespace app\common;
 
 
+use app\models\User;
+
 class Util {
     static public function getDirs($target) {
         $ret = [];
@@ -60,5 +62,13 @@ class Util {
 
     static public function isLogin() {
         return isset(\Yii::$app->session['user_id']);
+    }
+
+    static public function getUser() {
+        return \Yii::$app->session['user_id'];
+    }
+
+    static public function isRoot() {
+        return User::isRoot(self::getUser());
     }
 }

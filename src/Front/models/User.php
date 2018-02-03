@@ -24,11 +24,15 @@ class User extends ActiveRecord {
     }
 
     public static function isRoot($id) {
-        return self::find()
+        $ret = self::find()
             ->select('is_root')
             ->where(['id' => \Yii::$app->session['user_id']])
-            ->one()
-            ->is_root;
+            ->one();
+
+        if ($ret && $ret->is_root)
+            return true;
+        else
+            return false;
     }
 
     public static function addTotalSubmit($id) {
