@@ -80,16 +80,15 @@ CREATE TABLE `t_contest`(
     `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
     `title` varchar(64) NOT NULL DEFAULT '' COMMENT '比赛标题',
     `description` text COMMENT '比赛描述',
+    `announcement` text COMMENT '比赛通知',
     `is_private` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是私有比赛(0:否;1:是)',
     `start_time` datetime DEFAULT NULL COMMENT '开始时间',
     `end_time` datetime DEFAULT NULL COMMENT '结束时间',
+    `penalty` tinyint(1) NOT NULL DEFAULT '20' COMMENT '错误提交的罚时',
     `lock_board_time` datetime DEFAULT NULL COMMENT '封榜时间',
     `hide_others` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否隐藏他人提交状态(0:否;1:是)',
-    `is_virtual` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是自建比赛(0:否;1:是)',
     `owner_id` int(10) NOT NULL DEFAULT '0' COMMENT '比赛创建者id（对应user表中的id）',
-    `type_id` int(10) NOT NULL DEFAULT '0' COMMENT '比赛方式（对应contest_type中的id）',
     `password` varchar(64) NOT NULL DEFAULT '' COMMENT '比赛密码',
-    `owner_viewable` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否允许比赛创建者查看参加者的代码',
     PRIMARY KEY (`id`)
 )  ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '比赛表';
 

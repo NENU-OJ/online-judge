@@ -38,7 +38,12 @@
                                 <tbody>
                                 <tr>
                                     <th>Title</th>
-                                    <td><input class="form-control input-sm" id="title" type="text" value=""></td>
+                                    <td>
+                                        <input class="form-control input-sm"
+                                               id="title"
+                                               type="text"
+                                               value="<{if $contest}><{$contest->title}><{/if}>">
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>Begin Time</th>
@@ -46,19 +51,19 @@
                                         <input class="form-control"
                                                id="datepicker"
                                                type="text"
-                                               value=""
+                                               value="<{if $startDate}><{$startDate}><{/if}>"
                                                style="cursor:default!important"
                                                readonly="readonly">
                                         <input class="form-control width-mini"
                                                id="hour"
                                                maxlength="2"
                                                type="text"
-                                               value="0">
+                                               value="<{if $startHour}><{$startHour}><{else}>12<{/if}>">
                                         <input class="form-control width-mini"
                                                id="min"
                                                maxlength="2"
                                                type="text"
-                                               value="0"> : 00
+                                               value="<{if $startMin}><{$startMin}><{else}>0<{/if}>"> : 00
                                     </td>
                                 </tr>
                                 <tr>
@@ -68,17 +73,37 @@
                                                id="dd"
                                                maxlength="2"
                                                type="text"
-                                               value="0"> 天
+                                               value="<{if $lengthDate}><{$lengthDate}><{else}>0<{/if}>"> 天
                                         <input class="form-control width-mini"
                                                id="hh"
                                                maxlength="2"
                                                type="text"
-                                               value="5"> :
+                                               value="<{if $lengthHour}><{$lengthHour}><{else}>5<{/if}>"> :
                                         <input class="form-control width-mini"
                                                id="mm"
                                                maxlength="2"
                                                type="text"
-                                               value="0"> : 00
+                                               value="<{if $lengthMin}><{$lengthMin}><{else}>0<{/if}>"> : 00
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Lock Board Time</th>
+                                    <td class="form-group-sm form-inline">
+                                        <input class="form-control width-mini"
+                                               id="lb_dd"
+                                               maxlength="2"
+                                               type="text"
+                                               value="<{if $lockLengthDate}><{$lockLengthDate}><{else}>0<{/if}>"> 天
+                                        <input class="form-control width-mini"
+                                               id="lb_hh"
+                                               maxlength="2"
+                                               type="text"
+                                               value="<{if $lockLengthHour}><{$lockLengthHour}><{else}>4<{/if}>"> :
+                                        <input class="form-control width-mini"
+                                               id="lb_mm"
+                                               maxlength="2"
+                                               type="text"
+                                               value="<{if $lockLengthMin}><{$lockLengthMin}><{else}>0<{/if}>"> : 00
                                     </td>
                                 </tr>
                                 <tr>
@@ -87,27 +112,34 @@
                                         <input class="form-control"
                                                id="psw"
                                                type="password"
-                                               value="">
+                                               value="<{if $contest}><{$contest->password}><{/if}>">
                                         <span class="text-info">Leave blank to make it Public.</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Penalty</th>
                                     <td><select class="form-control input-sm" id="penalty">
-                                        <option value="20">20 分钟/次</option>
-                                        <option value="30">30 分钟/次</option>
-                                        <option value="40">40 分钟/次</option>
-                                        <option value="50">50 分钟/次</option>
-                                        <option value="60">60 分钟/次</option>
+                                        <option value="20" <{if $contest && $contest->penalty == 20}>selected="selected"<{/if}>>20 分钟/次</option>
+                                        <option value="30" <{if $contest && $contest->penalty == 30}>selected="selected"<{/if}>>30 分钟/次</option>
+                                        <option value="40" <{if $contest && $contest->penalty == 40}>selected="selected"<{/if}>>40 分钟/次</option>
+                                        <option value="50" <{if $contest && $contest->penalty == 50}>selected="selected"<{/if}>>50 分钟/次</option>
+                                        <option value="60" <{if $contest && $contest->penalty == 60}>selected="selected"<{/if}>>60 分钟/次</option>
+                                    </select></td>
+                                </tr>
+                                <tr>
+                                    <th>HideOthers</th>
+                                    <td><select class="form-control input-sm" id="hideOthers">
+                                        <option value="0">否</option>
+                                        <option value="1" <{if $contest && $contest->hide_others}>selected="selected"<{/if}>>是</option>
                                     </select></td>
                                 </tr>
                                 <tr>
                                     <th>Description</th>
-                                    <td><textarea class="form-control" id="desc" type="text" rows="5"></textarea></td>
+                                    <td><textarea class="form-control" id="desc" type="text" rows="5"><{if $contest}><{$contest->description}><{/if}></textarea></td>
                                 </tr>
                                 <tr>
                                     <th>Announcement</th>
-                                    <td><textarea class="form-control" id="anc" type="text" rows="5"></textarea></td>
+                                    <td><textarea class="form-control" id="anc" type="text" rows="5"><{if $contest}><{$contest->announcement}><{/if}></textarea></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -163,6 +195,7 @@
             null
         <{/if}>
     ];
+    var contestId = <{if $contestId}><{$contestId}><{else}>null<{/if}>;
 </script>>
 <script src="<{$staticWebsite}>/js/contest/add.js"></script>
 </body>

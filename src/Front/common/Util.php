@@ -55,7 +55,8 @@ class Util {
             socket_close($socket);
             return true;
         } catch (\Exception $e) {
-            if ($socket) socket_close($socket);
+            if (isset($socket) && $socket)
+                socket_close($socket);
             return false;
         }
     }

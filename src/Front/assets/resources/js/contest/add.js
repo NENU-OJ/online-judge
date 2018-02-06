@@ -92,7 +92,7 @@ var proNumChange = function () { // 题号改变
                     $("#text_" + id).removeClass('success-text').addClass('error-text').text(resp.data);
                 }
             },
-            error: function () {
+            error: function() {
                 $("#text_" + id).removeClass('success-text').addClass('error-text').text('获取JSON数据异常');
             }
         });
@@ -136,7 +136,10 @@ $("#add").click(function () { // 添加题目
 
 
 $("#submit").click(function () { // 提交修改
-    var title = $("#title").val();
+    $err = $("#err");
+    $err.text('');
+
+    var title = $("#title").val().trim();
 
     var rawDate = $('#datepicker').val();
     rawDate = rawDate.split('-');
@@ -147,8 +150,15 @@ $("#submit").click(function () { // 提交修改
     var lengthHour = $("#hh").val();
     var lengthMin = $("#mm").val();
 
+    var lockLengthDay = $("#lb_dd").val();
+    var lockLengthHour = $("#lb_hh").val();
+    var lockLengthMin = $("#lb_mm").val();
+
+
+
     var psw = $("#psw").val();
     var penalty = $("#penalty").val();
+    var hideOthers = $("#hideOthers").val();
     var desc = $("#desc").val();
     var anc = $("#anc").val();
 
@@ -160,8 +170,6 @@ $("#submit").click(function () { // 提交修改
     date.setMinutes(min);
     date.setSeconds(0);
 
-    console.log(date.Format("yyyy-MM-dd hh:mm:ss"));
-    console.log(new Date().Format("yyyy-MM-dd hh:mm:ss"));
 
     var lengthSecond = 0;
     if (lengthDay)
@@ -171,30 +179,51 @@ $("#submit").click(function () { // 提交修改
     if (lengthMin)
         lengthSecond += parseInt(lengthMin) * 60;
 
-    console.log("length = %d\n", lengthSecond);
+    var lockBoardSecond = 0;
+    if (lockLengthDay)
+        lockBoardSecond += parseInt(lockLengthDay) * 24 * 60 * 60;
+    if (lockLengthHour)
+        lockBoardSecond += parseInt(lockLengthHour) * 60 * 60;
+    if (lockLengthMin)
+        lockBoardSecond += parseInt(lockLengthMin) * 60;
 
-    console.log(title);
-
-    console.log(date);
-    console.log(hour);
-    console.log(min);
-
-    console.log(lengthDay);
-    console.log(lengthHour);
-    console.log(lengthMin);
-
-    console.log(psw);
-    console.log(penalty);
-    console.log(desc);
-    console.log(anc);
+    if (!title) {
+        $err.text('Title不能为空');
+        return;
+    } else if (isNaN(date)) {
+        $err.text('请选择比赛开始时间');
+        return;
+    } else if (problemList.indexOf(null) != -1) {
+        $err.text('请正确选择题目');
+        return;
+    }
 
     $.ajax({
         type: "post",
         url: 'http://' + host + '/contest/do-add/',
         dataType: 'json',
         data: {
-            dd: 123,
-            pl: problemList,
+            title: title,
+            beginTime: date.valueOf() / 1000,
+            length: lengthSecond,
+            lockBoardTime: lockBoardSecond,
+            password: psw,
+            penalty: penalty,
+            hideOthers: hideOthers,
+            description: desc,
+            announcement: anc,
+            problemList: problemList,
+            contestId: contestId,
+        },
+        success: function(resp) {
+            if (resp.code == 0) {
+                alert(resp.data);
+            } else {
+                $err.text(resp.data);
+            }
+        },
+        error: function() {
+            $err.text('获取JSON数据异常')
         }
     });
 });
