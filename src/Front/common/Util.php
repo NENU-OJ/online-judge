@@ -69,7 +69,26 @@ class Util {
         return \Yii::$app->session['user_id'];
     }
 
+    static public function getUserName() {
+        return \Yii::$app->session['username'];
+    }
+
     static public function isRoot() {
         return User::isRoot(self::getUser());
+    }
+
+    static public function getDuration($startTime, $endTime) {
+        $startTime = strtotime($startTime);
+        $endTime = strtotime($endTime);
+        $duration = $endTime - $startTime;
+        $ret = '';
+        $day = floor($duration / 86400);
+        $hour = floor($duration % 86400 / 3600);
+        $min = floor($duration % 3600 / 60);
+        if ($day > 0)
+            $ret = sprintf("%d天%02d:%02d:%02d", $day, $hour, $min, 0);
+        else
+            $ret = $ret = sprintf("%02d:%02d:%02d", $hour, $min, 0);
+        return $ret;
     }
 }

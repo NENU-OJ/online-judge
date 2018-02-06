@@ -10,8 +10,40 @@ use yii\web\NotFoundHttpException;
 
 class ContestController extends BaseController {
 
-    public function actionIndex() {
+    public function actionIndex($id = 1) {
+        $pageSize = \Yii::$app->params['queryPerPage'];
+
+        $whereArray = [];
+        $andWhereArray = [];
+        $search = \Yii::$app->request->get('search');
+        if ($search) {
+            $andWhereArray = ['or', ['like', 'title', '%'.$search.'%', false], ['like', 'manager', '%'.$search.'%', false]];
+        }
+
+        $totalPage = Contest::totalPage($whereArray, $pageSize, $andWhereArray);
+        $contests = Contest::getContests($id, $pageSize, $whereArray, $andWhereArray);
+
+        $pageArray = Util::getPaginationArray($id, 8, $totalPage);
+
+        foreach($contests as &$contest) {
+            $contest['duration'] = Util::getDuration($contest['start_time'], $contest['end_time']);
+            $length = strtotime($contest['end_time']) - strtotime($contest['start_time']);
+            $now = time();
+            if ($now < strtotime($contest['start_time']))
+                $percent = 0;
+            else if ($now > strtotime($contest['end_time']))
+                $percent = 100;
+            else
+                $percent = floor(($now - strtotime($contest['start_time'])) / $length * 100);
+            $contest['percent'] = $percent;
+        }
+
         $this->smarty->assign('webTitle', "Contest");
+        $this->smarty->assign('contests', $contests);
+        $this->smarty->assign('search', $search);
+        $this->smarty->assign('pageArray', $pageArray);
+        $this->smarty->assign('totalPage', $totalPage);
+        $this->smarty->assign('pageNow', $id);
         return $this->smarty->display('contest/contest.html');
     }
 
@@ -110,6 +142,7 @@ class ContestController extends BaseController {
             $contest->lock_board_time = date("Y-m-d H:i:s", $beginTime + $lockBoardTime);
             $contest->hide_others = $hideOthers;
             $contest->owner_id = Util::getUser();
+            $contest->manager = Util::getUserName();
             $contest->password = $password;
 
             $contest->save();

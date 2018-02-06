@@ -88,6 +88,7 @@ CREATE TABLE `t_contest`(
     `lock_board_time` datetime DEFAULT NULL COMMENT '封榜时间',
     `hide_others` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否隐藏他人提交状态(0:否;1:是)',
     `owner_id` int(10) NOT NULL DEFAULT '0' COMMENT '比赛创建者id（对应user表中的id）',
+    `manager` varchar(64) NOT NULL DEFAULT '' COMMENT '用户name（对应user表中的username）',
     `password` varchar(64) NOT NULL DEFAULT '' COMMENT '比赛密码',
     PRIMARY KEY (`id`)
 )  ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '比赛表';
