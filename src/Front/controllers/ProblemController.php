@@ -58,6 +58,9 @@ class ProblemController extends BaseController {
         $problem = Problem::findById($id);
         if (!$problem) {
             throw new NotFoundHttpException("不存在这个题目");
+        } else if ($problem->is_hide && !Util::isRoot()) {
+            $this->smarty->assign('msg', "你无权查看 $id 这个题目！");
+            return $this->smarty->display('common/error.html');
         }
         $this->smarty->assign('vmMultiplier', \Yii::$app->params['vmMultiplier']);
         $this->smarty->assign('problem', $problem);

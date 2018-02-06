@@ -92,16 +92,6 @@ CREATE TABLE `t_contest`(
     PRIMARY KEY (`id`)
 )  ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '比赛表';
 
-CREATE TABLE `t_contest_clarify`(
-    `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
-    `contest_id` int(10) NOT NULL DEFAULT '0' COMMENT '比赛id（对应contest表中的id）',
-    `question` text NOT NULL COMMENT '遇到的问题',
-    `reply` text NOT NULL COMMENT '回复',
-    `user_id` int(10) NOT NULL DEFAULT '0' COMMENT '问题提出者id（对应user表中的id）',
-    `is_public` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否公开问题(0:否;1:是)',
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '比赛声明表';
-
 CREATE TABLE `t_contest_problem`(
     `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
     `contest_id` int(10) NOT NULL DEFAULT '0' COMMENT '比赛id（对应contest表中的id）',
@@ -140,28 +130,6 @@ CREATE TABLE `t_discuss_reply`(
     `username` varchar(64) NOT NULL DEFAULT '' COMMENT '用户name（对应user表中的username）',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '讨论回复表';
-
-
-CREATE TABLE `t_notice`(
-    `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
-    `is_news` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否是新闻(0:否;1:是)',
-    `time` datetime DEFAULT NULL COMMENT '发表时间',
-    `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
-    `content` text NOT NULL COMMENT '内容',
-    `author_id` int(10) NOT NULL DEFAULT '0' COMMENT '发布人id（对应user表中id）',
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '通知/新闻表';
-
-CREATE TABLE `t_mail`(
-    `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
-    `sender_id` int(10) NOT NULL DEFAULT '0' COMMENT '发送人id（对应user表中id）',
-    `reciever_id` int(10) NOT NULL DEFAULT '0' COMMENT '接收人id（对应user表中id）',
-    `title` varchar(64) NOT NULL DEFAULT '' COMMENT '标题',
-    `content` text NOT NULL COMMENT '内容',
-    `time` datetime DEFAULT NULL COMMENT '发送时间',
-    `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态(0:未读;1:已读)',
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '站内信表';
 
 CREATE TABLE `t_language_type`(
 	`id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
