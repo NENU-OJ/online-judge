@@ -138,6 +138,7 @@ $("#add").click(function () { // 添加题目
 $("#submit").click(function () { // 提交修改
     $err = $("#err");
     $err.text('');
+    $err.addClass('error-text');
 
     var title = $("#title").val().trim();
 
@@ -198,10 +199,12 @@ $("#submit").click(function () { // 提交修改
         return;
     }
 
+    $(this).addClass('disabled');
     $.ajax({
         type: "post",
         url: 'http://' + host + '/contest/do-add/',
         dataType: 'json',
+        async: false,
         data: {
             title: title,
             beginTime: date.valueOf() / 1000,
@@ -217,7 +220,8 @@ $("#submit").click(function () { // 提交修改
         },
         success: function(resp) {
             if (resp.code == 0) {
-                alert(resp.data);
+                $err.removeClass('error-text').addClass('success-text').text(resp.data.msg);
+                window.location = 'http://' + host + '/contest/view/' + resp.data.id;
             } else {
                 $err.text(resp.data);
             }
@@ -226,4 +230,6 @@ $("#submit").click(function () { // 提交修改
             $err.text('获取JSON数据异常')
         }
     });
+
+    $(this).removeClass('disabled');
 });

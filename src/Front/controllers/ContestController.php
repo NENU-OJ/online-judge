@@ -206,10 +206,10 @@ class ContestController extends BaseController {
             ContestProblem::addProblemList($contest->id, $problemList);
 
             if ($contestId)
-                $data = "比赛 $contest->id 修改成功";
+                $msg = "比赛 $contest->id 修改成功";
             else
-                $data = "比赛 $contest->id 创建成功";
-            return json_encode(['code' => 0, 'data' => $data]);
+                $msg = "比赛 $contest->id 创建成功";
+            return json_encode(['code' => 0, 'data' => ["msg" => $msg, "id" => $contest->id]]);
         } catch (Exception $e) {
             return json_encode(['code' => 1, 'data' => $e->getMessage()]);
         }
