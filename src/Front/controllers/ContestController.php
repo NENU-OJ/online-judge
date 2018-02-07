@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\common\Util;
 use app\models\Contest;
 use app\models\ContestProblem;
+use app\models\ContestUser;
 use yii\db\Exception;
 use yii\web\NotFoundHttpException;
 
@@ -47,18 +48,59 @@ class ContestController extends BaseController {
         return $this->smarty->display('contest/contest.html');
     }
 
-    public function actionView($id = 0) {
+    public function actionView($id = 0) { // TODO
         $contest = Contest::findById($id);
         if (!$contest) {
             throw new NotFoundHttpException("$id 这个比赛不存在！");
         }
-        if ($contest->is_private) {
-            if (!Util::isLogin() && !isset(\Yii::$app->session["cid:$id"])) {
-                $this->smarty->assign('msg', "你还没有访问比赛 $id 的权限");
-                return $this->smarty->display('common/error.html');
+
+        $canView = json_decode($this->actionCanView($id))->code;
+        if ($canView != 0) {
+            $this->smarty->assign('msg', "你还没有访问比赛 $id 的权限");
+            return $this->smarty->display('common/error.html');
+        }
+
+        return "fuck";
+    }
+
+    public function actionCanView($id) { // 判断是否有查看这个比赛的权限
+        $contest = Contest::findById($id);
+        if (!$contest)
+            return json_encode(["code" => 1, "data" => "所查比赛不存在"]);
+
+        if (!$contest->is_private)
+            return json_encode(["code" => 0, "data" => ""]);
+
+        if (isset(\Yii::$app->session["cid:$id"]) && \Yii::$app->session["cid:$id"]) {
+            return json_encode(["code" => 0, "data" => ""]);
+        } else {
+            if (Util::isLogin()) { // 登录后比赛创建者和正确输入密码的人可以访问比赛
+                if ($contest->owner_id == Util::getUser() || ContestUser::haveUser($id, Util::getUser()))
+                    return json_encode(["code" => 0, "data" => ""]);
+                else
+                    return json_encode(["code" => 1, "data" => ""]);
+            } else {
+                return json_encode(["code" => 1, "data" => ""]);
             }
         }
-        return "fuck";
+    }
+
+    public function actionLogin() {
+        $contestId = \Yii::$app->request->post('contestId', 0);
+        $password = \Yii::$app->request->post('password', '');
+        $contest = Contest::findById($contestId);
+
+        if (!$contest)
+            return json_encode(["code" => 1, "data" => "比赛不存在"]);
+        if ($contest->password != $password)
+            return json_encode(["code" => 1, "data" => "密码错误"]);
+
+        // 比赛存在且密码输入正确
+        \Yii::$app->session["cid:$contestId"] = true;
+        if (Util::isLogin()) {
+            ContestUser::addUser($contestId, Util::getUser());
+        }
+        return json_encode(["code" => 0, "data" => ""]);
     }
 
     public function actionAdd($id = 0) {

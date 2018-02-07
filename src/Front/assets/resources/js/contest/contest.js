@@ -24,9 +24,29 @@ $(".pagi").click(function () {
 });
 
 var host = window.location.host;
+var contestId = null;
 
 // 模态比赛密码输入窗口
 $(".cid").click(function () {
+    contestId = $(this).attr('data-id');
+    var canView = false;
+    $.ajax({
+        type: "get",
+        url: 'http://' + host + '/contest/can-view?id=' + contestId,
+        dataType: 'json',
+        async: false,
+        success: function (resp) {
+            if (resp.code == 0)
+                canView = true;
+        },
+        error: function () {
+            alert('获取JSON数据异常');
+        },
+    });
+    if (canView) {
+        window.location = 'http://' + host + '/contest/view/' + contestId;
+        return;
+    }
     $("#dialog_lc").css("display", "block");
     $("#overlay").css("display", "");
 });
@@ -35,30 +55,28 @@ $(".contestclose").click(function () {
     $("#overlay").css("display", "none");
 });
 
-$("#login_submit").click(function () {
-    $("#login_error").text("");
+$("#contest_submit").click(function () {
+    $("#contest_error").text("");
+    var password = $("#contest_password").val();
 
-    var username = $("#login_username").val();
-    var password = $("#login_password").val();
-    var remember = $("#remember").val();
     $.ajax({
         type: "post",
-        url: 'http://' + host + '/user/login',
+        url: 'http://' + host + '/contest/login',
         dataType: "json",
+        async: false,
         data: {
-            username: username,
+            contestId: contestId,
             password: password,
         },
         success: function (resp) {
             if (resp.code == 0) {
-                location.reload(true);
-            } else if (resp.code == 1) {
-                $("#login_error").text(resp.data);
+                window.location = 'http://' + host + '/contest/view/' + contestId;
+            } else {
+                $("#contest_error").text(resp.data);
             }
         },
         error: function () {
-            console.log("获取JSON数据异常");
+            $("#contest_error").text("获取JSON数据异常");
         }
     });
-
 });
