@@ -47,6 +47,20 @@ class ContestController extends BaseController {
         return $this->smarty->display('contest/contest.html');
     }
 
+    public function actionView($id = 0) {
+        $contest = Contest::findById($id);
+        if (!$contest) {
+            throw new NotFoundHttpException("$id 这个比赛不存在！");
+        }
+        if ($contest->is_private) {
+            if (!Util::isLogin() && !isset(\Yii::$app->session["cid:$id"])) {
+                $this->smarty->assign('msg', "你还没有访问比赛 $id 的权限");
+                return $this->smarty->display('common/error.html');
+            }
+        }
+        return "fuck";
+    }
+
     public function actionAdd($id = 0) {
 
         if (!Util::isLogin()) {

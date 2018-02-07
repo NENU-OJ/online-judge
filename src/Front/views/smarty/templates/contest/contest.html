@@ -48,7 +48,7 @@
                     <{$counter = $counter + 1}>
                     <tr class="<{if $counter % 2 == 0}>even<{else}>odd<{/if}>">
                         <td><{$contest['id']}></td>
-                        <td style="text-align:left"><a class="cid" href="#" id="<{$contest['id']}>"><{$contest['title']}></a></td>
+                        <td style="text-align:left"><a class="cid" href="javascript:;" data-id="<{$contest['id']}>"><{$contest['title']}></a></td>
                         <td><{$contest['start_time']}>
                             <div class="progress">
                                 <div class="progress-bar progress-bar-striped active <{if $contest['percent'] == 100}>progress-bar-success<{else if $contest['percent'] > 0}>progress-bar-danger<{/if}>"
@@ -94,6 +94,26 @@
 
 <!-- Footer -->
 <{include file="../common/footer.html" }>
+
+<div class="jqmSubmit jqmID3" id="dialog_lc" style="width: 400px; height: 190px; top: 25%; margin-left: -200px; z-index: 3000; display: none;">
+    <div class="jqDrag jqtop">Login contest</div>
+    <div class="jqcontent container" style="width:390px;height:100px">
+        <div class="form-group">
+            <label for="contest_password">Password *</label>
+            <input class="form-control input-sm" id="contest_password" type="password">
+        </div>
+    </div>
+    <div class="jqfoot">
+        <span class="pull-right">
+            <a class="btn btn-default" id="contest_submit" href="javascript:;">Submit</a>
+            <a class="contestclose btn btn-default" href="javascript:;">Cancel</a>
+        </span>
+        <small class="error-text" id="contest_error"></small>
+    </div>
+    <div class="jqResize"></div>
+    <i class="contestclose jqclose img_link"></i>
+</div>
+
 <!-- Javascript Libs -->
 <{include file="../common/jsLibs.html"}>
 <!-- Javascript App -->
