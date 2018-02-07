@@ -16,13 +16,17 @@
                 <div class="row">
                     <div class="col-sm-2">DIY Contest</div>
                     <div class="col-sm-10 form-inline">
-                        <div class="pull-right"><a class="btn btn-default btn-sm" href="<{$website}>/contest/add">Add
-                            Contest</a>
-                            <div class="input-group input-group-sm"><span class="input-group-addon"><i
-                                    class="icon_search"></i></span><input class="form-control" id="search" type="text"
-                                                                          value="" placeholder="title or manager"></div>
-                            <a class="btn btn-default btn-sm" id="fil" href="javascript:;">Filter</a> <a
-                                    class="btn btn-default btn-sm" href="/contest/">Reset</a></div>
+                        <div class="pull-right">
+                            <a class="btn btn-default btn-sm" href="<{$website}>/contest/add">AddContest</a>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">
+                                    <i class="icon_search"></i>
+                                </span>
+                                <input class="form-control" id="search" type="text" value="" placeholder="title or manager">
+                            </div>
+                            <a class="btn btn-default btn-sm" id="fil" href="javascript:;">Filter</a>
+                            <a class="btn btn-default btn-sm" href="/contest/">Reset</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -47,8 +51,8 @@
                         <td style="text-align:left"><a class="cid" href="#" id="<{$contest['id']}>"><{$contest['title']}></a></td>
                         <td><{$contest['start_time']}>
                             <div class="progress">
-                                <div class="progress-bar progress-bar-striped active progress-bar-success"
-                                     style="width:100%"></div>
+                                <div class="progress-bar progress-bar-striped active <{if $contest['percent'] == 100}>progress-bar-success<{else if $contest['percent'] > 0}>progress-bar-danger<{/if}>"
+                                     style="width:<{if $contest['percent'] == 0 || $contest['percent'] == 100}>100<{else}><{$contest['percent']}><{/if}>%"></div>
                             </div>
                         </td>
                         <td><{$contest['duration']}></td>
