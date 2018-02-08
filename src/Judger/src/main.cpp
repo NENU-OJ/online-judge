@@ -24,7 +24,6 @@ static pthread_mutex_t queue_mtx = PTHREAD_MUTEX_INITIALIZER;
  */
 
 void init_queue() {
-	// Mock
 	LOG(INFO) << "init queue";
 	DatabaseHandler db;
 	auto unfinished_runs = db.get_unfinished_results();

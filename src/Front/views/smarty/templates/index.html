@@ -41,15 +41,19 @@
                     <div class="block-content">
                         <table class="table-acdream">
                             <tbody>
-                            <{for $i = 1 to 3}>
+                            <{foreach $contestList as $contest}>
                             <tr>
                                 <td>
-                                    <div class="title"><a href="/contest?cid=1305">第一届家虎大赛</a></div>
-                                    <div class="footer">时长：5小时 / 参加人数：129 / 开始时间：2015-05-09 09:00</div>
+                                    <div class="title"><a href="<{$website}>/contest/<{$contest['id']}>"><{$contest['title']}></a></div>
+                                    <div class="footer">时长：<{$contest['duration']}> / 参加人数：<{$contest['people']}> / 开始时间：<{$contest['startTime']}></div>
                                 </td>
-                                <td class="state"><span class="accept-text">Ended</span></td>
+                                <td class="state">
+                                    <{if $contest['status'] == 'Pending'}><span class="info-text">Pending</span><{/if}>
+                                    <{if $contest['status'] == 'Running'}><span class="wrong-text">Running</span><{/if}>
+                                    <{if $contest['status'] == 'Ended'}><span class="accept-text">Ended</span><{/if}>
+                                </td>
                             </tr>
-                            <{/for}>
+                            <{/foreach}>
                             </tbody>
                         </table>
                     </div>
