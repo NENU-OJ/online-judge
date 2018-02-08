@@ -58,7 +58,7 @@
                                                id="hour"
                                                maxlength="2"
                                                type="text"
-                                               value="<{if $startHour}><{$startHour}><{else}>12<{/if}>">
+                                               value="<{if isset($startHour)}><{$startHour}><{else}>12<{/if}>">
                                         <input class="form-control width-mini"
                                                id="min"
                                                maxlength="2"
@@ -78,7 +78,7 @@
                                                id="hh"
                                                maxlength="2"
                                                type="text"
-                                               value="<{if $lengthHour}><{$lengthHour}><{else}>5<{/if}>"> :
+                                               value="<{if isset($lengthHour)}><{$lengthHour}><{else}>5<{/if}>"> :
                                         <input class="form-control width-mini"
                                                id="mm"
                                                maxlength="2"
@@ -98,7 +98,7 @@
                                                id="lb_hh"
                                                maxlength="2"
                                                type="text"
-                                               value="<{if $lockLengthHour}><{$lockLengthHour}><{else}>4<{/if}>"> :
+                                               value="<{if isset($lockLengthHour)}><{$lockLengthHour}><{else}>4<{/if}>"> :
                                         <input class="form-control width-mini"
                                                id="lb_mm"
                                                maxlength="2"

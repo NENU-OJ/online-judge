@@ -20,3 +20,31 @@ $(document).ready(function () {
        _timeNow += 1;
    }, 1000);
 });
+
+function progressBar() {
+    var $progress = $("#progress").children();
+    var $contestInfo = $("#contest-info");
+    if (_timeNow < _startTime) {
+        $progress.removeClass('progress-bar-success').attr('style', 'width:100%');
+        var minute = Math.floor((_startTime - _timeNow) / 60);
+        var second = (_startTime - _timeNow) % 60;
+        $contestInfo.text('距离开始 ' + minute + ':' + second);
+    } else if (_timeNow > _endTime) {
+        $progress.removeClass('progress-bar-danger').addClass('progress-bar-success').attr('style', 'width:100%');
+        $contestInfo.text();
+    } else {
+        $progress
+            .removeClass('progress-bar-success')
+            .addClass('progress-bar-danger')
+            .attr('style', 'width:' + ((_timeNow - _startTime) / (_endTime - _startTime) * 100) + '%');
+
+        var minute = Math.floor((_endTime - _timeNow) / 60);
+        var second = (_endTime - _timeNow) % 60;
+        $contestInfo.text('距离结束 ' + minute + ':' + second);
+    }
+}
+
+$(document).ready(function () {
+    progressBar();
+    setInterval(progressBar, 1000);
+});
