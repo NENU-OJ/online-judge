@@ -30,7 +30,9 @@ class BaseController extends Controller {
         $this->smarty->assign('uploadsDir',
             "http://".\Yii::$app->request->serverName.":".\Yii::$app->request->serverPort."/uploads");
 
-        $this->smarty->assign('time', date("Y-m-d H:i:s"));
+        $timeNow = time();
+        $this->smarty->assign('time', date("Y-m-d H:i:s", $timeNow));
+        $this->smarty->assign('timeNowSecond', $timeNow);
         $this->smarty->assign('startTime', $this->startTime);
 
         //若用户已登录，向前端渲染用户名方便判断哪些按钮显示和哪些不显示

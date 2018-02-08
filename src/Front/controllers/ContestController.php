@@ -60,7 +60,13 @@ class ContestController extends BaseController {
             return $this->smarty->display('common/error.html');
         }
 
-        return "fuck";
+        $this->smarty->assign('contest', $contest);
+        $this->smarty->assign('webTitle', "Contest $id");
+        return $this->smarty->display('contest/view.html');
+    }
+
+    public function actionTest() {
+        return self::actionView(6);
     }
 
     public function actionCanView($id) { // 判断是否有查看这个比赛的权限

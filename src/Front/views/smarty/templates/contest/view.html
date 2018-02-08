@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Header -->
+<{include file="common/header.html"}>
+
+<body>
+
+<!-- 导航条 -->
+<{include file="../common/navbar.html" }>
+
+<div class="container">
+    <fieldset id="widthfix">
+        <div class="box box-inner"><h3 class="mc center" style="color:#3069BE"><{$contest->title}></h3>
+            <marquee class="error-text" id="marquee" onmouseout="this.start()" onmouseover="this.stop()"
+                     scrollamount="2" scrolldelay="1" behavior="alternate"><{$contest->announcement}></marquee>
+            <div class="row">
+                <div class="col-sm-4">Penalty: <{$contest->penalty}> minutes</div>
+                <div class="col-sm-4 center"></div>
+            </div>
+            <div class="progress cb" id="progress" style="height:20px">
+                <div class="progress-bar progress-bar-striped active progress-bar-success" style="width:100%"></div>
+            </div>
+            <div class="pull-right" id="contest-info" style="text-align:right">&nbsp;剩余时间</div>
+        </div>
+        <div class="box" id="thumbnail" style="min-height:600px">
+            <ul class="nav nav-tabs" style="padding-top:5px">
+                <li style="padding-left:10px" class="active"><a class="tablink" href="#overview"><span>Overview</span></a></li>
+                <li class=""><a class="tablink" href="#problem"><span>Problem</span></a></li>
+                <li class=""><a class="tablink" href="#status"><span>Status</span></a></li>
+                <li class=""><a class="tablink" href="#rank"><span>Rank</span></a></li>
+                <li class="">
+                    <a class="tablink" href="#discuss">
+                        <span>Discuss</span>
+                        <sup class="badge" id="discuss_tips" style="display:none"></sup>
+                    </a>
+                </li>
+            </ul>
+
+
+            <div style="padding:15px 10px;overflow:visible">
+                <div id="overviewtab">
+                    <div class="mc" style="width:60%">
+                        <div class="table-responsive">
+                            <table class="table" id="overviewtable" style="min-width:500px">
+                                <tbody>
+                                <tr>
+                                    <th width="20%">Current Time:</th>
+                                    <td id="contest_current"><{date('Y-m-d H:i:s')}></td>
+                                    <th width="21%">Contest Type:</th>
+                                    <td>
+                                        <{if $contest->is_private}>
+                                        <span class="user-green">Private</span>
+                                        <{else}>
+                                        <span class="user-blue">Public</span>
+                                        <{/if}>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Start Time:</th>
+                                    <td id="start_time"><{$contest->start_time}></td>
+                                    <th>Contest Status:</th>
+                                    <td class="accept-text" id="conteststatus">Ended</td>
+                                </tr>
+                                <tr>
+                                    <th>End Time:</th>
+                                    <td id="end_time"><{$contest->end_time}></td>
+                                    <th>Manager:</th>
+                                    <td><a class="user user-blue" title="ToRapture" href="<{$website}>/user/detail/<{$contest->manager}>"><{$contest->manager}></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="center" style="margin-bottom:15px"><a class="btn btn-default btn-sm"
+                                                                      href="<{$website}>/contest/add/<{$contest->id}>">Edit</a> <a
+                            class="btn btn-default btn-sm" id="delete" href="javascript:;">Delete</a> <a
+                            class="btn btn-default btn-sm" id="clone" style="" href="/addcontest?cID=-1478&amp;type=1"
+                            title="To create a DIY Contest with the same problems.">Clone this contest</a></div>
+                    <div class="mc" id="problemsview" style="width:75%">
+                        <div class="block block-info">
+                            <div class="heading">Problem List</div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="problems" style="min-width:550px">
+                                    <thead>
+                                    <tr class="even">
+                                        <th style="width:70px">#</th>
+                                        <th class="end" style="width:70px"></th>
+                                        <th>Name</th>
+                                        <th style="width:90px"></th>
+                                        <th style="width:90px">Solved</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="odd">
+                                        <td class="center bold o_index">A</td>
+                                        <td class="center end"><a target="_blank" href="/problem?pid=1000">1000</a></td>
+                                        <td><a href="#problem-A">A + B Problem</a></td>
+                                        <td class="op_submit"><a class="submit img_link" href="javascript:;" pid="1000"
+                                                                 tname="A + B Problem" title="Submit"></a></td>
+                                        <td class="center o_sol"><a href="#status--A-2">0</a> <span>/</span> <a
+                                                href="#status--A" "="">0</a></td>
+                                    </tr>
+                                    <tr class="even">
+                                        <td class="center bold o_index">B</td>
+                                        <td class="center end"><a target="_blank" href="/problem?pid=1001">1001</a></td>
+                                        <td><a href="#problem-B">整数交换</a></td>
+                                        <td class="op_submit"><a class="submit img_link" href="javascript:;" pid="1001"
+                                                                 tname="整数交换" title="Submit"></a></td>
+                                        <td class="center o_sol"><a href="#status--B-2">0</a> <span>/</span> <a
+                                                href="#status--B" "="">0</a></td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <{if $contest->description}><div class="box box-inner"><p><{$contest->description}></p></div><{/if}>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <script type="text/javascript">
+        var _pids = [1000, 1001, 1002, 1003, 1004, 1005, 1006];
+        var _alias = ["", "", "", "", "", "", ""];
+        var _prob_num = 7;
+        var _cid = <{$contest->id}>;
+        var _timeNow = <{time()}>;
+        var _startTime = <{strtotime($contest->start_time)}>;
+        var _endTime = <{strtotime($contest->end_time)}>;
+        var _duration = _endTime - _startTime;
+        var _pending = _timeNow - _startTime;
+        var _status = 'Ended Pending Running';
+    </script>
+</div>
+
+<!-- Footer -->
+<{include file="../common/footer.html" }>
+<!-- Javascript Libs -->
+<{include file="../common/jsLibs.html"}>
+<!-- Javascript App -->
+<{include file="../common/jsApp.html"}>
+<script type="text/javascript" src="<{$staticWebsite}>/js/contest/progress.js"></script>
+<script type="text/javascript" src="<{$staticWebsite}>/js/contest/overview.js"></script>
+</body>
+
+</html>
