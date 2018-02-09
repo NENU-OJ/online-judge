@@ -6,6 +6,7 @@ use app\common\Util;
 use app\models\Contest;
 use app\models\ContestProblem;
 use app\models\ContestUser;
+use app\models\Problem;
 use yii\db\Exception;
 use yii\web\NotFoundHttpException;
 
@@ -60,7 +61,25 @@ class ContestController extends BaseController {
             return $this->smarty->display('common/error.html');
         }
 
+        $problems = ContestProblem::find()
+            ->select('*')
+            ->where(['contest_id' => $id])
+            ->orderBy('lable')
+            ->all();
+
+        $problemList = [];
+        foreach ($problems as $problem) {
+            $record = [];
+            $record['id'] = $problem->problem_id;
+            $record['lable'] = $problem->lable;
+            $record['total_submit'] = $problem->total_submit;
+            $record['total_ac'] = $problem->total_ac;
+            $record['name'] = Problem::find()->select('title')->where(['id' => $problem->problem_id])->one()->title;
+            $problemList[] = $record;
+        }
+
         $this->smarty->assign('contest', $contest);
+        $this->smarty->assign('problemList', $problemList);
         $this->smarty->assign('webTitle', "Contest $id");
         return $this->smarty->display('contest/view.html');
     }
