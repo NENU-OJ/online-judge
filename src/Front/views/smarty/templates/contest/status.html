@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Header -->
+<{include file="common/header.html"}>
+
+<body>
+
+<!-- 导航条 -->
+<{include file="../common/navbar.html" }>
+
+<div class="container">
+    <fieldset id="widthfix">
+        <div class="box box-inner"><h3 class="mc center" style="color:#3069BE"><{$contest->title}></h3>
+            <marquee class="error-text" id="marquee" onmouseout="this.start()" onmouseover="this.stop()"
+                     scrollamount="2" scrolldelay="1" behavior="alternate"><{$contest->announcement}></marquee>
+            <div class="row">
+                <div class="col-sm-4">Penalty: <{$contest->penalty}> minutes</div>
+                <div class="col-sm-4 center"></div>
+            </div>
+            <div class="progress cb" id="progress" style="height:20px">
+                <div class="progress-bar progress-bar-striped active progress-bar-success" style="width:100%"></div>
+            </div>
+            <div class="pull-right" id="contest-info" style="text-align:right"></div>
+        </div>
+        <div class="box" id="thumbnail" style="min-height:600px">
+            <ul class="nav nav-tabs" style="padding-top:5px">
+                <li ><a class="tablink" href="<{$website}>/contest/<{$contest->id}>"><span>Overview</span></a></li>
+                <li class=""><a class="tablink" href="<{$website}>/contest/<{$contest->id}>/problem"><span>Problem</span></a></li>
+                <li style="padding-left:10px" class="active"><a class="tablink" href="<{$website}>/contest/<{$contest->id}>/status"><span>Status</span></a></li>
+                <li ><a class="tablink" href="<{$website}>/contest/<{$contest->id}>/rank"><span>Rank</span></a></li>
+                <li >
+                    <a class="tablink" href="<{$website}>/contest/<{$contest->id}>/discuss">
+                        <span>Discuss</span>
+                        <sup class="badge" id="discuss_tips" style="display:none"></sup>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </fieldset>
+    <script type="text/javascript">
+        var _timeNow = <{time()}>;
+        var _startTime = <{strtotime($contest->start_time)}>;
+        var _endTime = <{strtotime($contest->end_time)}>;
+        var _duration = _endTime - _startTime;
+    </script>
+</div>
+
+<!-- Footer -->
+<{include file="../common/footer.html" }>
+<!-- Javascript Libs -->
+<{include file="../common/jsLibs.html"}>
+<!-- Javascript App -->
+<{include file="../common/jsApp.html"}>
+<script type="text/javascript" src="<{$staticWebsite}>/js/contest/progress.js"></script>
+</body>
+
+</html>

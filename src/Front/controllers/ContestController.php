@@ -49,7 +49,7 @@ class ContestController extends BaseController {
         return $this->smarty->display('contest/contest.html');
     }
 
-    public function actionView($id = 0) { // TODO
+    public function actionView($id = 0) {
         $contest = Contest::findById($id);
         if (!$contest) {
             throw new NotFoundHttpException("$id 这个比赛不存在！");
@@ -84,8 +84,80 @@ class ContestController extends BaseController {
         return $this->smarty->display('contest/view.html');
     }
 
-    public function actionTest() {
-        return self::actionView(6);
+    public function actionProblem($id, $page = 'A') {
+        $contest = Contest::findById($id);
+        if (!$contest) {
+            throw new NotFoundHttpException("$id 这个比赛不存在！");
+        }
+
+        $canView = json_decode($this->actionCanView($id))->code;
+        if ($canView != 0) {
+            $this->smarty->assign('msg', "你还没有访问比赛 $id 的权限");
+            return $this->smarty->display('common/error.html');
+        }
+
+
+
+        $this->smarty->assign('contest', $contest);
+        $this->smarty->assign('webTitle', "Contest $id");
+        return $this->smarty->display('contest/problem.html');
+    }
+
+    public function actionStatus($id, $page = 1) {
+        $contest = Contest::findById($id);
+        if (!$contest) {
+            throw new NotFoundHttpException("$id 这个比赛不存在！");
+        }
+
+        $canView = json_decode($this->actionCanView($id))->code;
+        if ($canView != 0) {
+            $this->smarty->assign('msg', "你还没有访问比赛 $id 的权限");
+            return $this->smarty->display('common/error.html');
+        }
+
+
+
+        $this->smarty->assign('contest', $contest);
+        $this->smarty->assign('webTitle', "Contest $id");
+        return $this->smarty->display('contest/status.html');
+    }
+
+    public function actionRank($id) {
+        $contest = Contest::findById($id);
+        if (!$contest) {
+            throw new NotFoundHttpException("$id 这个比赛不存在！");
+        }
+
+        $canView = json_decode($this->actionCanView($id))->code;
+        if ($canView != 0) {
+            $this->smarty->assign('msg', "你还没有访问比赛 $id 的权限");
+            return $this->smarty->display('common/error.html');
+        }
+
+
+
+        $this->smarty->assign('contest', $contest);
+        $this->smarty->assign('webTitle', "Contest $id");
+        return $this->smarty->display('contest/rank.html');
+    }
+
+    public function actionDiscuss($id, $page = 1) {
+        $contest = Contest::findById($id);
+        if (!$contest) {
+            throw new NotFoundHttpException("$id 这个比赛不存在！");
+        }
+
+        $canView = json_decode($this->actionCanView($id))->code;
+        if ($canView != 0) {
+            $this->smarty->assign('msg', "你还没有访问比赛 $id 的权限");
+            return $this->smarty->display('common/error.html');
+        }
+
+
+
+        $this->smarty->assign('contest', $contest);
+        $this->smarty->assign('webTitle', "Contest $id");
+        return $this->smarty->display('contest/discuss.html');
     }
 
     public function actionCanView($id) { // 判断是否有查看这个比赛的权限

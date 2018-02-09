@@ -25,12 +25,12 @@
         </div>
         <div class="box" id="thumbnail" style="min-height:600px">
             <ul class="nav nav-tabs" style="padding-top:5px">
-                <li style="padding-left:10px" class="active"><a class="tablink" href="#overview"><span>Overview</span></a></li>
-                <li class=""><a class="tablink" href="#problem"><span>Problem</span></a></li>
-                <li class=""><a class="tablink" href="#status"><span>Status</span></a></li>
-                <li class=""><a class="tablink" href="#rank"><span>Rank</span></a></li>
+                <li style="padding-left:10px" class="active"><a class="tablink" href="<{$website}>/contest/<{$contest->id}>"><span>Overview</span></a></li>
+                <li class=""><a class="tablink" href="<{$website}>/contest/<{$contest->id}>/problem"><span>Problem</span></a></li>
+                <li class=""><a class="tablink" href="<{$website}>/contest/<{$contest->id}>/status"><span>Status</span></a></li>
+                <li class=""><a class="tablink" href="<{$website}>/contest/<{$contest->id}>/rank"><span>Rank</span></a></li>
                 <li class="">
-                    <a class="tablink" href="#discuss">
+                    <a class="tablink" href="<{$website}>/contest/<{$contest->id}>/discuss">
                         <span>Discuss</span>
                         <sup class="badge" id="discuss_tips" style="display:none"></sup>
                     </a>
@@ -124,10 +124,6 @@
         </div>
     </fieldset>
     <script type="text/javascript">
-        var _pids = [1000, 1001, 1002, 1003, 1004, 1005, 1006];
-        var _alias = ["", "", "", "", "", "", ""];
-        var _prob_num = 7;
-        var _cid = <{$contest->id}>;
         var _timeNow = <{time()}>;
         var _startTime = <{strtotime($contest->start_time)}>;
         var _endTime = <{strtotime($contest->end_time)}>;

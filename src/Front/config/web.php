@@ -47,6 +47,13 @@ $config = [
             'rules' => [
                 'user/detail/<username:\w+>' => 'user/detail',
                 'rank/<id:\d+>' => 'rank/index',
+
+
+                'contest/<id:\d+>/problem' => 'contest/problem',
+                'contest/<id:\d+>/<action:\w+>' => 'contest/<action>',
+                'contest/<id:\d+>/problem/<page:\w+>' => 'contest/problem',
+                'contest/<id:\d+>/<action:\w+>/<page:\d+>' => 'contest/<action>',
+
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>'
