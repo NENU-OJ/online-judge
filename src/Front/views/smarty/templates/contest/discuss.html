@@ -13,7 +13,8 @@
     <fieldset id="widthfix">
         <div class="box box-inner"><h3 class="mc center" style="color:#3069BE"><{$contest->title}></h3>
             <marquee class="error-text" id="marquee" onmouseout="this.start()" onmouseover="this.stop()"
-                     scrollamount="2" scrolldelay="1" behavior="alternate"><{$contest->announcement}></marquee>
+                     scrollamount="2" scrolldelay="1" behavior="alternate"><{$contest->announcement}>
+            </marquee>
             <div class="row">
                 <div class="col-sm-4">Penalty: <{$contest->penalty}> minutes</div>
                 <div class="col-sm-4 center"></div>
@@ -25,10 +26,13 @@
         </div>
         <div class="box" id="thumbnail" style="min-height:600px">
             <ul class="nav nav-tabs" style="padding-top:5px">
-                <li ><a class="tablink" href="<{$website}>/contest/<{$contest->id}>"><span>Overview</span></a></li>
-                <li class=""><a class="tablink" href="<{$website}>/contest/<{$contest->id}>/problem"><span>Problem</span></a></li>
-                <li class=""><a class="tablink" href="<{$website}>/contest/<{$contest->id}>/status"><span>Status</span></a></li>
-                <li class=""><a class="tablink" href="<{$website}>/contest/<{$contest->id}>/rank"><span>Rank</span></a></li>
+                <li><a class="tablink" href="<{$website}>/contest/<{$contest->id}>"><span>Overview</span></a></li>
+                <li class=""><a class="tablink"
+                                href="<{$website}>/contest/<{$contest->id}>/problem"><span>Problem</span></a></li>
+                <li class=""><a class="tablink" href="<{$website}>/contest/<{$contest->id}>/status"><span>Status</span></a>
+                </li>
+                <li class=""><a class="tablink" href="<{$website}>/contest/<{$contest->id}>/rank"><span>Rank</span></a>
+                </li>
                 <li style="padding-left:10px" class="active">
                     <a class="tablink" href="<{$website}>/contest/<{$contest->id}>/discuss">
                         <span>Discuss</span>
@@ -36,9 +40,110 @@
                     </a>
                 </li>
             </ul>
+
+            <div style="padding:15px 10px;overflow:visible">
+                <div id="discusstab" style="display: block;">
+                    <div class="block block-danger">
+                        <div class="block-content">
+                            <div class="table-response">
+                                <table class="table-acdream highlight" id="contest" style="min-width:500px">
+                                    <tbody>
+                                    <{foreach $discussList as $discuss}>
+                                    <tr>
+                                        <td class="avatar">
+                                            <a href="<{$website}>/user/detail/<{$discuss['username']}>">
+                                                <img class="img-50 img-round"
+                                                     src="<{$uploadsDir}>/avatar/<{$discuss['avatar']}>/4.png">
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="title">
+                                                <{if $discuss['priority']}>
+                                                <span class="label label-warning">置顶</span>
+                                                <{/if}>
+                                                <a href="<{$website}>/discuss/<{$discuss['id']}>"><{$discuss['title']}></a>
+                                            </div>
+                                            <div class="footer">
+                                                作者：<a href="<{$website}>/user/detail/<{$discuss['username']}>"><{$discuss['username']}></a>
+                                                /
+                                                <{if $discuss['replied_user']}>
+                                                最新回复：
+                                                <a href="<{$website}>/discuss/view/<{$discuss['id']}>">
+                                                    <{$discuss['replied_user']}> @ <{$discuss['replied_at']}>
+                                                </a>
+                                                <{else}>
+                                                发布于：
+                                                <a href="<{$website}>/discuss/view/<{$discuss['id']}>">
+                                                    <{$discuss['replied_at']}>
+                                                </a>
+                                                <{/if}>
+                                            </div>
+                                        </td>
+                                        <td class="state"><{$discuss['replied_num']}></td>
+                                    </tr>
+                                    <{/foreach}>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr class="odd">
+                                        <td colspan="3">
+                                            <ul class="pagination pagination-sm" id="dislist">
+                                                <li><a class="pagi" title="1" href="<{$website}>/contest/<{$contest->id}>/discuss">&lt;&lt;</a></li>
+                                                <{foreach $pageArray as $pageId}>
+                                                <li class="<{if $pageNow == $pageId}>active<{/if}>">
+                                                    <a href="<{$website}>/contest/<{$contest->id}>/discuss/<{$pageId}>" class="pagi" title="<{$pageId}>"><{$pageId}></a>
+                                                </li>
+                                                <{/foreach}>
+                                                <li><a class="pagi" title="<{$totalPage}>" href="<{$website}>/contest/<{$contest->id}>/discuss/<{$totalPage}>">&gt;&gt;</a></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <{if $username}>
+                    <div class="block block-info">
+                        <div class="block-content">
+                            <div class="heading"><span class="user-gray">发表疑问</span></div>
+                            <div class="inner form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="publish_pid">题号：</label>
+                                    <div class="col-sm-2"><select class="form-control" id="publish_pid">
+                                        <{foreach $lables as $lable}>
+                                        <option value="<{$lable->lable}>"><{$lable->lable}></option>
+                                        <{/foreach}>
+                                        <option value="">General</option>
+                                    </select></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="publish_title">标题：</label>
+                                    <div class="col-sm-5"><input class="form-control" id="publish_title" type="text"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="publish_content">内容：</label>
+                                    <div class="col-sm-5">
+                                        <textarea class="form-control" id="publish_content" style="height:180px" value=""></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <a class="btn btn-default btn-sm"
+                                           id="publish" style="margin:0"
+                                           href="javascript:;">发表</a>
+                                        <span class="error-text" id="publish_err"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <{/if}>
+                </div>
+            </div>
         </div>
     </fieldset>
     <script type="text/javascript">
+        var _cid = <{$contest->id}>;
         var _timeNow = <{time()}>;
         var _startTime = <{strtotime($contest->start_time)}>;
         var _endTime = <{strtotime($contest->end_time)}>;
@@ -53,6 +158,7 @@
 <!-- Javascript App -->
 <{include file="../common/jsApp.html"}>
 <script type="text/javascript" src="<{$staticWebsite}>/js/contest/progress.js"></script>
+<script type="text/javascript" src="<{$staticWebsite}>/js/contest/discuss.js"></script>
 </body>
 
 </html>

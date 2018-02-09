@@ -6,6 +6,7 @@ use app\common\Util;
 use app\models\Contest;
 use app\models\ContestProblem;
 use app\models\ContestUser;
+use app\models\Discuss;
 use app\models\Problem;
 use yii\db\Exception;
 use yii\web\NotFoundHttpException;
@@ -154,8 +155,27 @@ class ContestController extends BaseController {
         }
 
 
+        $lables = ContestProblem::find()->select('lable')->where(['contest_id' => $id])->orderBy('lable')->all();
+
+
+        $pageSize = \Yii::$app->params['queryPerPage'];
+
+        $whereArray = ["contest_id" => $id];
+        $andWhereArray = [];
+        $discussList = Discuss::getDiscussList($page, $pageSize, $whereArray, $andWhereArray);
+
+        $totalPage = Discuss::totalPage($whereArray, $andWhereArray, $pageSize);
+        $pageArray = Util::getPaginationArray($page, 8, $totalPage);
+
+        $this->smarty->assign('discussList', $discussList);
+
+        $this->smarty->assign('pageArray', $pageArray);
+        $this->smarty->assign('totalPage', $totalPage);
+        $this->smarty->assign('pageNow', $page);
+
 
         $this->smarty->assign('contest', $contest);
+        $this->smarty->assign('lables', $lables);
         $this->smarty->assign('webTitle', "Contest $id");
         return $this->smarty->display('contest/discuss.html');
     }

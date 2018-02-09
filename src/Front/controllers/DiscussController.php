@@ -216,7 +216,7 @@ class DiscussController extends BaseController {
                 $discussReply->content = \Yii::$app->request->post('content');
                 $discussReply->save();
             }
-            return json_encode(["code" => 0, "data" => $discuss->id]);
+            return json_encode(["code" => 0, "data" => '发表成功']);
         } catch (Exception $e) {
             return json_encode(["code" => 1, "data" => $e->getMessage()]);
         }

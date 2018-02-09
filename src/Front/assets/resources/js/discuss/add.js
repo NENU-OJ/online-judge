@@ -43,5 +43,6 @@ $(document).ready(function () {
                 $err.text("获取JSON数据异常");
             }
         });
+        $("#submit").removeClass('disabled');
     });
 });
