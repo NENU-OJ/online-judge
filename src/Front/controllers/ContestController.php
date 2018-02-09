@@ -208,8 +208,8 @@ class ContestController extends BaseController {
             $contest->password = $password;
 
             $contest->save();
-            ContestProblem::cleanContest($contest->id);
-            ContestProblem::addProblemList($contest->id, $problemList);
+
+            ContestProblem::updateProblemList($contest->id, $problemList);
 
             if ($contestId)
                 $msg = "比赛 $contest->id 修改成功";

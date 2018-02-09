@@ -197,6 +197,9 @@ $("#submit").click(function () { // 提交修改
     } else if (problemList.indexOf(null) != -1) {
         $err.text('请正确选择题目');
         return;
+    } else if (problemList.length != new Set(problemList).size) {
+        $err.text('请勿选择重复题目');
+        return;
     }
 
     $(this).addClass('disabled');

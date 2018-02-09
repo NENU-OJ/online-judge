@@ -98,6 +98,8 @@ CREATE TABLE `t_contest_problem`(
     `contest_id` int(10) NOT NULL DEFAULT '0' COMMENT '比赛id（对应contest表中的id）',
     `problem_id` int(10) NOT NULL DEFAULT '0' COMMENT '题目id（对应problem表中的id）',
     `lable` varchar(10) NOT NULL DEFAULT '' COMMENT '题目编号（A,B,C,D……）',
+    `total_submit` int(10) NOT NULL DEFAULT 0 COMMENT '总提交数',
+    `total_ac` int(10) NOT NULL DEFAULT 0 COMMENT '总通过数',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '比赛题目表';
 
