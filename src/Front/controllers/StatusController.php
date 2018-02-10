@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Contest;
 use app\models\LanguageType;
 use app\models\Status;
 use app\models\User;
@@ -66,10 +67,31 @@ class StatusController extends BaseController {
                 ->is_root;
         }
 
-        if (!$status->is_shared && $status->user_id != \Yii::$app->session['user_id'] && !$isRoot) {
-            $msg = '你休想查看！';
-            $this->smarty->assign('msg', $msg);
-            return $this->smarty->display('common/error.html');
+        if ($status->contest_id == 0) {
+            if (!$status->is_shared && $status->user_id != \Yii::$app->session['user_id'] && !$isRoot) {
+                $msg = '你休想查看！';
+                $this->smarty->assign('msg', $msg);
+                return $this->smarty->display('common/error.html');
+            }
+        } else {
+            $contest = Contest::find()
+                ->select('start_time, end_time, manager')
+                ->where(['id' => $status->contest_id])
+                ->one();
+
+            if (time() < strtotime($contest->end_time)) {
+                if ($status->user_id != Util::getUser() && $contest->manager != Util::getUserName()) {
+                    $this->smarty->assign('msg', '无法查看');
+                    return $this->smarty->display('common/error.html');
+                }
+            }
+            if (time() > strtotime($contest->end_time)) {
+                if (!$status->is_shared && $status->user_id != Util::getUser() && $contest->manager != Util::getUserName()) {
+                    $this->smarty->assign('msg', '无法查看');
+                    return $this->smarty->display('common/error.html');
+                }
+            }
+
         }
 
         $source = $status->source;
