@@ -166,12 +166,28 @@ class ContestController extends BaseController {
         $whereArray["contest_id"] = $id;
         if ($prob = \Yii::$app->request->get('prob'))
             $whereArray['problem_id'] = $lableToPid[$prob];
-        if ($name = \Yii::$app->request->get('name'))
-            $whereArray['user_id'] = User::findByUsername($name)->id;
+        if ($name = \Yii::$app->request->get('name')) {
+            $user = User::findByUsername($name);
+            if ($user)
+                $whereArray['user_id'] = $user->id;
+            else
+                $whereArray['user_id'] = 0;
+        }
         if ($lang = \Yii::$app->request->get('lang'))
             $whereArray['language_id'] = $lang;
         if ($result = \Yii::$app->request->get('result'))
             $whereArray['result'] = $result;
+
+        if ($contest->hide_others && time() < strtotime($contest->end_time)) {
+            if ($contest->manager != Util::getUserName()) {
+                if (isset($whereArray['user_id'])) {
+                    if ($whereArray['user_id'] != Util::getUser())
+                        $whereArray['user_id'] = 0;
+                }
+                else
+                    $whereArray['user_id'] = Util::isLogin() ? Util::getUser() : 0;
+            }
+        }
 
         $totalPage = Status::totalPage($whereArray, $pageSize);
 
