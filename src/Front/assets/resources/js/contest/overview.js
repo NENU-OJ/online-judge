@@ -30,3 +30,29 @@ $(document).ready(function () {
     countTime();
     setInterval(countTime, 1000);
 });
+
+$("#contest_submit").click(function () {
+    $("#contest_error").text("");
+    var password = $("#contest_password").val();
+
+    $.ajax({
+        type: "post",
+        url: 'http://' + host + '/contest/login',
+        dataType: "json",
+        async: false,
+        data: {
+            contestId: contestId,
+            password: password,
+        },
+        success: function (resp) {
+            if (resp.code == 0) {
+                window.location = 'http://' + host + '/contest/view/' + contestId;
+            } else {
+                $("#contest_error").text(resp.data);
+            }
+        },
+        error: function () {
+            $("#contest_error").text("获取JSON数据异常");
+        }
+    });
+});

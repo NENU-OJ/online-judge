@@ -1,6 +1,6 @@
 var host = window.location.host;
 
-$("#fil").click(function () {
+$("#fil").click(function() {
 
     var search = $("#search").val();
 
@@ -12,7 +12,7 @@ $("#fil").click(function () {
     window.location = url;
 });
 
-$(".pagi").click(function () {
+$(".pagi").click(function() {
     var search = $("#search").val();
 
     var url = "/contest/?id=" + $(this).attr('title');

@@ -10,6 +10,7 @@
 <{include file="../common/navbar.html" }>
 
 <div class="container">
+    <{if !$canNotView}>
     <fieldset id="widthfix">
         <div class="box box-inner"><h3 class="mc center" style="color:#3069BE"><{$contest->title}></h3>
             <marquee class="error-text" id="marquee" onmouseout="this.start()" onmouseover="this.stop()"
@@ -123,16 +124,44 @@
             </div>
         </div>
     </fieldset>
+    <{else}>
+    <div class="col-xs-12 col-center-block">
+        <div class="panel panel-danger">
+            <div class="panel-heading"><h3>Ooooooops!</h3></div>
+            <div class="panel-body"><h4>你还没有访问比赛<{$contest->id}>的权限！</h4></div>
+        </div>
+    </div>
+    <{/if}>
     <script type="text/javascript">
         var _timeNow = <{time()}>;
         var _startTime = <{strtotime($contest->start_time)}>;
         var _endTime = <{strtotime($contest->end_time)}>;
         var _duration = _endTime - _startTime;
+        var contestId = <{$contest->id}>;
     </script>
 </div>
 
 <!-- Footer -->
-<{include file="../common/footer.html" }>
+<{include file="../common/footer.html"}>
+<div class="jqmSubmit jqmID3" id="dialog_lc" style="width: 400px; height: 190px; top: 25%; margin-left: -200px; z-index: 3000; display: <{if $canNotView}>block<{else}>none<{/if}>;">
+    <div class="jqDrag jqtop">Login contest</div>
+    <div class="jqcontent container" style="width:390px;height:100px">
+        <div class="form-group">
+            <label for="contest_password">Password *</label>
+            <input class="form-control input-sm" id="contest_password" type="password">
+        </div>
+    </div>
+    <div class="jqfoot">
+        <span class="pull-right">
+            <a class="btn btn-default" id="contest_submit" href="javascript:;">Submit</a>
+            <a class="contestclose btn btn-default" href="javascript:;">Cancel</a>
+        </span>
+        <small class="error-text" id="contest_error"></small>
+    </div>
+    <div class="jqResize"></div>
+    <i class="contestclose jqclose img_link"></i>
+</div>
+
 <!-- Javascript Libs -->
 <{include file="../common/jsLibs.html"}>
 <!-- Javascript App -->

@@ -6,11 +6,13 @@ namespace app\controllers;
 
 use app\models\Contest;
 use app\models\ContestProblem;
+use app\models\ContestUser;
 use app\models\LanguageType;
 use app\models\Problem;
 use app\models\Status;
 use app\common\Util;
 use app\models\User;
+use Faker\Provider\Uuid;
 use yii\db\Exception;
 use yii\web\NotFoundHttpException;
 
@@ -88,6 +90,8 @@ class ProblemController extends BaseController {
                         if (time() < strtotime($contest->start_time))
                             return json_encode(["code" => 1, "data" => "尚未开始，无法提交"]);
                     }
+                    if (!ContestUser::haveUser($contestId, Util::getUser()))
+                        ContestUser::addUser($contestId, Util::getUser());
                 }
 
                 $status = new Status();
