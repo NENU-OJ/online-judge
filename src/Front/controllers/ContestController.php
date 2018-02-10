@@ -72,6 +72,18 @@ class ContestController extends BaseController {
             ->all();
 
         $problemList = [];
+        $acArray = [];
+        if (Util::isLogin()) {
+            foreach ($problems as $problem) {
+                $acStatus = Status::find()
+                    ->select('id')
+                    ->where(['contest_id' => $id, 'problem_id' => $problem->problem_id, 'user_id' => Util::getUser(), 'result' => 'Accepted'])
+                    ->one();
+                if ($acStatus) {
+                    $acArray[] = $problem->problem_id;
+                }
+            }
+        }
         foreach ($problems as $problem) {
             $record = [];
             $record['id'] = $problem->problem_id;
@@ -84,6 +96,7 @@ class ContestController extends BaseController {
 
         $this->smarty->assign('contest', $contest);
         $this->smarty->assign('problemList', $problemList);
+        $this->smarty->assign('acArray', $acArray);
         $this->smarty->assign('webTitle', "Contest $id");
         return $this->smarty->display('contest/view.html');
     }
