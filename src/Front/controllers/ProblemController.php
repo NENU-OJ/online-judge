@@ -5,6 +5,7 @@ namespace app\controllers;
 
 
 use app\models\Contest;
+use app\models\ContestProblem;
 use app\models\LanguageType;
 use app\models\Problem;
 use app\models\Status;
@@ -100,8 +101,12 @@ class ProblemController extends BaseController {
                 $status->submit_time = date("Y-m-d H:i:s");
                 $status->save();
 
-                User::addTotalSubmit($status->user_id);
-                Problem::addTotalSubmit($status->problem_id);
+                if ($contestId == 0) {
+                    User::addTotalSubmit($status->user_id);
+                    Problem::addTotalSubmit($status->problem_id);
+                } else {
+                    ContestProblem::addTotalSubmit($contestId, $status->problem_id);
+                }
 
                 $host = \Yii::$app->params['judger']['host'];
                 $port = \Yii::$app->params['judger']['port'];

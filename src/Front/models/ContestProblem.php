@@ -60,4 +60,11 @@ class ContestProblem extends ActiveRecord {
             }
         }
     }
+
+    public static function addTotalSubmit($contestId, $problemId) {
+        \Yii::$app->db->createCommand("UPDATE t_contest_problem SET total_submit=total_submit+1 WHERE contest_id=:contest_id AND problem_id=:problem_id")
+            ->bindValue(':contest_id', $contestId)
+            ->bindValue(':problem_id', $problemId)
+            ->execute();
+    }
 }
