@@ -27,6 +27,7 @@ public:
 	void update_query(const std::string &query);
 	bool already_accepted(int uid, int pid);
 	void add_user_total_solved(int uid);
+	void add_contest_total_accepted(int contest_id, int problem_id);
 	std::string escape(std::string str);
 };
 

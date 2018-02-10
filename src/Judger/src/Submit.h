@@ -13,6 +13,7 @@ private:
 	int runid;
 	int uid;
 	int pid;
+	int contest_id;
 	int time_limit_ms;
 	int memory_limit_kb;
 	int language;
@@ -27,8 +28,9 @@ private:
 public:
 	Submit();
 	void set_runid(int runid);
-	void set_pid(int pid);
 	void set_uid(int uid);
+	void set_pid(int pid);
+	void set_contest_id(int contest_id);
 	void set_time_limit_ms(int time_limit_ms);
 	void set_memory_limit_kb(int memory_limit_kb);
 	void set_language(int language);

@@ -31,12 +31,14 @@ void init_queue() {
 		int runid = atoi(run["id"].c_str());
 		int pid = atoi(run["problem_id"].c_str());
 		int uid = atoi(run["user_id"].c_str());
+		int contest_id = atoi(run["contest_id"].c_str());
 		try {
 			auto problem_info = db.get_problem_description(pid);
 			Submit *submit = new Submit();
 			submit->set_runid(runid);
 			submit->set_pid(pid);
 			submit->set_uid(uid);
+			submit->set_contest_id(contest_id);
 			submit->set_time_limit_ms(atoi(problem_info["time_limit"].c_str()));
 			submit->set_memory_limit_kb(atoi(problem_info["memory_limit"].c_str()));
 			submit->set_language(atoi(run["language_id"].c_str()));

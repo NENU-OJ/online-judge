@@ -28,6 +28,10 @@ void Submit::set_pid(int pid) {
 	this->pid = pid;
 }
 
+void Submit::set_contest_id(int contest_id) {
+	this->contest_id = contest_id;
+}
+
 void Submit::set_time_limit_ms(int time_limit_ms) {
 	this->time_limit_ms = time_limit_ms;
 }
@@ -102,13 +106,20 @@ void Submit::work() {
 	LOG(INFO) << "result runid: " << runid << " " << result.status;
 
 	if (result == RunResult::ACCEPTED) {
-		if (!db.already_accepted(uid, pid)) {
-			db.add_user_total_solved(uid);
+		if (contest_id == 0) {
+			if (!db.already_accepted(uid, pid)) {
+				db.add_user_total_solved(uid);
+			}
+			db.add_user_total_accepted(uid);
+		} else {
+			db.add_contest_total_accepted(contest_id, pid);
 		}
-		db.add_user_total_accepted(uid);
 	}
+
 	db.change_run_result(runid, result);
-	db.add_problem_result(pid, result);
+
+	if (contest_id == 0)
+		db.add_problem_result(pid, result);
 
 }
 
@@ -230,11 +241,13 @@ Submit * Submit::get_from_runid(int runid) {
 	auto run = db.get_run_stat(runid);
 	int pid = atoi(run["problem_id"].c_str());
 	int uid = atoi(run["user_id"].c_str());
+	int contest_id = atoi(run["contest_id"].c_str());
 	auto problem_info = db.get_problem_description(pid);
 	Submit *submit = new Submit();
 	submit->set_runid(runid);
 	submit->set_pid(pid);
 	submit->set_uid(uid);
+	submit->set_contest_id(contest_id);
 	submit->set_time_limit_ms(atoi(problem_info["time_limit"].c_str()));
 	submit->set_memory_limit_kb(atoi(problem_info["memory_limit"].c_str()));
 	submit->set_language(atoi(run["language_id"].c_str()));

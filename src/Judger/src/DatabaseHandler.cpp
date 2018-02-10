@@ -53,7 +53,7 @@ std::vector<std::map<std::string, std::string>> DatabaseHandler::get_all_result(
 }
 
 std::map<std::string, std::string> DatabaseHandler::get_run_stat(int runid) {
-	std::string query = "SELECT id, problem_id, source, user_id, language_id "
+	std::string query = "SELECT id, problem_id, source, user_id, language_id, contest_id "
 			            "FROM t_status "
 			            "WHERE id = " + std::to_string(runid);
 	auto result = get_all_result(query);
@@ -77,7 +77,7 @@ std::map<std::string, std::string> DatabaseHandler::get_problem_description(int 
 
 
 std::vector<std::map<std::string, std::string>> DatabaseHandler::get_unfinished_results() {
-	std::string query = "SELECT id, problem_id, source, user_id, language_id "
+	std::string query = "SELECT id, problem_id, source, user_id, language_id, contest_id "
 						"FROM t_status "
 						"WHERE "
 						"result = '" + RunResult::SEND_TO_JUDGE.status + "' OR "
@@ -161,5 +161,12 @@ void DatabaseHandler::add_user_total_solved(int uid) {
 	std::string query = "UPDATE t_user "
 						"SET solved_problem = solved_problem + 1 "
 						"WHERE id = " + std::to_string(uid);
+	update_query(query);
+}
+
+void DatabaseHandler::add_contest_total_accepted(int contest_id, int problem_id) {
+	std::string query = "UPDATE t_contest_problem "
+			            "SET total_ac = total_ac + 1 "
+			            "WHERE contest_id = " + std::to_string(contest_id) + " AND problem_id = " + std::to_string(problem_id);
 	update_query(query);
 }
