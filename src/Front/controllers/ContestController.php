@@ -9,6 +9,8 @@ use app\models\ContestUser;
 use app\models\Discuss;
 use app\models\LanguageType;
 use app\models\Problem;
+use app\models\Status;
+use app\models\User;
 use yii\db\Exception;
 use yii\web\NotFoundHttpException;
 
@@ -135,7 +137,61 @@ class ContestController extends BaseController {
             return $this->smarty->display('common/error.html');
         }
 
+        $pidToLable = [];
+        $lableToPid = [];
+        $titleList = [];
 
+
+        $lableList = ContestProblem::find()
+            ->select('problem_id, lable')
+            ->where(['contest_id' => $id])
+            ->orderBy('lable')
+            ->all();
+        foreach ($lableList as $lable) {
+            $pidToLable[$lable->problem_id] = $lable->lable;
+            $lableToPid[$lable->lable] = $lable->problem_id;
+
+            $record = [];
+            $record['lable'] = $lable->lable;
+            $record['title'] = Problem::find()->select('title')->where(['id' => $lable->problem_id])->one()->title;
+            $titleList[] = $record;
+        }
+
+
+        $pageSize = \Yii::$app->params['queryPerPage'];
+
+        $langList = LanguageType::getLangList();
+
+        $whereArray = [];
+        $whereArray["contest_id"] = $id;
+        if ($prob = \Yii::$app->request->get('prob'))
+            $whereArray['problem_id'] = $lableToPid[$prob];
+        if ($name = \Yii::$app->request->get('name'))
+            $whereArray['user_id'] = User::findByUsername($name)->id;
+        if ($lang = \Yii::$app->request->get('lang'))
+            $whereArray['language_id'] = $lang;
+        if ($result = \Yii::$app->request->get('result'))
+            $whereArray['result'] = $result;
+
+        $totalPage = Status::totalPage($whereArray, $pageSize);
+
+        $statuses = Status::getStatuses($page, $pageSize, $whereArray);
+
+        $pageArray = Util::getPaginationArray($page, 8, $totalPage);
+
+        $this->smarty->assign('prob', $prob);
+        $this->smarty->assign('name', $name);
+        $this->smarty->assign('lang', $lang);
+        $this->smarty->assign('result', $result);
+
+        $this->smarty->assign('langList', $langList);
+        $this->smarty->assign('webTitle', 'Status');
+        $this->smarty->assign('pageArray', $pageArray);
+        $this->smarty->assign('totalPage', $totalPage);
+        $this->smarty->assign('pageNow', $page);
+        $this->smarty->assign('statuses', $statuses);
+        $this->smarty->assign('pidToLable', $pidToLable);
+        $this->smarty->assign('titleList', $titleList);
 
         $this->smarty->assign('contest', $contest);
         $this->smarty->assign('webTitle', "Contest $id");

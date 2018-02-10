@@ -36,13 +36,144 @@
                     </a>
                 </li>
             </ul>
+
+            <div id="statustab" style="display: block;">
+                <div class="block block-info">
+                    <div class="heading form-inline">
+                        <div class="pull-right">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">name</span>
+                                <input class="form-control" id="name" type="text" value="<{$name}>" placeholder="UserName">
+                            </div>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">problem</span>
+                                <select class="form-control" id="prob">
+                                    <option value="">All</option>
+                                    <{foreach $titleList as $title}>
+                                    <option <{if $prob == $title['lable']}>selected="selected"<{/if}> value="<{$title['lable']}>"><{$title['lable']}> - <{$title['title']}></option>
+                                    <{/foreach}>
+                                </select>
+                            </div>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon">verdict</span>
+                                <select class="form-control" id="result">
+                                    <option value="">All</option>
+                                    <option class="info-text" value="Send to Judge">Send to Judge</option>
+                                    <option class="info-text" value="Send to Rejudge">Send to Rejudge</option>
+                                    <option class="accept-text" value="Accepted">Accepted</option>
+                                    <option class="wrong-text" value="Wrong Answer">Wrong Answer</option>
+                                    <option class="wrong-text" value="Presentation Error">Presentation Error</option>
+                                    <option class="wrong-text" value="Time Limit Exceeded">Time Limit Exceeded</option>
+                                    <option class="wrong-text" value="Memory Limit Exceeded">Memory Limit Exceeded</option>
+                                    <option class="wrong-text" value="Output Limit Exceeded">Output Limit Exceeded</option>
+                                    <option class="wrong-text" value="Runtime Error">Runtime Error</option>
+                                    <option class="special-text" value="Compile Error">Compile Error</option>
+                                    <option class="special-text" value="Judge Error">Judge Error</option>
+                                    <option class="special-text" value="Restricted Function">Restricted Function</option>
+                                </select>
+                            </div>
+                            <div class="input-group input-group-sm"><span class="input-group-addon">lang</span>
+                                <select class="form-control" id="lang">
+                                    <option value="">All</option>
+                                    <{foreach $langList as $lang}>
+                                    <option value="<{$lang->id}>"><{$lang->language}></option>
+                                    <{/foreach}>
+                                </select>
+                            </div>
+                            <a class="btn btn-default btn-sm" id="fil" href="javascript:;">Filter</a>
+                            <a class="btn btn-default btn-sm" id="reset" href="javascript:;">Reset</a>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered tdcenter" id="statustable">
+                            <thead>
+                            <tr class="even">
+                                <th style="width:7%">RunID</th>
+                                <th style="width:14%">User</th>
+                                <th style="width:10%">Problem</th>
+                                <th style="width:17%">Verdict</th>
+                                <th style="width:9%">Time</th>
+                                <th style="width:9%">Memory</th>
+                                <th style="width:12%">Lang</th>
+                                <th style="width:8%">Length</th>
+                                <th style="width:15%">Submit Time</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <{$counter = 0}>
+                            <{foreach $statuses as $status}>
+                            <{$counter = $counter + 1}>
+                            <tr class="<{if $user_id == $status['uid']}>highlight<{/if}> <{if $counter % 2 == 0}>even<{else}>odd<{/if}>">
+                                <td><{$status['runid']}></td>
+                                <td><a class="user user-cyan" href="<{$website}>/user/detail/<{$status['username']}>"><{$status['username']}></a></td>
+                                <td><a href="<{$website}>/contest/<{$contest->id}>/problem/<{$pidToLable[$status['pid']]}>"><{$pidToLable[$status['pid']]}></a></td>
+
+                                <{if $status['result'] == 'Accepted'}>
+                                <td class="bold accept-text" rid="<{$status['runid']}>"><{$status['result']}></td>
+                                <{else if in_array($status['result'], ['Send to Judge', 'Send to Rejudge', 'Compiling', 'Queueing', 'Running'])}>
+                                <td class="bold info-text" rid="<{$status['runid']}>"><{$status['result']}></td>
+                                <{else if in_array($status['result'], ['Time Limit Exceeded', 'Memory Limit Exceeded', 'Runtime Error', 'Output Limit Exceeded', 'Presentation Error', 'Wrong Answer'])}>
+                                <td class="bold wrong-text" rid="<{$status['runid']}>"><{$status['result']}></td>
+                                <{else if in_array($status['result'], ['Judge Error', 'Restricted Function'])}>
+                                <td class="bold special-text" rid="<{$status['runid']}>"><{$status['result']}></td>
+                                <{else}>
+                                <td><a class="bold special-text" href="<{$website}>/status/ceinfo/<{$status['runid']}>" rid="<{$status['runid']}>"><{$status['result']}></a></td>
+                                <{/if}>
+
+                                <td><{$status['time']}> MS</td>
+                                <td><{$status['memory']}> KB</td>
+                                <td>
+                                    <{if $status['share'] || $status['uid'] == $user_id || $isRoot}>
+                                    <a href="<{$website}>/status/source/<{$status['runid']}>"><{$status['lang']}></a>
+                                    <{else}>
+                                    <{$status['lang']}>
+                                    <{/if}>
+                                </td>
+                                <td>
+                                    <{if $status['share'] || $status['uid'] == $user_id || $isRoot}>
+                                    <a href="<{$website}>/status/source/<{$status['runid']}>"><{$status['len']}> B</a>
+                                    <{else}>
+                                    <{$status['len']}> B
+                                    <{/if}>
+                                </td>
+                                <td><{$status['submit_time']}></td>
+                            </tr>
+                            <{/foreach}>
+                            </tbody>
+                            <tfoot>
+                            <tr class="odd">
+                                <td colspan="9">
+                                    <div id="pager">
+                                        <div id="list">
+                                            <ul class="pagination pagination-sm">
+                                                <li><a href="javascript:;" class="pagi" title="1">&lt;&lt;</a></li>
+                                                <{foreach $pageArray as $pageId}>
+                                                <li class="<{if $pageNow == $pageId}>active<{/if}>">
+                                                    <a href="javascript:;" class="pagi" title="<{$pageId}>"><{$pageId}></a>
+                                                </li>
+                                                <{/foreach}>
+                                                <li><a href="javascript:;" class="pagi" title="<{$totalPage}>">&gt;&gt;</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </fieldset>
     <script type="text/javascript">
+        var _cid = <{$contest->id}>;
         var _timeNow = <{time()}>;
         var _startTime = <{strtotime($contest->start_time)}>;
         var _endTime = <{strtotime($contest->end_time)}>;
         var _duration = _endTime - _startTime;
+
+        var pageId = <{$pageNow}>;
     </script>
 </div>
 
@@ -53,6 +184,11 @@
 <!-- Javascript App -->
 <{include file="../common/jsApp.html"}>
 <script type="text/javascript" src="<{$staticWebsite}>/js/contest/progress.js"></script>
+<script type="text/javascript" src="<{$staticWebsite}>/js/contest/status.js"></script>
+<script type="text/javascript">
+    $("#lang").val(<{$lang}>);
+    $("#result").val("<{$result}>");
+</script>>
 </body>
 
 </html>
