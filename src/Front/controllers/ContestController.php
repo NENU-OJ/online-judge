@@ -7,6 +7,7 @@ use app\models\Contest;
 use app\models\ContestProblem;
 use app\models\ContestUser;
 use app\models\Discuss;
+use app\models\LanguageType;
 use app\models\Problem;
 use yii\db\Exception;
 use yii\web\NotFoundHttpException;
@@ -86,6 +87,8 @@ class ContestController extends BaseController {
     }
 
     public function actionProblem($id, $page = 'A') {
+
+
         $contest = Contest::findById($id);
         if (!$contest) {
             throw new NotFoundHttpException("$id 这个比赛不存在！");
@@ -97,7 +100,23 @@ class ContestController extends BaseController {
             return $this->smarty->display('common/error.html');
         }
 
+        $pid = ContestProblem::find()->select('problem_id')->where(['contest_id' => $id, 'lable' => $page])->one();
+        if (!pid)
+            throw new NotFoundHttpException("$page 这个题目不存在！");
+        $pid = $pid->problem_id;
+        $problem = Problem::findById($pid);
+        if (!$problem) {
+            throw new NotFoundHttpException("不存在这个题目");
+        }
 
+        $lables = ContestProblem::find()->select('lable')->where(['contest_id' => $id])->orderBy('lable')->all();
+
+        $this->smarty->assign('vmMultiplier', \Yii::$app->params['vmMultiplier']);
+        $this->smarty->assign('problem', $problem);
+        $this->smarty->assign('contestId', $id);
+        $this->smarty->assign('languageTypeList', LanguageType::find()->all());
+        $this->smarty->assign('lables', $lables);
+        $this->smarty->assign('page', $page);
 
         $this->smarty->assign('contest', $contest);
         $this->smarty->assign('webTitle', "Contest $id");

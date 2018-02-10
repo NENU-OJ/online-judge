@@ -4,6 +4,7 @@
 namespace app\controllers;
 
 
+use app\models\Contest;
 use app\models\LanguageType;
 use app\models\Problem;
 use app\models\Status;
@@ -21,7 +22,7 @@ class ProblemController extends BaseController {
         $andWhereArray = [];
         $search = \Yii::$app->request->get('search');
         if ($search) {
-            $andWhereArray = ['or', ['like', 'title', '%'.$search.'%', false], ['like', 'manager', '%'.$search.'%', false]];
+            $andWhereArray = ['or', ['like', 'title', '%'.$search.'%', false], ['like', 'author', '%'.$search.'%', false]];
         }
 
         $totalPage = Problem::totalPage($pageSize, $whereArray, $andWhereArray);
@@ -76,13 +77,25 @@ class ProblemController extends BaseController {
 
         if (\Yii::$app->request->isPost) {
             try {
+                $contestId = \Yii::$app->request->post('contestId');
+
+                if ($contestId != 0) {
+                    $contest = Contest::find()->select('start_time, end_time')->where(['id' => $contestId])->one();
+                    if ($contest) {
+                        if (time() > strtotime($contest->end_time))
+                            return json_encode(["code" => 1, "data" => "时间已过，无法提交"]);
+                        if (time() < strtotime($contest->start_time))
+                            return json_encode(["code" => 1, "data" => "尚未开始，无法提交"]);
+                    }
+                }
+
                 $status = new Status();
                 $status->user_id = \Yii::$app->session['user_id'];
                 $status->problem_id = \Yii::$app->request->post('problemId');
                 $status->language_id = \Yii::$app->request->post('languageId');
                 $status->source = \Yii::$app->request->post('sourceCode');
                 $status->is_shared = intval(\Yii::$app->request->post('isShared'));
-                $status->contest_id = \Yii::$app->request->post('contestId');
+                $status->contest_id = $contestId;
                 $status->result = "Send to Judge";
                 $status->submit_time = date("Y-m-d H:i:s");
                 $status->save();

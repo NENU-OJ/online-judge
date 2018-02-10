@@ -104,9 +104,9 @@
                                     <tr class="<{if $counter % 2 == 0}>even<{else}>odd<{/if}>">
                                         <td class="center bold o_index"><{$problem['lable']}></td>
                                         <{if $contest->manager == $username || time() > strtotime($contest->end_time)}>
-                                        <td class="center end"><a target="_blank" href="#"><{$problem['id']}></a></td>
+                                        <td class="center end"><a target="_blank" href="<{$website}>/problem/<{$problem['id']}>"><{$problem['id']}></a></td>
                                         <{/if}>
-                                        <td><a href="#"><{$problem['name']}></a></td>
+                                        <td><a href="<{$website}>/contest/<{$contest->id}>/problem/<{$problem['lable']}>"><{$problem['name']}></a></td>
                                         <td class="center o_sol">
                                             <a href="#"><{$problem['total_ac']}></a> <span>/</span> <a href=""><{$problem['total_submit']}></a>
                                         </td>

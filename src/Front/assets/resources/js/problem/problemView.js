@@ -38,8 +38,6 @@ $("#submit").click(function () {
     var isShared = document.getElementById("isShared").checked ? 1 : 0;
     var contestId = $("#contestId").val();
 
-    // console.log(document.getElementById("isShared").checked);
-    console.log(isShared);
 
     if (sourceCode == null || sourceCode == "" || sourceCode === undefined) {
         $("#submitError").text("别交空代码啊");
@@ -99,7 +97,8 @@ $("#submit").click(function () {
                     }, 700);
 
                 } else if (resp.code == 2) { // 若没有登录就提交则提示登录
-                    document.getElementById("checklogin").click(); 
+                    document.getElementById("checklogin").click();
+                    $("#submit").removeClass("disabled");
                 } else {
                     $("#submitError").text(resp.data);
                 }

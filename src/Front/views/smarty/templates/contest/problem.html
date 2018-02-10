@@ -2,18 +2,53 @@
 <html lang="zh-CN">
 
 <!-- Header -->
-<{include file="common/header.html"}>
+<head>
+    <title>
+        <{if $webTitle}>
+        <{$webTitle}>
+        <{else}>
+        NENU Online Judge
+        <{/if}>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <{include file="common/favicon.html"}>
+
+    <!-- CSS Libs -->
+    <{include file="common/cssLibs.html"}>
+    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>/lib/css/katex/katex.min.css">
+
+    <!-- CSS App -->
+    <{include file="common/cssApp.html"}>
+
+    <!-- Javascript Libs -->
+    <script type="text/javascript" src="<{$staticWebsite}>/lib/js/katex/katex.min.js"></script>
+    <script type="text/javascript" src="<{$staticWebsite}>/lib/js/katex/auto-render.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false}
+                ]
+            });
+        });
+    </script>
+</head>
 
 <body>
 
 <!-- 导航条 -->
-<{include file="../common/navbar.html" }>
+<{include file="../common/navbar.html"}>
 
 <div class="container">
     <fieldset id="widthfix">
         <div class="box box-inner"><h3 class="mc center" style="color:#3069BE"><{$contest->title}></h3>
             <marquee class="error-text" id="marquee" onmouseout="this.start()" onmouseover="this.stop()"
-                     scrollamount="2" scrolldelay="1" behavior="alternate"><{$contest->announcement}></marquee>
+                     scrollamount="2" scrolldelay="1" behavior="alternate"><{$contest->announcement}>
+            </marquee>
             <div class="row">
                 <div class="col-sm-4">Penalty: <{$contest->penalty}> minutes</div>
                 <div class="col-sm-4 center"></div>
@@ -25,24 +60,135 @@
         </div>
         <div class="box" id="thumbnail" style="min-height:600px">
             <ul class="nav nav-tabs" style="padding-top:5px">
-                <li ><a class="tablink" href="<{$website}>/contest/<{$contest->id}>"><span>Overview</span></a></li>
-                <li style="padding-left:10px" class="active"><a class="tablink" href="<{$website}>/contest/<{$contest->id}>/problem"><span>Problem</span></a></li>
-                <li ><a class="tablink" href="<{$website}>/contest/<{$contest->id}>/status"><span>Status</span></a></li>
-                <li ><a class="tablink" href="<{$website}>/contest/<{$contest->id}>/rank"><span>Rank</span></a></li>
-                <li >
+                <li><a class="tablink" href="<{$website}>/contest/<{$contest->id}>"><span>Overview</span></a></li>
+                <li style="padding-left:10px" class="active"><a class="tablink"
+                                                                href="<{$website}>/contest/<{$contest->id}>/problem"><span>Problem</span></a>
+                </li>
+                <li><a class="tablink" href="<{$website}>/contest/<{$contest->id}>/status"><span>Status</span></a></li>
+                <li><a class="tablink" href="<{$website}>/contest/<{$contest->id}>/rank"><span>Rank</span></a></li>
+                <li>
                     <a class="tablink" href="<{$website}>/contest/<{$contest->id}>/discuss">
                         <span>Discuss</span>
                         <sup class="badge" id="discuss_tips" style="display:none"></sup>
                     </a>
                 </li>
             </ul>
+            <{if $contest->manager == $username || time() > strtotime($contest->start_time)}>
+            <div id="problemtab">
+                <div class="center">
+                    <ul class="pagination">
+                        <{foreach $lables as $lable}>
+                        <li class="problemlink <{if $lable->lable == $page}>active<{/if}>">
+                            <a href="<{$website}>/contest/<{$contest->id}>/problem/<{$lable->lable}>"><{$lable->lable}></a>
+                        </li>
+                        <{/foreach}>
+                    </ul>
+                </div>
+                <div class="istyle" id="prob-contain">
+                    <div class="center">
+                        <h3 class="problem-header" id="problem_title">
+                            <span class="user-green"><{$page}> </span>- <span><{$problem->title}></span></h3>
+                        <div style="margin-bottom:8px">
+                            <{if $problem->is_special_judge}><span class="user user-red">Special Judge</span><{/if}>
+                            <span class="user-black">Time Limit: <{$problem->time_limit}>/<{$problem->time_limit * $vmMultiplier}>MS (C++/Others)</span>
+                            <span class="user-black">Memory Limit: <{$problem->memory_limit}>/<{$problem->memory_limit * $vmMultiplier}>KB (C++/Others)</span>
+                        </div>
+                    </div>
+                    <div id="content" style="padding:15px 25px">
+                        <h4>Problem Description</h4>
+                        <div class="prob-content"><{$problem->description}></div>
+                        <h4>Input</h4>
+                        <div class="prob-content"><{$problem->input}></div>
+                        <h4>Output</h4>
+                        <div class="prob-content"><{$problem->output}></div>
+                        <h4>Sample Input</h4>
+                        <div class="prob-content">
+                            <pre class="sample"><{$problem->sample_in}></pre>
+                        </div>
+                        <h4>Sample Output</h4>
+                        <div class="prob-content">
+                            <pre class="sample"><{$problem->sample_out}></pre>
+                        </div>
+                        <{if $problem->hint}>
+                        <h4>Hint</h4>
+                        <div class="prob-content"><{$problem->hint}></div>
+                        <{/if}>
+                        <{if $problem->author}>
+                        <h4>Manager</h4>
+                        <div class="prob-content">
+                            <a class="user user-violet" id="manager" href="<{$website}>/user/detail/<{$problem->author}>">
+                                <{$problem->author}>
+                            </a>
+                        </div>
+                        <{/if}>
+                    </div>
+                </div>
+            </div>
+            <{/if}>
         </div>
+
+        <{if $contest->manager == $username || time() > strtotime($contest->start_time)}>
+        <div class="block block-success">
+            <div class="block-content">
+                <div class="heading">Submit</div>
+                <div class="block-container form-horizontal">
+                    <div class="form-group form-group-sm"><label class="col-sm-2 control-label"
+                                                                 for="lang">Language</label>
+                        <div class="col-sm-10 form-inline">
+
+                            <select class="form-control input-sm" id="lang">
+                                <{foreach $languageTypeList as $languageType}>
+                                <option value="<{$languageType->id}>"><{$languageType->language}></option>
+                                <{/foreach}>
+                            </select>
+
+                            <label for="isShared">Share my solution</label>
+                            <input type="checkbox" class="toggle-checkbox" id="isShared">
+
+                        </div>
+                    </div>
+                    <div class="form-group"><label class="col-sm-2 control-label" for="editor">Source Code</label>
+                        <input type="hidden" id="problemId" value="<{$problem->id}>">
+                        <input type="hidden" id="contestId" value="<{if $contestId}><{$contestId}><{else}>0<{/if}>">
+                        <div class="col-sm-7">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">代码编辑</h3>
+                                </div>
+                                <div class="panel-body" style="padding: 0px">
+                                    <div id="editor" style="height: 512px"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group inline" id="statusForm" style="display:none">
+                        <div class="col-sm-offset-2 col-sm-7">
+                            <div class="alert alert-warning" id="statusAndImg">
+                                <img id="pending" src="<{$staticWebsite}>/img/pending.gif" style="display:none;">
+                                <img id="running" src="<{$staticWebsite}>/img/running.gif" style="display:none;">
+                                <span id="statusInfo"></span>
+                                <span id="statusDetail" style="display: block;"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-7">
+                            <a class="btn btn-default" id="submit" href="javascript:;">Submit</a>
+                            <small class="error-text" id="submitError"></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <{/if}>
+
     </fieldset>
     <script type="text/javascript">
         var _timeNow = <{time()}>;
         var _startTime = <{strtotime($contest->start_time)}>;
         var _endTime = <{strtotime($contest->end_time)}>;
         var _duration = _endTime - _startTime;
+        var _cid = <{$contest->id}>;
     </script>
 </div>
 
@@ -50,9 +196,14 @@
 <{include file="../common/footer.html" }>
 <!-- Javascript Libs -->
 <{include file="../common/jsLibs.html"}>
+
+
 <!-- Javascript App -->
 <{include file="../common/jsApp.html"}>
+<script src="<{$staticWebsite}>/lib/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="<{$staticWebsite}>/js/contest/progress.js"></script>
+<script src="<{$staticWebsite}>/js/problem/problemView.js" type="text/javascript" charset="utf-8"></script>
+
 </body>
 
 </html>
