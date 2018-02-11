@@ -455,4 +455,35 @@ class ContestController extends BaseController {
             return json_encode(['code' => 1, 'data' => $e->getMessage()]);
         }
     }
+
+    public function actionStar() {
+        $contestId = \Yii::$app->request->post('contestId', 0);
+        $userList = \Yii::$app->request->post('userList', []);
+        $star = (int)\Yii::$app->request->post('star');
+
+        $starStr = $star ? "打星" : "取消打星";
+        $contest = Contest::findById($contestId);
+        if (!$contest)
+            return json_encode(['code' => 1, "data" => "没有 $contestId 这个比赛"]);
+        if ($contest->manager != Util::getUserName())
+            return json_encode(['code' => 1, "data" => "没有权限 $starStr"]);
+
+        $failList = [];
+        foreach ($userList as $username) {
+            $user = User::find()->select('id')->where(['username' => $username])->one();
+            if ($user && ContestUser::haveUser($contestId, $user->id))
+                ContestUser::starUser($contestId, $user->id, $star);
+            else
+                $failList[] = $username;
+        }
+
+        if (count($failList) == 0) {
+            $data = "全部 $starStr 成功";
+            return json_encode(['code' => 0, 'data' => $data]);
+        } else {
+            $data = "这些用户：".join(",", $failList)." $starStr 失败";
+            return json_encode(['code' => 1, 'data' => $data]);
+        }
+
+    }
 }

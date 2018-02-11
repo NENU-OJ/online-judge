@@ -34,4 +34,12 @@ class ContestUser extends ActiveRecord {
         $record->user_id = $userId;
         $record->save();
     }
+
+    public static function starUser($contestId, $userId, $star) {
+        \Yii::$app->db->createCommand("UPDATE t_contest_user SET is_star=:star WHERE contest_id=:contest_id AND user_id=:user_id")
+            ->bindValue(':star', $star)
+            ->bindValue(':contest_id', $contestId)
+            ->bindValue(':user_id', $userId)
+            ->execute();
+    }
 }
