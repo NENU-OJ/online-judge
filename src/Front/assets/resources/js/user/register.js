@@ -3,7 +3,7 @@ var host = window.location.host;
 $("#reg_submit").click(function () {
     $("#reg_error").text("");
 
-    var username = $.trim($("#reg_username").val());
+    var username = $("#reg_username").val();
     var nickname = $.trim($("#reg_nick").val());
     var password = $("#reg_password").val();
     var re_password = $("#password_repeat").val();
@@ -13,6 +13,8 @@ $("#reg_submit").click(function () {
 
     if (username == null || username == "" || username === undefined) {
         $("#reg_error").text("需要User Name");
+    } else if (!new RegExp('^([a-z]|[A-Z]|[0-9]|_)+$').test(username)) {
+        $("#reg_error").text("username只能由大小写字母、数字和下划线组成");
     } else if (nickname == null || nickname == "" || username === undefined) {
         $("#reg_error").text("需要Nick Name");
     } else if (password == null || password == "" || password === undefined) {

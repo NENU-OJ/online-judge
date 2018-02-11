@@ -105,6 +105,7 @@ class UserController extends BaseController {
     }
 
     public function actionRegister() {
+
         if (\Yii::$app->request->isGet) {
             if (isset($_SESSION["user_id"])) {
                 $this->smarty->assign('msg', "已经登录了就别注册了!");
@@ -114,7 +115,10 @@ class UserController extends BaseController {
                 return $this->smarty->display('user/register.html');
             }
         } else if (\Yii::$app->request->isPost) {
-            $username = trim(\Yii::$app->request->post('username'));
+            $username = \Yii::$app->request->post('username');
+
+            if (!preg_match('/^([a-z]|[A-Z]|[0-9]|_)+$/', $username))
+                return json_encode(["code" => 1, "data" => "username只能由大小写字母、数字和下划线组成"]);
 
             // 用户名是否重复
             if (User::findByUsername($username))
