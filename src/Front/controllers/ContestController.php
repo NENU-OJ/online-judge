@@ -409,8 +409,12 @@ class ContestController extends BaseController {
         $description = \Yii::$app->request->post('description');
         $announcement = \Yii::$app->request->post('announcement');
         $problemList = \Yii::$app->request->post('problemList');
+        $gold = (int)\Yii::$app->request->post('gold');
+        $silver = (int)\Yii::$app->request->post('silver');
+        $bronze = (int)\Yii::$app->request->post('bronze');
 
         $contestId = \Yii::$app->request->post('contestId');
+
 
         try {
             if ($contestId) {
@@ -434,6 +438,9 @@ class ContestController extends BaseController {
             $contest->owner_id = Util::getUser();
             $contest->manager = Util::getUserName();
             $contest->password = $password;
+            $contest->gold = $gold;
+            $contest->silver = $silver;
+            $contest->bronze = $bronze;
 
             $contest->save();
 

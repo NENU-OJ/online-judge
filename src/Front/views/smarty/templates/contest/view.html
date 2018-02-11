@@ -103,7 +103,7 @@
                                     <{foreach $problemList as $problem}>
                                     <{$counter = $counter + 1}>
                                     <tr class="<{if $counter % 2 == 0}>even<{else}>odd<{/if}>">
-                                        <td class="center bold o_index <{if in_array($problem['id'], $acArray)}>AC<{/if}>"><{$problem['lable']}></td>
+                                        <td class="center bold o_index <{if in_array($problem['id'], $acArray)}>AC-fill<{/if}>"><{$problem['lable']}></td>
                                         <{if $contest->manager == $username || time() > strtotime($contest->end_time)}>
                                         <td class="center end"><a target="_blank" href="<{$website}>/problem/<{$problem['id']}>"><{$problem['id']}></a></td>
                                         <{/if}>

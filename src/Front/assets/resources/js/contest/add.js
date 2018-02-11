@@ -155,13 +155,16 @@ $("#submit").click(function () { // 提交修改
     var lockLengthHour = $("#lb_hh").val();
     var lockLengthMin = $("#lb_mm").val();
 
-
+    var gold = $("#gold").val();
+    var silver = $("#silver").val();
+    var bronze = $("#bronze").val();
 
     var psw = $("#psw").val();
     var penalty = $("#penalty").val();
     var hideOthers = $("#hideOthers").val();
     var desc = $("#desc").val();
     var anc = $("#anc").val();
+
 
     var date = new Date();
     date.setFullYear(rawDate[0]);
@@ -220,6 +223,9 @@ $("#submit").click(function () { // 提交修改
             announcement: anc,
             problemList: problemList,
             contestId: contestId,
+            gold: gold,
+            silver: silver,
+            bronze: bronze,
         },
         success: function(resp) {
             if (resp.code == 0) {
