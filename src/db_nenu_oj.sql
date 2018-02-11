@@ -86,9 +86,9 @@ CREATE TABLE `t_contest`(
     `end_time` datetime DEFAULT NULL COMMENT '结束时间',
     `penalty` tinyint(1) NOT NULL DEFAULT '20' COMMENT '错误提交的罚时',
     `lock_board_time` datetime DEFAULT NULL COMMENT '封榜时间',
-    `gold` int(10) NOT NULL DEFAULT 0 COMMENT '金奖数目',
-    `silver` int(10) NOT NULL DEFAULT 0 COMMENT '银奖数目',
-    `bronze` int(10) NOT NULL DEFAULT 0 COMMENT '铜奖数目',
+    `gold` int(10) NOT NULL DEFAULT '0' COMMENT '金奖数目',
+    `silver` int(10) NOT NULL DEFAULT '0' COMMENT '银奖数目',
+    `bronze` int(10) NOT NULL DEFAULT '0' COMMENT '铜奖数目',
     `hide_others` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否隐藏他人提交状态(0:否;1:是)',
     `owner_id` int(10) NOT NULL DEFAULT '0' COMMENT '比赛创建者id（对应user表中的id）',
     `manager` varchar(64) NOT NULL DEFAULT '' COMMENT '用户name（对应user表中的username）',
@@ -110,6 +110,7 @@ CREATE TABLE `t_contest_user`(
     `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
     `contest_id` int(10) NOT NULL DEFAULT '0' COMMENT '比赛id（对应contest表中的id）',
     `user_id` int(10) NOT NULL DEFAULT '0' COMMENT '用户id（对应user表中的id）',
+    `is_star` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否打星(0:否;1:是)',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '比赛用户表';
 

@@ -36,6 +36,906 @@
                     </a>
                 </li>
             </ul>
+
+
+            <div id="ranktab" style="width: 1118px; display: block;">
+                <div id="rankheader" style="width: 810px; display: none;">
+                    <table class="table table-bordered table-rank">
+                        <thead>
+                        <tr class="even">
+                            <th class="rank" style="border-left:0">#</th>
+                            <th class="name">Name</th>
+                            <th class="nick">Nick</th>
+                            <th class="solved" title="solved"><span class="user-green">S</span></th>
+                            <th class="penalty" title="penalty(罚时)"><span class="user-red">P</span></th>
+                            <th class="standing_status"><a href="#problem-A">A</a></th>
+                            <th class="standing_status"><a href="#problem-B">B</a></th>
+                            <th class="standing_status"><a href="#problem-C">C</a></th>
+                            <th class="standing_status"><a href="#problem-D">D</a></th>
+                            <th class="standing_status"><a href="#problem-E">E</a></th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div id="rankfooter" style="width: 810px; display: block;">
+                    <table class="table table-bordered table-rank" style="margin:0;border:0">
+                        <tfoot>
+                        <tr style="height:70px">
+                            <td colspan="5" style="border:0"></td>
+                            <td class="standing_status footer" data-idx="0"><span class="footer-res" style="color:#eee">-</span><span
+                                    class="footer-stat"><a href="#status--A-2">47</a> <span>/</span> <a
+                                    href="#status--A" "="">136</a></span><span class="footer-percent">35%</span></td>
+                            <td class="standing_status footer" data-idx="1"><span class="footer-res" style="color:#eee">-</span><span
+                                    class="footer-stat"><a href="#status--B-2">16</a> <span>/</span> <a
+                                    href="#status--B" "="">36</a></span><span class="footer-percent">44%</span></td>
+                            <td class="standing_status footer" data-idx="2"><span class="footer-res" style="color:#eee">-</span><span
+                                    class="footer-stat"><a href="#status--C-2">35</a> <span>/</span> <a
+                                    href="#status--C" "="">229</a></span><span class="footer-percent">15%</span></td>
+                            <td class="standing_status footer" data-idx="3"><span class="footer-res" style="color:#eee">-</span><span
+                                    class="footer-stat"><a href="#status--D-2">59</a> <span>/</span> <a
+                                    href="#status--D" "="">223</a></span><span class="footer-percent">26%</span></td>
+                            <td class="standing_status footer" data-idx="4"><span class="footer-res" style="color:#eee">-</span><span
+                                    class="footer-stat"><a href="#status--E-2">1</a> <span>/</span> <a href="#status--E" "="">20</a></span><span
+                                    class="footer-percent">5%</span></td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="form-inline form-group"><input class="form-control" id="starstr" style="width:500px" type="text" placeholder="多个用户名"> <select class="form-control" id="type"><option value="1">给他们打星</option><option value="2">取消打星</option></select> <button class="btn btn-default" id="star">提交</button> <small class="user-gray">PS: 多个用户请用空格隔开</small> <span class="error-text" id="starerr"></span></div>
+                <div class="form-inline form-group"><input class="form-control" id="msg_data" style="width:500px" type="text" placeholder="在此填写消息内容"> <button class="btn btn-default" id="broadcast">广播消息</button> <span class="error-text" id="msg_err"></span></div>
+                <div class="block block-danger" style="width:810px">
+                    <div class="heading">
+                        <div class="pull-right"><span class="user-gray" id="gtime">The Rank will be updated every 30 seconds </span><a
+                                class="btn btn-default btn-sm" id="rank_refresh" href="javascript:;">刷新一下</a></div>
+                    </div>
+                    <div id="ranktable">
+                        <table class="table table-bordered table-rank tdcenter">
+                            <thead>
+                            <tr class="even">
+                                <th class="rank" style="border-left:0">#</th>
+                                <th class="name">Name</th>
+                                <th class="nick">Nick</th>
+                                <th class="solved" title="solved"><span class="user-green">S</span></th>
+                                <th class="penalty" title="penalty(罚时)"><span class="user-red">P</span></th>
+                                <th class="standing_status"><a href="#problem-A">A</a></th>
+                                <th class="standing_status"><a href="#problem-B">B</a></th>
+                                <th class="standing_status"><a href="#problem-C">C</a></th>
+                                <th class="standing_status"><a href="#problem-D">D</a></th>
+                                <th class="standing_status"><a href="#problem-E">E</a></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="odd">
+                                <td class="gold">1</td>
+                                <td><a target="_blank" href="/user/NeverMore" class="user user-green"
+                                       title="Specialist NeverMore">NeverMore</a></td>
+                                <td><span title="蘑菇" class="u-info user-gray ellipsis">蘑菇</span></td>
+                                <td>4</td>
+                                <td>262</td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:13</span></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">00:47</span></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">00:21</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:39</span></td>
+                                <td><span class="failed">-3</span></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="gold">2</td>
+                                <td><a target="_blank" href="/user/Boliuraque" class="user user-unrated"
+                                       title="Unrated Boliuraque">Boliuraque</a></td>
+                                <td><span title="Horizen" class="u-info user-gray ellipsis">Horizen</span></td>
+                                <td>4</td>
+                                <td>263</td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">01:36</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:41</span></td>
+                                <td class="first_blood"><span class="fb-text">+</span><span
+                                        class="fb-cell-time">00:20</span></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">00:25</span></td>
+                                <td><span class="failed">-1</span></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="gold">3</td>
+                                <td><a target="_blank" href="/user/orzt3cmax" class="user user-unrated"
+                                       title="Unrated orzt3cmax">orzt3cmax</a></td>
+                                <td><span title="orzt3cmax" class="u-info user-gray ellipsis">orzt3cmax</span></td>
+                                <td>4</td>
+                                <td>317</td>
+                                <td class="first_blood"><span class="fb-text">+</span><span
+                                        class="fb-cell-time">00:20</span></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">01:07</span></td>
+                                <td class="accept"><span class="accept-text">+2</span><span
+                                        class="cell-time">00:59</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:50</span></td>
+                                <td><span class="failed">-7</span></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="gold">4</td>
+                                <td><a target="_blank" href="/user/Gemini" class="user user-unrated"
+                                       title="Unrated Gemini">Gemini</a></td>
+                                <td><span title="Gemini" class="u-info user-gray ellipsis">Gemini</span></td>
+                                <td>4</td>
+                                <td>319</td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">01:36</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:37</span></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">00:20</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:25</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="gold">5</td>
+                                <td><a target="_blank" href="/user/wzeg" class="user user-unrated" title="Unrated wzeg">wzeg</a>
+                                </td>
+                                <td><span title="wzeg" class="u-info user-gray ellipsis">wzeg</span></td>
+                                <td>4</td>
+                                <td>341</td>
+                                <td class="accept"><span class="accept-text">+3</span><span
+                                        class="cell-time">01:02</span></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">01:16</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:21</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:21</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="gold">6</td>
+                                <td><a target="_blank" href="/user/NEIL74" class="user user-unrated"
+                                       title="Unrated NEIL74">NEIL74</a></td>
+                                <td><span title="74" class="u-info user-gray ellipsis">74</span></td>
+                                <td>4</td>
+                                <td>425</td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">01:52</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:42</span></td>
+                                <td class="accept"><span class="accept-text">+2</span><span
+                                        class="cell-time">01:09</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:21</span></td>
+                                <td><span class="failed">-2</span></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="gold">7</td>
+                                <td><a target="_blank" href="/user/doubility" class="user user-violet"
+                                       title="Candidate Master doubility">doubility</a></td>
+                                <td><span title="doubility" class="u-info user-gray ellipsis">doubility</span></td>
+                                <td>4</td>
+                                <td>434</td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:39</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:29</span></td>
+                                <td class="accept"><span class="accept-text">+4</span><span
+                                        class="cell-time">02:04</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:21</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="gold">8</td>
+                                <td><a target="_blank" href="/user/handsome176" class="user user-unrated"
+                                       title="Unrated handsome176">handsome176</a></td>
+                                <td><span title="Doubi Gao" class="u-info user-gray ellipsis">Doubi Gao</span></td>
+                                <td>4</td>
+                                <td>466</td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">00:32</span></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+2</span><span
+                                        class="cell-time">02:10</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:01</span></td>
+                                <td class="first_blood"><span class="fb-text">+</span><span
+                                        class="fb-cell-time">02:02</span></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="gold">9</td>
+                                <td><a target="_blank" href="/user/huantwofat" class="user user-blue"
+                                       title="Expert huantwofat">huantwofat</a></td>
+                                <td><span title="huantwofat" class="u-info user-gray ellipsis">huantwofat</span></td>
+                                <td>4</td>
+                                <td>476</td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:21</span></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">01:37</span></td>
+                                <td class="accept"><span class="accept-text">+3</span><span
+                                        class="cell-time">00:50</span></td>
+                                <td class="accept"><span class="accept-text">+2</span><span
+                                        class="cell-time">01:06</span></td>
+                                <td><span class="failed">-1</span></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="gold">10</td>
+                                <td><a target="_blank" href="/user/Accepted" class="user user-blue"
+                                       title="Expert Accepted">Accepted</a></td>
+                                <td><span title="晴天娃娃" class="u-info user-gray ellipsis">晴天娃娃</span></td>
+                                <td>4</td>
+                                <td>553</td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">01:53</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">02:21</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">02:12</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">02:04</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="silver">11</td>
+                                <td><a target="_blank" href="/user/syiml" class="user user-violet"
+                                       title="Candidate Master syiml">syiml</a></td>
+                                <td><span title="T^T" class="u-info user-gray ellipsis">T^T</span></td>
+                                <td>4</td>
+                                <td>643</td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:06</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:37</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:20</span></td>
+                                <td class="accept"><span class="accept-text">+8</span><span
+                                        class="cell-time">02:18</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="silver">12</td>
+                                <td><a target="_blank" href="/user/preeminenth" class="user user-violet"
+                                       title="Candidate Master preeminenth">preeminenth</a></td>
+                                <td><span title="..." class="u-info user-gray ellipsis">...</span></td>
+                                <td>3</td>
+                                <td>183</td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:28</span></td>
+                                <td><span class="failed">-1</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:55</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:39</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="silver">13</td>
+                                <td><a target="_blank" href="/user/yuzhou627" class="user user-violet"
+                                       title="Candidate Master yuzhou627">yuzhou627</a></td>
+                                <td><span title="yuzhou627" class="u-info user-gray ellipsis">yuzhou627</span></td>
+                                <td>3</td>
+                                <td>200</td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">00:27</span></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:30</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:43</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="silver">14</td>
+                                <td><a target="_blank" href="/user/2011022631" class="user user-violet"
+                                       title="Candidate Master 2011022631">2011022631</a></td>
+                                <td><span title="小菜一碟" class="u-info user-gray ellipsis">小菜一碟</span></td>
+                                <td>3</td>
+                                <td>207</td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:27</span></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">02:11</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:48</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="silver">15</td>
+                                <td><a target="_blank" href="/user/yiyi1111" class="user user-violet"
+                                       title="Candidate Master yiyi1111">yiyi1111</a></td>
+                                <td><span title="YY" class="u-info user-gray ellipsis">YY</span></td>
+                                <td>3</td>
+                                <td>219</td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">00:34</span></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">01:00</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:44</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="silver">16</td>
+                                <td><a target="_blank" href="/user/ybh" class="user user-unrated" title="Unrated ybh">ybh</a>
+                                </td>
+                                <td><span title="ybh" class="u-info user-gray ellipsis">ybh</span></td>
+                                <td>3</td>
+                                <td>248</td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:38</span></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:38</span></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">01:11</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="silver">17</td>
+                                <td><a target="_blank" href="/user/happywu" class="user user-unrated"
+                                       title="Unrated happywu">happywu</a></td>
+                                <td><span title="happywu" class="u-info user-gray ellipsis">happywu</span></td>
+                                <td>3</td>
+                                <td>254</td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">00:36</span></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">01:21</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:55</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="silver">18</td>
+                                <td><a target="_blank" href="/user/whatbeg" class="user user-blue"
+                                       title="Expert whatbeg">whatbeg</a></td>
+                                <td><span title="whatbeg" class="u-info user-gray ellipsis">whatbeg</span></td>
+                                <td>3</td>
+                                <td>295</td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">01:52</span></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+2</span><span
+                                        class="cell-time">00:42</span></td>
+                                <td class="first_blood"><span class="fb-text">+</span><span
+                                        class="fb-cell-time">00:20</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="silver">19</td>
+                                <td><a target="_blank" href="/user/a569329637" class="user user-violet"
+                                       title="Candidate Master a569329637">a569329637</a></td>
+                                <td><span title="gsq" class="u-info user-gray ellipsis">gsq</span></td>
+                                <td>3</td>
+                                <td>299</td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:27</span></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+2</span><span
+                                        class="cell-time">02:23</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:47</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="silver">20</td>
+                                <td><a target="_blank" href="/user/sinianluoye" class="user user-blue"
+                                       title="Expert sinianluoye">sinianluoye</a></td>
+                                <td><span title="思念·落叶" class="u-info user-gray ellipsis">思念·落叶</span></td>
+                                <td>3</td>
+                                <td>363</td>
+                                <td class="accept"><span class="accept-text">+4</span><span
+                                        class="cell-time">01:03</span></td>
+                                <td><span class="failed">-5</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:16</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:04</span></td>
+                                <td><span class="failed">-1</span></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="silver">21</td>
+                                <td><a target="_blank" href="/user/NYIST_zxp" class="user user-green"
+                                       title="Pupil NYIST_zxp">NYIST_zxp</a></td>
+                                <td><span title="I'm coming back"
+                                          class="u-info user-gray ellipsis">I'm coming back</span></td>
+                                <td>3</td>
+                                <td>411</td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:25</span></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+3</span><span
+                                        class="cell-time">02:28</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:56</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="silver">22</td>
+                                <td><a target="_blank" href="/user/19891101" class="user user-orange"
+                                       title="Master 19891101">19891101</a></td>
+                                <td><span title="19891101" class="u-info user-gray ellipsis">19891101</span></td>
+                                <td>3</td>
+                                <td>419</td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:01</span></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+5</span><span
+                                        class="cell-time">02:06</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:30</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="silver">23</td>
+                                <td><a target="_blank" href="/user/last_one" class="user user-violet"
+                                       title="Candidate Master last_one">last_one</a></td>
+                                <td><span title="last_one" class="u-info user-gray ellipsis">last_one</span></td>
+                                <td>3</td>
+                                <td>558</td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:44</span></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+5</span><span
+                                        class="cell-time">02:27</span></td>
+                                <td class="accept"><span class="accept-text">+2</span><span
+                                        class="cell-time">00:27</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="silver">24</td>
+                                <td><a target="_blank" href="/user/y__y" class="user user-violet"
+                                       title="Candidate Master y__y">y__y</a></td>
+                                <td><span title="y__y" class="u-info user-gray ellipsis">y__y</span></td>
+                                <td>3</td>
+                                <td>567</td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:26</span></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+9</span><span
+                                        class="cell-time">02:09</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:51</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="silver">25</td>
+                                <td><a target="_blank" href="/user/QQ542312437" class="user user-blue"
+                                       title="Expert QQ542312437">QQ542312437</a></td>
+                                <td><span title="L逆贼" class="u-info user-gray ellipsis">L逆贼</span></td>
+                                <td>3</td>
+                                <td>622</td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">00:42</span></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+9</span><span
+                                        class="cell-time">02:02</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:57</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="silver">26</td>
+                                <td><a target="_blank" href="/user/shangyu11" class="user user-blue"
+                                       title="Expert shangyu11">shangyu11</a></td>
+                                <td><span title="shangyu_11" class="u-info user-gray ellipsis">shangyu_11</span></td>
+                                <td>3</td>
+                                <td>653</td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">01:31</span></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+4</span><span
+                                        class="cell-time">02:26</span></td>
+                                <td class="accept"><span class="accept-text">+4</span><span
+                                        class="cell-time">00:55</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="silver">27</td>
+                                <td><a target="_blank" href="/user/2011022322" class="user user-violet"
+                                       title="Candidate Master 2011022322">2011022322</a></td>
+                                <td><span title="wxk" class="u-info user-gray ellipsis">wxk</span></td>
+                                <td>3</td>
+                                <td>694</td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:34</span></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+9</span><span
+                                        class="cell-time">02:10</span></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">02:10</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="silver">28</td>
+                                <td><a target="_blank" href="/user/alpq654321" class="user user-orange"
+                                       title="Master alpq654321">alpq654321</a></td>
+                                <td><span title="ZHW" class="u-info user-gray ellipsis">ZHW</span></td>
+                                <td>2</td>
+                                <td>46</td>
+                                <td></td>
+                                <td class="first_blood"><span class="fb-text">+</span><span
+                                        class="fb-cell-time">00:20</span></td>
+                                <td><span class="failed">-2</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:26</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="silver">29</td>
+                                <td><a target="_blank" href="/user/lbw1709" class="user user-unrated"
+                                       title="Unrated lbw1709">lbw1709</a></td>
+                                <td><span title="博文lbw1709" class="u-info user-gray ellipsis">博文lbw1709</span></td>
+                                <td>2</td>
+                                <td>48</td>
+                                <td><span class="failed">-2</span></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:23</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:25</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="bronze">30</td>
+                                <td><a target="_blank" href="/user/BSBandme" class="user user-orange"
+                                       title="Master BSBandme">BSBandme</a></td>
+                                <td><span title="BSBandme" class="u-info user-gray ellipsis">BSBandme</span></td>
+                                <td>2</td>
+                                <td>126</td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:32</span></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">00:53</span></td>
+                                <td><span class="failed">-3</span></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="bronze">31</td>
+                                <td><a target="_blank" href="/user/MyCodeBattle" class="user user-green"
+                                       title="Specialist MyCodeBattle">MyCodeBattle</a></td>
+                                <td><span title="PureFrog" class="u-info user-gray ellipsis">PureFrog</span></td>
+                                <td>2</td>
+                                <td>133</td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:40</span></td>
+                                <td></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:32</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="bronze">32</td>
+                                <td><a target="_blank" href="/user/az12281048" class="user user-unrated"
+                                       title="Unrated az12281048">az12281048</a></td>
+                                <td><span title="XXC、" class="u-info user-gray ellipsis">XXC、</span></td>
+                                <td>2</td>
+                                <td>147</td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:12</span></td>
+                                <td></td>
+                                <td><span class="failed">-2</span></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">00:34</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="bronze">33</td>
+                                <td><a target="_blank" href="/user/dianlujitao" class="user user-unrated"
+                                       title="Unrated dianlujitao">dianlujitao</a></td>
+                                <td><span title="dianlujitao" class="u-info user-gray ellipsis">dianlujitao</span></td>
+                                <td>2</td>
+                                <td>154</td>
+                                <td></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">00:29</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:24</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="bronze">34</td>
+                                <td><a target="_blank" href="/user/guanyunchang" class="user user-unrated"
+                                       title="Unrated guanyunchang">guanyunchang</a></td>
+                                <td><span title="护嫂狂魔关云长" class="u-info user-gray ellipsis">护嫂狂魔关云长</span></td>
+                                <td>2</td>
+                                <td>194</td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+2</span><span
+                                        class="cell-time">00:52</span></td>
+                                <td><span class="failed">-10</span></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">00:21</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="bronze">35</td>
+                                <td><a target="_blank" href="/user/Blaziken" class="user user-blue"
+                                       title="Expert Blaziken">Blaziken</a></td>
+                                <td><span title="shy" class="u-info user-gray ellipsis">shy</span></td>
+                                <td>2</td>
+                                <td>236</td>
+                                <td class="accept"><span class="accept-text">+3</span><span
+                                        class="cell-time">00:52</span></td>
+                                <td></td>
+                                <td><span class="failed">-1</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:03</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="bronze">36</td>
+                                <td><a target="_blank" href="/user/BenjaminPMLee" class="user user-unrated"
+                                       title="Unrated BenjaminPMLee">BenjaminPMLee</a></td>
+                                <td><span title="BPML" class="u-info user-gray ellipsis">BPML</span></td>
+                                <td>2</td>
+                                <td>272</td>
+                                <td class="accept"><span class="accept-text">+2</span><span
+                                        class="cell-time">01:35</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:36</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="bronze">37</td>
+                                <td><a target="_blank" href="/user/clearlemon" class="user user-unrated"
+                                       title="Unrated clearlemon">clearlemon</a></td>
+                                <td><span title="柠乐" class="u-info user-gray ellipsis">柠乐</span></td>
+                                <td>2</td>
+                                <td>280</td>
+                                <td class="accept"><span class="accept-text">+2</span><span
+                                        class="cell-time">01:45</span></td>
+                                <td></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">00:54</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="bronze">38</td>
+                                <td><a target="_blank" href="/user/229343336" class="user user-unrated"
+                                       title="Unrated 229343336">229343336</a></td>
+                                <td><span title="*Cold.H" class="u-info user-gray ellipsis">*Cold.H</span></td>
+                                <td>2</td>
+                                <td>280</td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:21</span></td>
+                                <td class="accept"><span class="accept-text">+4</span><span
+                                        class="cell-time">01:39</span></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="bronze">39</td>
+                                <td><a target="_blank" href="/user/inview" class="user user-unrated"
+                                       title="Unrated inview">inview</a></td>
+                                <td><span title="inview" class="u-info user-gray ellipsis">inview</span></td>
+                                <td>2</td>
+                                <td>300</td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:48</span></td>
+                                <td></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+3</span><span
+                                        class="cell-time">02:12</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="bronze">40</td>
+                                <td><a target="_blank" href="/user/creat2012" class="user user-green"
+                                       title="Pupil creat2012">creat2012</a></td>
+                                <td><span title="NYIST_zhang" class="u-info user-gray ellipsis">NYIST_zhang</span></td>
+                                <td>2</td>
+                                <td>308</td>
+                                <td class="accept"><span class="accept-text">+3</span><span
+                                        class="cell-time">01:32</span></td>
+                                <td></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">00:56</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="bronze">41</td>
+                                <td><a target="_blank" href="/user/xiao_ming" class="user user-violet"
+                                       title="Candidate Master xiao_ming">xiao_ming</a></td>
+                                <td><span title="艹♂小明 -> 小萌" class="u-info user-gray ellipsis">艹♂小明 -&gt; 小萌</span></td>
+                                <td>2</td>
+                                <td>319</td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:53</span></td>
+                                <td></td>
+                                <td><span class="failed">-1</span></td>
+                                <td class="accept"><span class="accept-text">+4</span><span
+                                        class="cell-time">01:45</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="bronze">42</td>
+                                <td><a target="_blank" href="/user/7681" class="user user-unrated" title="Unrated 7681">7681</a>
+                                </td>
+                                <td><span title="god_zuo" class="u-info user-gray ellipsis">god_zuo</span></td>
+                                <td>2</td>
+                                <td>321</td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">01:46</span></td>
+                                <td></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">02:15</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="bronze">43</td>
+                                <td><a target="_blank" href="/user/Dwayne" class="user user-blue" title="Expert Dwayne">Dwayne</a>
+                                </td>
+                                <td><span title="Dwayne" class="u-info user-gray ellipsis">Dwayne</span></td>
+                                <td>2</td>
+                                <td>336</td>
+                                <td class="accept"><span class="accept-text">+4</span><span
+                                        class="cell-time">02:24</span></td>
+                                <td></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:31</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="bronze">44</td>
+                                <td><a target="_blank" href="/user/DoubleFish" class="user user-unrated"
+                                       title="Unrated DoubleFish">DoubleFish</a></td>
+                                <td><span title="DoubleFish" class="u-info user-gray ellipsis">DoubleFish</span></td>
+                                <td>2</td>
+                                <td>364</td>
+                                <td class="accept"><span class="accept-text">+4</span><span
+                                        class="cell-time">01:55</span></td>
+                                <td></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+1</span><span
+                                        class="cell-time">00:49</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="bronze">45</td>
+                                <td><a target="_blank" href="/user/squee_spoon" class="user user-green"
+                                       title="Specialist squee_spoon">squee_spoon</a></td>
+                                <td><span title="squee_spoon" class="u-info user-gray ellipsis">squee_spoon</span></td>
+                                <td>2</td>
+                                <td>477</td>
+                                <td class="accept"><span class="accept-text">+9</span><span
+                                        class="cell-time">01:37</span></td>
+                                <td></td>
+                                <td><span class="failed">-4</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:20</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="bronze">46</td>
+                                <td><a target="_blank" href="/user/iblacksun" class="user user-unrated"
+                                       title="Unrated iblacksun">iblacksun</a></td>
+                                <td><span title="iblacksun" class="u-info user-gray ellipsis">iblacksun</span></td>
+                                <td>2</td>
+                                <td>580</td>
+                                <td class="accept"><span class="accept-text">+9</span><span
+                                        class="cell-time">01:41</span></td>
+                                <td></td>
+                                <td><span class="failed">-1</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">01:59</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="bronze">47</td>
+                                <td><a target="_blank" href="/user/flag" class="user user-green"
+                                       title="Pupil flag">flag</a></td>
+                                <td><span title="flag" class="u-info user-gray ellipsis">flag</span></td>
+                                <td>2</td>
+                                <td>744</td>
+                                <td><span class="failed">-3</span></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+2</span><span
+                                        class="cell-time">00:36</span></td>
+                                <td class="accept"><span class="accept-text">+13</span><span
+                                        class="cell-time">01:48</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="bronze">48</td>
+                                <td><a target="_blank" href="/user/poursoul" class="user user-green"
+                                       title="Specialist poursoul">poursoul</a></td>
+                                <td><span title="Luna" class="u-info user-gray ellipsis">Luna</span></td>
+                                <td>1</td>
+                                <td>20</td>
+                                <td></td>
+                                <td></td>
+                                <td><span class="failed">-5</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:20</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="odd">
+                                <td class="bronze">49</td>
+                                <td><a target="_blank" href="/user/zibuy" class="user user-blue" title="Expert zibuy">zibuy</a>
+                                </td>
+                                <td><span title="kitkat" class="u-info user-gray ellipsis">kitkat</span></td>
+                                <td>1</td>
+                                <td>34</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:34</span></td>
+                                <td></td>
+                            </tr>
+                            <tr class="even">
+                                <td class="bronze">50</td>
+                                <td><a target="_blank" href="/user/xyz123Again" class="user user-unrated"
+                                       title="Unrated xyz123Again">xyz123Again</a></td>
+                                <td><span title="xyz" class="u-info user-gray ellipsis">xyz</span></td>
+                                <td>1</td>
+                                <td>37</td>
+                                <td><span class="failed">-2</span></td>
+                                <td></td>
+                                <td><span class="failed">-2</span></td>
+                                <td class="accept"><span class="accept-text">+</span><span
+                                        class="cell-time">00:37</span></td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr class="odd" style="height:70px">
+                                <td colspan="5">
+                                    <ul class="pagination pagination-sm" id="ranklist">
+                                        <li id="1" class="disabled"><a href="javascript:;">&lt;&lt;</a></li>
+                                        <li class="active"><a href="javascript:;">1</a></li>
+                                        <li id="2"><a href="javascript:;">2</a></li>
+                                        <li id="3"><a href="javascript:;">3</a></li>
+                                        <li id="4"><a href="javascript:;">4</a></li>
+                                        <li id="5"><a href="javascript:;">5</a></li>
+                                        <li class="disabled"><a href="javascript:;">...</a></li>
+                                        <li id="6"><a href="javascript:;">&gt;&gt;</a></li>
+                                    </ul>
+                                </td>
+                                <td class="standing_status footer" data-idx="0"><span class="footer-res"
+                                                                                      style="color:#eee">-</span><span
+                                        class="footer-stat"><a href="#status--A-2">47</a> <span>/</span> <a
+                                        href="#status--A" "="">136</a></span><span class="footer-percent">35%</span>
+                                </td>
+                                <td class="standing_status footer" data-idx="1"><span class="footer-res"
+                                                                                      style="color:#eee">-</span><span
+                                        class="footer-stat"><a href="#status--B-2">16</a> <span>/</span> <a
+                                        href="#status--B" "="">36</a></span><span class="footer-percent">44%</span></td>
+                                <td class="standing_status footer" data-idx="2"><span class="footer-res"
+                                                                                      style="color:#eee">-</span><span
+                                        class="footer-stat"><a href="#status--C-2">35</a> <span>/</span> <a
+                                        href="#status--C" "="">229</a></span><span class="footer-percent">15%</span>
+                                </td>
+                                <td class="standing_status footer" data-idx="3"><span class="footer-res"
+                                                                                      style="color:#eee">-</span><span
+                                        class="footer-stat"><a href="#status--D-2">59</a> <span>/</span> <a
+                                        href="#status--D" "="">223</a></span><span class="footer-percent">26%</span>
+                                </td>
+                                <td class="standing_status footer" data-idx="4"><span class="footer-res"
+                                                                                      style="color:#eee">-</span><span
+                                        class="footer-stat"><a href="#status--E-2">1</a> <span>/</span> <a
+                                        href="#status--E" "="">20</a></span><span class="footer-percent">5%</span></td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </fieldset>
     <script type="text/javascript">
