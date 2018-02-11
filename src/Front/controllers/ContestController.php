@@ -240,8 +240,107 @@ class ContestController extends BaseController {
 
         $problems = ContestProblem::getProblemLableId($id);
 
+        $userList = ContestUser::getUserList($id);
+        $maxTime = $contest->manager == Util::getUserName() ? $contest->end_time : $contest->lock_board_time;
+
+        $firstBlood = [];
+        foreach ($problems as $problem)
+            $firstBlood[$problem->lable] = [];
+
+        foreach ($userList as &$user) {
+            $user['solved'] = 0;
+            $user['penalty'] = 0;
+            $user['problem'] = [];
+            foreach ($problems as $problem) {
+                $acRecord = Status::find()
+                    ->select('id, submit_time')
+                    ->where(['and',
+                                ['contest_id' => $id],
+                                ['problem_id' => $problem->problem_id],
+                                ['user_id' => $user['id']],
+                                ['result' => 'Accepted'],
+                                ['<', 'submit_time', $maxTime],
+                            ])
+                    ->one();
+
+                $info = [];
+                $info['ac'] = false;
+                $info['try'] = Status::find()
+                    ->where(['and',
+                        ['contest_id' => $id],
+                        ['problem_id' => $problem->problem_id],
+                        ['user_id' => $user['id']],
+                        ['result' => ['Wrong Answer', 'Presentation Error', 'Time Limit Exceeded', 'Memory Limit Exceeded', 'Output Limit Exceeded', 'Runtime Error', 'Restricted Function']],
+                        ['<', 'submit_time', $maxTime],
+                        $acRecord ? ['<', 'id', $acRecord->id] : [],
+                    ])
+                    ->count();
+
+                if ($acRecord) {
+                    $info['ac'] = true;
+                    $user['solved'] += 1;
+                    $acTime = strtotime($acRecord->submit_time) - strtotime($contest->start_time);
+                    $info['acTime'] = sprintf("%02d:%02d", (int)floor($acTime / 3600), (int)floor(($acTime % 3600) / 60));
+                    $user['penalty'] += $acTime / 60;
+                    $user['penalty'] += $info['try'] * $contest->penalty;
+
+
+                    if (!$user['is_star'] &&
+                        (!isset($firstBlood[$problem->lable]['submit_time']) || $firstBlood[$problem->lable]['submit_time'] > $acRecord->submit_time)
+                    ) {
+                        $firstBlood[$problem->lable]['submit_time'] = $acRecord->submit_time;
+                        $firstBlood[$problem->lable]['username'] = $user['username'];
+                    }
+                }
+                $user['problem'][$problem->lable] = $info;
+            }
+        }
+
+        usort($userList, function ($lhs, $rhs) {
+            if ($lhs['solved'] == $rhs['solved']) {
+                if ($lhs['penalty'] == $rhs['penalty'])
+                    return $lhs['id'] < $rhs['id'];
+                else
+                    return $lhs['penalty'] - $rhs['penalty'];
+            } else {
+                return $rhs['solved'] - $lhs['solved'];
+            }
+        });
+
+        $gold = $contest->gold;
+        $silver = $contest->silver;
+        $bronze = $contest->bronze;
+        $rankCnt = 1;
+        foreach ($userList as &$user) {
+            foreach ($firstBlood as $lable => $info) {
+                if ($user['username'] == $info['username']) {
+                    $user['problem'][$lable]['first'] = true;
+                }
+            }
+            if ($user['solved'] && $gold) {
+                $gold--;
+                $user['medal'] = 'gold';
+            } else if ($user['solved'] && $silver) {
+                $silver--;
+                $user['medal'] = 'silver';
+            } else if ($user['solved'] && $bronze) {
+                $bronze--;
+                $user['medal'] = 'bronze';
+            }
+
+            if ($user['is_star'])
+                $user['rank'] = '*';
+            else if ($user['solved'])
+                $user['rank'] = $rankCnt++;
+            else
+                $user['rank'] = '';
+        }
+
+
         $this->smarty->assign('contest', $contest);
         $this->smarty->assign('problems', $problems);
+        $this->smarty->assign('userList', $userList);
+        $this->smarty->assign('acArray', $this->getAcArray($id));
         $this->smarty->assign('webTitle', "Contest $id");
         return $this->smarty->display('contest/rank.html');
     }

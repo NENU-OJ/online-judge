@@ -33,7 +33,7 @@ class ContestProblem extends ActiveRecord {
 
     public static function getProblemLableId($contestId) {
         return self::find()
-            ->select('lable, problem_id')
+            ->select('lable, problem_id, total_submit, total_ac')
             ->where(['contest_id' => $contestId])
             ->orderBy('lable')
             ->all();

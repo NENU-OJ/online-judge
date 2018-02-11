@@ -49,7 +49,7 @@
                             <th class="solved" title="solved"><span class="user-green">S</span></th>
                             <th class="penalty" title="penalty(罚时)"><span class="user-red">P</span></th>
                             <{foreach $problems as $problem}>
-                            <th class="standing_status"><a href="<{$website}>/contest/<{$contest->id}>/problem/"><{$problem->lable}></a></th>
+                            <th class="standing_status"><a href="<{$website}>/contest/<{$contest->id}>/problem/<{$problem->lable}>"><{$problem->lable}></a></th>
                             <{/foreach}>
                         </tr>
                         </thead>
@@ -60,23 +60,20 @@
                         <tfoot>
                         <tr style="height:70px">
                             <td colspan="5" style="border:0"></td>
-                            <td class="standing_status footer" data-idx="0"><span class="footer-res" style="color:#eee">-</span><span
-                                    class="footer-stat"><a href="#status--A-2">47</a> <span>/</span> <a
-                                    href="#status--A" "="">136</a></span><span class="footer-percent">35%</span></td>
-                            <td class="standing_status footer" data-idx="1"><span class="footer-res" style="color:#eee">-</span><span
-                                    class="footer-stat"><a href="#status--B-2">16</a> <span>/</span> <a
-                                    href="#status--B" "="">36</a></span><span class="footer-percent">44%</span></td>
-                            <td class="standing_status footer" data-idx="2"><span class="footer-res" style="color:#eee">-</span><span
-                                    class="footer-stat"><a href="#status--C-2">35</a> <span>/</span> <a
-                                    href="#status--C" "="">229</a></span><span class="footer-percent">15%</span></td>
-                            <td class="standing_status footer" data-idx="3"><span class="footer-res" style="color:#eee">-</span><span
-                                    class="footer-stat"><a href="#status--D-2">59</a> <span>/</span> <a
-                                    href="#status--D" "="">223</a></span><span class="footer-percent">26%</span></td>
+                            <{foreach $problems as $problem}>
+                            <td class="standing_status footer" data-idx="0">
+                                <span class="footer-res" style="color:#eee">-</span>
+                                <span class="footer-stat">
+                                    <a><{$problem->total_ac}></a> <span>/</span> <a><{$problem->total_submit}></a>
+                                </span>
+                                <span class="footer-percent"><{if $problem->total_ac}><{sprintf("%.0f", $problem->total_ac / $problem->total_submit * 100)}><{else}>0<{/if}>%</span>
+                            </td>
+                            <{/foreach}>
                         </tr>
                         </tfoot>
                     </table>
                 </div>
-                <{if $contest->manager == $username || true}>
+                <{if $contest->manager == $username}>
                 <div class="form-inline form-group">
                     <input class="form-control" id="starstr" style="width:500px" type="text" placeholder="多个用户名">
                     <select class="form-control" id="type">
@@ -88,7 +85,7 @@
                     <span class="error-text" id="starerr"></span>
                 </div>
                 <{/if}>
-                <div class="block block-danger" style="width:810px">
+                <div class="block block-danger" style="width:<{405 + 81 * count($problems)}>px">
                     <div id="ranktable">
                         <table class="table table-bordered table-rank tdcenter">
                             <thead>
@@ -99,68 +96,44 @@
                                 <th class="solved" title="solved"><span class="user-green">S</span></th>
                                 <th class="penalty" title="penalty(罚时)"><span class="user-red">P</span></th>
                                 <{foreach $problems as $problem}>
-                                <th class="standing_status"><a href="<{$website}>/contest/<{$contest->id}>/problem/"><{$problem->lable}></a></th>
+                                <th class="standing_status"><a href="<{$website}>/contest/<{$contest->id}>/problem/<{$problem->lable}>"><{$problem->lable}></a></th>
                                 <{/foreach}>
                             </tr>
                             </thead>
                             <tbody>
-                            <{for $i = 0 to 100}>
-                            <tr class="odd">
-                                <td class="gold">1</td>
-                                <td><a target="_blank" href="/user/NeverMore" class="user user-green"
-                                       title="Specialist NeverMore">NeverMore</a></td>
-                                <td><span title="蘑菇" class="u-info user-gray ellipsis">蘑菇</span></td>
-                                <td>4</td>
-                                <td>262</td>
-                                <td class="accept"><span class="accept-text">+</span><span
-                                        class="cell-time">01:13</span></td>
-                                <td class="accept"><span class="accept-text">+1</span><span
-                                        class="cell-time">00:47</span></td>
-                                <td class="accept"><span class="accept-text">+1</span><span
-                                        class="cell-time">00:21</span></td>
-                                <td class="accept"><span class="accept-text">+</span><span
-                                        class="cell-time">00:39</span></td>
+                            <{$counter = 0}>
+                            <{foreach $userList as $user}>
+                            <{$counter = $counter + 1}>
+                            <tr class="<{if $counter % 2 == 0}>even<{else}>odd<{/if}>">
+                                <td class="<{$user['medal']}>"><{$user['rank']}></td>
+                                <td>
+                                    <a target="_blank" href="<{$website}>/user/detail/<{$user['username']}>" class="user"><{$user['username']}></a>
+                                </td>
+                                <td><span title="<{$user['nickname']}>" class="u-info user-gray ellipsis"><{$user['nickname']}></span></td>
+                                <td><{$user['solved']}></td>
+                                <td><{sprintf("%.0f", $user['penalty'])}></td>
+                                <{foreach $user['problem'] as $info}>
+                                <td class="<{if $info['first']}>first_blood<{else if $info['ac']}>accept<{/if}>">
+                                    <{if $info['ac'] && $info['try']}><span class="accept-text">+<{$info['try']}></span><{/if}>
+                                    <{if !$info['ac'] && $info['try']}><span class="failed">-<{$info['try']}></span><{/if}>
+                                    <{if $info['ac']}><span class="cell-time"><{$info['acTime']}></span><{/if}>
+                                </td>
+                                <{/foreach}>
                             </tr>
-                            <tr class="even">
-                                <td class="gold">2</td>
-                                <td><a target="_blank" href="/user/Boliuraque" class="user user-unrated"
-                                       title="Unrated Boliuraque">Boliuraque</a></td>
-                                <td><span title="Horizen" class="u-info user-gray ellipsis">Horizen</span></td>
-                                <td>4</td>
-                                <td>263</td>
-                                <td class="accept"><span class="accept-text">+1</span><span
-                                        class="cell-time">01:36</span></td>
-                                <td class="accept"><span class="accept-text">+</span><span
-                                        class="cell-time">00:41</span></td>
-                                <td class="first_blood"><span class="fb-text">+</span><span
-                                        class="fb-cell-time">00:20</span></td>
-                                <td class="accept"><span class="accept-text">+1</span><span
-                                        class="cell-time">00:25</span></td>
-                            </tr>
-                            <{/for}>
+                            <{/foreach}>
                             </tbody>
                             <tfoot>
                             <tr class="odd" style="height:70px">
                                 <td id="rankFooterDown" colspan="5"></td>
-                                <td class="standing_status footer" data-idx="0"><span class="footer-res"
-                                                                                      style="color:#eee">-</span><span
-                                        class="footer-stat"><a href="#status--A-2">47</a> <span>/</span> <a
-                                        href="#status--A" "="">136</a></span><span class="footer-percent">35%</span>
+                                <{foreach $problems as $problem}>
+                                <td class="standing_status footer" data-idx="0">
+                                    <span class="footer-res" style="color:#eee">-</span>
+                                    <span class="footer-stat">
+                                    <a><{$problem->total_ac}></a> <span>/</span> <a><{$problem->total_submit}></a>
+                                </span>
+                                    <span class="footer-percent"><{if $problem->total_ac}><{sprintf("%.0f", $problem->total_ac / $problem->total_submit * 100)}><{else}>0<{/if}>%</span>
                                 </td>
-                                <td class="standing_status footer" data-idx="1"><span class="footer-res"
-                                                                                      style="color:#eee">-</span><span
-                                        class="footer-stat"><a href="#status--B-2">16</a> <span>/</span> <a
-                                        href="#status--B" "="">36</a></span><span class="footer-percent">44%</span></td>
-                                <td class="standing_status footer" data-idx="2"><span class="footer-res"
-                                                                                      style="color:#eee">-</span><span
-                                        class="footer-stat"><a href="#status--C-2">35</a> <span>/</span> <a
-                                        href="#status--C" "="">229</a></span><span class="footer-percent">15%</span>
-                                </td>
-                                <td class="standing_status footer" data-idx="3"><span class="footer-res"
-                                                                                      style="color:#eee">-</span><span
-                                        class="footer-stat"><a href="#status--D-2">59</a> <span>/</span> <a
-                                        href="#status--D" "="">223</a></span><span class="footer-percent">26%</span>
-                                </td>
+                                <{/foreach}>
                             </tr>
                             </tfoot>
                         </table>

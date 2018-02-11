@@ -42,4 +42,19 @@ class ContestUser extends ActiveRecord {
             ->bindValue(':user_id', $userId)
             ->execute();
     }
+
+    public static function getUserList($contestId) {
+        $userList = [];
+        $recordList = self::find()->select('user_id, is_star')->where(['contest_id' => $contestId])->all();
+        foreach ($recordList as $raw) {
+            $record = [];
+            $record['id'] = $raw->user_id;
+            $record['is_star'] = $raw->is_star;
+            $user = User::find()->select('username, nickname')->where(['id' => $raw->user_id])->one();
+            $record['username'] = $user->username;
+            $record['nickname'] = $user->nickname;
+            $userList[] = $record;
+        }
+        return $userList;
+    }
 }
