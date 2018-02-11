@@ -31,6 +31,14 @@ class ContestProblem extends ActiveRecord {
         return $problemList;
     }
 
+    public static function getProblemLableId($contestId) {
+        return self::find()
+            ->select('lable, problem_id')
+            ->where(['contest_id' => $contestId])
+            ->orderBy('lable')
+            ->all();
+    }
+
     public static function updateProblemList($contestId, $problemList) {
         $beforeList = self::find()
             ->select('*')

@@ -33,3 +33,28 @@ $("#star").click(function () {
         }
     });
 });
+
+function getTop(element) {
+    var offset = element.offsetTop;
+    if (element.offsetParent!=null)
+        offset += getTop(element.offsetParent);
+    return offset;
+}
+var rankHeader = getTop(document.getElementById("ranktable"));
+var rankFooter = getTop(document.getElementById("rankFooterDown")) + $("#rankFooterDown").height();
+
+$(document).ready(function () {
+    $(window).scroll(function () {
+        if (rankHeader >= $(window).scrollTop()) {
+            $("#rankheader").css('display', 'none');
+        } else {
+            $("#rankheader").css('display', 'block');
+        }
+
+        if (rankFooter >= $(window).scrollTop() + $(window).height() - 20) {
+            $("#rankfooter").css('display', 'block');
+        } else {
+            $("#rankfooter").css('display', 'none');
+        }
+    });
+});

@@ -76,18 +76,9 @@ class ContestController extends BaseController {
             ->all();
 
         $problemList = [];
-        $acArray = [];
-        if (Util::isLogin()) {
-            foreach ($problems as $problem) {
-                $acStatus = Status::find()
-                    ->select('id')
-                    ->where(['contest_id' => $id, 'problem_id' => $problem->problem_id, 'user_id' => Util::getUser(), 'result' => 'Accepted'])
-                    ->one();
-                if ($acStatus) {
-                    $acArray[] = $problem->problem_id;
-                }
-            }
-        }
+
+        $acArray = $this->getAcArray($id);
+
         foreach ($problems as $problem) {
             $record = [];
             $record['id'] = $problem->problem_id;
@@ -234,7 +225,7 @@ class ContestController extends BaseController {
         return $this->smarty->display('contest/status.html');
     }
 
-    public function actionRank($id) {
+    public function actionRank($id) { // TODO
         $contest = Contest::findById($id);
         if (!$contest) {
             throw new NotFoundHttpException("$id 这个比赛不存在！");
@@ -247,9 +238,10 @@ class ContestController extends BaseController {
             return $this->smarty->display('common/error.html');
         }
 
-
+        $problems = ContestProblem::getProblemLableId($id);
 
         $this->smarty->assign('contest', $contest);
+        $this->smarty->assign('problems', $problems);
         $this->smarty->assign('webTitle', "Contest $id");
         return $this->smarty->display('contest/rank.html');
     }
@@ -484,6 +476,32 @@ class ContestController extends BaseController {
             $data = "这些用户：".join(",", $failList)." $starStr 失败";
             return json_encode(['code' => 1, 'data' => $data]);
         }
+
+    }
+
+    private function getAcArray($id) {
+        $problems = ContestProblem::find()
+            ->select('*')
+            ->where(['contest_id' => $id])
+            ->orderBy('lable')
+            ->all();
+
+        $acArray = [];
+        if (Util::isLogin()) {
+            foreach ($problems as $problem) {
+                $acStatus = Status::find()
+                    ->select('id')
+                    ->where(['contest_id' => $id, 'problem_id' => $problem->problem_id, 'user_id' => Util::getUser(), 'result' => 'Accepted'])
+                    ->one();
+                if ($acStatus) {
+                    $acArray[] = $problem->problem_id;
+                }
+            }
+        }
+        return $acArray;
+    }
+
+    private function getRankStauts() {
 
     }
 }
