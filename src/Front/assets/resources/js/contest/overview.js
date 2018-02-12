@@ -56,3 +56,26 @@ $("#contest_submit").click(function () {
         }
     });
 });
+
+$("#delete").click(function () {
+    if (confirm('真的要删除比赛' + contestId + '吗?')) {
+        $.ajax({
+            type: "post",
+            url: 'http://' + host + '/contest/delete',
+            dataType: "json",
+            async: false,
+            data: {
+                contestId: contestId,
+            },
+            success: function (resp) {
+                alert(resp.data);
+                if (resp.code == 0) {
+                    window.location = 'http://' + host + '/contest';
+                }
+            },
+            error: function () {
+                alert("获取JSON数据异常");
+            }
+        });
+    }
+});

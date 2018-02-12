@@ -591,6 +591,25 @@ class ContestController extends BaseController {
 
     }
 
+    public function actionDelete() {
+        $contestId = \Yii::$app->request->post('contestId', 0);
+        $contest = Contest::findById($contestId);
+
+        if (!$contest)
+            return json_encode(['code' => 1, 'data' => "没有 $contestId 这个比赛"]);
+        if ($contest->manager == Util::getUserName()) {
+            try {
+                Contest::deleteAll(['id' => $contestId]);
+                return json_encode(['code' => 0, 'data' => "删除成功"]);
+            } catch (Exception $e) {
+                return json_encode(['code' => 1, 'data' => "后台异常了"]);
+            }
+        }
+        else {
+            return json_encode(['code' => 1, 'data' => "这你可删不了"]);
+        }
+    }
+
     private function getAcArray($id) {
         $problems = ContestProblem::find()
             ->select('*')
@@ -613,7 +632,4 @@ class ContestController extends BaseController {
         return $acArray;
     }
 
-    private function getRankStauts() {
-
-    }
 }
