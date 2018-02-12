@@ -39,7 +39,7 @@
 
 
             <div id="ranktab" style="width: 1118px; display: block;">
-                <div id="rankheader" style="width: 810px; display: none;">
+                <div id="rankheader" style="width:<{405 + 81 * count($problems)}>px; display: none;">
                     <table class="table table-bordered table-rank tdcenter">
                         <thead>
                         <tr class="even">
@@ -55,14 +55,20 @@
                         </thead>
                     </table>
                 </div>
-                <div id="rankfooter" style="width: 810px; display: none;">
+                <div id="rankfooter" style="width:<{405 + 81 * count($problems)}>px; display: none;">
                     <table class="table table-bordered table-rank" style="margin:0;border:0">
                         <tfoot>
                         <tr style="height:70px">
                             <td colspan="5" style="border:0"></td>
                             <{foreach $problems as $problem}>
                             <td class="standing_status footer" data-idx="0">
+                                <{if $userNow && $userNow['problem'][$problem->lable]['ac']}>
+                                <span class="footer-res" style="color: rgb(102, 255, 102);">Yes</span>
+                                <{else if $userNow && $userNow['problem'][$problem->lable]['try']}>
+                                <span class="footer-res" style="color: rgb(255, 101, 101);">No</span>
+                                <{else}>
                                 <span class="footer-res" style="color:#eee">-</span>
+                                <{/if}>
                                 <span class="footer-stat">
                                     <a><{$problem->total_ac}></a> <span>/</span> <a><{$problem->total_submit}></a>
                                 </span>
@@ -102,6 +108,7 @@
                             </thead>
                             <tbody>
                             <{$counter = 0}>
+
                             <{foreach $userList as $user}>
                             <{$counter = $counter + 1}>
                             <tr class="<{if $counter % 2 == 0}>even<{else}>odd<{/if}>">
@@ -127,7 +134,13 @@
                                 <td id="rankFooterDown" colspan="5"></td>
                                 <{foreach $problems as $problem}>
                                 <td class="standing_status footer" data-idx="0">
+                                    <{if $userNow && $userNow['problem'][$problem->lable]['ac']}>
+                                    <span class="footer-res" style="color: rgb(102, 255, 102);">Yes</span>
+                                    <{else if $userNow && $userNow['problem'][$problem->lable]['try']}>
+                                    <span class="footer-res" style="color: rgb(255, 101, 101);">No</span>
+                                    <{else}>
                                     <span class="footer-res" style="color:#eee">-</span>
+                                    <{/if}>
                                     <span class="footer-stat">
                                     <a><{$problem->total_ac}></a> <span>/</span> <a><{$problem->total_submit}></a>
                                 </span>

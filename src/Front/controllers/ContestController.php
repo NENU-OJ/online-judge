@@ -321,6 +321,7 @@ class ContestController extends BaseController {
         $silver = $contest->silver;
         $bronze = $contest->bronze;
         $rankCnt = 1;
+        $userNow = null;
         foreach ($userList as &$user) {
             foreach ($firstBlood as $lable => $info) {
                 if ($user['username'] == $info['username']) {
@@ -347,6 +348,9 @@ class ContestController extends BaseController {
                 $user['rank'] = $rankCnt++;
             else
                 $user['rank'] = '';
+
+            if ($user['username'] == Util::getUserName())
+                $userNow = $user;
         }
 
 
@@ -354,6 +358,7 @@ class ContestController extends BaseController {
         $this->smarty->assign('problems', $problems);
         $this->smarty->assign('userList', $userList);
         $this->smarty->assign('acArray', $this->getAcArray($id));
+        $this->smarty->assign('userNow', $userNow);
         $this->smarty->assign('webTitle', "Contest $id");
         return $this->smarty->display('contest/rank.html');
     }
