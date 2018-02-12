@@ -54,17 +54,6 @@ class IndexController extends BaseController {
         $this->smarty->display('index.html');
     }
 
-    public function actionCache() {
-        $memcache = new Memcached();
-        $value = [];
-        for ($i = 0; $i < 100000; ++$i)
-            $value[] = rand(0, 1000000);
-        if ($data = Cache::get('hh')) {
-            echo $data;
-        } else {
-            Cache::set('hh', 2, 3);
-        }
-    }
 
     public function actionWarn($msg) {
         $this->smarty->assign('msg', $msg);
