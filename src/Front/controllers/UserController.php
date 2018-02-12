@@ -116,9 +116,12 @@ class UserController extends BaseController {
             }
         } else if (\Yii::$app->request->isPost) {
             $username = \Yii::$app->request->post('username');
+            $nickname = \Yii::$app->request->post('nickname');
 
             if (!preg_match('/^([a-z]|[A-Z]|[0-9]|_)+$/', $username))
                 return json_encode(["code" => 1, "data" => "username只能由大小写字母、数字和下划线组成"]);
+            if (!preg_match('/^([a-z]|[A-Z]|[0-9]|_)+$/', $nickname))
+                return json_encode(["code" => 1, "data" => "nickname只能由大小写字母、数字和下划线组成"]);
 
             // 用户名是否重复
             if (User::findByUsername($username))
@@ -126,15 +129,15 @@ class UserController extends BaseController {
 
             $user = new User();
             $user->username = $username;
-            $user->nickname = trim(\Yii::$app->request->post('nickname'));
+            $user->nickname = $nickname;
 
             $defaultAvatars = Util::getDirs(\Yii::$app->params['uploadsDir'].'/avatar/default');
             $user->avatar = 'default/'.$defaultAvatars[array_rand($defaultAvatars, 1)];
 
             $user->password = md5(trim(\Yii::$app->request->post('password')));
-            $user->email = trim(\Yii::$app->request->post('email'));
-            $user->school = trim(\Yii::$app->request->post('school'));
-            $user->signature = trim(\Yii::$app->request->post('signature'));
+            $user->email = Util::ignoreJs(trim(\Yii::$app->request->post('email')));
+            $user->school = Util::ignoreJs(trim(\Yii::$app->request->post('school')));
+            $user->signature = Util::ignoreJs(trim(\Yii::$app->request->post('signature')));
             $user->last_login = $user->register_time = date("Y-m-d H:i:s");
             $user->ip_addr = $_SERVER['REMOTE_ADDR'];
             $code = 0;
@@ -170,10 +173,14 @@ class UserController extends BaseController {
         if (\Yii::$app->request->post('new_password') != "")
             $user->password = md5(\Yii::$app->request->post('new_password'));
 
-        $user->nickname = \Yii::$app->request->post('nickname');
-        $user->school = \Yii::$app->request->post('school');
-        $user->email = \Yii::$app->request->post('email');
-        $user->signature = \Yii::$app->request->post('signature');
+        $nickname = \Yii::$app->request->post('nickname');
+        if (!preg_match('/^([a-z]|[A-Z]|[0-9]|_)+$/', $nickname))
+            return json_encode(["code" => 1, "data" => "nickname只能由大小写字母、数字和下划线组成"]);
+
+        $user->nickname = Util::ignoreJs($nickname);
+        $user->school = Util::ignoreJs(\Yii::$app->request->post('school'));
+        $user->email = Util::ignoreJs(\Yii::$app->request->post('email'));
+        $user->signature = Util::ignoreJs(\Yii::$app->request->post('signature'));
 
         try {
             $user->update();

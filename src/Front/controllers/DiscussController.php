@@ -191,14 +191,14 @@ class DiscussController extends BaseController {
                 $discuss->created_at = $createdAt;
                 $discuss->replied_at = $createdAt;
                 $discuss->username = $username;
-                $discuss->title = \Yii::$app->request->post('title');
+                $discuss->title = Util::ignoreJs(\Yii::$app->request->post('title'));
                 $discuss->priority = $priority;
                 $discuss->replied_num = 1;
                 $discuss->save();
 
                 $discussReply->discuss_id = $discuss->id;
                 $discussReply->created_at = $createdAt;
-                $discussReply->content = \Yii::$app->request->post('content');
+                $discussReply->content = Util::ignoreJs(\Yii::$app->request->post('content'));
                 $discussReply->username = $username;
                 $discussReply->save();
             } else {
@@ -210,13 +210,13 @@ class DiscussController extends BaseController {
                     return json_encode(["code" => 1, "data" => "没有修改权限"]);
 
                 $discussReply = DiscussReply::findFirstReply($discuss->id);
-                $discuss->title = \Yii::$app->request->post('title');
+                $discuss->title = Util::ignoreJs(\Yii::$app->request->post('title'));
                 $discuss->priority = $priority;
                 $discuss->save();
-                $discussReply->content = \Yii::$app->request->post('content');
+                $discussReply->content = Util::ignoreJs(\Yii::$app->request->post('content'));
                 $discussReply->save();
             }
-            return json_encode(["code" => 0, "data" => '发表成功']);
+            return json_encode(["code" => 0, "data" => '发表成功', "id" => $discuss->id]);
         } catch (Exception $e) {
             return json_encode(["code" => 1, "data" => $e->getMessage()]);
         }

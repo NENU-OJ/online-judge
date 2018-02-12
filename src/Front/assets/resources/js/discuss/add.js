@@ -34,7 +34,7 @@ $(document).ready(function () {
             },
             success: function (resp) {
                 if (resp.code == 0) {
-                    location.href = 'http://' + host + '/discuss/' + resp.data;
+                    location.href = 'http://' + host + '/discuss/' + resp.id;
                 } else {
                     $err.text(resp.data);
                 }

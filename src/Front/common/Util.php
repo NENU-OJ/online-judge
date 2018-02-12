@@ -91,4 +91,9 @@ class Util {
             $ret = $ret = sprintf("%02d:%02d:%02d", $hour, $min, 0);
         return $ret;
     }
+
+    static public function ignoreJs($str) {
+        $preg = "/<script[\s\S]*?<\/script>/i";
+        return preg_replace($preg,"", $str);
+    }
 }
