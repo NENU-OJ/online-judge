@@ -173,32 +173,42 @@ class ContestController extends BaseController {
 
         $langList = LanguageType::getLangList();
 
-        $whereArray = [];
-        $whereArray["contest_id"] = $id;
+        $whereArray = ['and'];
+        $whereArray[] = ["contest_id" => $id];
         if ($prob = \Yii::$app->request->get('prob'))
-            $whereArray['problem_id'] = $lableToPid[$prob];
-        if ($name = \Yii::$app->request->get('name')) {
-            $user = User::findByUsername($name);
-            if ($user)
-                $whereArray['user_id'] = $user->id;
-            else
-                $whereArray['user_id'] = 0;
-        }
-        if ($lang = \Yii::$app->request->get('lang'))
-            $whereArray['language_id'] = $lang;
-        if ($result = \Yii::$app->request->get('result'))
-            $whereArray['result'] = $result;
+            $whereArray[] = ['problem_id' => $lableToPid[$prob]];
 
-        if ($contest->hide_others && time() < strtotime($contest->end_time)) {
-            if ($contest->manager != Util::getUserName()) {
-                if (isset($whereArray['user_id'])) {
-                    if ($whereArray['user_id'] != Util::getUser())
-                        $whereArray['user_id'] = 0;
+        if ($name = \Yii::$app->request->get('name', '')) {
+            $user = User::findByUsername($name);
+            $uid = $user ? $user->id : 0;
+            if ($contest->hide_others && time() < strtotime($contest->end_time)) {
+                if ($contest->manager != Util::getUserName()) {
+                    $whereArray[] = ['user_id' => $uid == Util::getUser() ? $uid : 0];
+                } else {
+                    $whereArray[] = ['user_id' => $uid];
                 }
-                else
-                    $whereArray['user_id'] = Util::isLogin() ? Util::getUser() : 0;
+
+            } else {
+                $whereArray[] = ['user_id' => $uid];
+            }
+        } else {
+            if ($contest->hide_others && time() < strtotime($contest->end_time)) {
+                if ($contest->manager != Util::getUserName()) {
+                    if (Util::isLogin())
+                        $whereArray[] = ['user_id' => Util::getUser()];
+                    else
+                        $whereArray[] = ['user_id' => 0];
+                }
             }
         }
+
+        $managerId = User::find()->select('id')->where(['username' => $contest->manager])->one()->id;
+        $whereArray[] = ['or', ['<', 'submit_time', $contest->lock_board_time], ['and', ['>=', 'submit_time', $contest->lock_board_time], $contest->manager == Util::getUserName() ? [] : ['user_id' => Util::getUser()]]];
+
+        if ($lang = \Yii::$app->request->get('lang'))
+            $whereArray[] = ['language_id' => $lang];
+        if ($result = \Yii::$app->request->get('result'))
+            $whereArray[] = ['result' => $result];
 
         $totalPage = Status::totalPage($whereArray, $pageSize);
 
@@ -318,13 +328,16 @@ class ContestController extends BaseController {
                 }
             }
             if ($user['solved'] && $gold) {
-                $gold--;
+                if(!$user['is_star'])
+                    $gold--;
                 $user['medal'] = 'gold';
             } else if ($user['solved'] && $silver) {
-                $silver--;
+                if(!$user['is_star'])
+                    $silver--;
                 $user['medal'] = 'silver';
             } else if ($user['solved'] && $bronze) {
-                $bronze--;
+                if(!$user['is_star'])
+                    $bronze--;
                 $user['medal'] = 'bronze';
             }
 
