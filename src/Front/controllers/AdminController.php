@@ -10,6 +10,7 @@ namespace app\controllers;
 
 
 use app\common\Util;
+use app\models\Contest;
 use app\models\ContestProblem;
 use app\models\LanguageType;
 use app\models\Problem;
@@ -116,5 +117,34 @@ class AdminController extends BaseController {
         $status->update();
         Util::sendToJudgeBySocket($status->id, \Yii::$app->params['judger']['host'], \Yii::$app->params['judger']['port']);
         return json_encode(['code' => 0, 'data' => "ReJudge $runid 成功"]);
+    }
+
+    public function actionRejudgeContest() {
+        if (\Yii::$app->request->isGet)
+            return json_encode(['code' => 1, 'data' => '请求方式错误']);
+        if (!Util::isRoot())
+            return json_encode(['code' => 1, 'data' => '没有权限']);
+
+        $contestId = \Yii::$app->request->post('contestId', 0);
+        $prob = \Yii::$app->request->post('prob');
+
+        $contest = Contest::findById($contestId);
+        if (!$contest)
+            return json_encode(['code' => 1, 'data' => "没有 $contestId 这个比赛"]);
+        $problem = ContestProblem::find()->select('problem_id')->where(['contest_id' => $contestId, 'lable' => $prob])->one();
+        if (!$problem)
+            return json_encode(['code' => 1, 'data' => "比赛 $contestId 没有 $prob 这个题目"]);
+        else
+            $pid = $problem->problem_id;
+
+        $statusList = Status::find()->select('id, result')->where(['contest_id' => $contestId, 'problem_id' => $pid])->all();
+        foreach ($statusList as $status) {
+            if ($status->result == 'Accepted')
+                ContestProblem::addTotalAC($contestId, $pid, -1);
+            $status->result = 'Send to Rejudge';
+            $status->update();
+            Util::sendToJudgeBySocket($status->id, \Yii::$app->params['judger']['host'], \Yii::$app->params['judger']['port']);
+        }
+        return json_encode(['code' => 0, 'data' => "Rejudge 比赛:$contestId, 题目:$prob 成功"]);
     }
 }
