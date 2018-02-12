@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Header -->
+<head>
+    <title>
+        <{if $webTitle}>
+        <{$webTitle}>
+        <{else}>
+        NENU Online Judge
+        <{/if}>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <{include file="common/favicon.html"}>
+    <!-- Fonts -->
+    <!-- CSS Libs -->
+    <{include file="common/cssLibs.html"}>
+    <!-- CSS App -->
+    <{include file="common/cssApp.html"}>
+</head>
+
+<body>
+
+<!-- 导航条 -->
+<{include file="../common/navbar.html" }>
+
+<div class="container">
+    <fieldset>
+        <div id="form">
+            <div class="row" style="min-height:460px">
+                <div class="col-md-6">
+                    <div class="block block-info">
+                        <div class="heading">比赛中的题目</div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered thright" style="background:#fbfbfb;min-width:450px">
+                                <tbody>
+                                <tr>
+                                    <th>比赛ID</th>
+                                    <td>
+                                        <input class="form-control input-sm"
+                                               id="contestId"
+                                               type="text"
+                                               value="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>题号(大写字母)</th>
+                                    <td>
+                                        <input class="form-control input-sm"
+                                               id="prob"
+                                               type="text"
+                                               value="">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-offset-6 col-md-6">
+                            <a class="btn btn-default" id="submit_contest" href="javascript:;">Submit</a>
+                            <span class="error-text" id="err_contest"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="block block-info">
+                        <div class="heading">普通提交或比赛中的提交</div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered tdcenter" id="addprob"
+                                   style="background:#fbfbfb;min-width:500px">
+                                <tbody>
+                                <tr>
+                                    <th>提交(runid)</th>
+                                    <td>
+                                        <input class="form-control input-sm"
+                                               id="runid"
+                                               type="text"
+                                               value="">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-offset-6 col-md-6">
+                            <a class="btn btn-default" id="submit_normal" href="javascript:;">Submit</a>
+                            <span class="error-text" id="err_normal"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </fieldset>
+</div>
+
+<!-- Footer -->
+<{include file="../common/footer.html" }>
+<!-- Javascript Libs -->
+<{include file="../common/jsLibs.html"}>
+<!-- Javascript App -->
+<{include file="../common/jsApp.html"}>
+<script src="<{$staticWebsite}>/js/admin/rejudge.js"></script>
+</body>
+
+</html>

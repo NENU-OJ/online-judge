@@ -41,11 +41,25 @@ class User extends ActiveRecord {
         $user->update();
     }
 
+    public static function addTotalAC($id, $val = 1) {
+        \Yii::$app->db->createCommand("UPDATE t_user SET total_ac=total_ac+:val WHERE id=:id")
+            ->bindValue(':val', $val)
+            ->bindValue(':id', $id)
+            ->execute();
+    }
+
     public static function totalPage($pageSize, $whereArray = []) {
         $totalCount = self::find()
             ->where($whereArray)
             ->count();
         $totalPage = ceil($totalCount / $pageSize);
         return $totalPage;
+    }
+
+    public static function addTotalSolved($id, $val) {
+        \Yii::$app->db->createCommand("UPDATE t_user SET solved_problem=solved_problem+:val WHERE id=:id")
+            ->bindValue(':val', $val)
+            ->bindValue(':id', $id)
+            ->execute();
     }
 }

@@ -568,11 +568,11 @@ class ContestController extends BaseController {
             $firstBlood = [];
             foreach ($problems as $problem)
                 $firstBlood[$problem->lable] = [];
-
             foreach ($userList as &$user) {
                 $user['solved'] = 0;
                 $user['penalty'] = 0;
                 $user['problem'] = [];
+
                 foreach ($problems as $problem) {
                     $acRecord = Status::find()
                         ->select('id, submit_time')
@@ -583,6 +583,7 @@ class ContestController extends BaseController {
                             ['result' => 'Accepted'],
                             ['<', 'submit_time', $maxTime],
                         ])
+                        ->orderBy('id')
                         ->one();
 
                     $info = [];
@@ -606,7 +607,6 @@ class ContestController extends BaseController {
                         $user['penalty'] += $acTime / 60;
                         $user['penalty'] += $info['try'] * $contest->penalty;
 
-
                         if (!$user['is_star'] &&
                             (!isset($firstBlood[$problem->lable]['submit_time']) || $firstBlood[$problem->lable]['submit_time'] > $acRecord->submit_time)
                         ) {
@@ -623,11 +623,12 @@ class ContestController extends BaseController {
                     if ($lhs['penalty'] == $rhs['penalty'])
                         return $lhs['id'] < $rhs['id'];
                     else
-                        return $lhs['penalty'] - $rhs['penalty'];
+                        return $lhs['penalty'] < $rhs['penalty'] ? -1 : 1;
                 } else {
                     return $rhs['solved'] - $lhs['solved'];
                 }
             });
+
 
             $gold = $contest->gold;
             $silver = $contest->silver;

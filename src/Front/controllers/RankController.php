@@ -17,7 +17,7 @@ class RankController extends BaseController {
         $rankStart = ($id - 1) * $pageSize;
 
         $users = User::find()
-            ->select('id, username, nickname, signature, solved_problem, total_submit')
+            ->select('id, username, nickname, signature, solved_problem, total_ac, total_submit')
             ->orderBy('solved_problem DESC, total_submit, username')
             ->offset(($id - 1) * $pageSize)
             ->limit($pageSize)

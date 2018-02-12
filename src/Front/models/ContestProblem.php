@@ -75,4 +75,11 @@ class ContestProblem extends ActiveRecord {
             ->bindValue(':problem_id', $problemId)
             ->execute();
     }
+    public static function addTotalAC($contestId, $problemId, $val) {
+        \Yii::$app->db->createCommand("UPDATE t_contest_problem SET total_ac=total_ac+:val WHERE contest_id=:contest_id AND problem_id=:problem_id")
+            ->bindValue(':val', $val)
+            ->bindValue(':contest_id', $contestId)
+            ->bindValue(':problem_id', $problemId)
+            ->execute();
+    }
 }

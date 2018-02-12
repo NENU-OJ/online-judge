@@ -46,12 +46,12 @@ class Util {
         return range($from, $from + $need - 1);
     }
 
-    static public function sendToJudgeBySocket($id, $host, $port) {
-        $id = strval($id);
+    static public function sendToJudgeBySocket($runid, $host, $port) {
+        $runid = strval($runid);
         try {
             $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
             socket_connect($socket, $host, $port);
-            socket_write($socket, $id, strlen($id));
+            socket_write($socket, $runid, strlen($runid));
             socket_close($socket);
             return true;
         } catch (\Exception $e) {

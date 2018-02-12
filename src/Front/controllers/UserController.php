@@ -23,7 +23,7 @@ class UserController extends BaseController {
         $rawSolved = Status::find()
             ->select('problem_id')
             ->distinct()
-            ->where(['user_id' => $user->id, 'result' => 'Accepted'])
+            ->where(['user_id' => $user->id, 'result' => 'Accepted', 'contest_id' => 0])
             ->orderBy('problem_id')
             ->asArray()
             ->all();
@@ -36,7 +36,7 @@ class UserController extends BaseController {
         $maybeUnsolved = Status::find()
             ->select('problem_id')
             ->distinct()
-            ->where('user_id=:uid AND result != "Accepted"', [':uid' => $user->id])
+            ->where('user_id=:uid AND result != "Accepted" AND contest_id = 0', [':uid' => $user->id])
             ->orderBy('problem_id')
             ->asArray()
             ->all();

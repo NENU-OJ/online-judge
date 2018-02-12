@@ -151,6 +151,7 @@ bool DatabaseHandler::already_accepted(int uid, int pid) {
 						"WHERE "
 						"user_id = " + std::to_string(uid) + " AND "
 						"problem_id = " + std::to_string(pid) + " AND "
+						"contest_id = 0 AND "
 						"result = 'Accepted' "
 						"LIMIT 1";
 	auto result = get_all_result(query);

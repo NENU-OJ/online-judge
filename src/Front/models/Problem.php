@@ -40,4 +40,13 @@ class Problem extends ActiveRecord {
             ->limit($pageSize)
             ->all();
     }
+
+    public static function addResult($id, $field, $val) {
+        if (!$field)
+            return;
+        \Yii::$app->db->createCommand("UPDATE t_problem SET $field=$field+:val WHERE id=:id")
+            ->bindValue(':val', $val)
+            ->bindValue(':id', $id)
+            ->execute();
+    }
 }

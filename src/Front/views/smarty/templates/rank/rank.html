@@ -46,7 +46,7 @@
                         <td><a href="/status/list/?name=<{$user->username}>"><{$user->total_submit}></a></td>
                         <td><span class="user-gray">
                             <{if $user->solved_problem}>
-                                <{sprintf("%.2f", 100 * $user->solved_problem / $user->total_submit)}>
+                                <{sprintf("%.2f", 100 * $user->total_ac / $user->total_submit)}>
                             <{else}>
                                 0.00
                             <{/if}>%
