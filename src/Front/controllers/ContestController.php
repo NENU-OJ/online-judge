@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\common\Cache;
 use app\common\Util;
 use app\models\Contest;
 use app\models\ContestProblem;
@@ -248,111 +249,11 @@ class ContestController extends BaseController {
             return $this->smarty->display('common/error.html');
         }
 
-        $problems = ContestProblem::getProblemLableId($id);
+        $problems = $this->getProblemLableId($id);
 
-        $userList = ContestUser::getUserList($id);
-        $maxTime = $contest->manager == Util::getUserName() ? $contest->end_time : $contest->lock_board_time;
-
-        $firstBlood = [];
-        foreach ($problems as $problem)
-            $firstBlood[$problem->lable] = [];
-
-        foreach ($userList as &$user) {
-            $user['solved'] = 0;
-            $user['penalty'] = 0;
-            $user['problem'] = [];
-            foreach ($problems as $problem) {
-                $acRecord = Status::find()
-                    ->select('id, submit_time')
-                    ->where(['and',
-                                ['contest_id' => $id],
-                                ['problem_id' => $problem->problem_id],
-                                ['user_id' => $user['id']],
-                                ['result' => 'Accepted'],
-                                ['<', 'submit_time', $maxTime],
-                            ])
-                    ->one();
-
-                $info = [];
-                $info['ac'] = false;
-                $info['try'] = Status::find()
-                    ->where(['and',
-                        ['contest_id' => $id],
-                        ['problem_id' => $problem->problem_id],
-                        ['user_id' => $user['id']],
-                        ['result' => ['Wrong Answer', 'Presentation Error', 'Time Limit Exceeded', 'Memory Limit Exceeded', 'Output Limit Exceeded', 'Runtime Error', 'Restricted Function']],
-                        ['<', 'submit_time', $maxTime],
-                        $acRecord ? ['<', 'id', $acRecord->id] : [],
-                    ])
-                    ->count();
-
-                if ($acRecord) {
-                    $info['ac'] = true;
-                    $user['solved'] += 1;
-                    $acTime = strtotime($acRecord->submit_time) - strtotime($contest->start_time);
-                    $info['acTime'] = sprintf("%02d:%02d", (int)floor($acTime / 3600), (int)floor(($acTime % 3600) / 60));
-                    $user['penalty'] += $acTime / 60;
-                    $user['penalty'] += $info['try'] * $contest->penalty;
-
-
-                    if (!$user['is_star'] &&
-                        (!isset($firstBlood[$problem->lable]['submit_time']) || $firstBlood[$problem->lable]['submit_time'] > $acRecord->submit_time)
-                    ) {
-                        $firstBlood[$problem->lable]['submit_time'] = $acRecord->submit_time;
-                        $firstBlood[$problem->lable]['username'] = $user['username'];
-                    }
-                }
-                $user['problem'][$problem->lable] = $info;
-            }
-        }
-
-        usort($userList, function ($lhs, $rhs) {
-            if ($lhs['solved'] == $rhs['solved']) {
-                if ($lhs['penalty'] == $rhs['penalty'])
-                    return $lhs['id'] < $rhs['id'];
-                else
-                    return $lhs['penalty'] - $rhs['penalty'];
-            } else {
-                return $rhs['solved'] - $lhs['solved'];
-            }
-        });
-
-        $gold = $contest->gold;
-        $silver = $contest->silver;
-        $bronze = $contest->bronze;
-        $rankCnt = 1;
-        $userNow = null;
-        foreach ($userList as &$user) {
-            foreach ($firstBlood as $lable => $info) {
-                if ($user['username'] == $info['username']) {
-                    $user['problem'][$lable]['first'] = true;
-                }
-            }
-            if ($user['solved'] && $gold) {
-                if(!$user['is_star'])
-                    $gold--;
-                $user['medal'] = 'gold';
-            } else if ($user['solved'] && $silver) {
-                if(!$user['is_star'])
-                    $silver--;
-                $user['medal'] = 'silver';
-            } else if ($user['solved'] && $bronze) {
-                if(!$user['is_star'])
-                    $bronze--;
-                $user['medal'] = 'bronze';
-            }
-
-            if ($user['is_star'])
-                $user['rank'] = '*';
-            else if ($user['solved'])
-                $user['rank'] = $rankCnt++;
-            else
-                $user['rank'] = '';
-
-            if ($user['username'] == Util::getUserName())
-                $userNow = $user;
-        }
-
+        $rawUserList = $this->getUserList($id, $contest, $problems);
+        $userList = $rawUserList[0];
+        $userNow = $rawUserList[1];
 
         $this->smarty->assign('contest', $contest);
         $this->smarty->assign('problems', $problems);
@@ -635,6 +536,135 @@ class ContestController extends BaseController {
             }
         }
         return $acArray;
+    }
+
+    private function getProblemLableId($contestId) {
+        $value = Cache::get("problemLableId$contestId");
+        if (!$value) {
+            $value = ContestProblem::getProblemLableId($contestId);
+            Cache::set("problemLableId$contestId", $value, \Yii::$app->params['memcached']['expire']);
+        }
+        return $value;
+    }
+
+    private function getUserList($contestId, $contest, $problems) {
+        $userList = Cache::get("userList$contestId");
+        if (!$userList) {
+            $userList = Cache::get("rawUserList$contestId");
+            if (!$userList) {
+                $userList = ContestUser::getUserList($contestId);
+                Cache::set("rawUserList$contestId", $userList, \Yii::$app->params['memcached']['expire']);
+            }
+
+
+
+            $maxTime = $contest->manager == Util::getUserName() ? $contest->end_time : $contest->lock_board_time;
+
+            $firstBlood = [];
+            foreach ($problems as $problem)
+                $firstBlood[$problem->lable] = [];
+
+            foreach ($userList as &$user) {
+                $user['solved'] = 0;
+                $user['penalty'] = 0;
+                $user['problem'] = [];
+                foreach ($problems as $problem) {
+                    $acRecord = Status::find()
+                        ->select('id, submit_time')
+                        ->where(['and',
+                            ['contest_id' => $contestId],
+                            ['problem_id' => $problem->problem_id],
+                            ['user_id' => $user['id']],
+                            ['result' => 'Accepted'],
+                            ['<', 'submit_time', $maxTime],
+                        ])
+                        ->one();
+
+                    $info = [];
+                    $info['ac'] = false;
+                    $info['try'] = Status::find()
+                        ->where(['and',
+                            ['contest_id' => $contestId],
+                            ['problem_id' => $problem->problem_id],
+                            ['user_id' => $user['id']],
+                            ['result' => ['Wrong Answer', 'Presentation Error', 'Time Limit Exceeded', 'Memory Limit Exceeded', 'Output Limit Exceeded', 'Runtime Error', 'Restricted Function']],
+                            ['<', 'submit_time', $maxTime],
+                            $acRecord ? ['<', 'id', $acRecord->id] : [],
+                        ])
+                        ->count();
+
+                    if ($acRecord) {
+                        $info['ac'] = true;
+                        $user['solved'] += 1;
+                        $acTime = strtotime($acRecord->submit_time) - strtotime($contest->start_time);
+                        $info['acTime'] = sprintf("%02d:%02d", (int)floor($acTime / 3600), (int)floor(($acTime % 3600) / 60));
+                        $user['penalty'] += $acTime / 60;
+                        $user['penalty'] += $info['try'] * $contest->penalty;
+
+
+                        if (!$user['is_star'] &&
+                            (!isset($firstBlood[$problem->lable]['submit_time']) || $firstBlood[$problem->lable]['submit_time'] > $acRecord->submit_time)
+                        ) {
+                            $firstBlood[$problem->lable]['submit_time'] = $acRecord->submit_time;
+                            $firstBlood[$problem->lable]['username'] = $user['username'];
+                        }
+                    }
+                    $user['problem'][$problem->lable] = $info;
+                }
+            }
+
+            usort($userList, function ($lhs, $rhs) {
+                if ($lhs['solved'] == $rhs['solved']) {
+                    if ($lhs['penalty'] == $rhs['penalty'])
+                        return $lhs['id'] < $rhs['id'];
+                    else
+                        return $lhs['penalty'] - $rhs['penalty'];
+                } else {
+                    return $rhs['solved'] - $lhs['solved'];
+                }
+            });
+
+            $gold = $contest->gold;
+            $silver = $contest->silver;
+            $bronze = $contest->bronze;
+            $rankCnt = 1;
+            $userNow = null;
+            foreach ($userList as &$user) {
+                foreach ($firstBlood as $lable => $info) {
+                    if ($user['username'] == $info['username']) {
+                        $user['problem'][$lable]['first'] = true;
+                    }
+                }
+                if ($user['solved'] && $gold) {
+                    if(!$user['is_star'])
+                        $gold--;
+                    $user['medal'] = 'gold';
+                } else if ($user['solved'] && $silver) {
+                    if(!$user['is_star'])
+                        $silver--;
+                    $user['medal'] = 'silver';
+                } else if ($user['solved'] && $bronze) {
+                    if(!$user['is_star'])
+                        $bronze--;
+                    $user['medal'] = 'bronze';
+                }
+
+                if ($user['is_star'])
+                    $user['rank'] = '*';
+                else if ($user['solved'])
+                    $user['rank'] = $rankCnt++;
+                else
+                    $user['rank'] = '';
+
+                if ($user['username'] == Util::getUserName())
+                    $userNow = $user;
+            }
+
+            Cache::set("userList$contestId", [$userList, $userNow], \Yii::$app->params['memcached']['expire']);
+            return [$userList, $userNow];
+        } else {
+            return $userList;
+        }
     }
 
 }

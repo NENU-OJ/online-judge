@@ -2,10 +2,13 @@
 
 namespace app\controllers;
 
+use app\common\Cache;
 use app\models\Contest;
 use app\models\ContestUser;
 use app\models\Discuss;
 use app\models\User;
+use Memcached;
+
 
 class IndexController extends BaseController {
 
@@ -51,10 +54,23 @@ class IndexController extends BaseController {
         $this->smarty->display('index.html');
     }
 
+    public function actionCache() {
+        $memcache = new Memcached();
+        $value = [];
+        for ($i = 0; $i < 100000; ++$i)
+            $value[] = rand(0, 1000000);
+        if ($data = Cache::get('hh')) {
+            echo $data;
+        } else {
+            Cache::set('hh', 2, 3);
+        }
+    }
+
     public function actionWarn($msg) {
         $this->smarty->assign('msg', $msg);
         return $this->smarty->display('common/error.html');
     }
+
     public function actions() {
         return [
             'error' => [

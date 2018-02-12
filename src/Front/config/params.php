@@ -6,6 +6,11 @@ return [
         'host' => 'localhost',
         'port' => 27015,
     ],
+    'memcached' => [
+        'host' => 'localhost',
+        'port' => 11211,
+        'expire' => 24,
+    ],
     'vmMultiplier' => 2,
     'uploadsDir' => substr(__DIR__, 0, strlen(__DIR__) - 7).'/uploads',
     'queryPerPage' => 20,
