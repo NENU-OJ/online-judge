@@ -7,6 +7,7 @@
 
 #include <cstdio>
 #include <string>
+#include <vector>
 
 class Utils {
 public:
@@ -17,6 +18,7 @@ public:
 	static std::string get_input_file(int pid);
 	static std::string get_output_file(int pid);
 	static std::string get_user_output_file();
+	static std::vector<std::string> split(const std::string &str);
 };
 
 

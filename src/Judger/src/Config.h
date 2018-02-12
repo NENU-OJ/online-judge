@@ -48,6 +48,7 @@ private:
 	std::string output_file;
 	std::string stderr_file;
 	std::string ce_info_file;
+	std::string connect_string;
 public:
 	static const int CPP_LANG;
 	static const int CPP11_LANG;
@@ -134,6 +135,10 @@ public:
 
 	const std::string &get_spj_files_path() const {
 		return spj_files_path;
+	}
+
+	const std::string &get_connect_string() const {
+		return connect_string;
 	}
 
 	int get_max_output_limit() const {

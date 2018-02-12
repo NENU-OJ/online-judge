@@ -109,8 +109,12 @@ int next_runid() { // TODO fuck with exception
 	}
 	buf[num_read] = '\0';
 	close(cfd);
-	int runid = atoi(buf);
 
+	std::vector<std::string> split_list = Utils::split(buf);
+
+	if (split_list[0] != Config::get_instance()->get_connect_string())
+		throw Exception("Wrong connect_string");
+	int runid = atoi(split_list[1].c_str());
 	return runid;
 }
 

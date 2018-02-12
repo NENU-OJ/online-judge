@@ -174,7 +174,8 @@ Config::Config(std::string config_file) {
 			"test_files_path",
 			"spj_files_path",
 			"stderr_file",
-			"vm_multiplier"
+			"vm_multiplier",
+		    "connect_string"
 		};
 
 		for (const auto &key : check_list) {
@@ -204,6 +205,7 @@ Config::Config(std::string config_file) {
 		test_files_path = config_map["test_files_path"];
 		spj_files_path = config_map["spj_files_path"];
 		stderr_file = config_map["stderr_file"];
+		connect_string = config_map["connect_string"];
 		LOG(INFO) << "config is finished";
 	}
 }

@@ -78,3 +78,20 @@ std::string Utils::get_user_output_file() {
 	return Config::get_instance()->get_temp_path() +
            Config::get_instance()->get_output_file();
 }
+
+std::vector<std::string> Utils::split(const std::string &str) {
+	std::vector<std::string> result;
+	std::string buf;
+	for (auto ch : str) {
+		if (ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r') {
+			if (!buf.empty())
+				result.push_back(buf);
+			buf.clear();
+		} else {
+			buf += ch;
+		}
+	}
+	if (!buf.empty())
+		result.push_back(buf);
+	return result;
+}

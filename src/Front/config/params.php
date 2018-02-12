@@ -5,6 +5,7 @@ return [
     'judger' => [
         'host' => 'localhost',
         'port' => 27015,
+        'connectString' => 'torapture',
     ],
     'memcached' => [
         'host' => 'localhost',

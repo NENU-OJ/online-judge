@@ -47,11 +47,11 @@ class Util {
     }
 
     static public function sendToJudgeBySocket($runid, $host, $port) {
-        $runid = strval($runid);
+        $msg = \Yii::$app->params['judger']['connectString'] . " " . strval($runid);
         try {
             $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
             socket_connect($socket, $host, $port);
-            socket_write($socket, $runid, strlen($runid));
+            socket_write($socket, $msg, strlen($msg));
             socket_close($socket);
             return true;
         } catch (\Exception $e) {
