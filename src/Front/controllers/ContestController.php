@@ -251,9 +251,14 @@ class ContestController extends BaseController {
 
         $problems = $this->getProblemLableId($id);
 
-        $rawUserList = $this->getUserList($id, $contest, $problems);
-        $userList = $rawUserList[0];
-        $userNow = $rawUserList[1];
+        $userList = $this->getUserList($id, $contest, $problems);
+        $userNow = null;
+        foreach ($userList as $user) {
+            if ($user['username'] == Util::getUserName()) {
+                $userNow = $user;
+                break;
+            }
+        }
 
         $this->smarty->assign('contest', $contest);
         $this->smarty->assign('problems', $problems);
@@ -628,7 +633,6 @@ class ContestController extends BaseController {
             $silver = $contest->silver;
             $bronze = $contest->bronze;
             $rankCnt = 1;
-            $userNow = null;
             foreach ($userList as &$user) {
                 foreach ($firstBlood as $lable => $info) {
                     if ($user['username'] == $info['username']) {
@@ -655,13 +659,10 @@ class ContestController extends BaseController {
                     $user['rank'] = $rankCnt++;
                 else
                     $user['rank'] = '';
-
-                if ($user['username'] == Util::getUserName())
-                    $userNow = $user;
             }
 
-            Cache::set("userList$contestId", [$userList, $userNow], \Yii::$app->params['memcached']['expire']);
-            return [$userList, $userNow];
+            Cache::set("userList$contestId", $userList, \Yii::$app->params['memcached']['expire']);
+            return $userList;
         } else {
             return $userList;
         }
