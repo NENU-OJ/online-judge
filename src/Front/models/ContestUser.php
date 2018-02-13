@@ -53,7 +53,7 @@ class ContestUser extends ActiveRecord {
             $user = User::find()->select('username, nickname')->where(['id' => $raw->user_id])->one();
             $record['username'] = $user->username;
             $record['nickname'] = $user->nickname;
-            $userList[] = $record;
+            $userList[$record['id']] = $record;
         }
         return $userList;
     }

@@ -10,7 +10,7 @@ return [
     'memcached' => [
         'host' => 'localhost',
         'port' => 11211,
-        'expire' => 24,
+        'expire' => 5,
     ],
     'vmMultiplier' => 2,
     'uploadsDir' => substr(__DIR__, 0, strlen(__DIR__) - 7).'/uploads',

@@ -568,36 +568,45 @@ class ContestController extends BaseController {
             $firstBlood = [];
             foreach ($problems as $problem)
                 $firstBlood[$problem->lable] = [];
+
+            $statusList = Status::find()
+                ->select('problem_id, result, submit_time, user_id')
+                ->where(['and',
+                            ['contest_id' => $contestId],
+                            ['result' => ['Accepted', 'Wrong Answer', 'Presentation Error', 'Time Limit Exceeded', 'Memory Limit Exceeded', 'Output Limit Exceeded', 'Runtime Error', 'Restricted Function']],
+                            ['<', 'submit_time', $maxTime],
+                        ])
+                ->orderBy('submit_time')
+                ->all();
+
+
             foreach ($userList as &$user) {
                 $user['solved'] = 0;
                 $user['penalty'] = 0;
                 $user['problem'] = [];
-
+                $user['ac'] = [];
                 foreach ($problems as $problem) {
-                    $acRecord = Status::find()
-                        ->select('id, submit_time')
-                        ->where(['and',
-                            ['contest_id' => $contestId],
-                            ['problem_id' => $problem->problem_id],
-                            ['user_id' => $user['id']],
-                            ['result' => 'Accepted'],
-                            ['<', 'submit_time', $maxTime],
-                        ])
-                        ->orderBy('id')
-                        ->one();
+                    $user['ac'][$problem->problem_id] = ['try' => 0, 'acRecord' => null];
+                }
+            }
+
+            foreach ($statusList as $status) {
+                if ($status->result == 'Accepted') {
+                    if ($userList[$status->user_id]['ac'][$status->problem_id]['acRecord'] == null)
+                        $userList[$status->user_id]['ac'][$status->problem_id]['acRecord'] = $status;
+                } else {
+                    if ($userList[$status->user_id]['ac'][$status->problem_id]['acRecord'] == null)
+                        $userList[$status->user_id]['ac'][$status->problem_id]['try']++;
+                }
+            }
+
+            foreach ($userList as &$user) {
+                foreach ($problems as $problem) {
+                    $acRecord = $user['ac'][$problem->problem_id]['acRecord'];
 
                     $info = [];
                     $info['ac'] = false;
-                    $info['try'] = Status::find()
-                        ->where(['and',
-                            ['contest_id' => $contestId],
-                            ['problem_id' => $problem->problem_id],
-                            ['user_id' => $user['id']],
-                            ['result' => ['Wrong Answer', 'Presentation Error', 'Time Limit Exceeded', 'Memory Limit Exceeded', 'Output Limit Exceeded', 'Runtime Error', 'Restricted Function']],
-                            ['<', 'submit_time', $maxTime],
-                            $acRecord ? ['<', 'id', $acRecord->id] : [],
-                        ])
-                        ->count();
+                    $info['try'] = $user['ac'][$problem->problem_id]['try'];
 
                     if ($acRecord) {
                         $info['ac'] = true;
