@@ -95,7 +95,7 @@ void init_socket() {
  * get run from socket
  * @return
  */
-int next_runid() { // TODO fuck with exception
+int next_runid() {
 	int cfd = accept(main_sockfd, NULL, NULL);
 
 	LOG(INFO) << "accepted connection fd: " << cfd;
@@ -104,7 +104,6 @@ int next_runid() { // TODO fuck with exception
 	int num_read = 0;
 	int tries = 5;
 	while (num_read == 0 && tries--) {
-		usleep(1280);
 		num_read += read(cfd, buf, sizeof(buf));
 	}
 	buf[num_read] = '\0';
