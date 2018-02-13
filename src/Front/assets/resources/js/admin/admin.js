@@ -87,8 +87,8 @@ $(document).ready(function () {
         CKEDITOR.instances.hint.setData('');
         $sampleIn.text('');
         $sampleOut.text('');
-        $source.text('');
-        $author.text('');
+        $source.val('');
+        $author.val('');
 
     });
 
@@ -156,6 +156,7 @@ $(document).ready(function () {
             success: function (resp) {
                 if (resp.code == 0) {
                     $submitInfo.text(resp.data);
+                    $("#pid").val(resp.id);
                 } else {
                     $submitError.text(resp.data);
                 }

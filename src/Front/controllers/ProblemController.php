@@ -221,7 +221,7 @@ class ProblemController extends BaseController {
             } else {
                 $data = "修改题目: $pid";
             }
-            return json_encode(["code" => 0, "data" => $data]);
+            return json_encode(["code" => 0, "data" => $data, "id" => $pid]);
         } catch (Exception $e) {
             return json_encode(["code" => 1, "data" => $e->getMessage()]);
         }

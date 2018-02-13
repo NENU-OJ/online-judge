@@ -41,7 +41,7 @@
                         <div class="col-md-4">
                             <span class="pull-right" style="margin:20px 15px 0 0">
                             <img class="img-250 img-round" alt="avatar" src="<{$uploadsDir}>/avatar/<{$user->avatar}>/1.png">
-                                <div><a href="<{$website}>/user/avatar">Change Avatar</a></div>
+                                <{if $username == $user->username}><div><a href="<{$website}>/user/avatar">Change Avatar</a></div><{/if}>
                             </span>
                         </div>
                     </div>
