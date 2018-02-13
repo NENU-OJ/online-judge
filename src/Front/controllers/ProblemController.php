@@ -25,7 +25,7 @@ class ProblemController extends BaseController {
         $andWhereArray = [];
         $search = \Yii::$app->request->get('search');
         if ($search) {
-            $andWhereArray = ['or', ['like', 'title', '%'.$search.'%', false], ['like', 'author', '%'.$search.'%', false]];
+            $andWhereArray = ['or', ['like', 'title', '%'.$search.'%', false], ['like', 'source', '%'.$search.'%', false]];
         }
 
         $totalPage = Problem::totalPage($pageSize, $whereArray, $andWhereArray);
