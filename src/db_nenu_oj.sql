@@ -1,4 +1,3 @@
-DROP DATABASE IF EXISTS `db_nenu_oj`;
 CREATE DATABASE `db_nenu_oj` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE db_nenu_oj;
 
@@ -30,16 +29,6 @@ CREATE TABLE `t_problem`(
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '题目表';
 alter table t_problem AUTO_INCREMENT=1000;
-insert into t_problem(title, description, input, output, sample_in, sample_out, hint, source, author, time_limit, memory_limit) values ('fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck',1000,65536),
-('fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck',1000,65536),
-('fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck',1000,65536),
-('fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck',1000,65536),
-('fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck',1000,65536);
-insert into t_problem(title, description, input, output, sample_in, sample_out, hint, source, author, time_limit, memory_limit, is_hide) values ('fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck',1000,65536, 1),
-('fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck',1000,65536, 1),
-('fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck',1000,65536, 1),
-('fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck',1000,65536, 1),
-('fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck','fuck',1000,65536, 1);
 
 CREATE TABLE `t_status`(
     `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
