@@ -42,6 +42,9 @@ Special Judge所需的文件夹由`config.ini`中的`spj_files_path`字段指定
 否则Special Judge程序的语言由`is_special_judge`的值决定。
 格式为`{spj_files_path}/{problem_id}/spj.{ext}`。
 例：题目1000, Special Judge语言为C++，则格式为`{spj_files_path}/1000/spj.cpp`。
+### 使用方法
+SPJ程序的标准输入会有三行被写入，分别是测试数据输入文件名，测试数据输出文件名和用户输出数据文件名，你需要从这三个文件中来读取数据。
+若SPJ程序的exit_code为0则表示AC，否则表示WA。
 
 # 运行
 把编译后生成的`Judger`和`config.ini`与各个所需文件夹放在同一个目录下，由非`judger`用户`sudo ./Judger`运行。
