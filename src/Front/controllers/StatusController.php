@@ -127,6 +127,8 @@ class StatusController extends BaseController {
             $lang = 'python';
         $this->smarty->assign('source', $source);
         $this->smarty->assign('lang', $lang);
+        $this->smarty->assign('statusId', $status->id);
+        $this->smarty->assign('belongId', $status->user_id);
 
         $this->smarty->assign('webTitle', 'Source');
         return $this->smarty->display('status/source.html');
@@ -167,5 +169,26 @@ class StatusController extends BaseController {
         } else {
             return json_encode(["code" => 1, "data" => "fucking not exists $id"]);
         }
+    }
+
+    public function actionShare() {
+        $share = \Yii::$app->request->post('share', 0);
+        $statusId = \Yii::$app->request->post('statusId', 0);
+
+        $status = Status::find()->select('*')->where(['id' => $statusId])->one();
+        if (!$status)
+            return json_encode(["code" => 1, "data" => "$statusId 这个提交不存在"]);
+        if ($status->user_id != Util::getUser())
+            return json_encode(["code" => 1, "data" => "无权修改"]);
+
+        if ($share) {
+            $action = "共享";
+            $status->is_shared = 1;
+        } else {
+            $action = "取消共享";
+            $status->is_shared = 0;
+        }
+        $status->update();
+        return json_encode(["code" => 0, "data" => "提交 $statusId $action 成功 "]);
     }
 }

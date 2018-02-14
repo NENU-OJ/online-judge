@@ -31,6 +31,14 @@
 <div class="container">
     <fieldset>
         <div class="block block-danger">
+            <{if $belongId == $user_id}>
+            <div class="form-group">
+                    <a class="btn btn-default share" data-val="1" data-id="<{$statusId}>" href="javascript:;">Share</a>
+                    <a class="btn btn-default share" data-val="0" data-id="<{$statusId}>" href="javascript:;">Cancel Share</a>
+                    <small class="success-text" id="shareError"></small>
+                </div>
+            </div>
+            <{/if}>
             <div class="block-content">
                 <div class="inner" style="background:#fff">
                     <pre class="line-numbers"><code class="language-<{$lang}>"><{$source}></code></pre>
@@ -47,7 +55,7 @@
 <script type="text/javascript" src="<{$staticWebsite}>/lib/js/prism/prism.js"></script>
 <!-- Javascript App -->
 <{include file="common/jsApp.html"}>
-
+<script type="text/javascript" src="<{$staticWebsite}>/js/status/source.js"></script>
 </body>
 
 </html>
