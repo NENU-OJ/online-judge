@@ -74,3 +74,10 @@ sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_
 3. 重启php-fpm`sudo service php5.6-fpm restart`
 4. 修改`/etc/memcached.conf`文件中的`-m`项为128
 5. 重启memcached`sudo service memcached restart`
+
+## 限制比赛提交
+通过`src/Front/config/params.php`文件`contestWhiteList`字段以白名单方式管理，若这个列表为空则表示无限制，否则只有列表中的比赛可以提交，非比赛提交id为0。
+例：
+- 没有限制：[]
+- 只有比赛1和比赛2可以提交：[1, 2]
+- 只有比赛3和非比赛提交：[0, 3]
