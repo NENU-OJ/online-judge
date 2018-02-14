@@ -75,6 +75,7 @@ class ProblemController extends BaseController {
     }
 
     public function actionSubmit() {
+
         if (!isset(\Yii::$app->session['user_id']))
             return json_encode(["code" => 2, "data" => "请先登录"]);
 
@@ -99,6 +100,9 @@ class ProblemController extends BaseController {
                 $isHide = Problem::find()->select('is_hide')->where(['id' => $problemId])->one()->is_hide;
                 if ($isHide && $contestId == 0 && !Util::isRoot())
                     return json_encode(["code" => 1, "data" => "隐藏题目无法提交"]);
+
+                if (\Yii::$app->params['contestWhiteList'] && !in_array($contestId, \Yii::$app->params['contestWhiteList']))
+                    return json_encode(["code" => 1, "data" => "限制比赛提交中"]);
 
                 $status = new Status();
                 $status->user_id = \Yii::$app->session['user_id'];
