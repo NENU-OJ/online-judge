@@ -94,9 +94,15 @@ class ProblemController extends BaseController {
                         ContestUser::addUser($contestId, Util::getUser());
                 }
 
+                $problemId = \Yii::$app->request->post('problemId');
+                $isHide = false;
+                $isHide = Problem::find()->select('is_hide')->where(['id' => $problemId])->one()->is_hide;
+                if ($isHide && $contestId == 0 && !Util::isRoot())
+                    return json_encode(["code" => 1, "data" => "隐藏题目无法提交"]);
+
                 $status = new Status();
                 $status->user_id = \Yii::$app->session['user_id'];
-                $status->problem_id = \Yii::$app->request->post('problemId');
+                $status->problem_id = $problemId;
                 $status->language_id = \Yii::$app->request->post('languageId');
                 $status->source = \Yii::$app->request->post('sourceCode');
                 $status->is_shared = intval(\Yii::$app->request->post('isShared'));
