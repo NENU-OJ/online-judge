@@ -8,6 +8,7 @@
 
 namespace app\controllers;
 
+use app\common\Util;
 use app\models\DiscussReply;
 use yii\db\Exception;
 
@@ -46,7 +47,7 @@ class DiscussReplyController extends BaseController {
             return json_encode(["code" => 1, "data" => "请先登录"]);
 
         $id = \Yii::$app->request->post('id', 0);
-        $content = \Yii::$app->request->post('content');
+        $content = Util::ignoreJs(\Yii::$app->request->post('content'));
 
         $discussReply = DiscussReply::find()
             ->select('*')

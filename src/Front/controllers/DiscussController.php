@@ -242,7 +242,7 @@ class DiscussController extends BaseController {
             $discussReply->discuss_id = $discussId;
             $discussReply->parent_id = \Yii::$app->request->post('parent_id', 0);
             $discussReply->created_at = $createdAt;
-            $discussReply->content = \Yii::$app->request->post('content');
+            $discussReply->content = Util::ignoreJs(\Yii::$app->request->post('content'));
             $discussReply->reply_at = \Yii::$app->request->post('reply_at', '');
             $discussReply->username = \Yii::$app->session['username'];
 
