@@ -88,7 +88,7 @@ void Submit::work() {
 	db.change_run_result(runid, RunResult::COMPILING);
 	result = run.compile();
 
-	if (result != RunResult::COMPILE_ERROR) {
+	if (result == RunResult::COMPILE_SUCCESS) {
 		LOG(INFO) << "running runid: " << runid;
 		db.change_run_result(runid, RunResult::RUNNING);
 		result = run.run(std_input_file);

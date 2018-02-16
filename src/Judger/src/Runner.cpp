@@ -92,7 +92,8 @@ RunResult Runner::compile() {
 
 	/// write to src file
 	if (!Utils::save_to_file(src_file_name, src)) {
-		return RunResult::COMPILE_ERROR.set_ce_info("Can not save to file.");
+		LOG(ERROR) << "Can not save source code to file " + src_file_name;
+		return RunResult::JUDGE_ERROR;
 	}
 
 	/// try to compile

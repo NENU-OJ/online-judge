@@ -15,7 +15,8 @@
  */
 bool Utils::save_to_file(const std::string &file, const std::string &content) {
 	FILE *fp = fopen(file.c_str(), "w");
-	while (fp == NULL) fp = fopen(file.c_str(), "w");
+	int tries = 5;
+	while (fp == NULL && tries--) fp = fopen(file.c_str(), "w");
 	if (fp != NULL) {
 		fputs(content.c_str(), fp);
 		fclose(fp);
