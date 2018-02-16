@@ -46,8 +46,8 @@ class Util {
         return range($from, $from + $need - 1);
     }
 
-    static public function sendToJudgeBySocket($runid, $host, $port) {
-        $msg = \Yii::$app->params['judger']['connectString'] . " " . strval($runid);
+    static public function sendToJudgeBySocket($runid, $host, $port, $connectString) {
+        $msg = $connectString . " " . strval($runid);
         try {
             $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
             socket_connect($socket, $host, $port);
@@ -59,6 +59,14 @@ class Util {
                 socket_close($socket);
             return false;
         }
+    }
+
+    static public function sendRunIdToJudge($runid) {
+        $judger = \Yii::$app->params['judgerList'][array_rand(\Yii::$app->params['judgerList'])];
+        $host = $judger['host'];
+        $port = $judger['port'];
+        $connectString = $judger['connectString'];
+        Util::sendToJudgeBySocket($runid, $host, $port, $connectString);
     }
 
     static public function isLogin() {

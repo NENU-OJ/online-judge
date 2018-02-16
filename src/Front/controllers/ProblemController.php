@@ -122,10 +122,7 @@ class ProblemController extends BaseController {
                     ContestProblem::addTotalSubmit($contestId, $status->problem_id);
                 }
 
-                $host = \Yii::$app->params['judger']['host'];
-                $port = \Yii::$app->params['judger']['port'];
-
-                Util::sendToJudgeBySocket($status->id, $host, $port);
+                Util::sendRunIdToJudge($status->id);
 
                 return json_encode(["code" => 0, "data" => ["result" => "Send to Judge", "id" => $status->id]]);
             } catch (\Exception $e) {

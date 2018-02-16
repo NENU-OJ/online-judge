@@ -3,10 +3,12 @@
 return [
     'adminEmail' => 'admin@example.com',
     'contestWhiteList' => [], // 允许有提交的比赛，若为空则允许所有比赛和非比赛提交，否则只允许提交list中的
-    'judger' => [
-        'host' => 'localhost',
-        'port' => 27015,
-        'connectString' => 'torapture',
+    'judgerList' => [
+        [
+            'host' => 'localhost',
+            'port' => 27015,
+            'connectString' => 'torapture',
+        ],
     ],
     'memcached' => [
         'host' => 'localhost',
