@@ -1,7 +1,0 @@
-1. 优化Socket细节，防止丢数据
-2. C++编译输出大小限制
-3. 修改Python编译参数
-4. 并行判题
-5. CMake参数与优化
-6. Rejudge
-8. define ONLINE_JUDGE
