@@ -414,15 +414,15 @@ class ContestController extends BaseController {
         if (!Util::isLogin())
             json_encode(['code' => 1, 'data' => '请先登录']);
 
-        $title = \Yii::$app->request->post('title');
+        $title = Util::ignoreJs(\Yii::$app->request->post('title'));
         $beginTime = (int)\Yii::$app->request->post('beginTime');
         $length = (int)\Yii::$app->request->post('length');
         $lockBoardTime = (int)\Yii::$app->request->post('lockBoardTime');
         $password = \Yii::$app->request->post('password');
         $penalty = \Yii::$app->request->post('penalty');
         $hideOthers = (int)\Yii::$app->request->post('hideOthers');
-        $description = \Yii::$app->request->post('description');
-        $announcement = \Yii::$app->request->post('announcement');
+        $description = Util::ignoreJs(\Yii::$app->request->post('description'));
+        $announcement = Util::ignoreJs(\Yii::$app->request->post('announcement'));
         $problemList = \Yii::$app->request->post('problemList');
         $gold = (int)\Yii::$app->request->post('gold');
         $silver = (int)\Yii::$app->request->post('silver');
@@ -553,7 +553,9 @@ class ContestController extends BaseController {
     }
 
     private function getUserList($contestId, $contest, $problems) {
-        $userList = Cache::get("userList$contestId");
+        $isManager = $contest->manager == Util::getUserName();
+        $userListKey = $isManager ? "managerUserList$contestId" : "userList$contestId";
+        $userList = Cache::get($userListKey);
         if (!$userList) {
             $userList = Cache::get("rawUserList$contestId");
             if (!$userList) {
@@ -671,7 +673,7 @@ class ContestController extends BaseController {
                     $user['rank'] = '';
             }
 
-            Cache::set("userList$contestId", $userList, \Yii::$app->params['memcached']['expire']);
+            Cache::set($userListKey, $userList, \Yii::$app->params['memcached']['expire']);
             return $userList;
         } else {
             return $userList;
