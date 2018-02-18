@@ -134,8 +134,8 @@ void Runner::child_run() { // TODO set limit and run
 
 	/// set time limit
 	itimerval itv;
-	itv.it_value.tv_sec = time_limit_ms / 1000 + 1; // extra 1 seconds for I/O and Context switching
-	itv.it_value.tv_usec = time_limit_ms % 1000 * 1000;
+	itv.it_value.tv_sec = time_limit_ms / 1000;
+	itv.it_value.tv_usec = (time_limit_ms % 1000 + 172) * 1000; // extra 172ms for I/O and Context switching
 	itv.it_interval.tv_sec = 0;
 	itv.it_interval.tv_usec = 0;
 	setitimer(ITIMER_REAL, &itv, NULL);
