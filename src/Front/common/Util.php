@@ -69,6 +69,18 @@ class Util {
         Util::sendToJudgeBySocket($runid, $host, $port, $connectString);
     }
 
+    static public function sendRunIdToRejudge($runid) {
+        if (\Yii::$app->params['rejudgerList'])
+            $rejudgerList = \Yii::$app->params['rejudgerList'];
+        else
+            $rejudgerList = \Yii::$app->params['judgerList'];
+        $judger = $rejudgerList[array_rand($rejudgerList)];
+        $host = $judger['host'];
+        $port = $judger['port'];
+        $connectString = $judger['connectString'];
+        Util::sendToJudgeBySocket($runid, $host, $port, $connectString);
+    }
+
     static public function isLogin() {
         return isset(\Yii::$app->session['user_id']);
     }

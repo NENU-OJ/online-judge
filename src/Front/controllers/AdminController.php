@@ -115,7 +115,7 @@ class AdminController extends BaseController {
         }
         $status->result = 'Send to Rejudge';
         $status->update();
-        Util::sendRunIdToJudge($status->id);
+        Util::sendRunIdToRejudge($status->id);
         return json_encode(['code' => 0, 'data' => "ReJudge $runid 成功"]);
     }
 
@@ -143,7 +143,7 @@ class AdminController extends BaseController {
                 ContestProblem::addTotalAC($contestId, $pid, -1);
             $status->result = 'Send to Rejudge';
             $status->update();
-            Util::sendRunIdToJudge($status->id);
+            Util::sendRunIdToRejudge($status->id);
         }
         return json_encode(['code' => 0, 'data' => "Rejudge 比赛:$contestId, 题目:$prob 成功"]);
     }
