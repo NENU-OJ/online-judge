@@ -51,6 +51,8 @@ SPJ程序的标准输入会有三行被写入，分别是测试数据输入文�
 日志信息全部会输出到`stderr`。
 
 ## WEB
+### 配置文件
+`src/Front/config/params.php`和`src/Front/config/db.php`中的字段按照需要进行修改
 ### 文件权限修改
 如果使用Nginx则需要`sudo chown -R www-data:www-data OnlineJudge/src/front/uploads/avatar/user/`
 ### 安装并开启GD库
