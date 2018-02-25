@@ -116,7 +116,7 @@
                                 <td>
                                     <a target="_blank" href="<{$website}>/user/detail/<{$user['username']}>" class="user"><{$user['username']}></a>
                                 </td>
-                                <td><span title="<{$user['nickname']}>" class="u-info user-gray ellipsis"><{$user['nickname']}></span></td>
+                                <td><span class="user-gray ellipsis"><{$user['nickname']}></span></td>
                                 <td><{$user['solved']}></td>
                                 <td><{sprintf("%.0f", $user['penalty'])}></td>
                                 <{foreach $user['problem'] as $info}>

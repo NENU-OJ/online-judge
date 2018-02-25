@@ -116,12 +116,10 @@ class UserController extends BaseController {
             }
         } else if (\Yii::$app->request->isPost) {
             $username = \Yii::$app->request->post('username');
-            $nickname = \Yii::$app->request->post('nickname');
+            $nickname = Util::ignoreJs(\Yii::$app->request->post('nickname'));
 
             if (!preg_match('/^([a-z]|[A-Z]|[0-9]|_)+$/', $username))
                 return json_encode(["code" => 1, "data" => "username只能由大小写字母、数字和下划线组成"]);
-            if (!preg_match('/^([a-z]|[A-Z]|[0-9]|_)+$/', $nickname))
-                return json_encode(["code" => 1, "data" => "nickname只能由大小写字母、数字和下划线组成"]);
 
             // 用户名是否重复
             if (User::findByUsername($username))
@@ -174,8 +172,6 @@ class UserController extends BaseController {
             $user->password = md5(\Yii::$app->request->post('new_password'));
 
         $nickname = \Yii::$app->request->post('nickname');
-        if (!preg_match('/^([a-z]|[A-Z]|[0-9]|_)+$/', $nickname))
-            return json_encode(["code" => 1, "data" => "nickname只能由大小写字母、数字和下划线组成"]);
 
         $user->nickname = Util::ignoreJs($nickname);
         $user->school = Util::ignoreJs(\Yii::$app->request->post('school'));
