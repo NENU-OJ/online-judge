@@ -10,10 +10,10 @@ $this->title = $name;
 $this->context->layout = false;
 ?>
 <head>
-    <title>NENU Online Judge</title>
+    <title><?= \Yii::$app->params['longTitle'] ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="/assets/resources/img/honoka.png"/>
-    <link rel="bookmark" href="/assets/resources/img/honoka.png" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/assets/resources/img/favicon.png"/>
+    <link rel="bookmark" href="/assets/resources/img/favicon.png" type="image/x-icon"/>
     <!-- CSS Libs -->
     <link rel="stylesheet" type="text/css" href="/assets/resources/lib/css/bootstrap/bootstrap.min.css">
     <!-- CSS App -->
@@ -30,15 +30,16 @@ $this->context->layout = false;
 </div>
 <!-- footer部分start -->
 <div id="footer">
-    <div class="container"><h4>NENUOJ</h4>
+    <div class="container"><h4><?= \Yii::$app->params['shortTitle'] ?></h4>
         <div class="row">
-            <div class="col-sm-2"><a target="_blank" href="https://github.com/NENU-OJ/OnlineJudge">Current Version v0.0.0</a></div>
-            <div class="col-sm-5"><span>Copyright © 2017-2019 NENUOJ Team. All Rights Reserved.</span></div>
+            <div class="col-sm-2"><a target="_blank" href="<?= \Yii::$app->params['version']['repo'] ?>">Current Version <?= \Yii::$app->params['version']['id'] ?></a></div>
+            <div class="col-sm-5"><span><?= \Yii::$app->params['copyright'] ?></span></div>
         </div>
         <div>
             <span>Designer and Developer :
-            <a target="_blank" href="http://www.cnblogs.com/ToRapture/">ToRapture</a>
-            <a target="_blank" href="https://github.com/Shihao97">Shihao</a>
+            <?php foreach (\Yii::$app->params['developer'] as $developer => $site) { ?>
+            <a target="_blank" href="<?= $site ?>"><?= $developer ?></a>
+            <?php } ?>
             </span>
         </div>
     </div>

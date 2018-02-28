@@ -1,7 +1,17 @@
 <?php
 
 return [
-    'adminEmail' => 'admin@example.com',
+    'developer' => [
+        'ToRapture' => 'http://www.cnblogs.com/ToRapture/',
+    ],
+    'copyright' => 'Copyright © 2017-2019 NENU-OJ Team. All Rights Reserved.',
+    'version' => [
+        'id' => 'v1.0',
+        'repo' => 'https://github.com/NENU-OJ/OnlineJudge'
+    ],
+    'shortTitle' => 'NENU-OJ',
+    'longTitle' => 'NENU Online Judge',
+
     'contestWhiteList' => [], // 允许有提交动作的比赛，若为空则允许所有比赛和非比赛提交，否则只允许提交list中的
     'judgerList' => [
         [
@@ -23,7 +33,7 @@ return [
     'queryPerPage' => 20,
     'blogList' => [
         ["ToRapture", "http://www.cnblogs.com/ToRapture/"],
-        ["Meopass", "http://blog.csdn.net/meopass"],
+        ["meopass", "http://blog.csdn.net/meopass"],
     ],
     'ojList' => [
         ["HDU", "http://acm.hdu.edu.cn/"],

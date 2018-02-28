@@ -1,15 +1,16 @@
 <!-- footer部分start -->
 <div id="footer">
-    <div class="container"><h4>NENUOJ</h4>
+    <div class="container"><h4><{\Yii::$app->params['shortTitle']}></h4>
         <div class="row">
-            <div class="col-sm-2"><a target="_blank" href="https://github.com/NENU-OJ/OnlineJudge">Current Version v0.0.0</a></div>
-            <div class="col-sm-5"><span>Copyright © 2017-2019 NENUOJ Team. All Rights Reserved.</span></div>
+            <div class="col-sm-2"><a target="_blank" href="<{\Yii::$app->params['version']['repo']}>">Current Version <{\Yii::$app->params['version']['id']}></a></div>
+            <div class="col-sm-5"><span><{\Yii::$app->params['copyright']}></span></div>
             <div class="col-sm-2"><span>Loaded in <{sprintf("%.0f", (microtime(true) - $startTime) * 1000)}>ms.</span></div>
         </div>
         <div>
             <span>Designer and Developer :
-            <a target="_blank" href="http://www.cnblogs.com/ToRapture/">ToRapture</a>
-            <a target="_blank" href="https://github.com/Shihao97">Shihao</a>
+            <{foreach \Yii::$app->params['developer'] as $developer => $site}>
+            <a target="_blank" href="<{$site}>"><{$developer}></a>
+            <{/foreach}>
             </span>
         </div>
         <div><span>Server time : <span id="timer" data-time="<{$timeNowSecond}>"><{$time}></span></span></div>
