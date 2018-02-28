@@ -130,12 +130,20 @@ RunResult Runner::compile() {
 	}
 }
 
-void Runner::child_run() { // TODO set limit and run
+void Runner::child_run() {
 
 	/// set time limit
+	int total_run_time_ms = time_limit_ms; // extra runtime for I/O and Context switching
+	if (language == Config::CPP_LANG || language == Config::CPP11_LANG)
+		total_run_time_ms += 172;
+	else if (language == Config::JAVA_LANG)
+		total_run_time_ms += 2000;
+	else
+		total_run_time_ms += 800;
+
 	itimerval itv;
-	itv.it_value.tv_sec = time_limit_ms / 1000;
-	itv.it_value.tv_usec = (time_limit_ms % 1000 + 172) * 1000; // extra 172ms for I/O and Context switching
+	itv.it_value.tv_sec = total_run_time_ms / 1000;
+	itv.it_value.tv_usec = (total_run_time_ms % 1000) * 1000;
 	itv.it_interval.tv_sec = 0;
 	itv.it_interval.tv_usec = 0;
 	setitimer(ITIMER_REAL, &itv, NULL);
