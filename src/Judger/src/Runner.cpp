@@ -133,7 +133,7 @@ RunResult Runner::compile() {
 void Runner::child_run() {
 
 	/// set time limit
-	int total_run_time_ms = time_limit_ms + 32; // extra 32ms runtime for I/O and Context switching
+	int total_run_time_ms = time_limit_ms + Config::get_instance()->get_extra_runtime(); // extra runtime for I/O and Context switching
 
 	itimerval itv;
 	itv.it_value.tv_sec = total_run_time_ms / 1000;
@@ -237,7 +237,7 @@ RunResult Runner::run(const std::string &input_file) { // suppose compile succes
 			else if (WIFSIGNALED(status) && WTERMSIG(status) != SIGTRAP) {
 				if (WTERMSIG(status) == SIGXFSZ)
 					result.status = RunResult::OUTPUT_LIMIT_EXCEEDED.status;
-				if (WTERMSIG(status) == SIGXCPU || WTERMSIG(status) == SIGALRM)
+				if (WTERMSIG(status) == SIGXCPU || WTERMSIG(status) == SIGVTALRM)
 					result.status = RunResult::TIME_LIMIT_EXCEEDED.status;
 				else
 					result.status = RunResult::RUNTIME_ERROR.status;
@@ -246,7 +246,7 @@ RunResult Runner::run(const std::string &input_file) { // suppose compile succes
 			} else if (WIFSTOPPED(status) && WSTOPSIG(status) != SIGTRAP) {
 				if (WSTOPSIG(status) == SIGXFSZ)
 					result.status = RunResult::OUTPUT_LIMIT_EXCEEDED.status;
-				else if (WSTOPSIG(status) == SIGXCPU || WSTOPSIG(status) == SIGALRM)
+				else if (WSTOPSIG(status) == SIGXCPU || WSTOPSIG(status) == SIGVTALRM)
 					result.status = RunResult::TIME_LIMIT_EXCEEDED.status;
 				else
 					result.status = RunResult::RUNTIME_ERROR.status;
@@ -293,6 +293,9 @@ RunResult Runner::run(const std::string &input_file) { // suppose compile succes
 		std::string stderr_file = Config::get_instance()->get_temp_path() + Config::get_instance()->get_stderr_file();
 		if (Utils::check_file(exc_file_name)) Utils::delete_file(exc_file_name);
 		if (Utils::check_file(stderr_file)) Utils::delete_file(stderr_file);
+
+		if (result == RunResult::TIME_LIMIT_EXCEEDED)
+			result.time_used_ms = std::max(result.time_used_ms, time_limit_ms);
 		return result;
 	}
 }

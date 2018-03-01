@@ -40,6 +40,7 @@ private:
 	int spj_memory_kb;
 	int max_output_limit;
 	int vm_multiplier;
+	int extra_runtime;
 	std::string temp_path;
 	std::string test_files_path;
 	std::string spj_files_path;
@@ -147,6 +148,10 @@ public:
 
 	int get_vm_multiplier() const {
 		return vm_multiplier;
+	}
+
+	int get_extra_runtime() const {
+		return extra_runtime;
 	}
 
 	std::string get_src_extention(int lang) {

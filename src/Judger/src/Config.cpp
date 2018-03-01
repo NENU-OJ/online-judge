@@ -175,7 +175,8 @@ Config::Config(std::string config_file) {
 			"spj_files_path",
 			"stderr_file",
 			"vm_multiplier",
-		    "connect_string"
+			"extra_runtime",
+		    "connect_string",
 		};
 
 		for (const auto &key : check_list) {
@@ -202,6 +203,7 @@ Config::Config(std::string config_file) {
 		temp_path = config_map["temp_path"];
 		max_output_limit = atoi(config_map["max_output_limit"].c_str());
 		vm_multiplier = atoi(config_map["vm_multiplier"].c_str());
+		extra_runtime = atoi(config_map["extra_runtime"].c_str());
 		test_files_path = config_map["test_files_path"];
 		spj_files_path = config_map["spj_files_path"];
 		stderr_file = config_map["stderr_file"];
