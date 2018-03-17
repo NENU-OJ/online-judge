@@ -221,7 +221,7 @@ RunResult Runner::run(const std::string &input_file) { // suppose compile succes
 
 			result = result.set_time_used(time_used_ms).set_memory_used(memory_used_kb);
 
-			if (time_used_ms > time_limit_ms) {	/// deal with cpu time limit exceeded
+			if (time_used_ms >= time_limit_ms) {	/// deal with cpu time limit exceeded
 				result.status = RunResult::TIME_LIMIT_EXCEEDED.status;
 				ptrace(PTRACE_KILL, cid, NULL, NULL);
 				break;
