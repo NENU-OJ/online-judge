@@ -94,7 +94,11 @@ class Util {
     }
 
     static public function isRoot() {
-        return User::isRoot(self::getUser());
+        $userId = self::getUser();
+        if ($userId)
+            return User::isRoot($userId);
+        else
+            return false;
     }
 
     static public function getDuration($startTime, $endTime) {

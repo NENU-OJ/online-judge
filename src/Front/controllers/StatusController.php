@@ -22,15 +22,18 @@ class StatusController extends BaseController {
         $whereArray["contest_id"] = 0;
         if ($pid = \Yii::$app->request->get('pid'))
             $whereArray['problem_id'] = $pid;
-        if ($name = \Yii::$app->request->get('name'))
-            $whereArray['user_id'] = User::findByUsername($name)->id;
+        if ($name = \Yii::$app->request->get('name')) {
+            $user = User::findByUsername($name, 'id');
+            $whereArray['user_id'] = 0;
+            if ($user)
+                $whereArray['user_id'] = $user->id;
+        }
         if ($lang = \Yii::$app->request->get('lang'))
             $whereArray['language_id'] = $lang;
         if ($result = \Yii::$app->request->get('result'))
             $whereArray['result'] = $result;
 
         $totalPage = Status::totalPage($whereArray, $pageSize);
-
 
         $statuses = Status::getStatuses($id, $pageSize, $whereArray);
 
@@ -58,14 +61,7 @@ class StatusController extends BaseController {
         if (!$status)
             throw new NotFoundHttpException("Fucking $id!");
 
-        $isRoot = false;
-        if (\Yii::$app->session['user_id']) {
-            $isRoot = User::find()
-                ->select('is_root')
-                ->where(['id' => \Yii::$app->session['user_id']])
-                ->one()
-                ->is_root;
-        }
+        $isRoot = Util::isRoot();
 
         if ($status->contest_id == 0) {
             if (!$status->is_shared && $status->user_id != \Yii::$app->session['user_id'] && !$isRoot) {

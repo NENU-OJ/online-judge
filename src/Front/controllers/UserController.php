@@ -52,7 +52,7 @@ class UserController extends BaseController {
         $submissions = $user->total_submit;
 
         $this->smarty->assign('user', $user);
-        $this->smarty->assign('solvedNum', $user->solved_problem);
+        $this->smarty->assign('solvedNum', -$user->solved_problem);
         $this->smarty->assign('solved', $solved);
         $this->smarty->assign('unsolved', $unsolved);
         $this->smarty->assign('submissions', $submissions);
@@ -122,7 +122,7 @@ class UserController extends BaseController {
                 return json_encode(["code" => 1, "data" => "username只能由大小写字母、数字和下划线组成"]);
 
             // 用户名是否重复
-            if (User::findByUsername($username))
+            if (User::findByUsername($username, 'id'))
                 return json_encode(["code" => 1, "data" => "该用户名已被使用"]);
 
             $user = new User();

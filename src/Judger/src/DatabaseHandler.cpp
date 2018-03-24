@@ -160,7 +160,7 @@ bool DatabaseHandler::already_accepted(int uid, int pid) {
 
 void DatabaseHandler::add_user_total_solved(int uid) {
 	std::string query = "UPDATE t_user "
-						"SET solved_problem = solved_problem + 1 "
+						"SET solved_problem = solved_problem - 1 "
 						"WHERE id = " + std::to_string(uid);
 	update_query(query);
 }

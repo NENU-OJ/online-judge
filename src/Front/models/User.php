@@ -9,16 +9,16 @@ class User extends ActiveRecord {
         return "{{%user}}";
     }
 
-    public static function findByUsername($username) {
+    public static function findByUsername($username, $columns = '*') {
         return self::find()
-            ->select('*')
-            ->where('BINARY username=:username', [':username' => $username])
+            ->select($columns)
+            ->where('username=:username', [':username' => $username])
             ->one();
     }
 
-    public static function findById($id) {
+    public static function findById($id, $columns = '*') {
         return self::find()
-            ->select("*")
+            ->select($columns)
             ->where("id=:id", [":id" => $id])
             ->one();
     }
@@ -26,7 +26,7 @@ class User extends ActiveRecord {
     public static function isRoot($id) {
         $ret = self::find()
             ->select('is_root')
-            ->where(['id' => \Yii::$app->session['user_id']])
+            ->where(['id' => $id])
             ->one();
 
         if ($ret && $ret->is_root)
@@ -36,9 +36,9 @@ class User extends ActiveRecord {
     }
 
     public static function addTotalSubmit($id) {
-        $user = self::findById($id);
-        $user->total_submit = $user->total_submit + 1;
-        $user->update();
+        \Yii::$app->db
+            ->createCommand("UPDATE t_user SET total_submit=total_submit+1 WHERE id=$id")
+            ->execute();
     }
 
     public static function addTotalAC($id, $val = 1) {
@@ -57,7 +57,7 @@ class User extends ActiveRecord {
     }
 
     public static function addTotalSolved($id, $val) {
-        \Yii::$app->db->createCommand("UPDATE t_user SET solved_problem=solved_problem+:val WHERE id=:id")
+        \Yii::$app->db->createCommand("UPDATE t_user SET solved_problem=solved_problem-:val WHERE id=:id")
             ->bindValue(':val', $val)
             ->bindValue(':id', $id)
             ->execute();

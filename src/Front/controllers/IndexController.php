@@ -15,7 +15,7 @@ class IndexController extends BaseController {
     public function actionIndex() {
         $users = User::find()
             ->select('username, solved_problem')
-            ->orderBy('solved_problem DESC, total_submit, username')
+            ->orderBy('solved_problem, total_submit, username')
             ->limit(10)
             ->all();
 

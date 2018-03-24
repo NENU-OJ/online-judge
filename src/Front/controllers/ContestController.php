@@ -13,6 +13,7 @@ use app\models\Problem;
 use app\models\Status;
 use app\models\User;
 use yii\db\Exception;
+use yii\db\Query;
 use yii\web\NotFoundHttpException;
 
 class ContestController extends BaseController {
@@ -24,7 +25,11 @@ class ContestController extends BaseController {
         $andWhereArray = [];
         $search = \Yii::$app->request->get('search');
         if ($search) {
-            $andWhereArray = ['or', ['like', 'title', '%'.$search.'%', false], ['like', 'manager', '%'.$search.'%', false]];
+            $andWhereArray = ['or',
+                ['like', 'title', $search.'%', false],
+                ['like', 'title', '%'.$search, false],
+                ['like', 'manager', $search.'%', false],
+                ['like', 'manager', '%'.$search, false]];
         }
 
         $totalPage = Contest::totalPage($whereArray, $pageSize, $andWhereArray);
@@ -245,18 +250,18 @@ class ContestController extends BaseController {
         $canNotView = json_decode($this->actionCanView($id))->code;
         if ($canNotView != 0) {
             return $this->redirect("http://".$_SERVER['HTTP_HOST']."/contest/$id");
-            $this->smarty->assign('msg', "你还没有访问比赛 $id 的权限");
-            return $this->smarty->display('common/error.html');
         }
 
         $problems = $this->getProblemLableId($id);
 
         $userList = $this->getUserList($id, $contest, $problems);
         $userNow = null;
-        foreach ($userList as $user) {
-            if ($user['username'] == Util::getUserName()) {
-                $userNow = $user;
-                break;
+        if (Util::getUserName()) {
+            foreach ($userList as $user) {
+                if ($user['username'] == Util::getUserName()) {
+                    $userNow = $user;
+                    break;
+                }
             }
         }
 
@@ -278,10 +283,7 @@ class ContestController extends BaseController {
         $canNotView = json_decode($this->actionCanView($id))->code;
         if ($canNotView != 0) {
             return $this->redirect("http://".$_SERVER['HTTP_HOST']."/contest/$id");
-            $this->smarty->assign('msg', "你还没有访问比赛 $id 的权限");
-            return $this->smarty->display('common/error.html');
         }
-
 
         $lables = ContestProblem::find()->select('lable')->where(['contest_id' => $id])->orderBy('lable')->all();
 
@@ -580,7 +582,6 @@ class ContestController extends BaseController {
                         ])
                 ->orderBy('submit_time')
                 ->all();
-
 
             foreach ($userList as &$user) {
                 $user['solved'] = 0;

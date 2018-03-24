@@ -17,9 +17,9 @@ class Contest extends ActiveRecord {
         return "{{%contest}}";
     }
 
-    public static function findById($id) {
+    public static function findById($id, $columns = '*') {
         return self::find()
-            ->select('*')
+            ->select($columns)
             ->where(['id' => $id])
             ->one();
     }

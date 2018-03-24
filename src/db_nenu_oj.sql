@@ -136,3 +136,32 @@ CREATE TABLE `t_language_type`(
 INSERT INTO t_language_type(id, language)
 VALUES (1, 'GNU C++'), (2, 'GNU C++11'), (3, 'Java'), (4, 'Python 2'), (5, 'Python 3');
 
+ALTER TABLE t_language_type ADD INDEX idx_language (language);
+
+ALTER TABLE t_problem ADD INDEX idx_title (title);
+ALTER TABLE t_problem ADD INDEX idx_source (source);
+ALTER TABLE t_problem ADD INDEX idx_is_hide (is_hide);
+
+ALTER TABLE t_status ADD INDEX idx_problem_id (problem_id);
+ALTER TABLE t_status ADD INDEX idx_language_id (language_id);
+ALTER TABLE t_status ADD INDEX idx_user_id (user_id);
+ALTER TABLE t_status ADD INDEX idx_result (result);
+ALTER TABLE t_status ADD INDEX idx_contest_id (contest_id);
+ALTER TABLE t_status ADD INDEX idx_submit_time (submit_time);
+
+ALTER TABLE t_contest_problem ADD INDEX idx_contest_id (contest_id);
+ALTER TABLE t_contest_problem ADD INDEX idx_problem_id (problem_id);
+ALTER TABLE t_contest_problem ADD INDEX idx_lable (lable);
+
+ALTER TABLE t_user ADD INDEX idx_rank (solved_problem, total_submit, username);
+ALTER TABLE t_user ADD INDEX idx_solved_problem (solved_problem);
+ALTER TABLE t_user ADD INDEX idx_total_submit (total_submit);
+
+ALTER TABLE t_contest_user ADD INDEX idx_contest_id (contest_id);
+ALTER TABLE t_contest_user ADD INDEX idx_user_id (user_id);
+ALTER TABLE t_contest_user ADD INDEX idx_is_star (is_star);
+
+ALTER TABLE t_contest ADD INDEX idx_title (title);
+ALTER TABLE t_contest ADD INDEX idx_owner_id (owner_id);
+ALTER TABLE t_contest ADD INDEX idx_manager (manager);
+ALTER TABLE t_contest ADD INDEX idx_is_private (is_private);

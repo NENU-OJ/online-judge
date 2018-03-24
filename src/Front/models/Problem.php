@@ -17,9 +17,9 @@ class Problem extends ActiveRecord {
     }
 
     public static function addTotalSubmit($id) {
-        $problem = self::findById($id);
-        $problem->total_submit += 1;
-        $problem->update();
+        \Yii::$app->db
+            ->createCommand("UPDATE t_problem SET total_submit=total_submit+1 WHERE id=$id")
+            ->execute();
     }
 
     public static function totalPage($pageSize, $whereArray, $andWhereArray = []) {

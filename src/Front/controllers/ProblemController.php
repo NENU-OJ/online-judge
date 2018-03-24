@@ -14,6 +14,7 @@ use app\common\Util;
 use app\models\User;
 use Faker\Provider\Uuid;
 use yii\db\Exception;
+use yii\db\Query;
 use yii\web\NotFoundHttpException;
 
 class ProblemController extends BaseController {
@@ -25,20 +26,24 @@ class ProblemController extends BaseController {
         $andWhereArray = [];
         $search = \Yii::$app->request->get('search');
         if ($search) {
-            $andWhereArray = ['or', ['like', 'title', '%'.$search.'%', false], ['like', 'source', '%'.$search.'%', false]];
+            $andWhereArray = ['or',
+                ['like', 'title', $search.'%', false],
+                ['like', 'title', '%'.$search, false],
+                ['like', 'source', $search.'%', false],
+                ['like', 'source', '%'.$search, false]];
         }
 
         $totalPage = Problem::totalPage($pageSize, $whereArray, $andWhereArray);
 
-
         $problems = Problem::findByWhere($pageSize, $id, $whereArray, $andWhereArray);
 
+        // TODO use redis to optimization
         $acArray = [];
-        if (isset(\Yii::$app->session['user_id'])) {
+        if (Util::isLogin()) {
             foreach ($problems as $problem) {
                 $acStatus = Status::find()
                     ->select('id')
-                    ->where(['problem_id' => $problem->id, 'user_id' => \Yii::$app->session['user_id'], 'result' => 'Accepted'])
+                    ->where(['problem_id' => $problem->id, 'user_id' => Util::getUser(), 'result' => 'Accepted'])
                     ->one();
                 if ($acStatus) {
                     $acArray[] = $problem->id;
@@ -91,6 +96,7 @@ class ProblemController extends BaseController {
                         if (time() < strtotime($contest->start_time))
                             return json_encode(["code" => 1, "data" => "尚未开始，无法提交"]);
                     }
+                    // TODO Warn: Not Safe
                     if (!ContestUser::haveUser($contestId, Util::getUser()))
                         ContestUser::addUser($contestId, Util::getUser());
                 }
@@ -165,19 +171,10 @@ class ProblemController extends BaseController {
         if (!\Yii::$app->request->isPost)
             return json_encode(["code" => 1, "data" => "请求方式错误"]);
 
-        $canView = false;
-        if (isset(\Yii::$app->session['user_id'])) {
-            $userId = \Yii::$app->session['user_id'];
-            $user = User::findById($userId);
-            if ($user && $user->is_root)
-                $canView = true;
-        }
-        if (!$canView) {
+        if (!Util::isRoot()) {
             $this->smarty->assign('msg', "管不了 管不了.jpg");
             return json_encode(["code" => 1, "data" => "非管理员无法编辑"]);
         }
-
-
 
         $pid = \Yii::$app->request->post('pid');
         $title = \Yii::$app->request->post('title');

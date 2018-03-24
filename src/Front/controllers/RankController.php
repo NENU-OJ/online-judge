@@ -18,11 +18,10 @@ class RankController extends BaseController {
 
         $users = User::find()
             ->select('id, username, nickname, signature, solved_problem, total_ac, total_submit')
-            ->orderBy('solved_problem DESC, total_submit, username')
+            ->orderBy('solved_problem, total_submit, username')
             ->offset(($id - 1) * $pageSize)
             ->limit($pageSize)
             ->all();
-
 
         $this->smarty->assign('webTitle', 'Rank');
         $this->smarty->assign('pageArray', $pageArray);

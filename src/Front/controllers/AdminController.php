@@ -20,12 +20,8 @@ use app\models\User;
 class AdminController extends BaseController {
     public function actionProblem() {
         $canView = false;
-        if (Util::isLogin()) {
-            $userId = Util::getUser();
-            $user = User::findById($userId);
-            if ($user && $user->is_root)
-                $canView = true;
-        }
+        if (Util::isRoot())
+            $canView = true;
 
         if (!$canView) {
             $this->smarty->assign('msg', "管不了，管不了.jpg");
@@ -43,12 +39,8 @@ class AdminController extends BaseController {
 
     public function actionRejudge() {
         $canView = false;
-        if (Util::isLogin()) {
-            $userId = Util::getUser();
-            $user = User::findById($userId);
-            if ($user && $user->is_root)
-                $canView = true;
-        }
+        if (Util::isRoot())
+            $canView = true;
 
         if (!$canView) {
             $this->smarty->assign('msg', "管不了，管不了.jpg");
@@ -128,7 +120,7 @@ class AdminController extends BaseController {
         $contestId = \Yii::$app->request->post('contestId', 0);
         $prob = \Yii::$app->request->post('prob');
 
-        $contest = Contest::findById($contestId);
+        $contest = Contest::findById($contestId, 'id');
         if (!$contest)
             return json_encode(['code' => 1, 'data' => "没有 $contestId 这个比赛"]);
         $problem = ContestProblem::find()->select('problem_id')->where(['contest_id' => $contestId, 'lable' => $prob])->one();

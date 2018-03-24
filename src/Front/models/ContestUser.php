@@ -10,6 +10,7 @@ namespace app\models;
 
 
 use yii\db\ActiveRecord;
+use yii\db\Query;
 
 class ContestUser extends ActiveRecord {
 
@@ -45,16 +46,19 @@ class ContestUser extends ActiveRecord {
 
     public static function getUserList($contestId) {
         $userList = [];
-        $recordList = self::find()->select('user_id, is_star')->where(['contest_id' => $contestId])->all();
-        foreach ($recordList as $raw) {
-            $record = [];
-            $record['id'] = $raw->user_id;
-            $record['is_star'] = $raw->is_star;
-            $user = User::find()->select('username, nickname')->where(['id' => $raw->user_id])->one();
-            $record['username'] = $user->username;
-            $record['nickname'] = $user->nickname;
+
+        $records = (new Query())
+            ->select('user_id as id, is_star, username, nickname')
+            ->from('t_contest_user')
+            ->join('INNER JOIN', 't_user', 't_contest_user.user_id = t_user.id')
+            ->where(['t_contest_user.contest_id' => $contestId])
+            ->all();
+
+        foreach ($records as $record) {
+            $record['is_star'] = (int)$record['is_star'];
             $userList[$record['id']] = $record;
         }
+
         return $userList;
     }
 }
