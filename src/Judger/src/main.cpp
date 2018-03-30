@@ -137,6 +137,7 @@ void * listen_thread(void *arg) {
 void * judge_thread(void *arg) {
 
 	while (true) {
+		usleep(61743);
 		Submit *submit;
 		bool have_run = false;
 		pthread_mutex_lock(&queue_mtx);
