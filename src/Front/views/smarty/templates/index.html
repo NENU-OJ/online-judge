@@ -22,7 +22,6 @@
                             <script type="text/javascript" src="<{$staticWebsite}>/lib/js/jquery/jquery.min.js"></script>
                             <script>
                                 $.get('https://sslapi.hitokoto.cn/?c=a', function (data) {
-                                    data = JSON.parse(data);
                                     $('#hitokoto-loader').removeClass('active');
                                     $('#hitokoto-content').css('display', '').text(data.hitokoto);
                                     if (data.from) {
