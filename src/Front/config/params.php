@@ -4,7 +4,7 @@ return [
     'developer' => [
         'ToRapture' => 'http://www.cnblogs.com/ToRapture/',
     ],
-    'copyright' => 'Copyright © 2017-2019 NENU-OJ Team. All Rights Reserved.',
+    'copyright' => '',
     'version' => [
         'id' => 'v1.0',
         'repo' => 'https://github.com/NENU-OJ/OnlineJudge'
