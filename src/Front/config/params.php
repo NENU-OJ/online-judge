@@ -3,6 +3,7 @@
 return [
     'developer' => [
         'ToRapture' => 'http://www.cnblogs.com/ToRapture/',
+        'Shihao' => 'https://github.com/Shihao97',
     ],
     'copyright' => '',
     'version' => [
