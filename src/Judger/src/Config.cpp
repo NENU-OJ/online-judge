@@ -19,9 +19,10 @@ const int Config::PY2_LANG = 4;
 const int Config::PY3_LANG = 5;
 
 Config::Config(std::string config_file) {
-	print_logo();
 	
 	FLAGS_logtostderr = true;
+
+	print_logo();
 
 	std::ifstream file(config_file.c_str());
 
