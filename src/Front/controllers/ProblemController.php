@@ -132,7 +132,7 @@ class ProblemController extends BaseController {
 
                 return json_encode(["code" => 0, "data" => ["result" => "Send to Judge", "id" => $status->id]]);
             } catch (\Exception $e) {
-                return json_encode(["code" => 1, "data" => $e->getMessage()]);
+                return json_encode(["code" => 1, "data" => "出现错误啦"]);
             }
 
         } else {

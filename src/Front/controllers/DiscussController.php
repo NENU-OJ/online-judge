@@ -218,7 +218,7 @@ class DiscussController extends BaseController {
             }
             return json_encode(["code" => 0, "data" => '发表成功', "id" => $discuss->id]);
         } catch (Exception $e) {
-            return json_encode(["code" => 1, "data" => $e->getMessage()]);
+            return json_encode(["code" => 1, "data" => "出错了"]); 
         }
     }
     
@@ -256,7 +256,7 @@ class DiscussController extends BaseController {
 
             return json_encode(["code" => 0, "data" => ""]);
         } catch (Exception $e) {
-            return json_encode(["code" => 1, "data" => $e->getMessage()]);
+            return json_encode(["code" => 1, "data" => "出错了"]);
         }
     }
 }

@@ -151,7 +151,7 @@ class UserController extends BaseController {
                 \Yii::$app->session['school'] = $user->school;
             } catch (\yii\db\Exception $e) {
                 $code = 1;
-                $data = "超长";
+                $data = "出现错误啦";
             }
             return json_encode(["code" => $code, "data" => $data]);
         } else {
@@ -185,7 +185,7 @@ class UserController extends BaseController {
             \Yii::$app->session['school'] = $user->school;
             return json_encode(["code" => 0, "data" => ""]);
         } catch (\yii\db\Exception $e) { // 上传的数据过大
-            return json_encode(["code" => 1, "data" => "超长"]);
+            return json_encode(["code" => 1, "data" => "出现错误啦"]);
         }
     }
 
