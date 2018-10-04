@@ -4,7 +4,7 @@
 
 #include <sys/time.h>
 #include <sys/resource.h>
-#include <wait.h>
+#include <sys/wait.h>
 #include <glog/logging.h>
 #include <sys/ptrace.h>
 #include <sys/user.h>
@@ -124,6 +124,10 @@ RunResult Runner::compile() {
 			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGALRM) { // compile time limit exceeded
 				time_used_ms = Config::get_instance()->get_compile_time_ms();
 				ce_info = "Compile time limit exceeded.";
+				// dirty way to kill the subprocess, maybe clean it later
+				// g++'s child process cc1plus will become orphan process when g++ is killed
+                int code = system("pkill cc1plus");
+                LOG(INFO) << "compile time limit exceeded, run cmd[pkill cc1plus] to kill the compiler, exit code: " << code;
 			}
 			return RunResult::COMPILE_ERROR.set_time_used(time_used_ms).set_memory_used(memory_used_kb).set_ce_info(ce_info);
 		}
@@ -210,6 +214,7 @@ RunResult Runner::run(const std::string &input_file) { // suppose compile succes
 		rusage run_info;
 		user_regs_struct reg;
 		bool called_exec = false;
+		bool need_wait = true;
 		while (true) {
 			if (wait4(cid, &status, 0, &run_info) == -1) {
 				kill(cid, SIGKILL);
@@ -226,6 +231,7 @@ RunResult Runner::run(const std::string &input_file) { // suppose compile succes
 				ptrace(PTRACE_KILL, cid, NULL, NULL);
 				break;
 			} else if (WIFEXITED(status)) {
+			    need_wait = false;
 				if (WEXITSTATUS(status) != 0)
 					result.status = RunResult::RUNTIME_ERROR.status;
 				else if (memory_used_kb > memory_limit_kb)
@@ -288,6 +294,17 @@ RunResult Runner::run(const std::string &input_file) { // suppose compile succes
 				break;
 			}
 			ptrace(PTRACE_SYSCALL, cid, NULL, NULL);
+		}
+
+
+		LOG(INFO) << "child: " << cid << ", need_wait: " << (need_wait ? "true" : "false");
+		if (need_wait) {
+		    int ret = wait4(cid, &status, WUNTRACED, &run_info);
+		    LOG(INFO) << "wait4 again, ret: " << ret;
+		    if (ret == -1) {
+		        LOG(ERROR) << "wait4 error, ret: " << ret;
+		        return RunResult::JUDGE_ERROR;
+		    }
 		}
 
 		std::string stderr_file = Config::get_instance()->get_temp_path() + Config::get_instance()->get_stderr_file();
