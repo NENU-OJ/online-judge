@@ -78,8 +78,8 @@ sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_
 5. 重启memcached`sudo service memcached restart`
 
 ## 限制比赛提交
-通过`src/Front/config/params.php`文件`contestWhiteList`字段以白名单方式管理，若这个列表为空则表示无限制，否则只有列表中的比赛可以提交，非比赛提交id为0。
+通过`src/Front/config/params.php`文件`contestWhiteList`字段以白名单方式管理，若这个列表为空则表示无限制，否则只有列表中的比赛可以提交，非比赛提交`id`为`0`。
 例：
-- 没有限制：[]
-- 只有比赛1和比赛2可以提交：[1, 2]
-- 只有比赛3和非比赛提交：[0, 3]
+- 没有限制：`[]`
+- 只有比赛1和比赛2可以提交：`[1, 2]`
+- 只有比赛3和非比赛提交：`[0, 3]`
