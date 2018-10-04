@@ -80,6 +80,9 @@ CREATE TABLE `t_language_type` (
   KEY `idx_language` (`language`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='编程语言表';
 
+INSERT INTO t_language_type(id, language)
+VALUES (1, 'GNU C++'), (2, 'GNU C++11'), (3, 'Java'), (4, 'Python 2'), (5, 'Python 3');
+
 CREATE TABLE `t_problem` (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
   `title` varchar(64) NOT NULL DEFAULT '' COMMENT '题目标题',
