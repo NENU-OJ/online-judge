@@ -1,0 +1,19 @@
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+    charset utf-8;
+	root /home/torapture/oj_deploy/web;
+	index index.html index.htm index.nginx-debian.html index.php;
+    
+    # change server_name when running on a product server
+	server_name localhost;
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+    client_max_body_size 20M;
+	location ~ \.php$ {
+		include snippets/fastcgi-php.conf;
+        include fastcgi.conf;
+		fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+	}
+}
