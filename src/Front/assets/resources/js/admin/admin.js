@@ -26,8 +26,10 @@ $(document).ready(function () {
     var $hint = $("#hint");
     var $source = $("#source");
     var $author = $("#author");
-
-
+    
+    $timeLimit.val('1000');
+    $memoryLimit.val('65536');
+    
     // load id
     $("#load").click(function () {
 
@@ -77,8 +79,8 @@ $(document).ready(function () {
 
         $pid.val('');
         $title.val('');
-        $timeLimit.val('');
-        $memoryLimit.val('');
+        $timeLimit.val('1000');
+        $memoryLimit.val('65536');
         $special.val(0);
         $hide.val(0);
         CKEDITOR.instances.desc.setData('');
