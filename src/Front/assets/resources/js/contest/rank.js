@@ -13,7 +13,7 @@ $("#star").click(function () {
 
     $.ajax({
         type: "post",
-        url: 'http://' + host + '/contest/star/',
+        url: '//' + host + '/contest/star/',
         dataType: 'json',
         async: false,
         data: {

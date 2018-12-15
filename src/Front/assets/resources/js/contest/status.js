@@ -7,7 +7,7 @@ $("#fil").click(function () {
     var prob = $("#prob").val();
     var name = $("#name").val();
 
-    var url = 'http://' + host + "/contest/" + _cid + '/status?page=1';
+    var url = '//' + host + "/contest/" + _cid + '/status?page=1';
 
     if (result)
         url += '&result=' + result.replace(/ /g, '%20');
@@ -27,7 +27,7 @@ $(".pagi").click(function () {
     var prob = $("#prob").val();
     var name = $("#name").val();
 
-    var url = 'http://' + host + "/contest/" + _cid + '/status?page=' + $(this).attr('title');
+    var url = '//' + host + "/contest/" + _cid + '/status?page=' + $(this).attr('title');
 
     if (result)
         url += '&result=' + result.replace(/ /g, '%20');
@@ -41,6 +41,6 @@ $(".pagi").click(function () {
 });
 
 $("#reset").click(function () {
-    var url = 'http://' + host + "/contest/" + _cid + '/status?page=1';
+    var url = '//' + host + "/contest/" + _cid + '/status?page=1';
     window.location = url;
 });

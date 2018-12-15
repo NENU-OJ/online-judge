@@ -22,7 +22,7 @@ $("#reply").click(function () {
     var content = CKEDITOR.instances['content'].getData();
     $.ajax({
         type: "post",
-        url: 'http://' + host + '/discuss/reply',
+        url: '//' + host + '/discuss/reply',
         dataType: "json",
         data: {
             discuss_id: discussId,
@@ -91,13 +91,13 @@ $(".replySubmit").click(function () {
     data = {};
 
     if (updateReply) {
-        url = 'http://' + host + '/discuss-reply/update';
+        url = '//' + host + '/discuss-reply/update';
         data = {
             id: updateReply,
             content: content
         }
     } else {
-        url = 'http://' + host + '/discuss/reply';
+        url = '//' + host + '/discuss/reply';
         data = {
             discuss_id: discussId,
             parent_id: parentId,
@@ -141,7 +141,7 @@ $(".edit-btn").click(function () {
     preHtml = $("#content_" + updateReply).html();
 
     $.ajax({
-        url: 'http://' + host + '/discuss-reply/get/?id=' + updateReply,
+        url: '//' + host + '/discuss-reply/get/?id=' + updateReply,
         async : false,
         dataType: 'json',
         success: function(resp) {
@@ -185,7 +185,7 @@ $(".trash-btn").click(function () {
    if (window.confirm("确认要删除这条评论吗？")) {
        $.ajax({
            type: "post",
-           url: 'http://' + host + '/discuss-reply/delete/',
+           url: '//' + host + '/discuss-reply/delete/',
            dataType: "json",
            data: {
                id: id
@@ -207,7 +207,7 @@ $(".trash-btn").click(function () {
 // 分页
 $(".pagi").click(function () {
 
-    var url = 'http://' + host + "/discuss/" + discussId + "?page=" + $(this).attr('title');
+    var url = '//' + host + "/discuss/" + discussId + "?page=" + $(this).attr('title');
 
     window.location = url;
 });

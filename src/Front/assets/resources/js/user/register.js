@@ -24,7 +24,7 @@ $("#reg_submit").click(function () {
     } else {
         $.ajax({
             type: "post",
-            url: 'http://' + host + '/user/register',
+            url: '//' + host + '/user/register',
             dataType: "json",
             data: {
                 username: username,
@@ -36,7 +36,7 @@ $("#reg_submit").click(function () {
             },
             success: function (resp) {
                 if (resp.code == 0) {
-                    location.href = 'http://' + host + '/user/detail';
+                    location.href = '//' + host + '/user/detail';
                 } else {
                     $("#reg_error").text(resp.data);
                 }

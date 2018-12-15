@@ -35,7 +35,7 @@ function addProblem(pid) {
     if (pid) {
         $.ajax({
             type: "get",
-            url: 'http://' + host + '/problem/get-info/?id=' + pid,
+            url: '//' + host + '/problem/get-info/?id=' + pid,
             dataType: 'json',
             async: false,
             success: function (resp) {
@@ -78,7 +78,7 @@ var proNumChange = function () { // 题号改变
     if (pid) {
         $.ajax({
             type: "get",
-            url: 'http://' + host + '/problem/get-info/?id=' + pid,
+            url: '//' + host + '/problem/get-info/?id=' + pid,
             dataType: 'json',
             async: false,
             success: function(resp) {
@@ -208,7 +208,7 @@ $("#submit").click(function () { // 提交修改
     $(this).addClass('disabled');
     $.ajax({
         type: "post",
-        url: 'http://' + host + '/contest/do-add/',
+        url: '//' + host + '/contest/do-add/',
         dataType: 'json',
         async: false,
         data: {
@@ -230,7 +230,7 @@ $("#submit").click(function () { // 提交修改
         success: function(resp) {
             if (resp.code == 0) {
                 $err.removeClass('error-text').addClass('success-text').text(resp.data.msg);
-                window.location = 'http://' + host + '/contest/view/' + resp.data.id;
+                window.location = '//' + host + '/contest/view/' + resp.data.id;
             } else {
                 $err.text(resp.data);
             }

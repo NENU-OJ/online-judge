@@ -7,7 +7,7 @@ $("#submit_normal").click(function () {
    var runid = $("#runid").val();
     $.ajax({
         type: "post",
-        url: 'http://' + host + '/admin/rejudge-status',
+        url: '//' + host + '/admin/rejudge-status',
         dataType: 'json',
         async: false,
         data: {
@@ -35,7 +35,7 @@ $("#submit_contest").click(function () {
 
     $.ajax({
         type: "post",
-        url: 'http://' + host + '/admin/rejudge-contest',
+        url: '//' + host + '/admin/rejudge-contest',
         dataType: 'json',
         async: false,
         data: {

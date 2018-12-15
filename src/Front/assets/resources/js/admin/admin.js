@@ -43,7 +43,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "get",
-            url: 'http://' + host + '/problem/detail',
+            url: '//' + host + '/problem/detail',
             dataType: "json",
             data: {
                 id: pid
@@ -137,7 +137,7 @@ $(document).ready(function () {
         $("#submit").addClass('disabled');
         $.ajax({
             type: "post",
-            url: 'http://' + host + '/problem/update',
+            url: '//' + host + '/problem/update',
             dataType: "json",
             data: {
                 pid: pid,

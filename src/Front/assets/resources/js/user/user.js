@@ -39,7 +39,7 @@ $("#set_submit").click(function () {
     }
     $.ajax({
         type: "post",
-        url: 'http://' + host + '/user/update',
+        url: '//' + host + '/user/update',
         dataType: "json",
         data: {
             nickname: nickname,

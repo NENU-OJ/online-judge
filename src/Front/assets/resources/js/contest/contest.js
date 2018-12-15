@@ -32,7 +32,7 @@ $(".cid").click(function () {
     var canView = false;
     $.ajax({
         type: "get",
-        url: 'http://' + host + '/contest/can-view?id=' + contestId,
+        url: '//' + host + '/contest/can-view?id=' + contestId,
         dataType: 'json',
         async: false,
         success: function (resp) {
@@ -44,7 +44,7 @@ $(".cid").click(function () {
         },
     });
     if (canView) {
-        window.location = 'http://' + host + '/contest/view/' + contestId;
+        window.location = '//' + host + '/contest/view/' + contestId;
         return;
     }
     $("#dialog_lc").css("display", "block");
@@ -61,7 +61,7 @@ $("#contest_submit").click(function () {
 
     $.ajax({
         type: "post",
-        url: 'http://' + host + '/contest/login',
+        url: '//' + host + '/contest/login',
         dataType: "json",
         async: false,
         data: {
@@ -70,7 +70,7 @@ $("#contest_submit").click(function () {
         },
         success: function (resp) {
             if (resp.code == 0) {
-                window.location = 'http://' + host + '/contest/view/' + contestId;
+                window.location = '//' + host + '/contest/view/' + contestId;
             } else {
                 $("#contest_error").text(resp.data);
             }

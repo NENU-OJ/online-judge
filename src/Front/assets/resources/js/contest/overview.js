@@ -37,7 +37,7 @@ $("#contest_submit").click(function () {
 
     $.ajax({
         type: "post",
-        url: 'http://' + host + '/contest/login',
+        url: '//' + host + '/contest/login',
         dataType: "json",
         async: false,
         data: {
@@ -46,7 +46,7 @@ $("#contest_submit").click(function () {
         },
         success: function (resp) {
             if (resp.code == 0) {
-                window.location = 'http://' + host + '/contest/view/' + contestId;
+                window.location = '//' + host + '/contest/view/' + contestId;
             } else {
                 $("#contest_error").text(resp.data);
             }
@@ -61,7 +61,7 @@ $("#delete").click(function () {
     if (confirm('真的要删除比赛' + contestId + '吗?')) {
         $.ajax({
             type: "post",
-            url: 'http://' + host + '/contest/delete',
+            url: '//' + host + '/contest/delete',
             dataType: "json",
             async: false,
             data: {
@@ -70,7 +70,7 @@ $("#delete").click(function () {
             success: function (resp) {
                 alert(resp.data);
                 if (resp.code == 0) {
-                    window.location = 'http://' + host + '/contest';
+                    window.location = '//' + host + '/contest';
                 }
             },
             error: function () {

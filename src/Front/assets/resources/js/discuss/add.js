@@ -24,7 +24,7 @@ $(document).ready(function () {
         $("#submit").addClass('disabled');
         $.ajax({
             type: "post",
-            url: 'http://' + host + '/discuss/create',
+            url: '//' + host + '/discuss/create',
             dataType: "json",
             data: {
                 id: id,
@@ -34,7 +34,7 @@ $(document).ready(function () {
             },
             success: function (resp) {
                 if (resp.code == 0) {
-                    location.href = 'http://' + host + '/discuss/' + resp.id;
+                    location.href = '//' + host + '/discuss/' + resp.id;
                 } else {
                     $err.text(resp.data);
                 }

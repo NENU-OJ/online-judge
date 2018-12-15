@@ -18,7 +18,7 @@ $("#login_submit").click(function () {
     var remember = $("#remember").val();
     $.ajax({
         type: "post",
-        url: 'http://' + host + '/user/login',
+        url: '//' + host + '/user/login',
         dataType: "json",
         data: {
             username: username,
@@ -41,7 +41,7 @@ $("#login_submit").click(function () {
 $("#logout").click(function () {
     $.ajax({
         type: "post",
-        url: 'http://' + host + '/user/logout',
+        url: '//' + host + '/user/logout',
         dataType: "json",
         success: function (resp) {
             if (resp.code == 0) {

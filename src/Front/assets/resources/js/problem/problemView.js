@@ -47,7 +47,7 @@ $("#submit").click(function () {
         $("#submit").addClass("disabled");
         $.ajax({
             type: "post",
-            url: 'http://' + host + '/problem/submit',
+            url: '//' + host + '/problem/submit',
             dataType: "json",
             data: {
                 problemId: problemId,
@@ -63,7 +63,7 @@ $("#submit").click(function () {
                     $("#pending").css('display', '');
                     var times = 64;
                     var timer = setInterval(function () {
-                        $.get("http://" + host + "/status/result/" + resp.data.id, function (result) {
+                        $.get("//" + host + "/status/result/" + resp.data.id, function (result) {
                             result = JSON.parse(result);
 
                             if (result.data.result != 'Send to Judge' && result.data.result != 'Send to Rejudge') {

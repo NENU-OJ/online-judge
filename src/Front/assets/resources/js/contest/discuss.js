@@ -18,7 +18,7 @@ $("#publish").click(function () {
     $(this).addClass('disabled');
     $.ajax({
         type: "post",
-        url: 'http://' + host + '/discuss/create',
+        url: '//' + host + '/discuss/create',
         dataType: "json",
         data: {
             title: title,

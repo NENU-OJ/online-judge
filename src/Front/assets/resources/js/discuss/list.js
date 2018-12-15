@@ -3,7 +3,7 @@ var host = window.location.host;
 $("#fil").click(function () {
     var search = $("#search").val();
 
-    var url = 'http://' + host + "/discuss/list/?id=1";
+    var url = '//' + host + "/discuss/list/?id=1";
 
     if (search)
         url += '&search=' + search.replace(/ /g, '%20');
@@ -14,7 +14,7 @@ $("#fil").click(function () {
 $(".pagi").click(function () {
     var search = $("#search").val();
 
-    var url = 'http://' + host + "/discuss/list/?id=" + $(this).attr('title');
+    var url = '//' + host + "/discuss/list/?id=" + $(this).attr('title');
 
     if (search)
         url += '&search=' + search.replace(/ /g, '%20');

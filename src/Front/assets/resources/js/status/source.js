@@ -9,7 +9,7 @@ $(".share").click(function () {
     var statusId = parseInt($(this).attr('data-id'));
     $.ajax({
         type: "post",
-        url: 'http://' + host + '/status/share',
+        url: '//' + host + '/status/share',
         dataType: 'json',
         async: false,
         data: {
