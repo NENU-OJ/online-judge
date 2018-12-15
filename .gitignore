@@ -21,17 +21,27 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-#idea
+# idea
 .idea/
 
-#Yii
+# Yii
 templates_c/
 
-#Clion
+# Clion
 cmake-build-debug/
 
-#Judger
+# Judger
 temp_path/
 spj_files/
 test_files/
 nohup.out
+
+# OJ uploads
+src/Front/uploads/
+src/Front/ckfinder/
+
+# OJ Configs
+src/Front/config/db.php
+src/Front/config/params.php
+src/Front/index.php
+src/Front/views/smarty/templates/common/navbar.html
