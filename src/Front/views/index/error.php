@@ -32,7 +32,7 @@ $this->context->layout = false;
 <div id="footer">
     <div class="container"><h4><?= \Yii::$app->params['shortTitle'] ?></h4>
         <div class="row">
-            <div class="col-sm-2"><a target="_blank" href="<?= \Yii::$app->params['version']['repo'] ?>">Current Version <?= \Yii::$app->params['version']['id'] ?></a></div>
+            <div class="col-sm-2"><a target="_blank" href="<?= \Yii::$app->params['version']['repo'] ?>">Commit <?= \Yii::$app->params['version']['id'] ?></a></div>
             <div class="col-sm-5"><span><?= \Yii::$app->params['copyright'] ?></span></div>
         </div>
         <div>
