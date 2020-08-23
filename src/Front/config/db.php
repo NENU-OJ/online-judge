@@ -1,11 +1,10 @@
 <?php
 
-
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=db_nenu_oj',
+    'dsn' => 'mysql:host=nenuoj-mysql;dbname=db_nenu_oj',
     'username' => 'root',
-    'password' => '1',
+    'password' => 'db_nenu_oj',
     'charset' => 'utf8',
     'tablePrefix' =>'t_',
 ];

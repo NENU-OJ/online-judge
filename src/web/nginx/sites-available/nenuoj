@@ -6,7 +6,7 @@ server {
 
     root /web;
     index index.php;
-    server_name _;
+    server_name localhost;
 
     client_max_body_size 20M;
 

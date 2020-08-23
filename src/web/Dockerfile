@@ -24,9 +24,11 @@ RUN apt-get update \
         software-properties-common \
     && add-apt-repository -y ppa:ondrej/php && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        php7.0 php7.0-gd php7.0-mysql php7.0-fpm \
+        php7.0 php7.0-gd php7.0-mysql php7.0-fpm php7.0-memcached \
         nginx
 
 COPY web/start.sh /
+COPY Front /web
+RUN chown -R www-data:www-data /web/runtime /web/views/smarty/templates_c
 
 CMD ["/start.sh"]

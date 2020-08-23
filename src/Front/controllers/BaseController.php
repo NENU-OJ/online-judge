@@ -25,10 +25,8 @@ class BaseController extends Controller {
         //向前端渲染域名（方便跳页和行为触发）
         $this->smarty->assign('website', "//".$_SERVER['HTTP_HOST']);
         //向前端渲染资源目录
-        $this->smarty->assign('staticWebsite',
-            "//".\Yii::$app->request->serverName.":".\Yii::$app->request->serverPort."/assets/resources");
-        $this->smarty->assign('uploadsDir',
-            "//".\Yii::$app->request->serverName.":".\Yii::$app->request->serverPort."/uploads");
+        $this->smarty->assign('staticWebsite', "//".$_SERVER['HTTP_HOST']."/assets/resources");
+        $this->smarty->assign('uploadsDir', "//".$_SERVER['HTTP_HOST']."/uploads");
 
         $timeNow = time();
         $this->smarty->assign('time', date("Y-m-d H:i:s", $timeNow));

@@ -7,8 +7,7 @@ return [
     ],
     'copyright' => '',
     'version' => [
-        'id' => 'v1.0',
-        'repo' => 'https://github.com/NENU-OJ/OnlineJudge'
+        'repo' => 'https://github.com/NENU-OJ/online-judge'
     ],
     'shortTitle' => 'NENU-OJ',
     'longTitle' => 'NENU Online Judge',
@@ -16,16 +15,14 @@ return [
     'contestWhiteList' => [], // 允许有提交动作的比赛，若为空则允许所有比赛和非比赛提交，否则只允许提交list中的
     'judgerList' => [
         [
-            'host' => 'localhost',
+            'host' => 'nenuoj-judger',
             'port' => 27015,
             'connectString' => 'torapture',
         ],
     ],
-    'rejudgerList' => [ // 若为空则rejudge的时候使用judgerList中的judger，否则在rejudgerList中随机选择
-
-    ],
+    'rejudgerList' => [], // 若为空则rejudge的时候使用judgerList中的judger，否则在rejudgerList中随机选择
     'memcached' => [
-        'host' => 'localhost',
+        'host' => 'nenuoj-memcached',
         'port' => 11211,
         'expire' => 5,
     ],
@@ -40,7 +37,6 @@ return [
         ["HDU", "http://acm.hdu.edu.cn/"],
         ["POJ", "http://poj.org/"],
         ["VJudge", "https://cn.vjudge.net/"],
-        ["ACdream", "http://acdream.info/"],
         ["hihoCoder", "https://hihocoder.com/"],
         ["Codeforces", "http://codeforces.com/"],
     ],
