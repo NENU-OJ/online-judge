@@ -27,6 +27,6 @@ RUN apt-get update \
         php7.0 php7.0-gd php7.0-mysql php7.0-fpm \
         nginx
 
-COPY nginx/start.sh /
+COPY web/start.sh /
 
 CMD ["/start.sh"]

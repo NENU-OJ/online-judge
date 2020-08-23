@@ -1,5 +1,6 @@
 #!/bin/bash
 
+CURDIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
 IMAGE_NAME="nenuoj-web"
 CONTAINER_NAME="nenuoj-web"
 
@@ -21,5 +22,6 @@ docker run \
   --name=$CONTAINER_NAME \
   --net nenuoj-net \
   -p $WEB_HTTP_PORT:80 \
+  -v $CURDIR/php/php.ini:/etc/php/7.0/fpm/php.ini \
   -v $NGINX_SITES_ENABLE_DIR:/etc/nginx/sites-enabled \
   $IMAGE_NAME
