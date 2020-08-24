@@ -2,7 +2,7 @@
 
 ## WEB
 ### 配置文件
-`src/Front/config/params.php`和`src/Front/config/db.php`中的字段按照需要进行修改
+`src/front/config/params.php`和`src/front/config/db.php`中的字段按照需要进行修改
 ### 文件权限修改
 如果使用Nginx则需要`sudo chown -R www-data:www-data OnlineJudge/src/front/uploads/avatar/user/`
 ### 安装并开启GD库
@@ -28,7 +28,7 @@ sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_
 5. 重启memcached`sudo service memcached restart`
 
 ## 限制比赛提交
-通过`src/Front/config/params.php`文件`contestWhiteList`字段以白名单方式管理，若这个列表为空则表示无限制，否则只有列表中的比赛可以提交，非比赛提交`id`为`0`。
+通过`src/front/config/params.php`文件`contestWhiteList`字段以白名单方式管理，若这个列表为空则表示无限制，否则只有列表中的比赛可以提交，非比赛提交`id`为`0`。
 例：
 - 没有限制：`[]`
 - 只有比赛1和比赛2可以提交：`[1, 2]`

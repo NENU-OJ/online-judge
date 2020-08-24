@@ -28,7 +28,7 @@ RUN apt-get update \
         nginx
 
 COPY web/start.sh /
-COPY Front /web
+COPY front /web
 RUN chown -R www-data:www-data /web/runtime /web/views/smarty/templates_c
 
 CMD ["/start.sh"]
