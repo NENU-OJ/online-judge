@@ -3,16 +3,18 @@
 ## WEB
 ### 配置文件
 `src/front/config/params.php`和`src/front/config/db.php`中的字段按照需要进行修改
+
 ### 文件权限修改
-如果使用Nginx则需要`sudo chown -R www-data:www-data OnlineJudge/src/front/uploads/avatar/user/`
+如果使用Nginx则需要`sudo chown -R www-data:www-data src/front/uploads/avatar/user/ src/front/ckfinder`
+
 ### 安装并开启GD库
 `sudo apt-get install php5.6-gd && sudo service nginx restart`
+
 ### 修改文件上传大小限制
 `sudo gedit /etc/nginx/nginx.conf`添加`client_max_body_size 20M;`
 `sudo /etc/php/5.6/fpm/php.ini`修改`post_max_size 64M`和`upload_max_filesize 64M`
 
 ### Ubuntu Mysql 关闭 ONLY_FULL_GROUP_BY
-
 1. `sudo vim /etc/mysql/my.cnf`
 2. Add this to the end of the file
 ```
@@ -33,3 +35,20 @@ sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_
 - 没有限制：`[]`
 - 只有比赛1和比赛2可以提交：`[1, 2]`
 - 只有比赛3和非比赛提交：`[0, 3]`
+
+## Docker
+### Memcached
+Run `src/memcached/start.sh`
+
+### MySQL
+Set up environment variables and run `src/mysql/start.sh`
+
+### Web
+Run `src/web/builddocker.sh` to build.
+
+#### Dev
+Set environment variable `WEB_DEV` to `true`, set permission of `src/front/runtime` and `src/front/views/smarty/templates_c`
+and data folders properly, then run `src/web/rundocker.sh`.
+
+#### Prod
+Set environment variables properly and set permission of data folders properly, then run `src/web/rundocker.sh`.
