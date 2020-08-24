@@ -79,7 +79,7 @@
                         </tfoot>
                     </table>
                 </div>
-                <{if $contest->manager == $username}>
+                <{if $contest->manager == $username || $isRoot}>
                 <div class="form-inline form-group">
                     <input class="form-control" id="starstr" style="width:500px" type="text" placeholder="多个用户名">
                     <select class="form-control" id="type">

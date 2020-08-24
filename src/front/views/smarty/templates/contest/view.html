@@ -74,14 +74,14 @@
                             </table>
                         </div>
                     </div>
-                    <{if $contest->manager == $username}>
+                    <{if $contest->manager == $username || $isRoot}>
                     <div class="center" style="margin-bottom:15px">
                         <a class="btn btn-default btn-sm"
                            href="<{$website}>/contest/add/<{$contest->id}>">Edit</a>
                         <a class="btn btn-default btn-sm" id="delete" href="javascript:;">Delete</a>
                     </div>
                     <{/if}>
-                    <{if $contest->manager == $username || time() > strtotime($contest->start_time)}>
+                    <{if $contest->manager == $username || $isRoot || time() > strtotime($contest->start_time)}>
                     <div class="mc" id="problemsview" style="width:75%">
                         <div class="block block-info">
                             <div class="heading">Problem List</div>
@@ -91,7 +91,7 @@
                                     <thead>
                                     <tr class="even">
                                         <th style="width:70px">#</th>
-                                        <{if $contest->manager == $username || time() > strtotime($contest->end_time)}>
+                                        <{if $contest->manager == $username || $isRoot || time() > strtotime($contest->end_time)}>
                                         <th class="end" style="width:70px"></th>
                                         <{/if}>
                                         <th>Name</th>
@@ -104,7 +104,7 @@
                                     <{$counter = $counter + 1}>
                                     <tr class="<{if $counter % 2 == 0}>even<{else}>odd<{/if}>">
                                         <td class="center bold o_index <{if in_array($problem['id'], $acArray)}>AC-fill<{/if}>"><{$problem['lable']}></td>
-                                        <{if $contest->manager == $username || time() > strtotime($contest->end_time)}>
+                                        <{if $contest->manager == $username || $isRoot || time() > strtotime($contest->end_time)}>
                                         <td class="center end"><a target="_blank" href="<{$website}>/problem/<{$problem['id']}>"><{$problem['id']}></a></td>
                                         <{/if}>
                                         <td><a href="<{$website}>/contest/<{$contest->id}>/problem/<{$problem['lable']}>"><{$problem['name']}></a></td>

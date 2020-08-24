@@ -326,7 +326,7 @@ class ContestController extends BaseController {
             return json_encode(["code" => 0, "data" => ""]);
         } else {
             if (Util::isLogin()) { // 登录后比赛创建者和正确输入密码的人可以访问比赛
-                if ($contest->owner_id == Util::getUser() || ContestUser::haveUser($id, Util::getUser()))
+                if ($contest->owner_id == Util::getUser() || ContestUser::haveUser($id, Util::getUser()) || Util::isRoot())
                     return json_encode(["code" => 0, "data" => ""]);
                 else
                     return json_encode(["code" => 1, "data" => ""]);
@@ -368,7 +368,7 @@ class ContestController extends BaseController {
             $contest = Contest::findById($id);
             if (!$contest)
                 throw new NotFoundHttpException("$id 这个比赛不存在！");
-            if ($contest->owner_id != Util::getUser()) {
+            if ($contest->owner_id != Util::getUser() && !Util::isRoot()) {
                 $this->smarty->assign('msg', "比赛 $id 不是你创建的，你无法修改！");
                 return $this->smarty->display('common/error.html');
             }
@@ -438,7 +438,7 @@ class ContestController extends BaseController {
                 $contest = Contest::findById($contestId);
                 if (!$contest)
                     return json_encode(['code' => 1, 'data' => '比赛不存在']);
-                if ($contest->owner_id != Util::getUser())
+                if ($contest->owner_id != Util::getUser() && !Util::isRoot())
                     return json_encode(['code' => 1, 'data' => '无法修改，比赛非你建']);
             } else {
                 $contest = new Contest();
@@ -482,7 +482,7 @@ class ContestController extends BaseController {
         $contest = Contest::findById($contestId);
         if (!$contest)
             return json_encode(['code' => 1, "data" => "没有 $contestId 这个比赛"]);
-        if ($contest->manager != Util::getUserName())
+        if ($contest->manager != Util::getUserName() && !Util::isRoot())
             return json_encode(['code' => 1, "data" => "没有权限 $starStr"]);
 
         $failList = [];
@@ -510,7 +510,7 @@ class ContestController extends BaseController {
 
         if (!$contest)
             return json_encode(['code' => 1, 'data' => "没有 $contestId 这个比赛"]);
-        if ($contest->manager == Util::getUserName()) {
+        if ($contest->manager == Util::getUserName() || Util::isRoot()) {
             try {
                 Contest::deleteAll(['id' => $contestId]);
                 return json_encode(['code' => 0, 'data' => "删除成功"]);
@@ -555,7 +555,7 @@ class ContestController extends BaseController {
     }
 
     private function getUserList($contestId, $contest, $problems) {
-        $isManager = $contest->manager == Util::getUserName();
+        $isManager = ($contest->manager == Util::getUserName() || Util::isRoot());
         $userListKey = $isManager ? "managerUserList$contestId" : "userList$contestId";
         $userList = Cache::get($userListKey);
         if (!$userList) {
@@ -567,7 +567,7 @@ class ContestController extends BaseController {
 
 
 
-            $maxTime = $contest->manager == Util::getUserName() ? $contest->end_time : $contest->lock_board_time;
+            $maxTime = $isManager ? $contest->end_time : $contest->lock_board_time;
 
             $firstBlood = [];
             foreach ($problems as $problem)

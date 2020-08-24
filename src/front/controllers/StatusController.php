@@ -76,13 +76,13 @@ class StatusController extends BaseController {
                 ->one();
 
             if (time() < strtotime($contest->end_time)) {
-                if ($status->user_id != Util::getUser() && $contest->manager != Util::getUserName()) {
+                if ($status->user_id != Util::getUser() && $contest->manager != Util::getUserName() && !$isRoot) {
                     $this->smarty->assign('msg', '无法查看');
                     return $this->smarty->display('common/error.html');
                 }
             }
             if (time() > strtotime($contest->end_time)) {
-                if (!$status->is_shared && $status->user_id != Util::getUser() && $contest->manager != Util::getUserName()) {
+                if (!$status->is_shared && $status->user_id != Util::getUser() && $contest->manager != Util::getUserName() && !$isRoot) {
                     $this->smarty->assign('msg', '无法查看');
                     return $this->smarty->display('common/error.html');
                 }
