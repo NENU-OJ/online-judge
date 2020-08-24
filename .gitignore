@@ -23,25 +23,3 @@ hs_err_pid*
 
 # idea
 .idea/
-
-# Yii
-templates_c/
-
-# Clion
-cmake-build-debug/
-
-# Judger
-temp_path/
-spj_files/
-test_files/
-nohup.out
-
-# OJ uploads
-src/Front/uploads/
-src/Front/ckfinder/
-
-# OJ Configs
-src/Front/config/db.php
-src/Front/config/params.php
-src/Front/index.php
-src/Front/views/smarty/templates/common/navbar.html
