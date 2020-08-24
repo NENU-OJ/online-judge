@@ -16,7 +16,7 @@ if [ ! -n "$NGINX_SITES_ENABLE_DIR" ]; then
 fi
 
 if [ "$WEB_DEV" == "true" ]; then
-  VOLUMN="$VOLUMN -v $CURDIR/../Front:/web"
+  VOLUMN="$VOLUMN -v $CURDIR/../front:/web"
 else
   if [ ! -n "$DB_CONFIG" ]; then
     echo "Please set environment variable DB_CONFIG"
