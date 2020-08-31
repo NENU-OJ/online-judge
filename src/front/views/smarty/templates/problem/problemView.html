@@ -16,14 +16,14 @@
 
     <!-- CSS Libs -->
     <{include file="common/cssLibs.html"}>
-    <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>/lib/css/katex/katex.min.css">
+    <link rel="stylesheet" type="text/css" href="<{if getenv('USE_CDN') == 'true'}>https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css<{else}><{$staticWebsite}>/lib/css/katex/katex.min.css<{/if}>">
 
     <!-- CSS App -->
     <{include file="common/cssApp.html"}>
 
     <!-- Javascript Libs -->
-    <script type="text/javascript" src="<{$staticWebsite}>/lib/js/katex/katex.min.js"></script>
-    <script type="text/javascript" src="<{$staticWebsite}>/lib/js/katex/auto-render.min.js"></script>
+    <script type="text/javascript" src="<{if getenv('USE_CDN') == 'true'}>https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js<{else}><{$staticWebsite}>/lib/js/katex/katex.min.js<{/if}>"></script>
+    <script type="text/javascript" src="<{if getenv('USE_CDN') == 'true'}>https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js<{else}><{$staticWebsite}>/lib/js/katex/auto-render.min.js<{/if}>"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             renderMathInElement(document.body, {
@@ -167,7 +167,7 @@
 
 <!-- Javascript App -->
 <{include file="../common/jsApp.html"}>
-<script src="<{$staticWebsite}>/lib/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="<{if getenv('USE_CDN') == 'true'}>https://cdn.bootcdn.net/ajax/libs/ace/1.2.9/ace.js<{else}><{$staticWebsite}>/lib/js/ace/ace.js<{/if}>" type="text/javascript" charset="utf-8"></script>
 <script src="<{$staticWebsite}>/js/problem/problemView.js" type="text/javascript" charset="utf-8"></script>
 
 </body>

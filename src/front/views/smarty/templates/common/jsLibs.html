@@ -1,2 +1,4 @@
-<script type="text/javascript" src="<{$staticWebsite}>/lib/js/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="<{$staticWebsite}>/lib/js/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript"
+    src="<{if getenv('USE_CDN') == 'true'}>https://cdn.bootcdn.net/ajax/libs/jquery/2.1.4/jquery.min.js<{else}><{$staticWebsite}>/lib/js/jquery/jquery.min.js<{/if}>"></script>
+<script type="text/javascript"
+    src="<{if getenv('USE_CDN') == 'true'}>https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js<{else}><{$staticWebsite}>/lib/js/bootstrap/bootstrap.min.js<{/if}>"></script>

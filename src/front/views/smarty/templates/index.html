@@ -19,7 +19,7 @@
 
                         <div class="ui bottom attached center aligned segment">
                             <div class="ui centered inline loader active" id="hitokoto-loader"></div>
-                            <script type="text/javascript" src="<{$staticWebsite}>/lib/js/jquery/jquery.min.js"></script>
+                            <script type="text/javascript" src="<{if getenv('USE_CDN') == 'true'}>https://cdn.bootcdn.net/ajax/libs/jquery/2.1.4/jquery.min.js<{else}><{$staticWebsite}>/lib/js/jquery/jquery.min.js<{/if}>""></script>
                             <script>
                                 $.get('https://v1.hitokoto.cn/', function (data) {
                                     $('#hitokoto-loader').removeClass('active');

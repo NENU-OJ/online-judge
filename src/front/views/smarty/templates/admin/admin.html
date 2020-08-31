@@ -88,7 +88,7 @@
 <{include file="common/footer.html" }>
 <!-- Javascript Libs -->
 <{include file="common/jsLibs.html"}>
-<script src="<{$staticWebsite}>/lib/js/ckeditor/ckeditor.js"></script>
+<script src="<{if getenv('USE_CDN') == 'true'}>https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js<{else}><{$staticWebsite}>/lib/js/ckeditor/ckeditor.js<{/if}>"></script>
 <script src="<{$staticWebsite}>/lib/js/ckfinder/ckfinder.js"></script>
 <!-- Javascript App -->
 <{include file="common/jsApp.html"}>
