@@ -616,8 +616,8 @@ class ContestController extends BaseController {
                         $user['solved'] += 1;
                         $acTime = strtotime($acRecord->submit_time) - strtotime($contest->start_time);
                         $info['acTime'] = sprintf("%02d:%02d", (int)floor($acTime / 3600), (int)floor(($acTime % 3600) / 60));
-                        $user['penalty'] += $acTime / 60;
-                        $user['penalty'] += $info['try'] * $contest->penalty;
+                        $user['penalty'] += $acTime;
+                        $user['penalty'] += $info['try'] * $contest->penalty * 60;
 
                         if (!$user['is_star'] &&
                             (!isset($firstBlood[$problem->lable]['submit_time']) || $firstBlood[$problem->lable]['submit_time'] > $acRecord->submit_time)
@@ -628,6 +628,7 @@ class ContestController extends BaseController {
                     }
                     $user['problem'][$problem->lable] = $info;
                 }
+                $user['penalty'] /= 60;
             }
 
             usort($userList, function ($lhs, $rhs) {
