@@ -46,6 +46,8 @@ Set up environment variables and run `src/mysql/start.sh`
 ### Web
 Run `src/web/builddocker.sh` to build.
 
+Set environment variable `USE_CDN` to `true` if use CDN to get some javascript and css libs.
+
 #### Dev
 Set environment variable `WEB_DEV` to `true`, set permission of `src/front/runtime` and `src/front/views/smarty/templates_c`
 and data folders properly, then run `src/web/rundocker.sh`.
