@@ -17,14 +17,14 @@
     <!-- CSS Libs -->
     <{include file="common/cssLibs.html"}>
     <link rel="stylesheet" type="text/css" href="<{$staticWebsite}>/lib/css/prism/prism.css">
-    <link rel="stylesheet" type="text/css" href="<{if getenv('USE_CDN') == 'true'}>https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css<{else}><{$staticWebsite}>/lib/css/katex/katex.min.css<{/if}>">
+    <link rel="stylesheet" type="text/css" href="<{if getenv('USE_CDN') == 'true'}>https://cdn.jsdelivr.net/npm/katex@0.9.0/dist/katex.min.css<{else}><{$staticWebsite}>/lib/css/katex/katex.min.css<{/if}>">
 
     <!-- CSS App -->
     <{include file="common/cssApp.html"}>
 
     <!-- Javascript Libs -->
-    <script type="text/javascript" src="<{if getenv('USE_CDN') == 'true'}>https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js<{else}><{$staticWebsite}>/lib/js/katex/katex.min.js<{/if}>"></script>
-    <script type="text/javascript" src="<{if getenv('USE_CDN') == 'true'}>https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js<{else}><{$staticWebsite}>/lib/js/katex/auto-render.min.js<{/if}>"></script>
+    <script type="text/javascript" src="<{if getenv('USE_CDN') == 'true'}>https://cdn.jsdelivr.net/npm/katex@0.9.0/dist/katex.min.js<{else}><{$staticWebsite}>/lib/js/katex/katex.min.js<{/if}>"></script>
+    <script type="text/javascript" src="<{if getenv('USE_CDN') == 'true'}>https://cdn.jsdelivr.net/npm/katex@0.9.0/dist/contrib/auto-render.min.js<{else}><{$staticWebsite}>/lib/js/katex/auto-render.min.js<{/if}>"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             renderMathInElement(document.body, {
