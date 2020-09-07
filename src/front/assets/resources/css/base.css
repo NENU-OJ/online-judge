@@ -1,5 +1,5 @@
 body {
-  font-family: "微软雅黑","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 15px;
   margin: auto;
   color: #555;
@@ -8,7 +8,7 @@ body {
 }
 
 input, button, select, textarea {
-  font-family: "微软雅黑","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 a.disabled {
@@ -207,7 +207,7 @@ ul.user-info > li {
 /* problem START */
 .istyle em {
   font-size: 125%;
-  font-family: times new roman, sans-serif;
+  font-family: "times new roman", sans-serif;
 }
 
 h3.problem-header {
