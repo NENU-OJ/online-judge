@@ -24,8 +24,7 @@ class IndexController extends BaseController {
         $contests = Contest::find()
             ->select('*')
             ->orderBy('id DESC')
-            ->where(['is_private' => 0])
-            ->limit(5)
+            ->limit(7)
             ->all();
 
         $contestList = [];
